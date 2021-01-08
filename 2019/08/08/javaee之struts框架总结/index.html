@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>javaee之struts框架总结 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaEESSHstruts">
+  
+  
+  
+  
+  <meta name="description" content="前言最近在了解后端开发框架，所以先从SSH（Struts，Spring，Hibernate）开始，因为在企业级开发中SSH任然在使用，所以还是有必要了解一下，后面再详细学习SSM（Spring MVC，Spring，mybatis），目前互联网企业中大多都在使用SSM。">
+<meta name="keywords" content="JavaEE,SSH,struts">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaee之struts框架总结">
+<meta property="og:url" content="http://yoursite.com/2019/08/08/javaee之struts框架总结/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="前言最近在了解后端开发框架，所以先从SSH（Struts，Spring，Hibernate）开始，因为在企业级开发中SSH任然在使用，所以还是有必要了解一下，后面再详细学习SSM（Spring MVC，Spring，mybatis），目前互联网企业中大多都在使用SSM。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-08T10:15:24.283Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javaee之struts框架总结">
+<meta name="twitter:description" content="前言最近在了解后端开发框架，所以先从SSH（Struts，Spring，Hibernate）开始，因为在企业级开发中SSH任然在使用，所以还是有必要了解一下，后面再详细学习SSM（Spring MVC，Spring，mybatis），目前互联网企业中大多都在使用SSM。">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-javaee之struts框架总结" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      javaee之struts框架总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/08/08/javaee之struts框架总结/" class="article-date">
+	  <time datetime="2019-08-08T00:32:52.000Z" itemprop="datePublished">2019-08-08</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaEE/">JavaEE</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在了解后端开发框架，所以先从SSH（Struts，Spring，Hibernate）开始，因为在企业级开发中SSH任然在使用，所以还是有必要了解一下，后面再详细学习SSM（Spring MVC，Spring，mybatis），目前互联网企业中大多都在使用SSM。</p>
+<a id="more"></a>
+<p>这一期先介绍struts。</p>
+<h1 id="struts"><a href="#struts" class="headerlink" title="struts"></a>struts</h1><h2 id="struts介绍"><a href="#struts介绍" class="headerlink" title="struts介绍"></a>struts介绍</h2><p>struts是一个工作在表示层，负责与JSP页面实现交互，将用户的请求委派给相应的Action处理。</p>
+<h2 id="配置过滤器"><a href="#配置过滤器" class="headerlink" title="配置过滤器"></a>配置过滤器</h2><p>在<code>web-app</code>内添加如下内容：</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;struts2&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;struts2&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><h2 id="创建action"><a href="#创建action" class="headerlink" title="创建action"></a>创建action</h2><h3 id="方法一-直接创建Action"><a href="#方法一-直接创建Action" class="headerlink" title="方法一 直接创建Action"></a>方法一 直接创建Action</h3><pre><code>public class Democlass{
+    public String execute(){
+        return &quot;none&quot;;
+    }
+}
+</code></pre><h3 id="方法二-继承ActionSupport类（最常用）"><a href="#方法二-继承ActionSupport类（最常用）" class="headerlink" title="方法二 继承ActionSupport类（最常用）"></a>方法二 继承ActionSupport类（最常用）</h3><pre><code>public class Democlass extends ActionSupport{
+    public String execute(){
+        return &quot;none&quot;;    
+    }
+}
+</code></pre><h3 id="方法三-实现接口Action"><a href="#方法三-实现接口Action" class="headerlink" title="方法三 实现接口Action"></a>方法三 实现接口Action</h3><pre><code>public class Democlass implements Action{
+    public String execute(){
+        return &quot;none&quot;;
+    }
+}
+</code></pre><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p><strong>配置文件必须是命名为<code>struts.xml</code>，并且位于<code>src</code>目录下。</strong></p>
+<h4 id="引入dtd约束"><a href="#引入dtd约束" class="headerlink" title="引入dtd约束"></a>引入dtd约束</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE struts PUBLIC
+&quot;-//Apache Software Foundation//DTD Struts Configuration 2.3//EN&quot;
+&quot;http://struts.apache.org/dtds/struts-2.3.dtd&quot;&gt;
+</code></pre><h4 id="配置action"><a href="#配置action" class="headerlink" title="配置action"></a>配置action</h4><pre><code>&lt;package name=&quot;methoddemo&quot; extends=&quot;struts-default&quot; namespace=&quot;/&quot;&gt;
+    &lt;action name=&quot;&quot; class=&quot;cn.itcast.method.BookAction&quot; method=&quot;&quot; &gt;
+        &lt;result name=&quot;ok&quot;&gt;hello.jsp&lt;/result&gt;
+    &lt;/action&gt;
+&lt;/package&gt;
+</code></pre><p>结构为：package-&gt;action-&gt;result</p>
+<ol>
+<li>package参数：<ol>
+<li>name:（必填）自定义名称</li>
+<li>namespace:（可选）命名空间</li>
+<li>extends:（可选）该包继承自其它包，一般填<code>struts-default</code></li>
+<li>abstract:（可选）该类是否是一个抽象包，抽象包中不能包含Action定义。</li>
+</ol>
+</li>
+<li><p>action参数：</p>
+<ol>
+<li>name：（必填）action的标识，在URL访问时后缀为该值。</li>
+<li>class：（可选）Action的类的全路径。</li>
+<li>method：（可选）指定请求Action时调用的方法，默认为execute方法。</li>
+<li>converter：（可选）指定类型转换器的类。</li>
+</ol>
+</li>
+<li><p>result参数：</p>
+<ol>
+<li>name：（可选）指定逻辑视图的名称，默认为success。（为指定函数的返回值）</li>
+<li>type：（可选）指定访问内容的方式，主要有如下方式（默认为dispatcher）<ol>
+<li>dispatcher：页面转发</li>
+<li>redirect：页面重定向</li>
+<li>chain：action转发</li>
+<li>redirectAction：action重定向</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="global-result"><a href="#global-result" class="headerlink" title="global-result"></a>global-result</h4><p>如果在action类的方法中，返回了一个字符串，但如果没有配置对应的result，则浏览器会返回404，但是global-result可以匹配任何action中的对应action。</p>
+<p><strong>注意：如果action中与global-result同时配置了相同的result。则局部result优先级更高。</strong></p>
+<pre><code>&lt;global-results&gt;
+    &lt;result name=&quot;success&quot;&gt;/success.jsp&lt;/result&gt;
+&lt;global-results&gt;
+</code></pre><h2 id="action获取表单数据"><a href="#action获取表单数据" class="headerlink" title="action获取表单数据"></a>action获取表单数据</h2><h3 id="使用ActionContext类获取"><a href="#使用ActionContext类获取" class="headerlink" title="使用ActionContext类获取"></a>使用ActionContext类获取</h3><pre><code>ActionContext context = ActionContext.getContext();
+
+Map&lt;String,Object&gt; map = context.getParameters();
+
+//使用Map.Entry遍历获取的Map
+for(Map.Entry&lt;String, Object&gt; entry : map.entrySet()) {
+System.out.println(entry.getKey()+&quot;--&quot;+Arrays.toString((Object[]) (entry.getValue())));
+}
+</code></pre><h3 id="使用SevletActionContext类获取"><a href="#使用SevletActionContext类获取" class="headerlink" title="使用SevletActionContext类获取"></a>使用SevletActionContext类获取</h3><p>该方法直接获取<code>request</code>对象。</p>
+<pre><code>HttpServletRequest request = ServletActionContext.getRequest();
+
+//下面就是调用request了
+String para1 = request.getParameter(&apos;para1&apos;);
+String para2 = request.getParameter(&apos;para2&apos;);
+String para3 = request.getParameter(&apos;para3&apos;);
+</code></pre><h3 id="使用接口获取request"><a href="#使用接口获取request" class="headerlink" title="使用接口获取request"></a>使用接口获取request</h3><pre><code>public class Demo implements ServletRequestAware{
+    @Override
+    public void setServletRequest(HttpServletRequest){
+        this.request = request;
+    }
+}
+</code></pre><h2 id="在action中操作域对象"><a href="#在action中操作域对象" class="headerlink" title="在action中操作域对象"></a>在action中操作域对象</h2><p>struts的域对象与servlet的域对象一样，用于存储数据，在JSP页面中直接获取。</p>
+<p>具体用法：</p>
+<ol>
+<li><p>request域</p>
+<p> HttpServletRequest request = ServletActionContext.getRequest();<br> request.setAttribute(“key”,”value”);</p>
+</li>
+<li><p>session域</p>
+<p> HttpSession session = request.getSession();<br> session.setAttribute(“key”,”value”);</p>
+</li>
+<li><p>ServletContext域</p>
+<p> ServletContext context = ServletAction.getServletContext();<br> context.setAttribute(“key”,”value”);</p>
+</li>
+</ol>
+<h2 id="属性封装"><a href="#属性封装" class="headerlink" title="属性封装"></a>属性封装</h2><p>表单提交的数据会自动封装到类实例的属性</p>
+<h3 id="一、直接将表单提交的属性封装到action中"><a href="#一、直接将表单提交的属性封装到action中" class="headerlink" title="一、直接将表单提交的属性封装到action中"></a>一、直接将表单提交的属性封装到action中</h3><ol>
+<li>在action成员中定义变量</li>
+<li><p>生成变量的set,get方法</p>
+<p> private String userName;<br> private String password;<br> private String address;</p>
+<p> public String getUserName(){</p>
+<pre><code>return this.userName;
+</code></pre><p> }</p>
+<p> public String setUserName(String userName){</p>
+<pre><code>this.userName = userName;
+</code></pre><p> }</p>
+<pre><code>public String getPassword(){
+return this.password;
+</code></pre><p> }</p>
+<p> public String setPassword(String userName){</p>
+<pre><code>this.password = password;
+</code></pre><p> }</p>
+<p> public String getAddress(){</p>
+<pre><code>return this.address;
+</code></pre><p> }</p>
+<p> public String setAddress(String userName){</p>
+<pre><code>this.address = address;
+</code></pre><p> }</p>
+</li>
+</ol>
+<h3 id="模型驱动封装-重点"><a href="#模型驱动封装-重点" class="headerlink" title="模型驱动封装(重点)"></a>模型驱动封装(重点)</h3><ol>
+<li>action实现接口ModelDriven</li>
+<li>实现接口里面的getModel方法</li>
+<li><p>在action里创建实体类对象</p>
+<p> class Demo extends ActionSupport implements ModelDriven<user>{</user></p>
+<pre><code>private User user = new User();
+public User getModel(){
+    return user
+}
+</code></pre><p> }</p>
+</li>
+</ol>
+<ol>
+<li>使用模型驱动封装，一个表单只能封装一个模型驱动封装。</li>
+<li>不能同时使用属性封装与模型驱动封装。</li>
+</ol>
+<h4 id="表达式封装"><a href="#表达式封装" class="headerlink" title="表达式封装"></a>表达式封装</h4><p>使用表达式封装是指在表单提交时，name属性则为具体实例的属性（struts有自己的表示方式，比如：User.name）</p>
+<ol>
+<li>在action中声明实例类</li>
+<li><p>生成实例类的set与get方法</p>
+<p> private User user;<br> public User getUser(){</p>
+<pre><code>return user;
+</code></pre><p> }<br> public void setUser(User user){</p>
+<pre><code>this.user = user
+</code></pre><p> }</p>
+</li>
+<li><p>在表单输入项的name属性里面写表达式形式</p>
+<p> username:&lt;\input type=”test” name=”user.userName”&gt;<br> password:&lt;\input type=”password” name=”user.password”&gt;<br> address:&lt;\input type=”text” name=”user.address”&gt;</p>
+</li>
+</ol>
+<h4 id="封装到集合中"><a href="#封装到集合中" class="headerlink" title="封装到集合中"></a>封装到集合中</h4><h4 id="封装到list集合"><a href="#封装到list集合" class="headerlink" title="封装到list集合"></a>封装到list集合</h4><p>第一步 在action声明List<br>第二步 生成list变量的set和get方法</p>
+<pre><code>private List&lt;User&gt; list;
+public List&lt;User&gt; getList(){
+    return list;
+}
+public void setList(List&lt;User&gt; list){
+    this.list = list;
+}
+</code></pre><p>第三步 在表单输入项中写表达式</p>
+<pre><code>username:&lt;input type=&quot;text&quot; name=&quot;list[0].userName&quot;&gt;
+password:&lt;input type=&quot;password&quot; name=&quot;list[0].password&quot;&gt;
+address:&lt;input type=&quot;text&quot; name=&quot;list[0].address&quot;&gt;
+
+&lt;br/&gt;&lt;br/&gt;
+
+username:&lt;input type=&quot;text&quot; name=&quot;list[1].userName&quot;&gt;
+password:&lt;input type=&quot;password&quot; name=&quot;list[1].password&quot;&gt;
+address:&lt;input type=&quot;text&quot; name=&quot;list[1].address&quot;&gt;
+</code></pre><h4 id="封装到Map集合"><a href="#封装到Map集合" class="headerlink" title="封装到Map集合"></a>封装到Map集合</h4><p>第一步 声明map集合<br>第二步 生成get和set方法</p>
+<pre><code>private Map&lt;String,User&gt; map;
+public Map&lt;String,User&gt; getMap(){
+    return map;
+}
+public void setMap(Map&lt;String,User&gt; map){
+    this.map = map;
+}
+
+
+username:&lt;input type=&quot;text&quot; name=&quot;map[one].userName&quot;/&gt;
+password:&lt;input type=&quot;password&quot; name=&quot;map[one].password&quot;/&gt;
+address:&lt;input type=&quot;text&quot; name=&quot;map[one].address&quot;/&gt;
+</code></pre><h2 id="OGNL表达式"><a href="#OGNL表达式" class="headerlink" title="OGNL表达式"></a>OGNL表达式</h2><p>与EL表达式一样，OGNL表达式可以用来操作值栈。</p>
+<h3 id="引用struts标签库"><a href="#引用struts标签库" class="headerlink" title="引用struts标签库"></a>引用struts标签库</h3><pre><code>//引用标签库
+&lt;%@ taglib uri=&quot;/struts-tags&quot; prefix=&quot;s&quot;%&gt;
+//操作
+&lt;s:property value=&quot;&apos;haha&apos;.length()&quot;&gt;
+</code></pre><h2 id="值栈"><a href="#值栈" class="headerlink" title="值栈"></a>值栈</h2><ol>
+<li>在servlet中，我们把数据放到了域对象中，在页面中使用EL表达式获取；域对象同样在一定范围内，存值和取值。</li>
+<li>在struts中也提供了一种存储机制，类似与域对象，被称为值栈，也可以存值获取值。<ul>
+<li>在action中把数据存到值栈中，在页面中获取数据。</li>
+</ul>
+</li>
+<li><p>servelet和action区别</p>
+<ol>
+<li>Servlet：默认在第一次访问创建，创建一次，单实例对象。</li>
+<li>Action：访问时创建，每次访问的时候，都会创建一个action对象。所以它是一个多实例对象。</li>
+</ol>
+</li>
+<li><p>值栈存储在action中。</p>
+</li>
+</ol>
+<h3 id="获取值栈对象"><a href="#获取值栈对象" class="headerlink" title="获取值栈对象"></a>获取值栈对象</h3><pre><code>ActionContext context = ActionContext.getContext();
+ValueStack stack1 = context.getValueStack();
+</code></pre><p><strong>每一个action只有一个值栈对象。</strong></p>
+<p>值栈分为两部分：</p>
+<ul>
+<li>root：list集合</li>
+<li>context：map集合（实际就是action的上下文），包含如下内容：<ul>
+<li>request：HttpRequest对象的引用</li>
+<li>session：HttpSession对象引用</li>
+<li>application：ServletContext对象的引用</li>
+<li>parameters：传递的相关参数</li>
+<li>attr：域对象，使用seAttribute(“key”,”value”)存储</li>
+</ul>
+</li>
+</ul>
+<p><code>可以使用s:debug来查看action的结构</code></p>
+<h3 id="向值栈中存值"><a href="#向值栈中存值" class="headerlink" title="向值栈中存值"></a>向值栈中存值</h3><ol>
+<li><p>使用set方法</p>
+<p> ActionContext context = ActionContext.getContext();<br> ValueStack stack = context.getValueStack();</p>
+<p> stack.set(“key”,”value”);</p>
+</li>
+<li><p>使用push方法</p>
+<p> ActionContext context = ActionContext.getContext();<br> ValueStack stack = context.getValueStack();</p>
+<p> stack.push(“something”);</p>
+</li>
+</ol>
+<ol start="3">
+<li><p>向值栈中存放对象</p>
+<p> private User user = new User();<br> public User getUser(){</p>
+<pre><code>return user;
+</code></pre><p> }</p>
+<p> public String excute() throws Exception{</p>
+<pre><code>user.setUsername(&quot;lucy&quot;);
+user.setPassword(&quot;123&quot;);
+user.setAddress(&quot;美国&quot;);
+
+return &quot;success&quot;;
+</code></pre><p> }</p>
+</li>
+<li><p>向值栈中存放list集合</p>
+<p> private List<user> list = new ArrayList<user>();</user></user></p>
+<p> public List<user> getList(){</user></p>
+<pre><code>return list;
+</code></pre><p> }</p>
+<p> public String excute() throws Exception{</p>
+<pre><code>User user1 = new User();
+user1.setUsername(&quot;lucy&quot;);
+user1.setPassword(&quot;123&quot;);
+user1.setAddress(&quot;美国&quot;);
+
+User user2 = new User();        
+user2.setUsername(&quot;tom&quot;);
+user2.setPassword(&quot;12345&quot;);
+user2.setAddress(&quot;意大利&quot;);
+
+list.add(user1);
+list.add(user2);
+return &quot;success&quot;;
+</code></pre><p> }</p>
+</li>
+</ol>
+<h3 id="从值栈中取值"><a href="#从值栈中取值" class="headerlink" title="从值栈中取值"></a>从值栈中取值</h3><p>我们都是用OGNL表达式结合struts标签来获取值栈中的值。</p>
+<h4 id="获取字符串"><a href="#获取字符串" class="headerlink" title="获取字符串"></a>获取字符串</h4><pre><code>&lt;s:property value=&quot;username&quot;/&gt;
+</code></pre><h4 id="获取对象"><a href="#获取对象" class="headerlink" title="获取对象"></a>获取对象</h4><pre><code>//方法一
+&lt;s:property value=&quot;list[0].username&quot;/&gt;
+&lt;s:property value=&quot;list[0].password&quot;/&gt;
+&lt;s:property value=&quot;list[0].address&quot;/&gt;
+&lt;br/&gt;
+&lt;s:property value=&quot;list[1].username&quot;/&gt;
+&lt;s:property value=&quot;list[1].password&quot;/&gt;
+&lt;s:property value=&quot;list[1].address&quot;/&gt;
+
+//方法二
+&lt;s:iterator value=&quot;list&quot;&gt;
+    &lt;s:property value=&quot;username&quot;/&gt;
+    &lt;s:property value=&quot;password&quot;/&gt;
+    &lt;s:property value=&quot;address&quot;/&gt;
+&lt;s:iterator&gt;
+
+//方法三
+&lt;s:iterator value=&quot;list&quot; var = &quot;user&quot;&gt;
+    &lt;s:property value=&quot;#user.username&quot;/&gt;
+    &lt;s:property value=&quot;#user.password&quot;/&gt;
+    &lt;s:property value=&quot;#user.address&quot;/&gt;
+&lt;s:iterator&gt;
+</code></pre><h4 id="获取set值"><a href="#获取set值" class="headerlink" title="获取set值"></a>获取set值</h4><pre><code>&lt;s:property value=&quot;key&quot;&gt;
+</code></pre><h4 id="获取push方法"><a href="#获取push方法" class="headerlink" title="获取push方法"></a>获取push方法</h4><pre><code>&lt;s:property value=&quot;[0].top&quot;&gt;
+</code></pre><p>可以通过debug的方式看出，值栈实际上就是存在context中，作为其属性。</p>
+<h3 id="EL表达式可以不去值栈数据"><a href="#EL表达式可以不去值栈数据" class="headerlink" title="EL表达式可以不去值栈数据"></a>EL表达式可以不去值栈数据</h3><p><strong>EL表达式实际上是增强了getAttribute方法，如果在request中获取到对应的值，则返回该值，否则再到值栈中检索。</strong></p>
+<h3 id="OGBL中的-与"><a href="#OGBL中的-与" class="headerlink" title="OGBL中的#与%"></a>OGBL中的#与%</h3><ol>
+<li><p>#</p>
+<ol>
+<li><p>获取context中的值</p>
+<p>&lt;s:property value=”#user.username”/&gt;        </p>
+</li>
+<li><p>获取request中的值</p>
+<p>&lt;s:property value=”#request.req”/&gt;</p>
+</li>
+</ol>
+</li>
+<li><p>%</p>
+<ol>
+<li>在struts2标签中表单标签</li>
+</ol>
+</li>
+</ol>
+<p>在struts2标签里面使用ognl表达式，如果直接在struts2表单标签里面使用ognl表达式不识别，只有%之后才会识别。</p>
+<pre><code>&lt;s:textfield name=&quot;username&quot; value=&quot;%{#request.req}&quot;&gt;
+</code></pre><h2 id="struts拦截器"><a href="#struts拦截器" class="headerlink" title="struts拦截器"></a>struts拦截器</h2><p>struts的拦截器是一种AOP(面向切面编程)思想的实践，通俗的来说就是不改变源代码来实现对原来类或方法的拓展。</p>
+<p>而在每次action启动的时，我们都会为每个action方法增加一些拦截器，在action对象创建之后，action方法之前，拦截器的方法得到执行，拦截决定是否放行，然后由下一个拦截器接手继续执行，知道所有拦截器执行完。一旦任何一个拦截器拒绝了，那么后面的拦截也都不会执行了。</p>
+<h3 id="拦截器与过滤器"><a href="#拦截器与过滤器" class="headerlink" title="拦截器与过滤器"></a>拦截器与过滤器</h3><ol>
+<li>过滤器：理论上可以过滤任意内容，包括html,jsp,servlet…</li>
+<li>拦截器：只能拦截action</li>
+</ol>
+<h3 id="自定拦截器"><a href="#自定拦截器" class="headerlink" title="自定拦截器"></a>自定拦截器</h3><h4 id="编写拦截器方法"><a href="#编写拦截器方法" class="headerlink" title="编写拦截器方法"></a>编写拦截器方法</h4><ol>
+<li><p>继承<code>MethodFilterInterceptor</code>并重写其中的<code>doIntercept</code>方法。</p>
+<p> public class MyFilter extends MthodsFilterInterceptor{</p>
+<pre><code>protected String doIntercept(ActionInvocation invocation)throws {
+    //如果符合条件，则通过执行invocation.invoke()来放行
+    if(somthongright){
+        invocation.invoke();
+    }else{
+        //否则，不执行invocation.invoke()
+        return &quot;null&quot;;
+        }
+}
+</code></pre><p> }</p>
+</li>
+</ol>
+<h4 id="配置拦截器"><a href="#配置拦截器" class="headerlink" title="配置拦截器"></a>配置拦截器</h4><p>在package中：</p>
+<ol>
+<li><p>声明拦截器</p>
+<p> //class为自定义拦截器的全路径</p>
+ <interceptors><br>     <interceptor name="myFilter" class="priv.st.filter"><br> </interceptor></interceptors>
+</li>
+<li><p>使用自定义的拦截器<br>在要使用的action内部使用：</p>
+<p> //name为上面配置的name值<br> <interceptor-ref name="myFilter"></interceptor-ref></p>
+</li>
+</ol>
+<p>3.还有一点要注意，由于<code>interceptor-ref</code>值默认为执行struts的默认拦截器，我们修改了之后就不会执行默认拦截器了，所以我们还要执行默认拦截器。</p>
+<pre><code>&lt;interceptor-ref name=&quot;defultStack&quot;&gt;&lt;/interceptor-ref&gt;
+</code></pre><p>这里的<strong>defaultStack</strong>是struts在对默认拦截器的一个名称定义，直接引用不能改变。</p>
+<ul>
+<li><p>如果我们需要让某些action不进行拦截，我们可以在使用拦截器时加入属性：</p>
+<p>  <interceptor-ref name="myFilter"></interceptor-ref></p>
+<pre><code>&lt;param name=&quot;excludeMthods&quot;&gt;login&lt;/param&gt;
+</code></pre><p>  </p>
+</li>
+</ul>
+<h2 id="struts常用标签库"><a href="#struts常用标签库" class="headerlink" title="struts常用标签库"></a>struts常用标签库</h2><ol>
+<li>s:property :使用OGNL表达式获取值栈的值。</li>
+<li>s:iterator :使用OGNL迭代获取值栈中的值。</li>
+<li>s:iterator :查看值栈的结构和数据。</li>
+<li>struts的表单属性，struts对HTML表单属性都有封装，但一般不用，比如&lt;s:input type=”text”&gt;</li>
+</ol>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>虽然struts目前用的最少，但是最为SSH三大框架之一，了解一下还是有利于以后的工作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/08/08/javaee之struts框架总结/" target="_blank" title="javaee之struts框架总结">http://yoursite.com/2019/08/08/javaee之struts框架总结/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/08/javaee之hibernate框架总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          javaee之hibernate框架总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/07/19/javaScript深入解析3-类与行为委托/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">javaScript深入解析3-类与行为委托</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#struts"><span class="nav-number">2.</span> <span class="nav-text">struts</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#struts介绍"><span class="nav-number">2.1.</span> <span class="nav-text">struts介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置过滤器"><span class="nav-number">2.2.</span> <span class="nav-text">配置过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建action"><span class="nav-number">2.3.</span> <span class="nav-text">创建action</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一-直接创建Action"><span class="nav-number">2.3.1.</span> <span class="nav-text">方法一 直接创建Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二-继承ActionSupport类（最常用）"><span class="nav-number">2.3.2.</span> <span class="nav-text">方法二 继承ActionSupport类（最常用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法三-实现接口Action"><span class="nav-number">2.3.3.</span> <span class="nav-text">方法三 实现接口Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件"><span class="nav-number">2.3.4.</span> <span class="nav-text">配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#引入dtd约束"><span class="nav-number">2.3.4.1.</span> <span class="nav-text">引入dtd约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置action"><span class="nav-number">2.3.4.2.</span> <span class="nav-text">配置action</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#global-result"><span class="nav-number">2.3.4.3.</span> <span class="nav-text">global-result</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#action获取表单数据"><span class="nav-number">2.4.</span> <span class="nav-text">action获取表单数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ActionContext类获取"><span class="nav-number">2.4.1.</span> <span class="nav-text">使用ActionContext类获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用SevletActionContext类获取"><span class="nav-number">2.4.2.</span> <span class="nav-text">使用SevletActionContext类获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用接口获取request"><span class="nav-number">2.4.3.</span> <span class="nav-text">使用接口获取request</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在action中操作域对象"><span class="nav-number">2.5.</span> <span class="nav-text">在action中操作域对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性封装"><span class="nav-number">2.6.</span> <span class="nav-text">属性封装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、直接将表单提交的属性封装到action中"><span class="nav-number">2.6.1.</span> <span class="nav-text">一、直接将表单提交的属性封装到action中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型驱动封装-重点"><span class="nav-number">2.6.2.</span> <span class="nav-text">模型驱动封装(重点)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#表达式封装"><span class="nav-number">2.6.2.1.</span> <span class="nav-text">表达式封装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#封装到集合中"><span class="nav-number">2.6.2.2.</span> <span class="nav-text">封装到集合中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#封装到list集合"><span class="nav-number">2.6.2.3.</span> <span class="nav-text">封装到list集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#封装到Map集合"><span class="nav-number">2.6.2.4.</span> <span class="nav-text">封装到Map集合</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OGNL表达式"><span class="nav-number">2.7.</span> <span class="nav-text">OGNL表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用struts标签库"><span class="nav-number">2.7.1.</span> <span class="nav-text">引用struts标签库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#值栈"><span class="nav-number">2.8.</span> <span class="nav-text">值栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取值栈对象"><span class="nav-number">2.8.1.</span> <span class="nav-text">获取值栈对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向值栈中存值"><span class="nav-number">2.8.2.</span> <span class="nav-text">向值栈中存值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从值栈中取值"><span class="nav-number">2.8.3.</span> <span class="nav-text">从值栈中取值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取字符串"><span class="nav-number">2.8.3.1.</span> <span class="nav-text">获取字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取对象"><span class="nav-number">2.8.3.2.</span> <span class="nav-text">获取对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取set值"><span class="nav-number">2.8.3.3.</span> <span class="nav-text">获取set值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取push方法"><span class="nav-number">2.8.3.4.</span> <span class="nav-text">获取push方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EL表达式可以不去值栈数据"><span class="nav-number">2.8.4.</span> <span class="nav-text">EL表达式可以不去值栈数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OGBL中的-与"><span class="nav-number">2.8.5.</span> <span class="nav-text">OGBL中的#与%</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#struts拦截器"><span class="nav-number">2.9.</span> <span class="nav-text">struts拦截器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拦截器与过滤器"><span class="nav-number">2.9.1.</span> <span class="nav-text">拦截器与过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定拦截器"><span class="nav-number">2.9.2.</span> <span class="nav-text">自定拦截器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编写拦截器方法"><span class="nav-number">2.9.2.1.</span> <span class="nav-text">编写拦截器方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置拦截器"><span class="nav-number">2.9.2.2.</span> <span class="nav-text">配置拦截器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#struts常用标签库"><span class="nav-number">2.10.</span> <span class="nav-text">struts常用标签库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

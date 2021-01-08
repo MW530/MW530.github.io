@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>node-js基本用法解析 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="node.js">
+  
+  
+  
+  
+  <meta name="description" content="前言 为什么会想到搞一下node呢，emmmm，主要是之前想收图片，每个人4张，一共几十个人，如果都通过qq发过来那简直市场噩梦（虽然我最后还是经历了这擦会给你噩梦），所以下定决心要搞一下后端的东西，PHP，ASP学习成本有点高，速成还是有点难，所以我想到了node.js这个神奇的东西，用js的语言来写后端的东西，nice哦。所以就有了这篇文章。">
+<meta name="keywords" content="node.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node-js基本用法解析">
+<meta property="og:url" content="http://yoursite.com/2018/09/22/node-js基本用法解析/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="前言 为什么会想到搞一下node呢，emmmm，主要是之前想收图片，每个人4张，一共几十个人，如果都通过qq发过来那简直市场噩梦（虽然我最后还是经历了这擦会给你噩梦），所以下定决心要搞一下后端的东西，PHP，ASP学习成本有点高，速成还是有点难，所以我想到了node.js这个神奇的东西，用js的语言来写后端的东西，nice哦。所以就有了这篇文章。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/0060lm7Tly1fvm3zfyeanj30ja0c1aa1.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2018/09/23/iucQaQ.md.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2018/09/23/iucG2q.jpg">
+<meta property="og:image" content="http://wx1.sinaimg.cn/mw690/0060lm7Tly1fvm14lsh7rj30js0ctmxs.jpg">
+<meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2014/06/4A1C02B2-2EB8-4976-9F35-F3760713D495.jpg">
+<meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2014/06/ADF34B0E-6715-41EE-9A88-4BE067100868.jpg">
+<meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2014/06/nodepost.gif">
+<meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2015/09/nodejs-gif6.gif">
+<meta property="og:updated_time" content="2018-09-25T13:34:51.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="node-js基本用法解析">
+<meta name="twitter:description" content="前言 为什么会想到搞一下node呢，emmmm，主要是之前想收图片，每个人4张，一共几十个人，如果都通过qq发过来那简直市场噩梦（虽然我最后还是经历了这擦会给你噩梦），所以下定决心要搞一下后端的东西，PHP，ASP学习成本有点高，速成还是有点难，所以我想到了node.js这个神奇的东西，用js的语言来写后端的东西，nice哦。所以就有了这篇文章。">
+<meta name="twitter:image" content="http://wx4.sinaimg.cn/mw690/0060lm7Tly1fvm3zfyeanj30ja0c1aa1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-node-js基本用法解析" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      node-js基本用法解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/09/22/node-js基本用法解析/" class="article-date">
+	  <time datetime="2018-09-22T07:18:33.000Z" itemprop="datePublished">2018-09-22</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/node-js/">node.js</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><img src="http://wx4.sinaimg.cn/mw690/0060lm7Tly1fvm3zfyeanj30ja0c1aa1.jpg" alt="node"></p>
+<p>为什么会想到搞一下node呢，emmmm，主要是之前想收图片，每个人4张，一共几十个人，如果都通过qq发过来那简直市场噩梦（虽然我最后还是经历了这擦会给你噩梦），所以下定决心要搞一下后端的东西，PHP，ASP学习成本有点高，速成还是有点难，所以我想到了node.js这个神奇的东西，用js的语言来写后端的东西，nice哦。所以就有了这篇文章。<br><a id="more"></a></p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="EventEmitter模块"><a href="#EventEmitter模块" class="headerlink" title="EventEmitter模块"></a>EventEmitter模块</h2><p>这个模块可以说是node中一个核心的模块，包括fs，http，net等模块的事件都是继承自该模块，若不使用继承的方法，其基本用法是：</p>
+<pre><code>//引入events模块
+var eventEmitter = require(&apos;events&apos;);
+//创建eventEmitter
+var  events = new events.EventEmitter();
+
+
+event.on(&apos;some_event1&apos;,function(){
+    console.log(&quot;监听器1执行&quot;);
+})
+
+
+event.addListener(&apos;some_event2&apos;,function(){
+    console.log(&quot;监听器2执行&quot;);
+})
+
+
+event.removeListener(&apos;some_event1&apos;,function(){
+    console.log(&quot;监听器1移除&quot;);
+})
+
+event.emit(&apos;some_event1&apos;);
+</code></pre><p>这是一些基本的用法，不过这个方法在平时不怎么用，所以了解一下就ok了。</p>
+<h2 id="文件系统fs"><a href="#文件系统fs" class="headerlink" title="文件系统fs"></a>文件系统fs</h2><h3 id="异步与同步"><a href="#异步与同步" class="headerlink" title="异步与同步"></a>异步与同步</h3><p>由于node是基于JS，所以异步与同步是不可回避的一个问题，在之前的博文中，我们也解析过JS的异步与同步操作，这里不再赘述。而node中文件操作是同时支持异步与同步操作，具体区别这里也不再赘述。</p>
+<h4 id="异步与同步代码"><a href="#异步与同步代码" class="headerlink" title="异步与同步代码"></a>异步与同步代码</h4><pre><code>var fs = require(&apos;fs&apos;);
+
+//异步读取
+fs.readFile(&apos;input.txt&apos;,function(err,data){
+    if(err){
+        return console.error(err);
+        }
+    console.log(&apos;异步读取&apos;+data.toString());
+});
+
+//同步读取
+var data = fs.readFileSync(&apos;input.txt&apos;);
+console.log(&quot;同步读取：&quot;+dataString());
+console.log(&apos;文件操作完毕&apos;);
+</code></pre><p>注意这里是展示同步与异步的代码区别，一般是在操作代码后加上“Sync”(同步)，但一般我们并不使用这种同步的方法，因为在文件大一点的时候这会严重影响代码执行的效率。</p>
+<h4 id="打开文件"><a href="#打开文件" class="headerlink" title="打开文件"></a>打开文件</h4><p><strong>语法格式</strong></p>
+<pre><code>fs.open(path,flag,callback)
+</code></pre><p><strong>参数</strong></p>
+<p>path-文件路径</p>
+<p>flag-文件打开的模式</p>
+<p>callback-回调函数，该函数带有两个参数（err,fd），err-&gt;错误，fd-fileData，文件内容及信息</p>
+<p>下面是flag的参数及其说明</p>
+<p><a href="https://imgchr.com/i/iucQaQ" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2018/09/23/iucQaQ.md.jpg" alt="iucQaQ.md.jpg"></a></p>
+<h3 id="获取文件信息"><a href="#获取文件信息" class="headerlink" title="获取文件信息"></a>获取文件信息</h3><p><strong>语法格式</strong></p>
+<pre><code>fs.stat(path,callback)
+</code></pre><p><strong>参数</strong></p>
+<p>path-文件路径</p>
+<p>call-回调函数</p>
+<pre><code>var fs = require(&apos;fs&apos;);
+
+fs.stat(&apos;/Users/liuht/code/itbilu/demo/fs.js&apos;, function (err, stats) {
+console.log(stats.isFile());         //true
+})
+</code></pre><p>下面是该类中的方法：</p>
+<p><img src="https://s1.ax1x.com/2018/09/23/iucG2q.jpg" alt="iucG2q.jpg"></p>
+<h3 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h3><p><strong>语法格式</strong></p>
+<pre><code>fs.writeFile(file,data[,option],callback)
+</code></pre><p><strong>参数</strong></p>
+<p>file-文件名或文件描述</p>
+<p>data-要写入的数据，可以是字符串（String）或缓冲变量（Buffer）对象</p>
+<p>option-该参数是一个对象，包含{encoding,mode,flag}。默认为{utf8,0666,w}</p>
+<p>callback-回调函数（仅包含err，在写入失败时返回）</p>
+<pre><code>var fs = require(&apos;fs&apos;);
+
+console.log(&apos;准备写入文件&apos;);
+fs.writeFile(&apos;input.txt&apos;,&apos;我是通过fs.file写入的内容&apos;,function(err){
+    return console.log(err);
+}
+console.log(&apos;数据写入成功！&apos;);
+console.log(&apos;读取写入的数据!&apos;);
+fs.readFile(&apos;input.txt&apos;,function(err,data){
+    if(err){
+    return console.log(err);}
+    console.log(&apos;读取文件内容：&apos;+data.toString());
+  });
+});
+</code></pre><p>这是代码执行效果：</p>
+<pre><code>$ node file.js 
+准备写入文件
+数据写入成功！
+读取写入的数据！
+异步读取文件数据: 我是通 过fs.writeFile 写入文件的内容
+</code></pre><h3 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h3><p><strong>语法格式</strong></p>
+<pre><code>fs.readFile(fd,buffer,offset,length,position,callback)
+</code></pre><p>参数</p>
+<p>fd - 通过 fs.open() 方法返回的文件描述符。</p>
+<p>buffer - 数据写入的缓冲区。</p>
+<p>offset - 缓冲区写入的写入偏移量。</p>
+<p>length - 要从文件中读取的字节数。</p>
+<p>position - 文件读取的起始位置，如果 position 的值为 null，则会从当前文件指针的位置读取。</p>
+<p>callback - 回调函数，有三个参数err, bytesRead, buffer，err 为错误信息， bytesRead 表示读取的字节数，buffer 为缓冲区对象。</p>
+<pre><code>var fs = require(&quot;fs&quot;);
+var buf = new Buffer.alloc(1024);
+
+console.log(&quot;准备打开已存在的文件！&quot;);
+fs.open(&apos;input.txt&apos;, &apos;r+&apos;, function(err, fd) {
+if (err) {
+   return console.error(err);
+}
+console.log(&quot;文件打开成功！&quot;);
+console.log(&quot;准备读取文件：&quot;);
+fs.read(fd, buf, 0, buf.length, 0, function(err, bytes){
+  if (err){
+     console.log(err);
+  }
+  console.log(bytes + &quot;  字节被读取&quot;);
+
+  // 仅输出读取的字节
+  if(bytes &gt; 0){
+     console.log(buf.slice(0, bytes).toString());
+  }
+ });
+});
+</code></pre><p>下面是代码执行效果：</p>
+<pre><code>$ node file.js 
+准备打开已存在的文件！
+文件打开成功！
+准备读取文件：
+25  字节被读取
+This is a test inputtxt
+</code></pre><h3 id="关闭文件"><a href="#关闭文件" class="headerlink" title="关闭文件"></a>关闭文件</h3><pre><code>fs.close(fd,callback)
+</code></pre><p>参数</p>
+<p>fd - 通过 fs.open() 方法返回的文件描述符。</p>
+<p>callback - 回调函数，没有参数。</p>
+<pre><code>fs.close(fd, function(err){
+     if (err){
+        console.log(err);
+     } 
+     console.log(&quot;文件关闭成功&quot;);
+</code></pre><h3 id="截取文件"><a href="#截取文件" class="headerlink" title="截取文件"></a>截取文件</h3><pre><code>fs.ftruncate(fd,len,callback)
+</code></pre><p><strong>参数</strong></p>
+<p>fd - 通过 fs.open() 方法返回的文件描述符。</p>
+<p>len - 文件内容截取的长度。</p>
+<p>callback - 回调函数，没有参数（但含有err参数）。</p>
+<pre><code>fs.read(fd, buf, 0, buf.length, 0, function(err, bytes){
+     if (err){
+        console.log(err);
+     }
+
+     // 仅输出读取的字节
+     if(bytes &gt; 0){
+        console.log(buf.slice(0, bytes).toString());
+     }
+</code></pre><h3 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h3><pre><code>fs.unlink(path,callback)
+</code></pre><p><strong>参数</strong></p>
+<p>path-路径</p>
+<p>callback-回调函数，没有参数（但含有err参数）</p>
+<p><strong>实例</strong></p>
+<pre><code>var fs = require(&apos;fs&apos;);
+
+console.log(&apos;开始删除文件！&apos;);
+fs.unlink(&apos;input.txt&apos;,function(err){
+if(err){
+return console.log(err);
+}
+    console.log(&quot;删除成功！&quot;);
+})
+</code></pre><h3 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h3><pre><code>fs.mkdir(path,[,mode],callback)
+</code></pre><p>参数</p>
+<p>path - 文件路径。</p>
+<p>mode - 设置目录权限，默认为 0777。</p>
+<p>callback - 回调函数，没有参数。</p>
+<p><strong>实例</strong></p>
+<pre><code>var fs = require(&apos;fs&apos;);
+
+console.log(&apos;创建目录 /tmp/test/&apos;);
+
+fs.mkdir(&quot;/tmp/test/&quot;,function(err){
+    if(err){
+        return console.log(err);
+    }
+    console.log(&apos;目录创建成功&apos;);
+})
+</code></pre><p>这是执行效果</p>
+<pre><code>$ node file.js 
+创建目录 /tmp/test/
+目录创建成功。
+</code></pre><p>###读取目录###<br><strong>语法</strong><br>    fs.readdir(path,callback)</p>
+<p>参数</p>
+<p>path - 文件路径。</p>
+<p>callback - 回调函数，回调函数带有两个参数err, files，err 为错误信息，files 为 目录下的文件数组列表。</p>
+<p><strong>实例</strong></p>
+<pre><code>var fs = require(&quot;fs&quot;);
+
+console.log(&quot;查看 /tmp 目录&quot;);
+fs.readdir(&quot;/tmp/&quot;,function(err, files){
+if (err) {
+   return console.error(err);
+}
+files.forEach( function (file){
+   console.log( file );
+ });
+});
+</code></pre><p><strong>执行效果</strong></p>
+<pre><code>$ node file.js 
+查看 /tmp 目录
+input.out
+output.out
+test
+test.txt
+</code></pre><p>###删除目录###</p>
+<p><strong>语法</strong><br>    fs.rmdir(path,callback)</p>
+<p><strong>实例</strong></p>
+<pre><code>var fs = require(&quot;fs&quot;);
+// 执行前创建一个空的 /tmp/test 目录
+console.log(&quot;准备删除目录 /tmp/test&quot;);
+fs.rmdir(&quot;/tmp/test&quot;,function(err){
+if (err) {
+   return console.error(err);
+}
+console.log(&quot;读取 /tmp 目录&quot;);
+fs.readdir(&quot;/tmp/&quot;,function(err, files){
+  if (err) {
+      return console.error(err);
+  }
+  files.forEach( function (file){
+      console.log( file );
+  });
+ });
+});
+</code></pre><p>执行效果：</p>
+<pre><code>$ node file.js 
+准备删除目录 /tmp/test
+读取 /tmp 目录
+……
+</code></pre><p><strong>文件模块还有很多方法，具体可以参见<a href="http://nodejs.cn/api/" target="_blank" rel="noopener">node.js官方文档</a></strong></p>
+<h2 id="http模块"><a href="#http模块" class="headerlink" title="http模块"></a>http模块</h2><p>http模块一般是使用createServer方法来创建服务器，下面是<br>不使用html文件的代码：</p>
+<pre><code>//获取http方法并定义到变量
+var http = require(&apos;http&apos;);
+http.createServer(function(req,res){
+    res.writeHead(400,{&apos;Content-Type&apos;:&apos;text/html&apos;})
+res.end(&quot;This is a test&quot;);
+}).listen(3000);
+console.log(&quot;server running at http://127.0.0.1:3000/&quot;);
+</code></pre><p>这个代码执行后会在网页上显示This is a test 的字样。</p>
+<p>下面是使用html文件来作为网页显示：</p>
+<pre><code>var http = require(&apos;require&apos;);
+var fs = require(&apos;fs&apos;);
+var url = require(&apos;&apos;);
+
+//创建服务器
+http.createServer(function(req,res){
+    //解析请求，包括文件名
+    var pathname = url.parse(req.url).pathname;
+
+    //从文件系统中请求文件内容
+    console.log(&apos;request for&apos;+pathname+&apos;received&apos;);
+
+    fs.readFile(pathname.substr(1),function(err,data){
+
+        if(err){
+            console.lor(err);
+            //发送404（未查找到文件）HTTP状态码并规定解析文件为html文件
+            res.writeHead(404,{&apos;Content-Type&apos;:&apos;text/html&apos;});
+        }else{
+            //发送200（正常）HTTP状态码并规定解析文件为html
+            res.writeHead(200,{&apos;Content-Type&apos;:&apos;text/html&apos;});
+
+                        //响应文件内容
+        res.write(data.toString());
+    })
+    res.end();
+}).listen(3000);
+
+console.log(&quot;Server running at http://127.0.0.1:3000/&quot;);
+</code></pre><p>index文件：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;title&gt;菜鸟教程(runoob.com)&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;我的第一个标题&lt;/h1&gt;
+&lt;p&gt;我的第一个段落。&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>执行上面JS代码，并在浏览器中填入：<a href="http://127.0.0.1:8080/index.html，就会显示出index.html网页内容。" target="_blank" rel="noopener">http://127.0.0.1:8080/index.html，就会显示出index.html网页内容。</a></p>
+<h2 id="url及post和get请求"><a href="#url及post和get请求" class="headerlink" title="url及post和get请求"></a>url及post和get请求</h2><p>url是指请求的地址，其中不仅包含路径，还了可以包含多个参数，如下图，网址<br><em>‘<a href="http://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash&#39;" target="_blank" rel="noopener">http://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash&#39;</a></em></p>
+<p><img src="http://wx1.sinaimg.cn/mw690/0060lm7Tly1fvm14lsh7rj30js0ctmxs.jpg" alt="url"></p>
+<p>以下代码可以从url中获取相关的参数：</p>
+<pre><code>var http = require(&apos;http&apos;);
+var url = require(&apos;url&apos;);
+var util = require(&apos;util&apos;);
+
+http.createServer(function(req,res){
+    res.writeHead(200,{&apos;Content-Type&apos;:&apos;text/html&apos;;&apos;charset=utf-8&apos;});
+    res.end(util.inspect(url.parse(req.url,true)));
+}).listen(3000);
+</code></pre><p>其效果：</p>
+<p><img src="http://www.runoob.com/wp-content/uploads/2014/06/4A1C02B2-2EB8-4976-9F35-F3760713D495.jpg" alt="url2"></p>
+<p>其中util模块是一个工具模块，提供了很多功能，其中util.inspect(object[,options]),这里option的选项很多，这里不再展开叙述。其作用是一个将任意对象转换 为字符串的方法,通常用于调试和错误输出。</p>
+<p>将url中的属性值提取出来，</p>
+<pre><code>var http = require(&apos;http&apos;);
+var url = require(&apos;url&apos;);
+var util = require(&apos;util&apos;);
+
+http.createServer(function(req,res){
+    res.writeHead(200,{&apos;Conten-Type&apos;:&apos;text/plain&apos;});
+
+    var params = url.parse(req.url,true).query;
+    res.write(&quot;网站名：&quot;+params.name);
+    res.write(&quot;\n&quot;);
+    res.write(&quot;网站URL：&quot;params.url);
+    res.end();
+}).listen(3000);
+</code></pre><p>效果：</p>
+<p><img src="http://www.runoob.com/wp-content/uploads/2014/06/ADF34B0E-6715-41EE-9A88-4BE067100868.jpg" alt="url3"></p>
+<p><strong>获取表单数据</strong></p>
+<pre><code>var http = require(&apos;http&apos;);
+var querystring = require(&apos;querystring&apos;);
+
+var postHTML = 
+&apos;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;菜鸟教程 Node.js 实例&lt;/title&gt;&lt;/head&gt;&apos; +
+&apos;&lt;body&gt;&apos; +
+&apos;&lt;form method=&quot;post&quot;&gt;&apos; +
+&apos;网站名： &lt;input name=&quot;name&quot;&gt;&lt;br&gt;&apos; +
+&apos;网站 URL： &lt;input name=&quot;url&quot;&gt;&lt;br&gt;&apos; +
+&apos;&lt;input type=&quot;submit&quot;&gt;&apos; +
+&apos;&lt;/form&gt;&apos; +
+&apos;&lt;/body&gt;&lt;/html&gt;&apos;;
+
+http.createServer(function (req, res) {
+var body = &quot;&quot;;
+req.on(&apos;data&apos;, function (chunk) {
+body += chunk;
+});
+req.on(&apos;end&apos;, function () {
+// 解析参数
+body = querystring.parse(body);
+// 设置响应头部信息及编码
+res.writeHead(200, {&apos;Content-Type&apos;: &apos;text/html; charset=utf8&apos;});
+
+if(body.name &amp;&amp; body.url) { // 输出提交的数据
+    res.write(&quot;网站名：&quot; + body.name);
+    res.write(&quot;&lt;br&gt;&quot;);
+    res.write(&quot;网站 URL：&quot; + body.url);
+} else {  // 输出表单
+    res.write(postHTML);
+}
+    res.end();
+});
+}).listen(3000);
+</code></pre><p>其效果如图：</p>
+<p><img src="http://www.runoob.com/wp-content/uploads/2014/06/nodepost.gif" alt="url3"></p>
+<h2 id="将表单提交的数据"><a href="#将表单提交的数据" class="headerlink" title="将表单提交的数据"></a>将表单提交的数据</h2><h3 id="利用express框架获取表单内容"><a href="#利用express框架获取表单内容" class="headerlink" title="利用express框架获取表单内容"></a>利用express框架获取表单内容</h3><pre><code>var express = require(&apos;express&apos;);
+var app = express();
+
+//将文件夹public设为express公开文件夹(express模块已经将fs方法至于其中，因此在设置公开文件夹时不需再引用fs模块)。
+app.use(express.static(&apos;public&apos;));
+
+app.get(&apos;/index.html&apos;,function(req,res){
+    res.sendFile(_dirname+&apos;/&apos;+&apos;index.html&apos;);
+})
+
+app.get(&apos;/process_get&apos;,function(req,res){
+    var response = {
+        &quot;first_name&quot;:req.query.first_name,
+        &quot;last_name&quot;:req.query.last_name
+
+    };
+    console.log(response);
+    res.end(JSON.stringify(response));
+});
+
+var server = app.listen(8081,function(req,res){
+    var host = server.address().address
+    var port = server.address().port
+    console.log(&quot;应用实例，访问地址为 http://%s:%s&quot;, host, port);
+});
+</code></pre><p>html代码：</p>
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+&lt;form action=&quot;http://127.0.0.1:8081/process_get&quot; method=&quot;GET&quot;&gt;
+First Name: &lt;input type=&quot;text&quot; name=&quot;first_name&quot;&gt;  &lt;br&gt;
+
+Last Name: &lt;input type=&quot;text&quot; name=&quot;last_name&quot;&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>效果如图：</p>
+<p><img src="http://www.runoob.com/wp-content/uploads/2015/09/nodejs-gif6.gif" alt="express"></p>
+<p>express模块是一个web应用框架，他提供了很多强大的功能来更简单的创建web应用。</p>
+<h3 id="利用express及multer来实现文件的上传"><a href="#利用express及multer来实现文件的上传" class="headerlink" title="利用express及multer来实现文件的上传"></a>利用express及multer来实现文件的上传</h3><p>multer模块主要处理表单文件的上传。</p>
+<pre><code>var express = require(&apos;express&apos;);
+var multer = require(&apos;multer&apos;);
+var app = express();
+app.use(express.static(&apos;public&apos;));
+// 通过 filename 属性定制
+var storage = multer.diskStorage({
+destination: function (req, file, cb) {
+    cb(null, &apos;/web开发/测试/upload&apos;);    // 保存的路径，备注：需要自己创建
+},
+filename: function (req, file, cb) {
+    // 将保存文件名设置为 字段名 + 时间戳+后缀，比如 logo-1478521468943
+    cb(null, file.fieldname + &apos;-&apos; + Date.now()+&apos;.jpg&apos;);
+}
+});
+
+// 通过 storage 选项来对 上传行为 进行定制化
+var upload = multer({ storage: storage })
+
+//var upload = multer({dest : &apos;upload/&apos; });
+//var upload = multer({storage:storage});
+ app.get(&apos;/index&apos;,function(req,res){
+res.send(_dirname+&quot;/&quot;+&quot;index.html&quot;);
+})
+//single中的第二个参数代表可以接受几个文件，2代表可以接受两个文件
+app.post(&apos;/upload&apos;,upload.single(&apos;pics，2&apos;),function(req,res){
+res.send(&quot;ok&quot;);
+})
+
+var server=app.listen(3030,function(){
+ var host = server.address().address
+ var port = server.address().port
+ console.log(&quot;应用实例，访问地址为 http://%s:%s&quot;, host, port)
+ })
+</code></pre><p>上面这段代码可以实现文件的上传并将其放在规定的文件夹及其规律化的命名：</p>
+<p>html代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+&lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=&quot;/upload&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+&lt;!--   &lt;span&gt;first item&lt;/span&gt;&lt;input type=&quot;text&quot; name=&quot;first_item&quot;&gt;&lt;br/&gt;
+ &lt;span&gt;second item&lt;/span&gt;&lt;input type=&quot;text&quot; name=&quot;second_item&quot;&gt;&lt;br/&gt; --&gt;
+ &lt;span&gt;file&lt;/span&gt;&lt;input type=&quot;file&quot; name=&quot;pics&quot;&gt;&lt;br/&gt;
+ &lt;/be/&gt;
+ &lt;input type=&quot;submit&quot; value=&quot;submit&quot;&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>终于把这个简单的文章写完了，这只是node的冰山一角，node还有很多模块及其方法，想要精通段时间内几乎是不可能的，后面还是要继续努力xio习啊！</p>
+<p><strong>引用</strong></p>
+<p><a href="http://www.runoob.com/nodejs/nodejs-tutorial.html" target="_blank" rel="noopener">菜鸟教程</a></p>
+<p><a href="https://www.cnblogs.com/chyingp/p/express-multer-file-upload.html" target="_blank" rel="noopener">Nodejs进阶：基于express+multer的文件上传</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2018/09/22/node-js基本用法解析/" target="_blank" title="node-js基本用法解析">http://yoursite.com/2018/09/22/node-js基本用法解析/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/19/JS代码段所放位置的区别/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JS代码段所放位置的区别
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/30/千万不要躺太久-三和大神的生活/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">千万不要躺太久-三和大神的生活</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#EventEmitter模块"><span class="nav-number">2.1.</span> <span class="nav-text">EventEmitter模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统fs"><span class="nav-number">2.2.</span> <span class="nav-text">文件系统fs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异步与同步"><span class="nav-number">2.2.1.</span> <span class="nav-text">异步与同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#异步与同步代码"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">异步与同步代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打开文件"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">打开文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取文件信息"><span class="nav-number">2.2.2.</span> <span class="nav-text">获取文件信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入文件"><span class="nav-number">2.2.3.</span> <span class="nav-text">写入文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取文件"><span class="nav-number">2.2.4.</span> <span class="nav-text">读取文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭文件"><span class="nav-number">2.2.5.</span> <span class="nav-text">关闭文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#截取文件"><span class="nav-number">2.2.6.</span> <span class="nav-text">截取文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除文件"><span class="nav-number">2.2.7.</span> <span class="nav-text">删除文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建目录"><span class="nav-number">2.2.8.</span> <span class="nav-text">创建目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http模块"><span class="nav-number">2.3.</span> <span class="nav-text">http模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#url及post和get请求"><span class="nav-number">2.4.</span> <span class="nav-text">url及post和get请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将表单提交的数据"><span class="nav-number">2.5.</span> <span class="nav-text">将表单提交的数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用express框架获取表单内容"><span class="nav-number">2.5.1.</span> <span class="nav-text">利用express框架获取表单内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用express及multer来实现文件的上传"><span class="nav-number">2.5.2.</span> <span class="nav-text">利用express及multer来实现文件的上传</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

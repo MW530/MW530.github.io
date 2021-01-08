@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>周报(0) | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="周报JavaLeetCode">
+  
+  
+  
+  
+  <meta name="description" content="LeetCode： 简单思路：令i从0开始向后跑寻找与下标为length-1不相等的数，找到之后将那个数放到length的位置上，并且令length长度加1，最后返回length就行了。">
+<meta name="keywords" content="周报,Java,LeetCode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="周报(0)">
+<meta property="og:url" content="http://yoursite.com/2018/12/01/周报(0)/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="LeetCode： 简单思路：令i从0开始向后跑寻找与下标为length-1不相等的数，找到之后将那个数放到length的位置上，并且令length长度加1，最后返回length就行了。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img-blog.csdn.net/20180909171005249?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MjQxMjM5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:updated_time" content="2019-01-12T15:31:43.707Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="周报(0)">
+<meta name="twitter:description" content="LeetCode： 简单思路：令i从0开始向后跑寻找与下标为length-1不相等的数，找到之后将那个数放到length的位置上，并且令length长度加1，最后返回length就行了。">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20180909171005249?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MjQxMjM5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-周报(0)" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      周报(0)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/12/01/周报(0)/" class="article-date">
+	  <time datetime="2018-12-01T04:10:17.000Z" itemprop="datePublished">2018-12-01</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/周报/">周报</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>LeetCode：<br><img src="https://img-blog.csdn.net/20180909171005249?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MjQxMjM5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="题目"></p>
+<p>简单思路：令i从0开始向后跑寻找与下标为length-1不相等的数，找到之后将那个数放到length的位置上，并且令length长度加1，最后返回length就行了。<br><a id="more"></a><br>代码部分：</p>
+<pre><code>int removeDuplicates(int* nums, int numsSize) {
+if(numsSize==0){
+    return 0;
+}
+int length = 1;
+for(int i=0;i&lt;numsSize;i++){
+    if(nums[i]!=nums[length-1]){
+        nums[length++]=nums[i];
+    }
+}
+return length;
+}
+</code></pre><h1 id="Java学习部分内容"><a href="#Java学习部分内容" class="headerlink" title="Java学习部分内容"></a>Java学习部分内容</h1><h2 id="重写与重载"><a href="#重写与重载" class="headerlink" title="重写与重载"></a>重写与重载</h2><h2 id="重写：在子类中"><a href="#重写：在子类中" class="headerlink" title="重写：在子类中"></a>重写：在子类中</h2><pre><code>1. 参数列表必须完全与被重写方法的相同
+2. 返回类型必须与被重写方法的返回类型相同
+3. 访问权限不能比父类中被重写的方法的访问权限更低。例如，父类的一个方法被申明为public，那么该子类中重写该方法就不能申明为protected。
+4. 父类的成员方法只能被它的子类重写
+5. 申明为final的方法不能被重写
+6. 申明为static的方法不能被重写，但是能够被再次申明
+7. 子类与父类在同一个包中，那么子类可以重写父类的所有方法，除了声明为private与final的方法
+8. 子类与父类不在一个包中，那么子类只能够重写父类的声明为public和protected的非final方法
+9. 构造方法不能被重写
+10. 如果不能继承一个方法，则不能重写这个方法
+</code></pre><h3 id="super"><a href="#super" class="headerlink" title="super"></a>super</h3><pre><code>1. 在父类的某一方法被重写后，如果需要调用原父类的方法，需在该方法前加super关键字
+</code></pre><h2 id="重载-：在同一个类中"><a href="#重载-：在同一个类中" class="headerlink" title="重载 ：在同一个类中"></a>重载 ：在同一个类中</h2><pre><code>1. 被重载的方法必须改变参数列表（参数个数或类型不一样）
+2. 被重载的方法可以改变返回类型
+3. 被重载的方法可以改变访问修饰符
+4. 被重载的方法可以声明新的或更广的检查异常
+5. 方法能够在同一个类中或者一个子类中被重载
+6. 无法以返回值类型作为重载函数的区分标准
+</code></pre><p>区别点    重载方法    重写方法</p>
+<p>参数列表    必须修改    一定不能修改</p>
+<p>返回类型    可以修改    一定不能修改</p>
+<p>异常    可以修改    可以减少或删除，一定不能抛出新的或者更广的异常</p>
+<p>访问    可以修改    一定不能做更严格的限制（可以降低限制）</p>
+<p>来自 <a href="http://www.runoob.com/java/java-override-overload.html" target="_blank" rel="noopener">http://www.runoob.com/java/java-override-overload.html</a> </p>
+<p>2.多态：同一个行为具有多个不同表现形式或形态的能力。</p>
+<p>向上转型：子类引用的对象转换为父类类型称为向上转型。</p>
+<p>重写式多态：也叫运行时多态，这种多态通过动态绑定技术来实现，是指在执行期间判断所引用的对象的实际类型调用起相应的方法。</p>
+<p>Animal animal = new Cat(); //向上转型</p>
+<pre><code>1. 向上转型时，子类单独定义的方法会丢失。比如上面Dog类中定义的run方法，当animal引用指向Dog类实例时是访问不到run方法的，animal.run()会报错。
+2. 子类引用不能指向父类对象。Cat c = (Cat)new Animal()这样是不行的。
+</code></pre><p>向上转型后方法引用的优先级问题：</p>
+<p>继承链中对象方法的调用的优先级：this.show(O)、super.show(O)、this.show((super)O)、super.show((super)O)。</p>
+<p>注意：此时的（super）O 指的是O的父类。以下面的8为例：</p>
+<p>b.show(C)</p>
+<ol>
+<li>由于b的引用对象为B，所以可以调用的方法有：show(B)，show(A)</li>
+<li>（this.show(O)） 又b的类型也为B，所以方法也先在B中选择，发现没有show(C)方法</li>
+<li>（super.show(O)） 在B的父类，即A中查找show(C)方法，任然没有查找到</li>
+<li>（this.show(super)O） 原式为：b.show（C），又C的父类为B，所以该式变为：b.show(b)，并且在B中查找，找到了该方法，于是执行该方法，得到结果：B and B   </li>
+</ol>
+<p>实例<br>class A {<br>    public String show(D obj) {<br>        return (“A and D”);<br>    }</p>
+<pre><code>public String show(A obj) {
+    return (&quot;A and A&quot;);
+}
+</code></pre><p>}</p>
+<p>class B extends A{<br>    public String show(B obj){<br>        return (“B and B”);<br>    }</p>
+<pre><code>public String show(A obj){
+    return (&quot;B and A&quot;);
+}
+</code></pre><p>}</p>
+<p>class C extends B{</p>
+<p>}</p>
+<p>class D extends B{</p>
+<p>}</p>
+<p>public class Demo {<br>    public static void main(String[] args) {<br>        A a1 = new A();<br>        A a2 = new B();<br>        B b = new B();<br>        C c = new C();<br>        D d = new D();</p>
+<pre><code>    System.out.println(&quot;1--&quot; + a1.show(b));
+    System.out.println(&quot;2--&quot; + a1.show(c));
+    System.out.println(&quot;3--&quot; + a1.show(d));
+    System.out.println(&quot;4--&quot; + a2.show(b));
+    System.out.println(&quot;5--&quot; + a2.show(c));
+    System.out.println(&quot;6--&quot; + a2.show(d));
+    System.out.println(&quot;7--&quot; + b.show(b));
+    System.out.println(&quot;8--&quot; + b.show(c));
+    System.out.println(&quot;9--&quot; + b.show(d));
+}
+</code></pre><p>}<br>//结果：<br>//1–A and A<br>//2–A and A<br>//3–A and D<br>//4–B and A<br>//5–B and A<br>//6–A and D<br>//7–B and B<br>//8–B and B<br>//9–A and D</p>
+<p>从4向后的解析原理：<br>当父类对象引用变量引用子类对象时，被引用对象的类型决定了调用谁的成员方法，引用变量类型决定可调用的方法。如果子类中没有覆盖该方法，那么会去父类中寻找。<br>Animal animal = new Cat(); //向上转型<br> Animal为引用对象<br>Cat为引用变量</p>
+<p>首先，a2是类型为A的引用类型，它指向类型为B的对象。A确定可调用的方法：show(D obj)和show(A obj)。<br>a2.show(b) ==&gt; this.show(b)，这里this指的是B。</p>
+<p>然后.在B类中找show（B obj），找到了，可惜没用，因为show（B obj）方法不在可调用范围内，this.show(O)失败，进入下一级别：super.show(O)，super指的是A。</p>
+<p>在A 中寻找show（B obj)，失败，因为没用定义这个方法。进入第三级别：this.show((super)O)，this指的是B。<br>在B中找show（（A）O）,找到了：show(A obj)，选择调用该方法。</p>
+<p>输出：B and A</p>
+<p>上面的例子简单的介绍了多态的意义，同一个行为具有不同的表现形式或形态的能力。</p>
+<p>多态（重写式）实现的条件：</p>
+<pre><code>1. 继承（实现）
+2. 重写
+3. 向上转型
+</code></pre><p>重载式多态：也叫编译时多态，也就是说这种多态在编译时已经确定好了。在调用这种方法时，通过传入不同的参数得到不同的结果。</p>
+<p>此处重载式多态有不同的说法，部分观点认为：重载不属于多态，认为多态仅仅指的是在程序运行时根据不同的输入，而方法有不同的响应称之为多态；但重载指的是：在一个类里，方法名字相同，而参数不同。也就是说在程序编译时就确定了该方法的响应。所以不能称之为多态。关于这个部分，我还没有更深的理解，所以暂时保留意见。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2018/12/01/周报(0)/" target="_blank" title="周报(0)">http://yoursite.com/2018/12/01/周报(0)/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/13/欢迎2019-假如我年少有为/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          欢迎2019-假如我年少有为
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/11/02/JavaScript数组（二，ES6部分）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JavaScript数组（二，ES6部分）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java学习部分内容"><span class="nav-number">1.</span> <span class="nav-text">Java学习部分内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重写与重载"><span class="nav-number">1.1.</span> <span class="nav-text">重写与重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重写：在子类中"><span class="nav-number">1.2.</span> <span class="nav-text">重写：在子类中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#super"><span class="nav-number">1.2.1.</span> <span class="nav-text">super</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重载-：在同一个类中"><span class="nav-number">1.3.</span> <span class="nav-text">重载 ：在同一个类中</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

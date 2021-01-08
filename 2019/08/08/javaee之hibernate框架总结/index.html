@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>javaee之hibernate框架总结 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaEESSHhibernate">
+  
+  
+  
+  
+  <meta name="description" content="前言Hibernate目前使用的还是比较多，虽然不及mybatis。 Hibernate概述Hibernate工作在javaEE三层结构中的dao层，对数据库进行crud操作，其核心思想是orm（object relational mapping，对象关系映射），并且Hibernate支持多种查询方式，包括HQL，QBC,SQL三种方式。  orm 让实体类和数据库表进行一一对应关系 让实体类首先">
+<meta name="keywords" content="JavaEE,SSH,hibernate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaee之hibernate框架总结">
+<meta property="og:url" content="http://yoursite.com/2019/08/08/javaee之hibernate框架总结/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="前言Hibernate目前使用的还是比较多，虽然不及mybatis。 Hibernate概述Hibernate工作在javaEE三层结构中的dao层，对数据库进行crud操作，其核心思想是orm（object relational mapping，对象关系映射），并且Hibernate支持多种查询方式，包括HQL，QBC,SQL三种方式。  orm 让实体类和数据库表进行一一对应关系 让实体类首先">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-08T10:10:56.125Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javaee之hibernate框架总结">
+<meta name="twitter:description" content="前言Hibernate目前使用的还是比较多，虽然不及mybatis。 Hibernate概述Hibernate工作在javaEE三层结构中的dao层，对数据库进行crud操作，其核心思想是orm（object relational mapping，对象关系映射），并且Hibernate支持多种查询方式，包括HQL，QBC,SQL三种方式。  orm 让实体类和数据库表进行一一对应关系 让实体类首先">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-javaee之hibernate框架总结" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      javaee之hibernate框架总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/08/08/javaee之hibernate框架总结/" class="article-date">
+	  <time datetime="2019-08-08T10:09:11.000Z" itemprop="datePublished">2019-08-08</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaEE/">JavaEE</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Hibernate目前使用的还是比较多，虽然不及mybatis。</p>
+<h1 id="Hibernate"><a href="#Hibernate" class="headerlink" title="Hibernate"></a>Hibernate</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Hibernate工作在javaEE三层结构中的dao层，对数据库进行crud操作，其核心思想是orm（object relational mapping，对象关系映射），并且Hibernate支持多种查询方式，包括HQL，QBC,SQL三种方式。</p>
+<ul>
+<li>orm<ul>
+<li>让实体类和数据库表进行一一对应关系</li>
+<li>让实体类首先和数据库表对应</li>
+<li>让实体类属性 和 表里面字段对应</li>
+<li>不需要直接操作数据库表，而操作表对应实体类对象</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>Hibernate的核心配置文件有如下要求：</p>
+<ul>
+<li>必须在src下</li>
+<li>必须为hibernate.cfg.xml</li>
+</ul>
+<h3 id="配置核心文件"><a href="#配置核心文件" class="headerlink" title="配置核心文件"></a>配置核心文件</h3><ol>
+<li><p>引入约束</p>
+<pre><code>&lt;!DOCTYPE hibernate-configuration PUBLIC
+</code></pre><p> “-//Hibernate/Hibernate Configuration DTD 3.0//EN”<br> “<a href="http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd&quot;&gt;" target="_blank" rel="noopener">http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd&quot;&gt;</a></p>
+</li>
+<li><p>配置信息</p>
+<p> <hibernate-configuration></hibernate-configuration></p>
+<pre><code>&lt;session-factory&gt;
+    &lt;!-- 第一部分： 配置数据库信息 必须的 --&gt;
+    &lt;property name=&quot;hibernate.connection.driver_class&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
+    &lt;property name=&quot;hibernate.connection.url&quot;&gt;jdbc:mysql:///hibernate_day01&lt;/property&gt;
+    &lt;property name=&quot;hibernate.connection.username&quot;&gt;root&lt;/property&gt;
+    &lt;property name=&quot;hibernate.connection.password&quot;&gt;root&lt;/property&gt;
+
+    &lt;!-- 第二部分： 配置hibernate信息  可选的--&gt;
+    &lt;!-- 输出底层sql语句 --&gt;
+    &lt;property name=&quot;hibernate.show_sql&quot;&gt;true&lt;/property&gt;
+    &lt;!-- 输出底层sql语句格式 --&gt;
+    &lt;property name=&quot;hibernate.format_sql&quot;&gt;true&lt;/property&gt;
+    &lt;!-- hibernate帮创建表，需要配置之后 
+        update: 如果已经有表，更新，如果没有，创建
+    --&gt;
+    &lt;property name=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/property&gt;
+    &lt;!-- 配置数据库方言
+        在mysql里面实现分页 关键字 limit，只能使用mysql里面
+        在oracle数据库，实现分页rownum
+        让hibernate框架识别不同数据库的自己特有的语句
+     --&gt;
+    &lt;property name=&quot;hibernate.dialect&quot;&gt;org.hibernate.dialect.MySQLDialect&lt;/property&gt;
+
+    &lt;!-- 第三部分： 把映射文件放到核心配置文件中 必须的--&gt;
+    &lt;mapping resource=&quot;cn/itcast/entity/User.hbm.xml&quot;/&gt;
+&lt;/session-factory&gt;
+</code></pre><p> </p>
+</li>
+</ol>
+<p>值得注意的是：</p>
+<ol>
+<li>配置数据库信息部分与jdbc部分的配置信息一致</li>
+<li><code>hibernate.show_sql</code>： 在编译时控制台输出生成的SQL语句</li>
+<li><code>hibernate.format_sql</code> : 在上面的属性开启的前提之下输出格式化之后的SQL语句</li>
+<li><code>hibernate.hbm2ddl.auto</code> : 配置数据库方言<br>在mysql里面实现分页 关键字 limit，只能使用mysql里面<br>在oracle数据库，实现分页rownum<br>让hibernate框架识别不同数据库的自己特有的语句</li>
+</ol>
+<h3 id="配置映射文件"><a href="#配置映射文件" class="headerlink" title="配置映射文件"></a>配置映射文件</h3><p>映射文件是一个表与实体的配置映射</p>
+<ul>
+<li>命名没有确定规则</li>
+<li>位置也没有确定位置</li>
+</ul>
+<ol>
+<li><p>引入约束</p>
+<p> &lt;!DOCTYPE hibernate-configuration PUBLIC<br> “-//Hibernate/Hibernate Mapping DTD 3.0//EN”<br> “<a href="http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt;" target="_blank" rel="noopener">http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt;</a></p>
+</li>
+<li><p>配置映射关系</p>
+<p> <hibernate-mapping></hibernate-mapping></p>
+<pre><code>&lt;class name=&quot;priv.mw.dao&quot; table=&quot;t_user&quot;&gt;
+    &lt;id name=&quot;uid&quot; column=&quot;uid&quot;&gt;
+        &lt;generator class=&quot;native&quot;&gt;&lt;/generator&gt;
+    &lt;/id&gt;
+    &lt;property name=&quot;username&quot; column=&quot;username&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;password&quot; column=&quot;username&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;address&quot; column=&quot;address&quot;&gt;&lt;/property&gt;
+&lt;/class&gt;    
+</code></pre><p> </p>
+</li>
+</ol>
+<p>值得注意的是：</p>
+<ol>
+<li><code>hibernate-mapping</code><ol>
+<li>package:填写包名，如果此处填写了完整的包名，则后面class的name属性只需要填写class名字。否则class的name属性则需要填写完整的名字，及包含包名的类名。</li>
+</ol>
+</li>
+<li><p><code>class</code></p>
+<ol>
+<li>name：填写类名（全路径或名字）</li>
+<li>table：数据库中表名。（orm中表与类一一对应）</li>
+</ol>
+</li>
+<li><p><code>id</code>：每一张表必须要有一个唯一的属性。</p>
+<ol>
+<li>name：类中属性的名字</li>
+<li>column：为表中列的名字</li>
+</ol>
+</li>
+<li><code>property</code>:表中的属性<ol>
+<li>name:类中的属性名</li>
+<li>column：表中的列名</li>
+</ol>
+</li>
+</ol>
+<p>值得注意的是：</p>
+<ul>
+<li>id或property中的column是可选的，如果不填，则默认与name属性相同。</li>
+</ul>
+<h2 id="实体类的编写规则"><a href="#实体类的编写规则" class="headerlink" title="实体类的编写规则"></a>实体类的编写规则</h2><ol>
+<li>实体类中的属性是私有的</li>
+<li>私有属性使用公开的set和get方法</li>
+<li>要求实体类有属性作为唯一值(一般使用id值)</li>
+<li>实体类属性建议不使用基本数据类型，使用基本数据类型对应的包装类，其目的是Integer score = null。可以表示不存在这个值，而基本类不能为null。</li>
+</ol>
+<h3 id="主键的生成策略"><a href="#主键的生成策略" class="headerlink" title="主键的生成策略"></a>主键的生成策略</h3><ul>
+<li>native：自动增长</li>
+<li>uuid：uuid算法</li>
+</ul>
+<h2 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h2><h3 id="session方式"><a href="#session方式" class="headerlink" title="session方式"></a>session方式</h3><ol>
+<li>加载核心配置文件</li>
+<li>加载SessionFactory对象</li>
+<li>使用SessionFactory对象创建session对象</li>
+<li>开启事务</li>
+<li>开始写具体逻辑，crud操作</li>
+<li>提交事务</li>
+<li><p>关闭资源</p>
+<p> public test(){</p>
+<pre><code>//1. 加载hibernate核心配置文件
+//这一步从src中查找hibernate.cfg.xml
+Configuration cfg = new Configuration();
+cfg.configure();
+</code></pre></li>
+</ol>
+<pre><code>    //2. 创建SessionFactory对象
+    //同时读取映射文件，创建表格
+    SessionFactory sessionFactory = cfg.buildSessionFactory();
+
+    //3. 创建Session对象
+    Session session = session.openSession();
+
+    //4. 开启事物
+    Transaction tx = session.beginTransaction();
+
+    //5. 写入具体的crud操作
+    User user = new User();
+    user.setUsername(&quot;李雷&quot;);
+    user.setPassword(&apos;123&apos;);
+    user.setAddress(&quot;日本&quot;);
+    session.save(user);
+
+    //6. 提交事务
+    tx.commit();
+
+    //7. 关闭资源
+    session.close();
+    sessionFactory.close();
+}
+</code></pre><h4 id="session对象导航查询"><a href="#session对象导航查询" class="headerlink" title="session对象导航查询"></a>session对象导航查询</h4><p>常用的方法：</p>
+<ol>
+<li>get():通过OID 从数据库中抓取数据，并把数据加载到一个新实例对象上。</li>
+<li>save():执行insert语句，当数据库存在这条记录时，会抛出异常。</li>
+<li>saveOrUpdate():如果数据库中不存在该数据，则执行insert语句，如果存在则执行更新操作。</li>
+<li>update():当数据库中存在这条记录时，Hibernate 总会执行一条SQLUPDATE 语句；当数据库中不存这条记录时，就会抛出异常。</li>
+<li>delete():当数据库中存在这条记录时，Hibernate 总会执行一条SQLDELETE 语句；当数据库中不存这条记录时，就会抛出异常。</li>
+<li>load():该方法与get相同，但是不会立即去查询数据库，而是等待需要使用该数据时才去查询。比如用ID查询ID，get方法任然回去查询数据库，而load则直接返回使用的ID，不去查询数据库。</li>
+</ol>
+<h4 id="实体对象三种状态"><a href="#实体对象三种状态" class="headerlink" title="实体对象三种状态"></a>实体对象三种状态</h4><ol>
+<li>瞬时状态(Transident):如果对象从未与Session对象关联过，称该对象处于瞬时状态（或临时状态）。</li>
+<li>持久状态(Persisdent):如果对象与Session对象关联起来，且该对象对应到数据库记录，则称该对象处于持久化状态。比如通过get获取的对象。</li>
+<li>游离状态(Detached)：当持久化对象的Session关闭后，这个对象就会从持久化状态改变成游离状态。</li>
+</ol>
+<h3 id="HQL方式"><a href="#HQL方式" class="headerlink" title="HQL方式"></a>HQL方式</h3><p>example：</p>
+<pre><code>Query query = session.createQuery(&quot;from Customer where name=?&quot;);
+query.setParameter(&quot;mw&quot;);
+</code></pre><ol>
+<li><p>条件查询：</p>
+<p> from Customer c where c.cid=? and c.custName=?</p>
+</li>
+<li><p>模糊查询</p>
+<p> from Customer c where s.custName like ?</p>
+</li>
+<li><p>排序查询</p>
+<p> from Customer order by cid desc</p>
+</li>
+<li><p>分页查询</p>
+<p> Query query = session.createQuery(“from Customer”);</p>
+<p> query.setFirstResult(0);<br> query.setMaxReaults(3);</p>
+<p> List<customer> list = query.list();</customer></p>
+</li>
+<li><p>投影查询:查询不是所有字段值，而是部分字段的值</p>
+<p> Query query = session.createQuery(“select cusName from Customer”);</p>
+<p> List<object> list = query.list();</object></p>
+<p> for(Object object : list){</p>
+<pre><code>Systom.out.println(Object);
+</code></pre><p> }</p>
+</li>
+<li><p>聚集函数使用</p>
+</li>
+</ol>
+<pre><code>Query query = session.createQuery(&quot;select count(*) from Customer&quot;);
+
+object obj = query.uniqueResult();
+
+Long lobj = (Long)obj;
+int count = lobj.intValue();
+</code></pre><ol start="7">
+<li><p>内连接查询（返回list）：选取两张表的外键相同的数据返回。</p>
+<p> Query query = session.createQuery(“from Customer c inner join c.setLinkMan”)</p>
+</li>
+<li><p>迫切内连接（返回对象）</p>
+<pre><code>Query query = session.createQuery(&quot;from Customer c inner join fetch  c.setLinkMan&quot;)
+</code></pre></li>
+<li><p>左外连接（返回list）：返回左侧表中的所有数据以及右侧与之外键相同的的数据。</p>
+<p> Query query = session.createQuery(“from  Customer  c  left  outer  join  c.setLinkMan”);</p>
+</li>
+<li><p>迫切左外连接（返回对象）</p>
+<pre><code>Query query = session.createQuery(&quot;from  Customer  c  left  outer  join fetch c.setLinkMan&quot;);
+</code></pre></li>
+<li><p>右外连接：返回左右侧表中的所有数据以及左侧与之外键相同的的数据。</p>
+<p>Query query = session.createQuery(“from Customer c right outer join s.setLinkMan”); </p>
+</li>
+</ol>
+<h3 id="QBC方式"><a href="#QBC方式" class="headerlink" title="QBC方式"></a>QBC方式</h3><p>调用Criteria的方法实现查询</p>
+<ol>
+<li><p>查询所有</p>
+<p> Criteria criteria = session.createCriteria(Customer.class);</p>
+<p> List<customer> list = criteria.list();</customer></p>
+</li>
+<li><p>条件查询</p>
+<p> Criteria criteria = session.createCriteria(Customer.class);</p>
+<p> cretera.add(Restrictions.eq(“cid”,1));<br> critera.add(Restrictions.eq(“custName”,”someone”));</p>
+<p> List<customer> list = criteria.list();</customer></p>
+<p> cretiria.add(Restrictions.like(“custName”,”%s%”));</p>
+</li>
+<li><p>排序查询</p>
+<p> Criteria criteria = session.createCriteria(Customer.class);</p>
+<p> cretiria.addOrder(Order.desc(“cid”));</p>
+</li>
+<li><p>分页查询</p>
+<p> Criteria criteria = session.createCriteria(Customer.class);</p>
+<p> criteria.setFirstResult(0);<br> criteria.setMaxResult(3);</p>
+</li>
+<li><p>统计查询</p>
+<p> Criteria criteria = session.createCriteria(Customer.class);</p>
+<p> criteria.setProjection(Projections.rowCount());</p>
+<p> Object obj = criteria.uniqueResult();</p>
+<p> Long lobj = (Long) obj;</p>
+<p> int count = lobj.intValue;</p>
+</li>
+<li><p>离线查询：不通过session对象来创建查询对象，即可以在dao层session对象关闭后也能执行查询。一般用在多条件查询直接在service层进行离线查询。</p>
+<p> DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Customer.class);</p>
+<p> Criteria criteria = detachedCriteria.getExecutableCriteria(session);</p>
+<p> List<customer> list = criteria.list();</customer></p>
+</li>
+</ol>
+<h2 id="hibernate一对多操作"><a href="#hibernate一对多操作" class="headerlink" title="hibernate一对多操作"></a>hibernate一对多操作</h2><p>这里的一对多其实就是SQL中一对多的概念，不过我们在学习如何在hibernate中来使用这个概念。</p>
+<p>以客户，联系人为例：</p>
+<ol>
+<li><p>创建两个实体类，客户、联系人</p>
+</li>
+<li><p>让连个实体之间相互表示，即将对方对象作为一个自己的一个私有属性，并设置set,get方法。</p>
+<ol>
+<li><p>在客户实体类里面表示多个联系人</p>
+<p>private Set<linkman> setLinkMan = new HashSet<linkman>();</linkman></linkman></p>
+<p>public Set<linkman> getSetLinkMan(){<br> return setLinkMan;<br>}</linkman></p>
+<p>public void getSetLinkMan(Set<linkman> setLinkMan){<br> this.setLinkMan = setLinkMan;<br>}</linkman></p>
+</li>
+<li><p>在联系人实体类里面表示所属客户</p>
+<p>private Customer customer;</p>
+<p>public Customer getCustomer(){<br> return customer;<br>}</p>
+<p>public void setCustomer(Customer customer){<br> this.customer = customer;<br>}</p>
+</li>
+</ol>
+</li>
+<li><p>配置客户映射关系<br> //在客户映射文件中，表示联系人<br> //使用set标签表示所有联系人<br> //set中name为联系人中的set集合名称<br> //column为外键名称</p>
+ <set name="setLinkMan"><br>     //class中写联系人的实体全路径<br>     <key column="clid"></key><br>     <one-to-many class="cn.itcast.entity.LinkMan"><br> </one-to-many></set>
+</li>
+<li><p>配置联系人映射文件</p>
+<p> //name：在联系人实体中的客户属性的名字<br> //class：联系人class的全路径<br> //column：外键名称<br> <many-to-one name="customer" class="cn.itcast.entity.Customer" column="clid"><br> <many-to-one></many-to-one></many-to-one></p>
+</li>
+<li><p>配置核心配置文件</p>
+</li>
+</ol>
+<p>resource：映射文件的路径名称</p>
+<pre><code>&lt;mapping resource=&quot;cn/itcast/entuty/Customer.hbm.xml&quot;&gt;
+&lt;mapping resource=&quot;cn/itcast/entuty/LinkMan.hbm.xml&quot;&gt;
+</code></pre><h3 id="一对多级联保存"><a href="#一对多级联保存" class="headerlink" title="一对多级联保存"></a>一对多级联保存</h3><pre><code>Customer customer = new Customer();
+customer.setCustName(&quot;百度&quot;);
+customer.setCustLevel(&quot;普通客户&quot;);
+customer.setCustSource(&quot;网络&quot;);
+customer.setCustPhone(&quot;110&quot;);
+customer.setCustMobile(&quot;999&quot;);
+
+LinkMan linkman = new LinkMan();
+linkman.setLkm_name(&quot;小宏&quot;);
+linkman.setLkm_gender(&quot;男&quot;);
+linkman.setLkm_phone(&quot;911&quot;);
+//2 把联系人放到客户里面
+customer.getSetLinkMan().add(linkman);
+//3 保存客户
+session.save(customer);
+</code></pre><h3 id="一对多级联删除"><a href="#一对多级联删除" class="headerlink" title="一对多级联删除"></a>一对多级联删除</h3><p>删除某个客户，把客户里面所有的联系人删除</p>
+<p>需在set中配置cascade属性：</p>
+<pre><code>&lt;set name=&quot;setLinkMan&quot; cascade=&quot;save-update,delete&quot;&gt;
+
+Customer customer = session.get(CUstomer.class,3);
+
+session.delete(customer);
+</code></pre><h3 id="一对多级联更新"><a href="#一对多级联更新" class="headerlink" title="一对多级联更新"></a>一对多级联更新</h3><pre><code>//根据id查询Lucy联系人，客户百度
+Customer baidu = session.get(Customer.class,1);
+
+//设置持久态对象
+
+Customer lucy = session.get(LinkMan.class,2);
+
+//把联系人放入客户对象中
+baidu.getSetLinkMan().add(lucy);
+
+//把客户放到联系人中
+lucy.setCustomer(baidu);
+</code></pre><p>值得注意的是：</p>
+<p>在默认转态下，两个对象都会维护这个关系。所以会执行两次SQL语句。为了解决这个问题，可以在set中配置inverse属性，让某一方放弃维护。</p>
+<ul>
+<li>inverse:<ul>
+<li>false不放弃维护</li>
+<li>true放弃维护</li>
+</ul>
+</li>
+</ul>
+<h2 id="hibernate多对多"><a href="#hibernate多对多" class="headerlink" title="hibernate多对多"></a>hibernate多对多</h2><p>实际上我们在比较少用多对多关系，会将其转化为两个一对多关系。</p>
+<p>以用户和角色为例：</p>
+<ol>
+<li>创建实体类，用户和角色</li>
+<li><p>让两个实体类相互表示</p>
+<ol>
+<li><p>一个用户有多个角色，使用set集合</p>
+<p>Private Set<role> setRole = new HashSet<role>();</role></role></p>
+<p>public Set<role> getSetRole(){<br> return setRole;<br>}</role></p>
+<p>public void setSetRole(Set<role> setRole){<br> this.setRole = setRole;<br>}</role></p>
+</li>
+<li><p>一个角色有多个用户，使用set集合</p>
+<p>private Set<user> setUser = new HashSet<user>();</user></user></p>
+<p>public Set<user> getSetUser(){<br> return setUser;<br>}</user></p>
+<p>public void setSetUser(Set<user> setUser){<br> this.setUser =setUser;<br>}</user></p>
+</li>
+</ol>
+</li>
+<li><p>配置映射关系</p>
+<ol>
+<li><p>在用户里面表示所有角色，使用set标签</p>
+<p><set name="setRole" table="user_role"><br> <key column="userid"></key><br> <many-to-many class="cn.itcast.manytomany.Role" column="roleid"></many-to-many></set></p>
+<set>
+</set></li>
+<li><p>在角色中表示所有用户，使用set标签</p>
+<set name="setUser" table="user_role"><br> <key column="userid"></key><br> <many-to-many class="cn.idcast.manytomany.User" column="userid"></many-to-many><br></set>
+</li>
+</ol>
+</li>
+<li><p>在核心配置文件中引入映射文件</p>
+<p> <mapping resource="cn/itcast/manytomany/User.hbm.xml"></mapping></p>
+ <mapping resource="cn/itcast/manytomany/Role.hbm.xml">
+
+</mapping></li>
+</ol>
+<h3 id="多对多级联保存"><a href="#多对多级联保存" class="headerlink" title="多对多级联保存"></a>多对多级联保存</h3><p>任然需要在set中配置cascade</p>
+<pre><code>&lt;set name=&quot;setRole&quot; table=&quot;user_role&quot; cascade=&quot;save-update,delete&quot;&gt;
+</code></pre><p>实体类中代码：</p>
+<pre><code>User user1 = new User();
+user1.setUser_name(&quot;lucy&quot;);
+user1.setUser_password(&quot;123&quot;);
+
+User user2 = new User();
+user2.setUser_name(&quot;mary&quot;);
+user2.setUser_password(&quot;456&quot;);
+
+Role r1 = new Role();
+r1.setRole_name(&quot;总经理&quot;);
+r1.setRole_memo(&quot;总经理&quot;);
+
+Role r2 = new Role();
+r2.setRole_name(&quot;秘书&quot;);
+r2.setRole_memo(&quot;秘书&quot;);
+
+Role r3 = new Role();
+r3.setRole_name(&quot;保安&quot;);
+r3.setRole_memo(&quot;保安&quot;);
+
+//2 建立关系，把角色放到用户里面
+// user1 -- r1/r2
+user1.getSetRole().add(r1);
+user1.getSetRole().add(r2);
+
+// user2 -- r2/r3
+user2.getSetRole().add(r2);
+user2.getSetRole().add(r3);
+
+//3 保存用户
+session.save(user1);
+session.save(user2);
+</code></pre><h3 id="多对多级联删除"><a href="#多对多级联删除" class="headerlink" title="多对多级联删除"></a>多对多级联删除</h3><pre><code>&lt;set name=&quot;setRole&quot; table=&quot;user_role&quot; cascade=&quot;save-update,delete&quot;&gt;
+
+User user = session.get(User.class,1);
+session.delete(user);
+</code></pre><h3 id="多对多级联更新"><a href="#多对多级联更新" class="headerlink" title="多对多级联更新"></a>多对多级联更新</h3><pre><code>User lucy = session.get(User.class,1);
+Role role = session.get(Role.class,1);
+
+//为用户添加角色
+lucy.getSetRole().add(role);
+
+//把用户角色删除
+lucy.getSetRole().remove(role);
+</code></pre><h2 id="hibernate缓存"><a href="#hibernate缓存" class="headerlink" title="hibernate缓存"></a>hibernate缓存</h2><p>hibernate为了增加查询效率，建立了缓存机制。即在查询到某个数据后，则将其存储到内存中，下一次查询时直接获取内存中的数据，不用向数据库查询，直接获取，加快查询速度。</p>
+<ol>
+<li>hibernate的一级缓存默认打开的</li>
+<li><p>hibernate的一级缓存使用范围，是session范围，3. hibernate的一级缓存中，存储数据必须 持久态数据</p>
+<h2 id="hibernate事务"><a href="#hibernate事务" class="headerlink" title="hibernate事务"></a>hibernate事务</h2><p>与SQL的事务一致，保证一系列工作的全部执行。具有以下特性：</p>
+</li>
+<li><p>原子性： 确保工作单元中的所有操作都成功完成; 否则，该事务被中止的故障点，操作回滚到操作之前的状态。</p>
+</li>
+<li>一致性：确保数据库正确后成功提交事务更改状态。</li>
+<li>隔离性：事务操作彼此独立和透明。</li>
+<li>持久性：可确保提交的事务的结果或仍然存在系统故障的情况下的作用。</li>
+</ol>
+<p>try {<br>  开启事务<br>  提交事务<br>}catch() {<br>  回滚事务<br>}finally {<br>  关闭<br>}</p>
+<pre><code>public void testTx() {
+    SessionFactory sessionFactory = null;
+    Session session = null;
+    Transaction tx = null;
+    try {
+        sessionFactory = HibernateUtils.getSessionFactory();
+        session = sessionFactory.openSession();
+        //开启事务
+        tx = session.beginTransaction();
+
+        //添加
+        User user = new User();
+        user.setUsername(&quot;小马&quot;);
+        user.setPassword(&quot;250&quot;);
+        user.setAddress(&quot;美国&quot;);
+
+        session.save(user);
+
+        int i = 10/0;
+        //提交事务
+        tx.commit();
+    }catch(Exception e) {
+        e.printStackTrace();
+        //回滚事务
+        tx.rollback();
+    }finally {
+        //关闭操作
+        session.close();
+        sessionFactory.close();
+    }
+}
+</code></pre><p>通过<code>session.beginTransaction()</code>获取<code>Transaction</code>对象。</p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>这个说明只是一个简单的概述，根据黑马程序员2016年版的笔记总结而来，肯定不是全部的，但是这个足够进行简单的操作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/08/08/javaee之hibernate框架总结/" target="_blank" title="javaee之hibernate框架总结">http://yoursite.com/2019/08/08/javaee之hibernate框架总结/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/09/javaee之spring框架总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          javaee之spring框架总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/08/javaee之struts框架总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">javaee之struts框架总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hibernate"><span class="nav-number">2.</span> <span class="nav-text">Hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">2.2.</span> <span class="nav-text">配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置核心文件"><span class="nav-number">2.2.1.</span> <span class="nav-text">配置核心文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置映射文件"><span class="nav-number">2.2.2.</span> <span class="nav-text">配置映射文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体类的编写规则"><span class="nav-number">2.3.</span> <span class="nav-text">实体类的编写规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主键的生成策略"><span class="nav-number">2.3.1.</span> <span class="nav-text">主键的生成策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CRUD"><span class="nav-number">2.4.</span> <span class="nav-text">CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#session方式"><span class="nav-number">2.4.1.</span> <span class="nav-text">session方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#session对象导航查询"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">session对象导航查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实体对象三种状态"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">实体对象三种状态</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HQL方式"><span class="nav-number">2.4.2.</span> <span class="nav-text">HQL方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QBC方式"><span class="nav-number">2.4.3.</span> <span class="nav-text">QBC方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate一对多操作"><span class="nav-number">2.5.</span> <span class="nav-text">hibernate一对多操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一对多级联保存"><span class="nav-number">2.5.1.</span> <span class="nav-text">一对多级联保存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对多级联删除"><span class="nav-number">2.5.2.</span> <span class="nav-text">一对多级联删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对多级联更新"><span class="nav-number">2.5.3.</span> <span class="nav-text">一对多级联更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate多对多"><span class="nav-number">2.6.</span> <span class="nav-text">hibernate多对多</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多对多级联保存"><span class="nav-number">2.6.1.</span> <span class="nav-text">多对多级联保存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多对多级联删除"><span class="nav-number">2.6.2.</span> <span class="nav-text">多对多级联删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多对多级联更新"><span class="nav-number">2.6.3.</span> <span class="nav-text">多对多级联更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate缓存"><span class="nav-number">2.7.</span> <span class="nav-text">hibernate缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate事务"><span class="nav-number">2.8.</span> <span class="nav-text">hibernate事务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

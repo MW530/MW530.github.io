@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>jsp基础部分 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JSP">
+  
+  
+  
+  
+  <meta name="description" content="JSP这几天把JSP基本部分看了，方便记忆，还是回顾一下。文件部分有一点复杂，所以后面直接单独解析一下。">
+<meta name="keywords" content="JSP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP基础部分">
+<meta property="og:url" content="http://yoursite.com/2019/01/30/JSP基础部分/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="JSP这几天把JSP基本部分看了，方便记忆，还是回顾一下。文件部分有一点复杂，所以后面直接单独解析一下。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-30T14:43:15.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSP基础部分">
+<meta name="twitter:description" content="JSP这几天把JSP基本部分看了，方便记忆，还是回顾一下。文件部分有一点复杂，所以后面直接单独解析一下。">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-JSP基础部分" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      JSP基础部分
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/30/JSP基础部分/" class="article-date">
+	  <time datetime="2019-01-30T13:46:43.000Z" itemprop="datePublished">2019-01-30</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>这几天把JSP基本部分看了，方便记忆，还是回顾一下。文件部分有一点复杂，所以后面直接单独解析一下。<br><a id="more"></a></p>
+<h2 id="日期处理"><a href="#日期处理" class="headerlink" title="日期处理"></a>日期处理</h2><p>其实日期处理部分还是JAVA中的Date()对象提供的。只是之前学习JAVA是没认真看，哈哈哈。</p>
+<h3 id="获取时间"><a href="#获取时间" class="headerlink" title="获取时间"></a>获取时间</h3><p>eg:</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@ page import=&quot;java.io.*,java.util.*, javax.servlet.*&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;显示当前时间与日期&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;显示当前时间与日期&lt;/h1&gt;
+
+&lt;%
+   Date date = new Date();
+   out.print( &quot;&lt;h2 align=\&quot;center\&quot;&gt;&quot; +date.toString()+&quot;&lt;/h2&gt;&quot;);
+%&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>提示：任然是实例化Date对象，然后对该对象进行操作，其中该对象有以下方法：</p>
+<p>序号    方法 &amp; 描述</p>
+<ol>
+<li><p>boolean after(Date date)<br>如果比给定的日期晚，则返回true，否则返回false</p>
+</li>
+<li><p>boolean before(Date date)<br>如果比给定的日期早，则返回true，否则返回false</p>
+</li>
+<li><p>Object clone( )<br>获取当前对象的一个副本</p>
+</li>
+<li><p>int compareTo(Date date)<br>如果与给定日期相等，则返回0，如果比给定日期早，则返回一个负数，如果比给定日期晚，则返回一个正数</p>
+</li>
+<li><p>int compareTo(Object obj)<br>与 compareTo(Date) 方法相同，如果 obj 不是Date类或其子类的对象，抛出ClassCastException异常</p>
+</li>
+<li><p>boolean equals(Object date)<br>如果与给定日期相同，则返回true，否则返回false</p>
+</li>
+<li><p>long getTime( )<br>返回从1970年1月1日凌晨至此对象所表示时间的毫秒数</p>
+</li>
+<li><p>int hashCode( )<br>返回此对象的哈希码</p>
+</li>
+<li><p>void setTime(long time)<br>使用给定参数设置时间和日期，参数time表示从1970年1月1日凌晨至time所经过的毫秒数</p>
+</li>
+<li><p>String toString( )<br>将此对象转换为字符串并返回这个字符串</p>
+</li>
+</ol>
+<h3 id="日期的比较"><a href="#日期的比较" class="headerlink" title="日期的比较"></a>日期的比较</h3><ul>
+<li>使用getTime()方法得到毫秒数，然后比较毫秒数就行了。</li>
+<li>使用before()，after()，equals()方法。比如，new Date(99,2,12).before(new Date(99,2,18))返回true。</li>
+<li>使用compareTo()方法，这个方法在Comparable接口中定义，在Date中实现。</li>
+</ul>
+<h3 id="使用SimpleDateFormat格式化日期"><a href="#使用SimpleDateFormat格式化日期" class="headerlink" title="使用SimpleDateFormat格式化日期"></a>使用SimpleDateFormat格式化日期</h3><p>eg:</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@ page import=&quot;java.io.*,java.util.*&quot; %&gt;
+&lt;%@ page import=&quot;javax.servlet.*,java.text.*&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;显示当前时间与日期&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;显示当前时间与日期&lt;/h1&gt;
+
+&lt;%
+   Date dNow = new Date( );
+   SimpleDateFormat ft = 
+   new SimpleDateFormat (&quot;yyyy-MM-dd HH:mm:ss&quot;);
+   out.print( &quot;&lt;h2 align=\&quot;center\&quot;&gt;&quot; + ft.format(dNow) + &quot;&lt;/h2&gt;&quot;);
+%&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><strong>SimpleDateFormat格式码</strong></p>
+<p>字符    描述    示例<br>G    时代标识符    AD</p>
+<p>y    4位数年份    2001</p>
+<p>M    月    July or 07</p>
+<p>d    日    10</p>
+<p>h    12小时制， A.M./P.M. (1~12)    12</p>
+<p>H    24小时制    22</p>
+<p>m    分钟    30</p>
+<p>s    秒    55</p>
+<p>S    毫秒    234</p>
+<p>E    星期    Tuesday</p>
+<p>D    一年中的某天    360</p>
+<p>F    一个月中某星期的某天    2 (second Wed. in July)</p>
+<p>w    一年中的某星期    40</p>
+<p>W    一个月中的某星期    1</p>
+<p>a    A.M./P.M. 标记    PM</p>
+<p>k    一天中的某个小时 (1~24)    24</p>
+<p>K    一天中的某个小时，A.M./P.M. (0~11)    10</p>
+<p>z    时区    Eastern Standard Time</p>
+<p>‘    文本分隔    Delimiter</p>
+<p>“    单引号    `</p>
+<h2 id="页面重定向"><a href="#页面重定向" class="headerlink" title="页面重定向"></a>页面重定向</h2><p>页面重定向是指在client访问a.jsp时，根据据需要，a.jsp页面将请求重定向至另一个页面。<br>注意这一个过程中，a.jsp的所有内容都不会返回至client，而是直接将请求引导至新页面，也就是说client会进行二次访问，新页面的加载还是又client来完成。</p>
+<p>eg:</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@ page import=&quot;java.io.*,java.util.*&quot; %&gt;
+&lt;html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;页面重定向&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;页面重定向&lt;/h1&gt;
+
+&lt;%
+   // 重定向到新地址,关键部分
+   String site = new String(&quot;http://www.runoob.com&quot;);
+   response.setStatus(response.SC_MOVED_TEMPORARILY);
+   response.setHeader(&quot;Location&quot;, site); 
+%&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>还有一个类似的请求转发，而请求转发是在接手到client的请求后，在server端进行请求，然后再这个请求的基础上将新内容返回。也就是说，该种方法只经历了1次请求，<strong>并且转发只能是转发到本次请求的服务器，而重定向则可以定向到其他服务器。(进过我的测试暂时是这样)</strong></p>
+<p>我在看这一部分时，想在重定向或者焕发之前给client一些提示，但是由于该页面的内容内容根本不会写入到response中，所以是不能实现的，在网上查找了一圈的资料，基本都是说使用前端来实现跳转，才能给客户端反馈。</p>
+<p>比如:</p>
+<pre><code>out.print(&quot;&lt;script&gt;
+alert(&quot;即将跳转至百度！&quot;);
+window.href=&quot;http:www.baidu.com&quot;;
+&lt;/script&gt;&quot;)
+</code></pre><p>所以，如果使用重定向或者是转发，是不能给客户端提示的，如果要提示，就要用前端实现跳转。</p>
+<h2 id="JSP点击量统计"><a href="#JSP点击量统计" class="headerlink" title="JSP点击量统计"></a>JSP点击量统计</h2><p>在菜鸟上，对于统计量方法的实现，时使用application对象来存储一对键值，在访问时动态变化，实现访问量统计。所以我们看一下applicant这个对象，它有以下特点：</p>
+<ol>
+<li>在服务器启动时自动创建，<strong>在服务器关闭时自动销毁</strong></li>
+<li>一个网站仅有一个application，也就是说所有的客户共享一个application。</li>
+</ol>
+<p>所以如果服务器遇到宕机，那么这个量就被销毁了，所以最保险的方法是将其储存到数据库中，并定期刷新。保证不会频繁访问数据库，又可以最大化的保存数据。</p>
+<p>eg:</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@ page import=&quot;java.io.*,java.util.*&quot; %&gt;
+&lt;html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;访问量统计&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;%
+    Integer hitsCount = 
+      (Integer)application.getAttribute(&quot;hitCounter&quot;);
+    if( hitsCount ==null || hitsCount == 0 ){
+       /* 第一次访问 */
+       out.println(&quot;欢迎访问菜鸟教程!&quot;);
+       hitsCount = 1;
+    }else{
+       /* 返回访问值 */
+       out.println(&quot;欢迎再次访问菜鸟教程!&quot;);
+       hitsCount += 1;
+    }
+    application.setAttribute(&quot;hitCounter&quot;, hitsCount);
+%&gt;
+
+&lt;p&gt;页面访问量为: &lt;%= hitsCount%&gt;&lt;/p&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="JSP自动刷新"><a href="#JSP自动刷新" class="headerlink" title="JSP自动刷新"></a>JSP自动刷新</h2><p>我其实觉得这个功能可以在前端实现，不过也许有些时候必须要使用后端实现呢，所以还是看一下，其实就一句：</p>
+<pre><code>response.setIntHeader(&quot;Refresh&quot;, 5);
+</code></pre><p>eg:</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@ page import=&quot;java.io.*,java.util.*&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;自动刷新实例&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h2&gt;自动刷新实&lt;/h2&gt;
+&lt;%
+   // 设置每隔5秒刷新一次
+   response.setIntHeader(&quot;Refresh&quot;, 5);
+   // 获取当前时间
+   Calendar calendar = new GregorianCalendar();
+   String am_pm;
+   int hour = calendar.get(Calendar.HOUR);
+   int minute = calendar.get(Calendar.MINUTE);
+   int second = calendar.get(Calendar.SECOND);
+   if(calendar.get(Calendar.AM_PM) == 0)
+      am_pm = &quot;AM&quot;;
+   else
+      am_pm = &quot;PM&quot;;
+   String CT = hour+&quot;:&quot;+ minute +&quot;:&quot;+ second +&quot; &quot;+ am_pm;
+   out.println(&quot;当前时间为: &quot; + CT + &quot;\n&quot;);
+%&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>通过这个栗子可以看出效果，当然，对于日期的刷新，不肯能用这个东西，肯定是局部的ajax来实现。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/01/30/JSP基础部分/" target="_blank" title="JSP基础部分">http://yoursite.com/2019/01/30/JSP基础部分/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/31/JSP数据库处理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JSP数据库处理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/28/JSP中的表单编码问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JSP中的表单编码问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JSP"><span class="nav-number">1.</span> <span class="nav-text">JSP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#日期处理"><span class="nav-number">1.1.</span> <span class="nav-text">日期处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取时间"><span class="nav-number">1.1.1.</span> <span class="nav-text">获取时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日期的比较"><span class="nav-number">1.1.2.</span> <span class="nav-text">日期的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用SimpleDateFormat格式化日期"><span class="nav-number">1.1.3.</span> <span class="nav-text">使用SimpleDateFormat格式化日期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面重定向"><span class="nav-number">1.2.</span> <span class="nav-text">页面重定向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP点击量统计"><span class="nav-number">1.3.</span> <span class="nav-text">JSP点击量统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP自动刷新"><span class="nav-number">1.4.</span> <span class="nav-text">JSP自动刷新</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

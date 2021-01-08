@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>关于js单线程，异步执行的理解 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaScript线程">
+  
+  
+  
+  
+  <meta name="description" content="前言在这几天的开发过程中，遇到了不少问题，阻塞最久的应该就是一段JS代码没有按照我以为的执行顺序去执行，想想好像也没有具体的了解JS的执行过程，所以花了一整天的时间来了解了一下JS的执行机制。">
+<meta name="keywords" content="JavaScript,线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于JS单线程，异步执行的理解">
+<meta property="og:url" content="http://yoursite.com/2018/08/22/关于JS单线程，异步执行的理解/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="前言在这几天的开发过程中，遇到了不少问题，阻塞最久的应该就是一段JS代码没有按照我以为的执行顺序去执行，想想好像也没有具体的了解JS的执行过程，所以花了一整天的时间来了解了一下JS的执行机制。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://wx4.sinaimg.cn/mw690/0060lm7Tly1fuicpsmm4ej30lt09gglg.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/mw690/0060lm7Tly1fuicngcpr4j307z0g1wet.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2018/08/22/Pow2cQ.png">
+<meta property="og:updated_time" content="2018-08-22T04:20:53.093Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于JS单线程，异步执行的理解">
+<meta name="twitter:description" content="前言在这几天的开发过程中，遇到了不少问题，阻塞最久的应该就是一段JS代码没有按照我以为的执行顺序去执行，想想好像也没有具体的了解JS的执行过程，所以花了一整天的时间来了解了一下JS的执行机制。">
+<meta name="twitter:image" content="http://wx4.sinaimg.cn/mw690/0060lm7Tly1fuicpsmm4ej30lt09gglg.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-关于JS单线程，异步执行的理解" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      关于JS单线程，异步执行的理解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/22/关于JS单线程，异步执行的理解/" class="article-date">
+	  <time datetime="2018-08-22T02:13:24.000Z" itemprop="datePublished">2018-08-22</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><img src="http://wx4.sinaimg.cn/mw690/0060lm7Tly1fuicpsmm4ej30lt09gglg.jpg" alt="JS"><br>在这几天的开发过程中，遇到了不少问题，阻塞最久的应该就是一段JS代码没有按照我以为的执行顺序去执行，想想好像也没有具体的了解JS的执行过程，所以花了一整天的时间来了解了一下JS的执行机制。<br><a id="more"></a></p>
+<h2 id="问题代码"><a href="#问题代码" class="headerlink" title="问题代码"></a>问题代码</h2><pre><code>for(var i=0;i&lt;=3;i++){
+    $(document).ready(function){
+        console.log(i);
+    });
+</code></pre><p>出现问题的代码简化过后大概是这个样式，我的预期是输出<strong>1，2，3</strong>，但输出的结果却为<strong>3,3,3</strong>，我开始以为是JS单线程执行的缘故，所以Jquery代码被放在了callback queue（任务队列）的最后执行，但我查询资料后发现仅发现浏览器会为定时器，ajax等多开线程，jquery应该不算，正在我疑惑之时，我打开了Jquery的官方文档，看到了<br>    $(document).ready(function(){});<br>的定义：文档准备完成后，内部的匿名函数作为document(ready)的回调函数进行执行，而此时for早已进行玩了。这就解释了为什么都是<strong>3,3,3</strong>。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="从浏览器谈起"><a href="#从浏览器谈起" class="headerlink" title="从浏览器谈起"></a>从浏览器谈起</h2><h3 id="浏览器的进程与线程"><a href="#浏览器的进程与线程" class="headerlink" title="浏览器的进程与线程"></a>浏览器的进程与线程</h3><h4 id="浏览器是多进程的"><a href="#浏览器是多进程的" class="headerlink" title="浏览器是多进程的"></a>浏览器是多进程的</h4><ol>
+<li>Browser进程：负责浏览器的主进程（协调，主控）。</li>
+<li>第三方插件进程：每一个插件对应一个进程。</li>
+<li>GPU进程：用于绘制3D图形等。</li>
+<li>浏览器渲染进程 （render进程，浏览器内核）：每一个Tab页面一个进程，这个进程渲染我们所看到的每个页面。</li>
+</ol>
+<h4 id="浏览器渲染进程是多线程的"><a href="#浏览器渲染进程是多线程的" class="headerlink" title="浏览器渲染进程是多线程的"></a>浏览器渲染进程是多线程的</h4><p>前面我们说到我们所看到的页面都是有渲染进程进行渲染的，而他又是多线程的：</p>
+<ol>
+<li><p>GUI渲染线程（浏览器内核）</p>
+<ul>
+<li>负责渲染浏览器界面，解析HTML，CSS，构建DOM树和RenderObject树，布局和绘制等。</li>
+<li>当界面需要重绘（Repaint）或由于某种操作引发回流(reflow)时，该线程就会执行</li>
+<li>注意，GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存在一个队列中等到JS引擎空闲时立即被执行。</li>
+</ul>
+</li>
+<li><p>JS引擎线程</p>
+<ul>
+<li>也称为JS内核，负责处理Javascript脚本程序。（例如V8引擎）</li>
+<li>JS引擎线程负责解析Javascript脚本，运行代码。</li>
+<li>JS引擎一直等待着任务队列中任务的到来，然后加以处理，一个Tab页（renderer进程）中无论什么时候都只有一个JS线程在运行JS程序</li>
+<li>同样注意，GUI渲染线程与JS引擎线程是互斥的，所以如果JS执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞。</li>
+</ul>
+</li>
+<li><p>事件触发进程</p>
+<ul>
+<li>归属于浏览器而不是JS引擎，用来控制事件循环（可以理解，JS引擎自己都忙不过来，需要浏览器另开线程协助）</li>
+<li>当JS引擎执行代码块如setTimeOut时（也可来自浏览器内核的其他线程,如鼠标点击、AJAX异步请求等），会将对应任务添加到事件线程中</li>
+<li>当对应的事件符合触发条件被触发时，该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理</li>
+<li>注意，由于JS的单线程关系，所以这些待处理队列中的事件都得排队等待JS引擎处理（当JS引擎空闲时才会去执行）</li>
+</ul>
+</li>
+<li><p>定时触发线程</p>
+<ul>
+<li>传说中的setInterval与setTimeout所在线程</li>
+<li>浏览器定时计数器并不是由JavaScript引擎计数的,（因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确）</li>
+<li>因此通过单独线程来计时并触发定时（计时完毕后，添加到事件队列中，等待JS引擎空闲后执行）</li>
+<li>注意，W3C在HTML标准中规定，规定要求setTimeout中低于4ms的时间间隔算为4ms。</li>
+</ul>
+</li>
+<li><p>异步http请求线程</p>
+<ul>
+<li>在XMLHttpRequest在连接后是通过浏览器新开一个线程请求</li>
+<li>将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件，将这个回调再放入事件队列中。再由JavaScript引擎执行。</li>
+</ul>
+</li>
+</ol>
+<p><img src="http://wx3.sinaimg.cn/mw690/0060lm7Tly1fuicngcpr4j307z0g1wet.jpg" alt="线程数"></p>
+<h2 id="进入正题，JS的执行过程"><a href="#进入正题，JS的执行过程" class="headerlink" title="进入正题，JS的执行过程"></a>进入正题，JS的执行过程</h2><p><strong>js的同步任务和异步任务</strong><br><a href="https://imgchr.com/i/Pow2cQ" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2018/08/22/Pow2cQ.png" alt="Pow2cQ.png"></a></p>
+<ol>
+<li>所有同步任务（能够立即被执行，不消耗时间的任务，如变量核函数的初始化，时间的绑定等等<strong>不需要回调函数的任务</strong>）都在主线程中执行，形成<strong>执行栈（stack）</strong>，heap（堆）用来存储变量，对象等。</li>
+<li>所有异步任务（一半会有操作，如点击事件，定时事件，<strong>具有回调函数</strong>的事件）运行在事件触发线程中，当异步任务有结果是，其<strong>回调函数（Callback Function）</strong>就会被放到任务队列中，等待执行。</li>
+<li>当执行栈中同步任务执行完毕后， JS引擎就会从<strong>任务队列中（callback queue）</strong>中查找任务放入执行栈中，这个过程就被称之为<strong>事件循环event loop</strong>。</li>
+</ol>
+<p>从上面的解释中可以看到JS引擎始终是在执行栈中单线程执行任务，当执行栈空时，接下来的任务才回从任务队列中读取下一任务。</p>
+<p><strong>何为异步</strong></p>
+<p>所谓的异步，就是在其他线程（事件触发线程，异步http请求线程等）的辅助下，JS线程实现异步处理任务。举个栗子：</p>
+<pre><code>consloe.log(&quot;a&quot;)
+setTimeout(function() {
+console.log(&quot;b&quot;)
+}, 0)
+console.log(&quot;c&quot;)
+</code></pre><p>模拟其运行过程：</p>
+<pre><code>1.consloe.log(&quot;a&quot;)// JS引擎发现这是一个同步任务，立即执行打印出a;
+2.setTimeout(function() {
+console.log(&quot;b&quot;)
+}, 0)//JS引擎只想此处时发现这是一个异步任务，所以直接交由定时触发线程。
+JS引擎继续向下执行，与此同时，定时触发线程接收到该事件，解析代码过后，
+将在0毫秒实际是4毫秒，因为在上面我们讲到，W3C规定定时引擎的最低时间为4毫秒）后向JS引擎发送
+回调函数，并将其推到任务队列中等待执行。
+3.console.log(&quot;c&quot;)//再向定时引擎发送定时事件后立即执行该代码。打印出c。
+4.定时引擎将console.log(&quot;b&quot;)推入任务队
+列，在console.log（&quot;c&quot;）运行完成后，执行栈空，再将其推入执行栈，然后执console.log(&quot;c&quot;)，
+打印出c,因此这段代码输出的结果为a,c,b,而不是a,b,c.
+</code></pre><p><strong>注意，即使setTimeout不是4毫秒后，而是0毫秒后返回回调函数，执行结果任然是a,c,b。因为这是一个排队的过程，console.log(“b”)任是排在console.log(“c”)之后的。</strong></p>
+<p>由此，一个异步任务就在JS引擎与其他线程的共同作用下完成了。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://segmentfault.com/a/1190000012925872" target="_blank" rel="noopener">从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理</a></p>
+<p><a href="https://www.cnblogs.com/woodyblog/p/6061671.html" target="_blank" rel="noopener">js的单线程和异步</a></p>
+<p><a href="https://www.cnblogs.com/sxz2008/p/6513619.html" target="_blank" rel="noopener">JavaScript单线程和异步机制</a></p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>这只是一个简单的理解，其中还有许多部分可能没有完善，等以后有更深的理解时再来完善吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2018/08/22/关于JS单线程，异步执行的理解/" target="_blank" title="关于JS单线程，异步执行的理解">http://yoursite.com/2018/08/22/关于JS单线程，异步执行的理解/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/25/开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/20/利用SS（Shadowsocks）快速搭建一个vpn/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">利用SS（Shadowsocks）快速搭建一个vpn</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题代码"><span class="nav-number">1.1.</span> <span class="nav-text">问题代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从浏览器谈起"><span class="nav-number">2.1.</span> <span class="nav-text">从浏览器谈起</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器的进程与线程"><span class="nav-number">2.1.1.</span> <span class="nav-text">浏览器的进程与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器是多进程的"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">浏览器是多进程的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器渲染进程是多线程的"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">浏览器渲染进程是多线程的</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进入正题，JS的执行过程"><span class="nav-number">2.2.</span> <span class="nav-text">进入正题，JS的执行过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">2.2.1.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

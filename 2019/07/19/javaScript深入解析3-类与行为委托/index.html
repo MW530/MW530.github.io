@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>javascript深入解析3-类与行为委托 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="javaScript类行为委托">
+  
+  
+  
+  
+  <meta name="description" content="JavaScript中“纠结的类”正如前文所说，JavaScript中并没有传统意义上的“类”，可能是因为在JavaScript这门脚本语言诞生之初，并没有人会他会有如今的成就，所以就借用了Self语言的基于原型的面向对象设计。具体可以看JavaScript的诞生">
+<meta name="keywords" content="javaScript,类,行为委托">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaScript深入解析3-类与行为委托">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/javaScript深入解析3-类与行为委托/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="JavaScript中“纠结的类”正如前文所说，JavaScript中并没有传统意义上的“类”，可能是因为在JavaScript这门脚本语言诞生之初，并没有人会他会有如今的成就，所以就借用了Self语言的基于原型的面向对象设计。具体可以看JavaScript的诞生">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/javaScript深入解析3-类与行为委托/3.1.png">
+<meta property="og:updated_time" content="2019-07-19T14:20:16.472Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javaScript深入解析3-类与行为委托">
+<meta name="twitter:description" content="JavaScript中“纠结的类”正如前文所说，JavaScript中并没有传统意义上的“类”，可能是因为在JavaScript这门脚本语言诞生之初，并没有人会他会有如今的成就，所以就借用了Self语言的基于原型的面向对象设计。具体可以看JavaScript的诞生">
+<meta name="twitter:image" content="http://yoursite.com/images/javaScript深入解析3-类与行为委托/3.1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-javaScript深入解析3-类与行为委托" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      javaScript深入解析3-类与行为委托
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/07/19/javaScript深入解析3-类与行为委托/" class="article-date">
+	  <time datetime="2019-07-19T14:11:44.000Z" itemprop="datePublished">2019-07-19</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/javaScript/">javaScript</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JavaScript中“纠结的类”"><a href="#JavaScript中“纠结的类”" class="headerlink" title="JavaScript中“纠结的类”"></a>JavaScript中“纠结的类”</h1><p>正如前文所说，JavaScript中并没有传统意义上的“类”，可能是因为在JavaScript这门脚本语言诞生之初，并没有人会他会有如今的成就，所以就借用了<a href="https://baike.baidu.com/item/self%E8%AF%AD%E8%A8%80/4376342?fr=aladdin" target="_blank" rel="noopener">Self</a>语言的基于原型的面向对象设计。具体可以看<a href="http://www.ruanyifeng.com/blog/2011/06/birth_of_javascript.html" target="_blank" rel="noopener">JavaScript的诞生</a></p>
+<a id="more"></a>
+<h2 id="面向对象编程（OOP）"><a href="#面向对象编程（OOP）" class="headerlink" title="面向对象编程（OOP）"></a>面向对象编程（OOP）</h2><p>面向对象编程是一种编程思想，其重要思维体现在：</p>
+<ol>
+<li>封装性：讲一组方法，变量封装在一个“模块”中，一般来说是一个类。</li>
+<li>继承性：继承性是面向对象技术中的另外一个重要特点，是指一个类继承另一个类的方法，类的继承。他们的关系通常是父与子的关系。</li>
+<li>多态性：是指子类对父类的方法进行重写或重载。</li>
+</ol>
+<p>对于传统的OOP语言，比如java，C++。</p>
+<p><strong>类意味着复制。</strong></p>
+<p><strong>实例化时，他的行为会被复制到实例中；继承时，行为也会被复制到子类中。</strong></p>
+<h2 id="JavaScript中的类"><a href="#JavaScript中的类" class="headerlink" title="JavaScript中的类"></a>JavaScript中的类</h2><p>JavaScript程序员开始大都是由其它语言程序员没经过系统学习这门语言的精髓就开始编程（因为大家认为JavaScript是一门脚本语言，是如此的简单。）所以从开始到现在，程序员们总是试图使用JavaScript来进行面向对象编程，寻找类这个东西的存在。然而不幸的是，<strong>JavaScript没有传统的类</strong>。还好我们拥有[[prototype]]这个好东西，我们才能进行所谓的面向对象编程。但这任然不是我们传统观念上的面向对象编程，<strong>即使是ES6中ECMA提供的class关键字，任然是[[prototype]]的原法糖。</strong></p>
+<h3 id="detail"><a href="#detail" class="headerlink" title="detail"></a>detail</h3><p>在许多JavaScript库中都提供了类的语法糖，我们来看一下其内部是如何实现的。</p>
+<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><pre><code>function Person(name){
+    this.name = name;
+}
+
+var tom = new Person(&apos;tom&apos;);
+var mike = new Person(&apos;mike&apos;);
+</code></pre><p>我们可以直接用new操作符进行“类的实例化”，但是JavaScript中不存在类。所以我们实际上是新创建了一个空对象，然后将其[[prototype]]设为Person.prototype。然后将该函数的this指向新建对象，然后调用该函数，如果函数没有返回对象，就返回新建对象。</p>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p>下面是最典型的一种继承实现方式（JavaScript中多种实现继承的方式，但大同小异）：</p>
+<pre><code>function Person(name){
+    this.name = name;
+    Person.prototype.me = function(){console.log(&apos;Person&apos;)};
+}
+
+function Student(name,id){
+    //调用父级构造函数，相当于super
+    Person.call(name);
+    this.id = id;
+    Student.prototype.onduty = function(){console.log(&apos;Studnet&apos;)};
+}
+
+//&quot;继承&quot;
+Student.prototype = Object.create(Person.prototype);
+
+var person0 = new Person(&apos;tom&apos;);
+var student0 = new Student(&apos;mike&apos;,123);
+</code></pre><p>我们可以看出来，所谓的继承，也就是<code>Student.prototype = Object.create(Person.prototype)</code>这句话，<strong>实际上是将父级类Person的[[prototype]]设置为一个空对象，该对象的[[prototype]]指向父级类Person的prototype。</strong>首先我们需要了解的是，我们有4个对象(在JavaScript中函数也是对象，可以拥有自己的属性)来储存数据：</p>
+<ol>
+<li>student0</li>
+<li>student0.<strong>proto</strong> ([[prototype]])</li>
+<li>Student</li>
+<li>Student.prototype</li>
+</ol>
+<p>根据原型链的查找规则，我们在获取实例的某个属性时，会分别从：student0 —&gt; student0.<strong>proto</strong>-&gt;Student-&gt;Student.prototype查找。</p>
+<p>看下面的图：</p>
+<p><img src="\images\javaScript深入解析3-类与行为委托\3.1.png" alt="继承链"></p>
+<p>我们可以看到，子类的属性在实例的__proto__中，父类的属性在实例的__proto__的__proto__中，因此我们可以获取子类，父类的所有方法，我们就完成就继承。</p>
+<h4 id="ES6的中类"><a href="#ES6的中类" class="headerlink" title="ES6的中类"></a>ES6的中类</h4><p>上面提过，ES6中的出现了class关键字，下面我们通过ES6的方法重写一下的例子：</p>
+<pre><code>class Person{
+    construct(name){
+        this.name = name;
+    }
+    speak(){
+        console.log(&quot;name:&quot;+this.name);
+    }
+}
+
+class Student extends Person{
+    construct(name,id){
+        super(name);
+        this.id = id;
+    }
+    me(){
+        console.log(&quot;name:&quot;+this.name);
+        console.log(&quot;id:&quot;+this.id);
+    }
+}
+
+var person0 = new Person();
+var student0 = new Student();
+</code></pre><p>这个看上去漂亮多了，就像是在写传统的OOP的语言。但是实际上，它的背后任然是混乱的[[prototype]]的链。</p>
+<p>ES6的class还有一个常用的特点，静态方法。所谓静态方法，就是直接可以在类上面直接调用的方法。</p>
+<pre><code>class Person{
+    construct(name){
+        this.name = name;
+    }
+    speak(){
+        console.log(&quot;name:&quot;+this.name);
+    }
+    static sayme(){
+        console.log(&apos;me&apos;);
+    }
+}
+</code></pre><p>想一下class背后的原理，用ES5的语法来实现以下static：</p>
+<pre><code>Person.sayme = function(){console.log(&apos;me&apos;);}
+</code></pre><p>没错，就是这么简单！<strong>只是因为这个方法是类自身的方法，并不是方法的[[prototype]]属性值。</strong></p>
+<h3 id="混入-mixin"><a href="#混入-mixin" class="headerlink" title="混入(mixin)"></a>混入(mixin)</h3><p>正如我们之前所说，<strong>传统的OOP意味着复制</strong>。</p>
+<p>然而我们JavaScript中模拟的类，并不是传统的复制，而是基于原型链的“伪类”。</p>
+<p>所以为了实现很真实的“类”，我们有了<strong>混入(mixin)</strong>这一概念。</p>
+<h4 id="显示混入"><a href="#显示混入" class="headerlink" title="显示混入"></a>显示混入</h4><p>看下面的例子：</p>
+<pre><code>function mixin(sourceObj,tragetObj){
+    for(var key in sourceObj){
+        if(!(key in targetObj)){
+            targetObj[key] = sourceObj[key]    
+        }
+    }
+    return targetObj;
+}
+
+var Vehicle = {
+    engines: 1,
+    ignition: function(){
+        console.log(&quot;turn on my engine&quot;)
+    },
+    drive: function(){
+        this.ignition();
+        console.log(&quot;Steering and move forward!&quot;);
+    }
+};
+
+var Car = mixin(Vehicle,{
+    wheel: 4,
+    dirive: function(){
+        Vehicle.drive.call(this);
+        console.log(&quot;Rolling on all&quot;+this.wheels+&quot;wheels!&quot;)    
+    }
+})
+</code></pre><p>没错，就是一次复制过程。现在我们也可以用：</p>
+<pre><code>object.assign(targetObj,sourceObj);
+</code></pre><p>因为这个方法的原理就是上面的mixin函数。</p>
+<h4 id="隐式混入"><a href="#隐式混入" class="headerlink" title="隐式混入"></a>隐式混入</h4><p>思考下面代码：</p>
+<pre><code>var something = {
+    cool: function(){
+        this.greeting = &quot;hello wowld!&quot;;
+        this.count = this.count ? this.count++ : 1;
+    }
+}
+
+Something.cool();
+something.greeting; //hello world
+something.count; //1
+
+var Another = {
+    cool: function(){
+        something.cool.call(this);
+    }
+}
+
+Another.cool();
+Another.greeting; //&quot;hello world&quot;
+Another.count; //1 (count不是共享的)
+</code></pre><p>关键在于<strong>something.cool.call(this)</strong>，将something.cool函数的this指向了Another这个对象。因此，我们把Something的行为“混入”到Another中。</p>
+<h1 id="更合理的编程思想：行为委托"><a href="#更合理的编程思想：行为委托" class="headerlink" title="更合理的编程思想：行为委托"></a>更合理的编程思想：行为委托</h1><h2 id="类与委托的前世今生"><a href="#类与委托的前世今生" class="headerlink" title="类与委托的前世今生"></a>类与委托的前世今生</h2><p>如我们前面所说，JavaScript本身是不存在类的，只是为了适应程序员们的设计习惯，我们使JavaScript中有了“类”的存在，实际上这种设计方式无疑是把吧苹果涂上橙色，在上面插上孔…然后把它装饰成橘子。但他始终都是苹果，无论我们怎么在外部伪装。既然如此，为什么我们不直接把它当成橘子来吃呢？</p>
+<h2 id="如何使用行为委托"><a href="#如何使用行为委托" class="headerlink" title="如何使用行为委托"></a>如何使用行为委托</h2><p>看下面的例子：</p>
+<pre><code>var Task = {
+    setId: fucntion(id){this.id = id;},
+    outputID: function(){console.log(this.id)}
+}
+
+var someWork = Object.create(Task);
+
+someWork.prepareTask = fucntion(id,label){
+    this.setId(id);
+    this.label = label;
+}
+
+some.outputTaskDetails = function(){
+    this.outputId();
+    console.log(this.label);
+}
+
+var someWork0 = Object.create(someWork);
+</code></pre><p>在上面这段代码中，Task，someWork都不是类（或者函数），而是对象。我们把someWork的[[prototype]]委托给了Task。这很符合Self语言的基于原型的面向对象编程的思想。这也被成为“对象关联（OLOO）”</p>
+<p>对象关联风格的代码还有一些不同之处。</p>
+<ol>
+<li>在代码上，id和label数据成员都是直接存储someWork之上，而不是Task。</li>
+<li>在类的思想上，我们鼓励方法的重写（多态）。也就上在子类中定义父类同名的函数。但在委托行为中恰恰相反，我们尽量避免在[[prototype]]链上存在同名函数。</li>
+</ol>
+<h1 id="Last"><a href="#Last" class="headerlink" title="Last"></a>Last</h1><p>不得不说，行为委托从语言底层来说更加适合JavaScript编程，但是越来越多的程序员习惯使用面向对象的编程思想。这迫使JavaScript不得不改变自己，比如在ES6中推出了class的语法糖，但这代表了官方的认可，也许在不久的将来，我们可以看见真正的class出现在JavaScript。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/07/19/javaScript深入解析3-类与行为委托/" target="_blank" title="javaScript深入解析3-类与行为委托">http://yoursite.com/2019/07/19/javaScript深入解析3-类与行为委托/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/08/javaee之struts框架总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          javaee之struts框架总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/07/18/javaScript深入解析2-原型及原型链/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">javaScript深入解析2-原型及原型链</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript中“纠结的类”"><span class="nav-number">1.</span> <span class="nav-text">JavaScript中“纠结的类”</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象编程（OOP）"><span class="nav-number">1.1.</span> <span class="nav-text">面向对象编程（OOP）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript中的类"><span class="nav-number">1.2.</span> <span class="nav-text">JavaScript中的类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#detail"><span class="nav-number">1.2.1.</span> <span class="nav-text">detail</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继承"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ES6的中类"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">ES6的中类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混入-mixin"><span class="nav-number">1.2.2.</span> <span class="nav-text">混入(mixin)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#显示混入"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">显示混入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隐式混入"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">隐式混入</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更合理的编程思想：行为委托"><span class="nav-number">2.</span> <span class="nav-text">更合理的编程思想：行为委托</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类与委托的前世今生"><span class="nav-number">2.1.</span> <span class="nav-text">类与委托的前世今生</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用行为委托"><span class="nav-number">2.2.</span> <span class="nav-text">如何使用行为委托</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last"><span class="nav-number">3.</span> <span class="nav-text">Last</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

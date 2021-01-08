@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>javascript数组（二，es6部分） | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaScriptES6">
+  
+  
+  
+  
+  <meta name="description" content="前言上次介绍了ES5之前发布的JS的数组方法，这次再看一下ES5中发布的JS方法。">
+<meta name="keywords" content="JavaScript,ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript数组（二，ES6部分）">
+<meta property="og:url" content="http://yoursite.com/2018/11/02/JavaScript数组（二，ES6部分）/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="前言上次介绍了ES5之前发布的JS的数组方法，这次再看一下ES5中发布的JS方法。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-02T10:08:09.215Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript数组（二，ES6部分）">
+<meta name="twitter:description" content="前言上次介绍了ES5之前发布的JS的数组方法，这次再看一下ES5中发布的JS方法。">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-JavaScript数组（二，ES6部分）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      JavaScript数组（二，ES6部分）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/11/02/JavaScript数组（二，ES6部分）/" class="article-date">
+	  <time datetime="2018-11-02T10:06:23.000Z" itemprop="datePublished">2018-11-02</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上次介绍了ES5之前发布的JS的数组方法，这次再看一下ES5中发布的JS方法。</p>
+<a id="more"></a>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><ol>
+<li>indexOf()和lastIndexOf()</li>
+</ol>
+<p>描述：</p>
+<p>indexOf()：接收两个参数：要查找的项和（可选的）表示查找起点位置的索引。其中， 从数组的开头（位置 0）开始向后查找。 </p>
+<p>lastIndexOf：接收两个参数：要查找的项和（可选的）表示查找起点位置的索引。其中， 从数组的末尾开始向前查找。</p>
+<p>应用：</p>
+<p>这两个方法都返回要查找的项在数组中的位置，或者在没找到的情况下返回-1。在比较第一个参数与数组中的每一项时，会使用全等操作符。</p>
+<p>exp:</p>
+<pre><code>var arr = [1,3,5,7,7,5,3,1];
+console.log(arr.indexOf(5)); //2（5在该数组的第2位）
+console.log(arr.lastIndexOf(5)); //5(从后向前，5在数组的第5位)
+console.log(arr.indexOf(5,2)); //2（从第二位开始检索，任然2在第5位）
+console.log(arr.lastIndexOf(5,4)); //2（从倒数第四位开始检索，5在倒数第四位）
+console.log(arr.indexOf(&quot;5&quot;)); //-1（数组中没有字符&quot;5&quot;，所以返回-1）
+</code></pre><ol start="2">
+<li>forEach()</li>
+</ol>
+<p>描述：</p>
+<p>对数组进行遍历循环，对数组中的每一项运行给定函数。这个方法没有返回值。参数都是function类型，默认有传参，参数分别为：遍历的数组内容；第对应的数组索引，数组本身。</p>
+<p>应用：</p>
+<p>用于遍历数组，获得数组成员的内容，索引<br>，及其数组本身<br>    var arr = [1, 2, 3, 4, 5];<br>    arr.forEach(function(x, index, a){<br>    console.log(x + ‘|’ + index + ‘|’ + (a === arr));<br>    });<br>    // 输出为：<br>    // 1|0|true<br>    // 2|1|true<br>    // 3|2|true<br>    // 4|3|true<br>    // 5|4|true</p>
+<ol start="3">
+<li>map()</li>
+</ol>
+<p>描述：</p>
+<p>遍历一个数组，并且经过处理后返回一个新的数组。</p>
+<p>原型：</p>
+<p>arr.map(function(currentValue，index，arr),thisValue) </p>
+<p>currentValue 必须 当前元素值 </p>
+<p>index 可选 当前元素的索引值 </p>
+<p>arr 可选 当前元素属于的数组对象。 </p>
+<p>exp:通过map方法返回数组元素的平方</p>
+<pre><code>var arr = [1, 2, 3, 4, 5];
+var arr2 = arr.map(function(item){
+return item*item;
+});
+console.log(arr2); //[1, 4, 9, 16, 25]
+</code></pre><p><strong>注意，map()方法不会改变原数组，而是返回一个新的数组，注意function中药返回值，否则为空数组</strong></p>
+<p>exp2:</p>
+<pre><code>var arr = [1,2,3,7,9];
+var arr2 = arr.map(function(x,index,a){
+   x=x+1;
+ });
+ console.log(arr2);//[undifined,undifined,undifined,undifined,undifine]
+ console.log(arr);//[1,2,3,7,9]
+</code></pre><p>即使在map()的函数中改变currentValue的值，原数组的职业不会改变。而如果没有返回值，则该数组为undefined。</p>
+<ol start="4">
+<li>filter()</li>
+</ol>
+<p>描述：</p>
+<p>“过滤”功能，数组中的每一项运行给定函数，返回满足过滤条件组成的数组。</p>
+<p>原型：array.filter(function(currentValue,index,arr), thisValue)</p>
+<p>currentValue    必须。当前元素的值</p>
+<p>index    可选。当前元素的索引值</p>
+<p>arr    可选。当前元素属于的数组对象</p>
+<p>exp：</p>
+<pre><code>var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var arr2 = arr.filter(function(x, index) {
+return index % 3 === 0 || x &gt;= 8;
+}); 
+console.log(arr2); //[1, 4, 7, 8, 9, 10]
+</code></pre><p>该方法的注意事项和上一个方法差不多，也是不会改变原数组，并且必须要有返回值，否则数组为undefined。</p>
+<ol start="5">
+<li>every()</li>
+</ol>
+<p>描述： 判断数组中每一项都是否满足条件，<strong>只有所有项都满足条件，才会返回true</strong>。</p>
+<p>原型：array.filter(function(currentValue,index,arr), thisValue)</p>
+<p>currentValue    必须。当前元素的值</p>
+<p>index    可选。当前元素的索引值</p>
+<p>arr    可选。当前元素属于的数组对象</p>
+<p>应用：</p>
+<p>检测数组所有元素是否都符合指定条件（通过函数提供）。</p>
+<p>exp：</p>
+<pre><code>var arr = [1, 2, 3, 4, 5];
+var arr2 = arr.every(function(x) {
+return x &lt; 10;
+}); 
+console.log(arr2); //true
+var arr3 = arr.every(function(x) {
+return x &lt; 3;
+}); 
+console.log(arr3); // false
+</code></pre><ol start="6">
+<li>some()</li>
+</ol>
+<p>描述：</p>
+<p>判断数组中是否存在满足条件的项，<strong>只要有一项满足条件，就会返回true</strong>。</p>
+<p>应用：</p>
+<p>some() 方法用于检测数组中的元素是否满足指定条件（函数提供）。</p>
+<p>exp：</p>
+<pre><code>var arr = [1, 2, 3, 4, 5];
+var arr2 = arr.some(function(x) {
+return x &lt; 3;
+}); 
+console.log(arr2); //true
+var arr3 = arr.some(function(x) {
+return x &lt; 1;
+}); 
+console.log(arr3); // false
+</code></pre><p>注意：</p>
+<p><strong>some() 方法会依次执行数组的每个元素：</strong></p>
+<p><strong>如果有一个元素满足条件，则表达式返回true , 剩余的元素不会再执行检测。</strong></p>
+<p><strong>如果没有满足条件的元素，则返回false。</strong></p>
+<ol start="7">
+<li>reduce()和 reduceRight()</li>
+</ol>
+<p>描述：</p>
+<p>这两个方法都会实现迭代数组的所有项，然后构建一个最终返回的值。reduce()方法从数组的第一项开始，逐个遍历到最后。而 reduceRight()则从数组的最后一项开始，向前遍历到第一项。</p>
+<p>这两个方法都接收两个参数：一个在每一项上调用的函数和（可选的）作为归并基础的初始值。</p>
+<p>原型（以reduce为例）：</p>
+<p>array.reduce(function(total, currentValue, currentIndex, arr), initialValue)</p>
+<p>total    必需。初始值, 或者计算结束后的返回值。</p>
+<p>currentValue    必需。当前元素</p>
+<p>currentIndex    可选。当前元素的索引</p>
+<p>arr    可选。当前元素所属的数组对象。</p>
+<p>exp：</p>
+<pre><code>var values = [1,2,3,4,5];
+var sum = values.reduceRight(function(total, currentValue, currentIndex, arr){
+return total + currenValue;
+},10);
+console.log(sum); //25
+</code></pre><h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>这是ES6中提供的数组方法，对于ES6，我还没有认真研究，不过这些方法还是挺实用的，对于低版本的浏览器可能会不支持。感觉开发中还是要针对需求使用。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2018/11/02/JavaScript数组（二，ES6部分）/" target="_blank" title="JavaScript数组（二，ES6部分）">http://yoursite.com/2018/11/02/JavaScript数组（二，ES6部分）/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/12/01/周报(0)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          周报(0)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/26/JavaScript数组/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JavaScript数组</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

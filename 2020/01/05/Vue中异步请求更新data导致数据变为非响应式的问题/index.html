@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>vue中异步请求更新data导致数据变为非响应式的问题 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Vueaxios响应式数据">
+  
+  
+  
+  
+  <meta name="description" content="问题最近在项目遇到一个棘手的问题，看了1天才发现是异步与Vue的数据更新机制导致了结果与预期不一致。 最开始的代码流程是这样： 通过一个请求拿到一组数据data1，包括下一个请求的关键字 在第一个请求的回掉函数中使用for循环利用上一个数组的关键字发送多个子请求得到对应的datan，并在每个子请求的回调中对data1和datan进行对比，然后给data1添加一个字段key 在第一个请求的回调中把修">
+<meta name="keywords" content="Vue,axios,响应式数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue中异步请求更新data导致数据变为非响应式的问题">
+<meta property="og:url" content="http://yoursite.com/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="问题最近在项目遇到一个棘手的问题，看了1天才发现是异步与Vue的数据更新机制导致了结果与预期不一致。 最开始的代码流程是这样： 通过一个请求拿到一组数据data1，包括下一个请求的关键字 在第一个请求的回掉函数中使用for循环利用上一个数组的关键字发送多个子请求得到对应的datan，并在每个子请求的回调中对data1和datan进行对比，然后给data1添加一个字段key 在第一个请求的回调中把修">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/Vue中异步请求更新data导致数据变为非响应式的问题/lifecycle.png">
+<meta property="og:updated_time" content="2020-01-05T07:27:21.749Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue中异步请求更新data导致数据变为非响应式的问题">
+<meta name="twitter:description" content="问题最近在项目遇到一个棘手的问题，看了1天才发现是异步与Vue的数据更新机制导致了结果与预期不一致。 最开始的代码流程是这样： 通过一个请求拿到一组数据data1，包括下一个请求的关键字 在第一个请求的回掉函数中使用for循环利用上一个数组的关键字发送多个子请求得到对应的datan，并在每个子请求的回调中对data1和datan进行对比，然后给data1添加一个字段key 在第一个请求的回调中把修">
+<meta name="twitter:image" content="http://yoursite.com/images/Vue中异步请求更新data导致数据变为非响应式的问题/lifecycle.png">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Vue中异步请求更新data导致数据变为非响应式的问题" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Vue中异步请求更新data导致数据变为非响应式的问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/" class="article-date">
+	  <time datetime="2020-01-05T04:22:40.000Z" itemprop="datePublished">2020-01-05</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>最近在项目遇到一个棘手的问题，看了1天才发现是异步与Vue的数据更新机制导致了结果与预期不一致。</p>
+<h2 id="最开始的代码流程是这样："><a href="#最开始的代码流程是这样：" class="headerlink" title="最开始的代码流程是这样："></a>最开始的代码流程是这样：</h2><ol>
+<li>通过一个请求拿到一组数据data1，包括下一个请求的关键字</li>
+<li>在第一个请求的回掉函数中使用for循环利用上一个数组的关键字发送多个子请求得到对应的datan，并在每个子请求的回调中对data1和datan进行对比，然后给data1添加一个字段key</li>
+<li>在第一个请求的回调中把修改后的data1赋给Vue实例的data中</li>
+</ol>
+<h2 id="产生的问题"><a href="#产生的问题" class="headerlink" title="产生的问题"></a>产生的问题</h2><p>在Vue实例中的data1对象中，原来的数据都是响应式的，但是我后来添加的数据并不是响应式的，导致DOM不更新。</p>
+<h1 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h1><p>产生问题后我先后大概经过了3次修改来解决这个问题：</p>
+<h2 id="思路一：data转换为响应式的时间"><a href="#思路一：data转换为响应式的时间" class="headerlink" title="思路一：data转换为响应式的时间"></a>思路一：data转换为响应式的时间</h2><p>首先我从响应式这个角度去分析，Vue是在哪个生命周期函数内将data挂载到Vue实例中的(因该是在beforeCreate与created之间)，而我做这些操作是在mounted，所以此时data因该已经被挂载到了Vue实例中，后来我又在思考JS中存在变量提升，是不是Vue中也存在，即是否在mounted中存在譬如<code>this.xxx = yyy</code>这样的语句会被提升到其他语句之前执行，yyy的内存地址提前就会被写入到this.xxx的位置，然后在这个内存地址被赋值时就将其变为响应式，所以第一次data1被赋值为一个数组时他是响应式的，但是后面对这个内存地址的变量进行的操作是为数组内的对象进行赋值<code>this.data1[i].key = val</code>，这样的赋值是无法被Vue探测到的，所以其后添加的属性无法变为响应式。这样子似乎一切都说的通，但是关键是这种<strong>变量提升</strong>这个东西我之前从未在Vue中遇到过，我查阅资料也发现根本不存在这种机制。于是这个说法被PASS。</p>
+<p>不过这个过程中我也复习了一下生命周期函数和Vue中数组对象的处理：</p>
+<h3 id="Vue生命周期"><a href="#Vue生命周期" class="headerlink" title="Vue生命周期"></a>Vue生命周期</h3><p>引用官方的一张图：</p>
+<p><img src="\images\Vue中异步请求更新data导致数据变为非响应式的问题\lifecycle.png" style="zoom:50%;"></p>
+<p>值得注意的是：data，methods等都是在beforeCreated与created之间进行的。经常使用的mounted已经是在模板已经编译完成之后了。</p>
+<h3 id="Vue中对数组和对象的处理"><a href="#Vue中对数组和对象的处理" class="headerlink" title="Vue中对数组和对象的处理"></a>Vue中对数组和对象的处理</h3><p>对于动态更新DOM最基本的原理是定义一个变量的getter和setter，在其中触发更新DOM操作，对于数组，我们整个赋值，我们可以使用getter和setter监听，但是如果我们操作数组内部的元素，比如arr[1] = 0，这样的操作我们是无法监听到的，因此在Vue中，如果这样给data赋值，这个值并不会变为响应式，而是一个普通的值。具体有</p>
+<ol>
+<li>数组<ol>
+<li>通过索引去修改数组中的值，arr[i] = val</li>
+<li>直接修改数组的长度，arr.length = n</li>
+</ol>
+</li>
+<li>对象<ol>
+<li>给对象添加属性（包括data根节点，比如没有在data中初始化某个值，在后续直接使用this.data1 = {}，这样data1无法变为响应式，dev模式下console会报错）</li>
+<li>删除对象属性，（包括data根节点）</li>
+</ol>
+</li>
+</ol>
+<p>对于以上的问题，Vue提供了<code>vm.$set</code>这个api来解决。</p>
+<p>对于数组的第一个问题，可以使用以下方式来解决：</p>
+<p><code>vm.$set(vm.data1,index,val)</code></p>
+<p>对于数组的第二个问题，可以使用数组的方法来解决：</p>
+<p><code>vm.data1.splice(3)</code> //data1会被切割为0-3项</p>
+<p>原因是Vue在内部也修改了Array原型链上的方法，使其能够被Vue监听到，包括：</p>
+<ul>
+<li><code>push()</code></li>
+<li><code>pop()</code></li>
+<li><code>shift()</code></li>
+<li><code>unshift()</code></li>
+<li><code>splice()</code></li>
+<li><code>sort()</code></li>
+<li><code>reverse()</code></li>
+</ul>
+<h2 id="思路二：请求异步的问题"><a href="#思路二：请求异步的问题" class="headerlink" title="思路二：请求异步的问题"></a>思路二：请求异步的问题</h2><p>这一次我似乎意识到了可能是异步的问题，因为之前玩canvas时，也是一直结果达不到预期，结果是img标签的onload事件是一个异步事件，导致结果不对。再仔细看这次的代码，可以发现，<strong>在第一次请求回调内部，由于接下来的子请求又是异步事件，所以直接执行了最后的this.data1 = data1。在子请求回掉函数执行时，data1已经被挂载到vm.data中，此时再对其进行添加属性处理，相当于是上面的对象添加属性的问题。所以必然是非响应式的。</strong>于是我this.data1 = data1放到子请求的回调中，每接受一次回调执行一次，虽然感觉这样很消耗性能。</p>
+<p>但是结果是，data1数组中只有一个值的属性变为了响应式，其他的数组值仍然是非响应的。。。至少结果逼近真相了。</p>
+<h2 id="思路三：Vue对于data赋值的性能优化"><a href="#思路三：Vue对于data赋值的性能优化" class="headerlink" title="思路三：Vue对于data赋值的性能优化"></a>思路三：Vue对于data赋值的性能优化</h2><p>在Vue中，有一个<strong>异步更新队列</strong>，在Vue检测到data的值改变时，会将其写入异步更新队列中，在下一个事件循环中去进行DOM跟新等等。并且在这个队列中，会对数据写入进行优化，比如this.data1原来等于1,接下来执行了两句赋值，<code>this.data1 = 3;this.data1 =  1;</code>并且这两句在同一个tick（事件循环队列）中，那么Vue就不会对data1进行操作了。</p>
+<p>那么这里极可能是在极短的时间内对data1进行了两次赋值，Vue将这两次操作优化，第一次是整个赋值，第二个则只对修改的部分进行了变更，但是前面又说道，Vue没办法探测数据内容或对象属性的添加操作。所以第一个是响应式的，而第二个则不是响应式的。</p>
+<p>所以唯一的解决办法就是只进行一次data1的根赋值，所以我想到了 <code>axios.all</code>这个api，它是在所有请求完成之后返回并进行回调函数。在该回调函数中进行数据处理，再直接将data1赋给vm实例上。</p>
+<p><strong>成功解决</strong></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>还是不太够仔细，异步这样的问题不能立即看出来，导致前面走了很大的弯，还好后面分析过程比较正确，找到了我呢提所在。不过也好，重温了一下，生命周期，Vue对数组和对象的处理等等。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/" target="_blank" title="Vue中异步请求更新data导致数据变为非响应式的问题">http://yoursite.com/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/01/05/Vue中的组件传值/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Vue中的组件传值
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/01/04/2019年的我，21岁的人生/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2019年的我，21岁的人生</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#最开始的代码流程是这样："><span class="nav-number">1.1.</span> <span class="nav-text">最开始的代码流程是这样：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生的问题"><span class="nav-number">1.2.</span> <span class="nav-text">产生的问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决过程"><span class="nav-number">2.</span> <span class="nav-text">解决过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思路一：data转换为响应式的时间"><span class="nav-number">2.1.</span> <span class="nav-text">思路一：data转换为响应式的时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue生命周期"><span class="nav-number">2.1.1.</span> <span class="nav-text">Vue生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue中对数组和对象的处理"><span class="nav-number">2.1.2.</span> <span class="nav-text">Vue中对数组和对象的处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路二：请求异步的问题"><span class="nav-number">2.2.</span> <span class="nav-text">思路二：请求异步的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路三：Vue对于data赋值的性能优化"><span class="nav-number">2.3.</span> <span class="nav-text">思路三：Vue对于data赋值的性能优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

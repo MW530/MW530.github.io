@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>对于js中localstorage的理解 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaScriptlocalStorage">
+  
+  
+  
+  
+  <meta name="description" content="前言最近在开发博客的过程中，遇到了数据储存的问题，由于我服务器中还未安装sql，加上我对数据库的操作还不是很熟悉，所以先把数据放入了localStorage中，所以我就具体了解了一下这个本地数据库。 正文前端的存储数据的三种方式前端一般数据存储的方式有三种：  cookies sessionStorage localStorage">
+<meta name="keywords" content="JavaScript,localStorage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对于JS中localStorage的理解">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/对于JS中localStorage的理解/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="前言最近在开发博客的过程中，遇到了数据储存的问题，由于我服务器中还未安装sql，加上我对数据库的操作还不是很熟悉，所以先把数据放入了localStorage中，所以我就具体了解了一下这个本地数据库。 正文前端的存储数据的三种方式前端一般数据存储的方式有三种：  cookies sessionStorage localStorage">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-20T08:36:46.437Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对于JS中localStorage的理解">
+<meta name="twitter:description" content="前言最近在开发博客的过程中，遇到了数据储存的问题，由于我服务器中还未安装sql，加上我对数据库的操作还不是很熟悉，所以先把数据放入了localStorage中，所以我就具体了解了一下这个本地数据库。 正文前端的存储数据的三种方式前端一般数据存储的方式有三种：  cookies sessionStorage localStorage">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-对于JS中localStorage的理解" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      对于JS中localStorage的理解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/20/对于JS中localStorage的理解/" class="article-date">
+	  <time datetime="2018-08-20T07:13:20.000Z" itemprop="datePublished">2018-08-20</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在开发博客的过程中，遇到了数据储存的问题，由于我服务器中还未安装sql，加上我对数据库的操作还不是很熟悉，所以先把数据放入了localStorage中，所以我就具体了解了一下这个本地数据库。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="前端的存储数据的三种方式"><a href="#前端的存储数据的三种方式" class="headerlink" title="前端的存储数据的三种方式"></a>前端的存储数据的三种方式</h2><p>前端一般数据存储的方式有三种：</p>
+<ol>
+<li>cookies</li>
+<li>sessionStorage</li>
+<li><p>localStorage</p>
+<a id="more"></a>
+<p>简单介绍一下这三种方式的异同：</p>
+</li>
+<li><p>cookies与localStorage可以是永久存储（cookies可设置失效时间；用户不主动清除）</p>
+</li>
+<li>sessionStorage与localStorage属于H5引入的新标签，在IE8，Chrome4.0等以上才能执行；并且存储空间更大（5MB/站点）相对于cookies（4KB/站点）。<h2 id="具体localStorage的解析"><a href="#具体localStorage的解析" class="headerlink" title="具体localStorage的解析"></a>具体localStorage的解析</h2></li>
+</ol>
+<h3 id="localStorage的优势与局限"><a href="#localStorage的优势与局限" class="headerlink" title="localStorage的优势与局限"></a>localStorage的优势与局限</h3><h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ol>
+<li>相对于cookies拓展了空间大小。</li>
+<li>相对于sessionStorage，可永久存储信息。</li>
+</ol>
+<h4 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h4><ol>
+<li>由于是H5引入的属性，可能一些老版的浏览器不支持该属性。</li>
+<li>localStorage所存储的信息被限定被string类型，但由于有JSON等对象转换算法，所以也无所谓了。</li>
+<li>另外我在网上了解到，localStorage无法被爬虫抓取到，这一点我目前没有深入探究。</li>
+</ol>
+<h3 id="localStorage的使用"><a href="#localStorage的使用" class="headerlink" title="localStorage的使用"></a>localStorage的使用</h3><h4 id="判断浏览器是否支持-localStorage属性"><a href="#判断浏览器是否支持-localStorage属性" class="headerlink" title="判断浏览器是否支持 localStorage属性"></a>判断浏览器是否支持 localStorage属性</h4><pre><code>if(！window.localStorage){
+    alert(&quot;您的浏览器不支持localStorage&quot;)
+    return false}
+else{
+        //执行代码
+    }
+</code></pre><h4 id="localStorage的写入"><a href="#localStorage的写入" class="headerlink" title="localStorage的写入"></a>localStorage的写入</h4><p>三种方法：</p>
+<pre><code>var data=window.localStorage;
+data[&quot;name&quot;] = MJ;//关键字name写入
+data.age = 20;//关键字age的写入
+data.setItem = [&quot;shcool&quot;,清华大学];//关键字school写入
+</code></pre><p>注意：前面是将localStorage属性放入了data变量，同样可以不放入变量，直接调用，所以前面的代码等同于:</p>
+<pre><code>localStorage[&quot;name&quot;]=MJ;
+localStorage.age=20;
+localStorage.setItem(&quot;school&quot;,清华大学);
+</code></pre><h4 id="localStorage的读取"><a href="#localStorage的读取" class="headerlink" title="localStorage的读取"></a>localStorage的读取</h4><p>三种方法：</p>
+<pre><code>var name = localStorage[&quot;name&quot;];
+var age = localStorage.age;
+var school = localStorage.getItem(&quot;school&quot;);
+</code></pre><p>同样想写入方法一样，也可以将localStorage放入变量中在调用。</p>
+<p><strong>值得注意的是，官方更推荐使用，setItem与getItem语法，其原因未具体说明，我猜测可能是为了与JS中的对象区分开，更加语言话，不产生混淆</strong></p>
+<h4 id="localStorage的删改"><a href="#localStorage的删改" class="headerlink" title="localStorage的删改"></a>localStorage的删改</h4><p>localStorage改关键字的值其实就是重新为其赋值，即：</p>
+<pre><code>localStorage.setItem(&quot;name&quot;,MW);
+var nameAfter=localStorage.getItem(&quot;name&quot;);
+//nameAfter===MW-&gt;true
+</code></pre><p>localStorage的删除：</p>
+<pre><code>localStorage.clear();//删除改站点的所有localStorage数据
+localStorage.removeItem(&quot;name&quot;);
+//此时localStorage.name-&gt;nudifined
+</code></pre><h3 id="关于存储的数据仅为string的解决办法（JSON数据类型转换）"><a href="#关于存储的数据仅为string的解决办法（JSON数据类型转换）" class="headerlink" title="关于存储的数据仅为string的解决办法（JSON数据类型转换）"></a>关于存储的数据仅为string的解决办法（JSON数据类型转换）</h3><p>一，写入时转换为JSON格式输入</p>
+<pre><code>var person={
+        name = &quot;MJ&quot;,
+        age = 20,
+        maritalStatus = true
+        }
+    localStorage.setItem(&quot;person&quot;,JSON.string(person));
+</code></pre><p>二，读取时转换为JS变量</p>
+<pre><code>var person =JSON.parse(localStorage.getItem(&quot;person&quot;));
+typof(person.age) //typeof检查变量类型为number
+typeof(person.maritalStstus)//boolean
+</code></pre><h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>本来写之前感觉有很多注意要写，但写起来感觉哪些之前感觉是注意点的地方其实只是一个普通的点，所以感觉写起来感觉没有太重要的点，但需要注意的点还是有滴，比如三种存储的异同，localStorage存储的数据仅为string等等。ok，就这样把！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2018/08/20/对于JS中localStorage的理解/" target="_blank" title="对于JS中localStorage的理解">http://yoursite.com/2018/08/20/对于JS中localStorage的理解/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/20/利用SS（Shadowsocks）快速搭建一个vpn/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          利用SS（Shadowsocks）快速搭建一个vpn
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/13/Apicloud不同页面传值/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Apicloud不同页面传值</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前端的存储数据的三种方式"><span class="nav-number">2.1.</span> <span class="nav-text">前端的存储数据的三种方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体localStorage的解析"><span class="nav-number">2.2.</span> <span class="nav-text">具体localStorage的解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#localStorage的优势与局限"><span class="nav-number">2.2.1.</span> <span class="nav-text">localStorage的优势与局限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优势"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局限"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">局限</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#localStorage的使用"><span class="nav-number">2.2.2.</span> <span class="nav-text">localStorage的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#判断浏览器是否支持-localStorage属性"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">判断浏览器是否支持 localStorage属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#localStorage的写入"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">localStorage的写入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#localStorage的读取"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">localStorage的读取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#localStorage的删改"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">localStorage的删改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于存储的数据仅为string的解决办法（JSON数据类型转换）"><span class="nav-number">2.2.3.</span> <span class="nav-text">关于存储的数据仅为string的解决办法（JSON数据类型转换）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

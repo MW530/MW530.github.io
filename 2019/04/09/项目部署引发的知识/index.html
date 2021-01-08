@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>项目部署引发的知识 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="node.jsgitLinuxNginx">
+  
+  
+  
+  
+  <meta name="description" content="项目部署之前一直在写东西，都没怎么部署过项目，特别是Linux系统下，本来之前买服务器是想买一个Linux的服务器的，然而，学生党只配用Windows，万恶的阿里云。现在又可以买Linux的了，然而我又不想重新布属我的项目。今天再部署Linux时，才发现完全不会。枯了~ git命令开发最常用命令  git status //查看项目状态 git add . //把所有修改文件推送到stage中 g">
+<meta name="keywords" content="node.js,git,Linux,Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目部署引发的知识">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/项目部署引发的知识/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="项目部署之前一直在写东西，都没怎么部署过项目，特别是Linux系统下，本来之前买服务器是想买一个Linux的服务器的，然而，学生党只配用Windows，万恶的阿里云。现在又可以买Linux的了，然而我又不想重新布属我的项目。今天再部署Linux时，才发现完全不会。枯了~ git命令开发最常用命令  git status //查看项目状态 git add . //把所有修改文件推送到stage中 g">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-21T15:35:43.718Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="项目部署引发的知识">
+<meta name="twitter:description" content="项目部署之前一直在写东西，都没怎么部署过项目，特别是Linux系统下，本来之前买服务器是想买一个Linux的服务器的，然而，学生党只配用Windows，万恶的阿里云。现在又可以买Linux的了，然而我又不想重新布属我的项目。今天再部署Linux时，才发现完全不会。枯了~ git命令开发最常用命令  git status //查看项目状态 git add . //把所有修改文件推送到stage中 g">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-项目部署引发的知识" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      项目部署引发的知识
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/04/09/项目部署引发的知识/" class="article-date">
+	  <time datetime="2019-04-09T13:38:21.000Z" itemprop="datePublished">2019-04-09</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="项目部署"><a href="#项目部署" class="headerlink" title="项目部署"></a>项目部署</h1><p>之前一直在写东西，都没怎么部署过项目，特别是Linux系统下，本来之前买服务器是想买一个Linux的服务器的，然而，学生党只配用Windows，万恶的阿里云。现在又可以买Linux的了，然而我又不想重新布属我的项目。今天再部署Linux时，才发现完全不会。枯了~</p>
+<h2 id="git命令"><a href="#git命令" class="headerlink" title="git命令"></a>git命令</h2><p><strong>开发最常用命令</strong></p>
+<ol>
+<li>git status //查看项目状态</li>
+<li>git add . //把所有修改文件推送到stage中</li>
+<li>git commit -m des(描述) </li>
+<li>git push //推送到默认分支</li>
+<li>git push origin master(本地分支名) : master(远程仓库名)</li>
+</ol>
+<p><strong>常用命令</strong></p>
+<ol>
+<li>git config –global user.name “Tocy” //配置用户名</li>
+<li>git config –global user.email <a href="mailto:zyvj@qq.com" target="_blank" rel="noopener">zyvj@qq.com</a> //配置邮箱</li>
+<li>git clone 仓库地址 //将远程仓库拉至本地</li>
+<li>git add 文件名   //将某一文件提交至stage</li>
+<li>git diff //查看当前目录的所有修改</li>
+<li>git remote add [short_name] [url]  //添加远程仓库</li>
+<li>git branch //列出所有分支 -* 本地 -r 远程 -a 本地与远程 </li>
+<li>git branch [branch-name] //新建一个分支</li>
+<li>git checkout -b [branch-name] //新建并切换到该分支</li>
+<li>git branch -d [branch-name]   //删除该分支</li>
+<li>git checkout [file]  //恢复暂存区的指定文件到工作区</li>
+<li>git checkout .  //恢复暂存区的所有文件到工作区</li>
+</ol>
+<a id="more"></a>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p><strong>安装node.js</strong></p>
+<ol>
+<li><p>到根目录</p>
+<p> cd ~</p>
+</li>
+<li><p>建一个文件夹</p>
+<p> mkdir deploy</p>
+</li>
+<li><p>下载node包</p>
+<p> wget <a href="https://nodejs.org/dist/v10.11.0/node-v10.11.0-linux-x64.tar.xz" target="_blank" rel="noopener">https://nodejs.org/dist/v10.11.0/node-v10.11.0-linux-x64.tar.xz</a> </p>
+</li>
+<li><p>解压node包</p>
+<p> tar zf node-v10.11.0-linux-x64.tar.xz </p>
+</li>
+<li><p>重命名包</p>
+<p> cd node-v10.11.0-linux-x64.tar.xz/bin &amp;&amp; ls</p>
+</li>
+<li><p>查看node,npm的版本</p>
+<p> ./node -v<br> ./npm -v</p>
+</li>
+<li><p>设置环境变量</p>
+<p> vim ~/.bash_profile</p>
+</li>
+<li><p>在文件尾部添加以下内容</p>
+<p> export NODE_HOME=/deploy/node-v8.11.3-linux-x64<br> export PATH=$PATH:$NODE_HOME/bin</p>
+</li>
+<li><p>退出vim:</p>
+<p> 按 esc 输入:wq enter 退出</p>
+</li>
+<li><p>保存profile文件</p>
+<p>source /etc/profile</p>
+</li>
+<li><p>将目录软链接到全局环境下（命令后面的/usr/local/bin/node是固定的）</p>
+<p>ln -s /deploy/node-v8.11.3-linux-x64/bin/node /usr/local/bin/node</p>
+<p>ln -s /deploy/node-v8.11.3-linux-x64/bin/npm /usr/local/bin/npm</p>
+</li>
+<li><p>检验安装是否成功</p>
+<p>node -v<br>npm -v</p>
+</li>
+</ol>
+<p><strong>安装Nginx</strong></p>
+<ol>
+<li><p>安装yum</p>
+<p> npm install yum</p>
+</li>
+<li><p>安装依赖</p>
+<p> yum -y install gcc zlib zlib-devel pcre-devel openssl openssl-devel</p>
+</li>
+<li><p>下载Nginx</p>
+<p> //创建一个文件夹<br> cd /usr/local<br> mkdir nginx<br> cd nginx<br> //下载tar包<br> wget <a href="http://nginx.org/download/nginx-1.13.7.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.13.7.tar.gz</a><br> tar -xvf nginx-1.13.7.tar.g</p>
+</li>
+<li><p>安装Nginx</p>
+<p> //进入nginx目录<br> cd /usr/local/nginx<br> //执行命令<br> ./configure<br> //执行make命令<br> make<br> //执行make install命令<br> make install</p>
+</li>
+<li><p>Nginx常用命令</p>
+<p> //测试配置文件<br> 安装路径下的/nginx/sbin/nginx -t</p>
+<p> //启动命令<br> 安装路径下的/nginx/sbin/nginx</p>
+<p> //停止命令<br> 安装路径下的/nginx/sbin/nginx -s stop<br> 或者 : nginx -s quit</p>
+<p> //重启命令<br> 安装路径下的/nginx/sbin/nginx -s reload</p>
+<p> //查看进程命令<br> ps -ef | grep nginx</p>
+</li>
+<li><p>Nginx虚拟域名配置及测试验证</p>
+<p> //编辑nginx.conf<br> sudo vim /usr/local/nginx/conf/nginx.conf</p>
+<p> //增加行<br> include vhost/*.conf</p>
+<p> //保存退出<br> ：wq enter</p>
+<p> //在/usr/local/nginx/conf目录新建vhost文件夹<br> mkdir vhost</p>
+<p> //创建每个域名的配置<br> sudo vim jimisun.com.conf</p>
+<p> //节点中增加入响应的配置 端口转发  或者访问文件系统</p>
+</li>
+<li><p>Nginx启动</p>
+<p> //进入nginx安装目录<br> cd sbin<br> sudo ./nginx<br> 测试访问<br> <a href="http://ip地址" target="_blank" rel="noopener">http://ip地址</a></p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/04/09/项目部署引发的知识/" target="_blank" title="项目部署引发的知识">http://yoursite.com/2019/04/09/项目部署引发的知识/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/05/18/项目实际问题一-对象深浅拷贝问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          项目实际问题一:对象深浅拷贝问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/20/Vue-review-router/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Vue-review-router</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目部署"><span class="nav-number">1.</span> <span class="nav-text">项目部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#git命令"><span class="nav-number">1.1.</span> <span class="nav-text">git命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">1.2.</span> <span class="nav-text">Linux</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

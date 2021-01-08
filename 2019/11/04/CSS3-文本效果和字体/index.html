@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>css3-文本效果和字体 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="CSS3text-shadowword-wrapoverflow-wrapfont-face">
+  
+  
+  
+  
+  <meta name="description" content="CSS3中的文字效果及字体CSS3本来规定了较多的文字属性，但是大部分没有被实现，所以只介绍已经被实现的属性。 text-shadowtext-shadow用于创建一个文字阴影，其参数如下：    参数 说明     &amp;lt;offset-x&amp;gt; x轴的偏移量   &amp;lt;offset-y&amp;gt; y轴的偏移量   &amp;lt;blur-radius&amp;gt; 模糊半径    example1: t">
+<meta name="keywords" content="CSS3,text-shadow,word-wrap,overflow-wrap,font-face">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS3-文本效果和字体">
+<meta property="og:url" content="http://yoursite.com/2019/11/04/CSS3-文本效果和字体/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="CSS3中的文字效果及字体CSS3本来规定了较多的文字属性，但是大部分没有被实现，所以只介绍已经被实现的属性。 text-shadowtext-shadow用于创建一个文字阴影，其参数如下：    参数 说明     &amp;lt;offset-x&amp;gt; x轴的偏移量   &amp;lt;offset-y&amp;gt; y轴的偏移量   &amp;lt;blur-radius&amp;gt; 模糊半径    example1: t">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-文字效果-字体/text-shadow_exxample1.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-文字效果-字体/text-shadow_flame.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-文字效果-字体/text-shadow_heave.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-文字效果-字体/text-shadow_sag.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-文字效果-字体/text-shadow_outline.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-文字效果-字体/text-shadow_outLight.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-文字效果-字体/text-shadow_3D.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-文字效果-字体/@font-face_key_value.png">
+<meta property="og:updated_time" content="2019-11-05T11:49:18.718Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS3-文本效果和字体">
+<meta name="twitter:description" content="CSS3中的文字效果及字体CSS3本来规定了较多的文字属性，但是大部分没有被实现，所以只介绍已经被实现的属性。 text-shadowtext-shadow用于创建一个文字阴影，其参数如下：    参数 说明     &amp;lt;offset-x&amp;gt; x轴的偏移量   &amp;lt;offset-y&amp;gt; y轴的偏移量   &amp;lt;blur-radius&amp;gt; 模糊半径    example1: t">
+<meta name="twitter:image" content="http://yoursite.com/images/CSS3-文字效果-字体/text-shadow_exxample1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-CSS3-文本效果和字体" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      CSS3-文本效果和字体
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/11/04/CSS3-文本效果和字体/" class="article-date">
+	  <time datetime="2019-11-04T07:26:39.000Z" itemprop="datePublished">2019-11-04</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CSS3中的文字效果及字体"><a href="#CSS3中的文字效果及字体" class="headerlink" title="CSS3中的文字效果及字体"></a>CSS3中的文字效果及字体</h1><p>CSS3本来规定了较多的文字属性，但是大部分没有被实现，所以只介绍已经被实现的属性。</p>
+<h2 id="text-shadow"><a href="#text-shadow" class="headerlink" title="text-shadow"></a>text-shadow</h2><p>text-shadow用于创建一个文字阴影，其参数如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;offset-x&gt;</td>
+<td>x轴的偏移量</td>
+</tr>
+<tr>
+<td>&lt;offset-y&gt;</td>
+<td>y轴的偏移量</td>
+</tr>
+<tr>
+<td>&lt;blur-radius&gt;</td>
+<td>模糊半径</td>
+</tr>
+</tbody>
+</table>
+<p>example1:</p>
+<pre><code>text-shadow: 5px 5px 5px #FF0000;
+</code></pre><p><img src="\images\CSS3-文字效果-字体\text-shadow_exxample1.png" alt="text-shadow_exxample1"></p>
+<h3 id="text-shadow案例"><a href="#text-shadow案例" class="headerlink" title="text-shadow案例"></a>text-shadow案例</h3><p>利用text-shdow的叠加，可以实现多种文字特效：</p>
+<h4 id="火焰文字效果"><a href="#火焰文字效果" class="headerlink" title="火焰文字效果"></a>火焰文字效果</h4><p>关键：在文字外层加上多层黄色，红色的阴影，并且模糊程度越来越大，颜色的掌控很关键。否则可能不会很逼真。</p>
+<pre><code>background:black;   
+text-align:left;   
+text-shadow: 0 -5px 4px #FF3,2px -10px 6px #fd3,-2px -15px 11px #f80,2px -25px 18px #f20;   
+color:red;   
+</code></pre><p><img src="\images\CSS3-文字效果-字体\text-shadow_flame.png" alt="text-shadow_flame"></p>
+<h4 id="立体凸起效果"><a href="#立体凸起效果" class="headerlink" title="立体凸起效果"></a>立体凸起效果</h4><p>关键：将背景颜色与温习颜色设为一致，再设置一个白色的阴影，一个黑色的阴影，x轴分别偏移-1px，1px即可达到效果。</p>
+<pre><code>text-shadow: -1px -1px white,1px 1px #333;   
+color:#D1D1D1;   
+font-weight: bold;   
+background: #CCC;
+</code></pre><p><img src="\images\CSS3-文字效果-字体\text-shadow_heave.png" alt="text-shadow_heave"></p>
+<h4 id="立体凹下效果"><a href="#立体凹下效果" class="headerlink" title="立体凹下效果"></a>立体凹下效果</h4><p>关键：与凸起相似，但是将两个偏移量交换一下，即可实现凹下效果。</p>
+<pre><code>text-shadow: 1px 1px white,-1px -1px #333;   
+color:#D1D1D1;   
+font-weight: bold;   
+background: #CCC;   
+</code></pre><p><img src="\images\CSS3-文字效果-字体\text-shadow_sag.png" alt="text-shadow_sag"></p>
+<h4 id="描边效果"><a href="#描边效果" class="headerlink" title="描边效果"></a>描边效果</h4><p>关键：设置4个黑色的阴影，模糊度为0，分别向上下左右各偏移1px，即可实现描边效果。</p>
+<pre><code>text-shadow: -1px 0 black,0 1px black,1px 0 black,0 -1px black;   
+color:#ffffff;   
+background: #CCC;   
+</code></pre><p><img src="\images\CSS3-文字效果-字体\text-shadow_outline.png" alt="text-shadow_outline"></p>
+<h4 id="外发光效果"><a href="#外发光效果" class="headerlink" title="外发光效果"></a>外发光效果</h4><p>关键：不要为阴影设置x，y的偏移量，增大模糊度，即可实现。</p>
+<pre><code>text-shadow: 0 0 0.2em #F87,0 0 0.2em #f87;   
+color:#d1d1d1;   
+background: #CCC;   
+</code></pre><p><img src="\images\CSS3-文字效果-字体\text-shadow_outLight.png" alt="text-shadow_outLight"></p>
+<h4 id="3D效果"><a href="#3D效果" class="headerlink" title="3D效果"></a>3D效果</h4><p>关键：在同一方向上多次叠加颜色更深的阴影。</p>
+<pre><code>color:white;
+font-size: 200px;
+text-shadow: 0 1px hsl(0,0%,85%),
+        0 2px hsl(0,0%,80%),
+        0 3px hsl(0,0%,75%),
+        0 4px hsl(0,0%,70%),
+        0 5px hsl(0,0%,65%),
+        0 5px 10px black;
+</code></pre><p><img src="\images\CSS3-文字效果-字体\text-shadow_3D.png" alt="text-shadow_3D"></p>
+<h4 id="关于text-shadow"><a href="#关于text-shadow" class="headerlink" title="关于text-shadow"></a>关于text-shadow</h4><p>对于各种文字效果，如果我们认真分析文字附加效果的颜色及光影效果，我们可以利用text-shadow模拟出很多的文字效果。</p>
+<h2 id="word-wrap-overflow-wrap"><a href="#word-wrap-overflow-wrap" class="headerlink" title="word-wrap/overflow-wrap"></a>word-wrap/overflow-wrap</h2><p>word-wrap又叫做overflow-wrap：</p>
+<p>word-wrap 属性原本属于微软的一个私有属性，在 CSS3 现在的文本规范草案中已经被重名为 overflow-wrap 。 word-wrap 现在被当作 overflow-wrap 的 “别名”。 稳定的谷歌 Chrome 和 Opera 浏览器版本支持这种新语法。</p>
+<p>该属性含有一个参数，其可以有以下值：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>normal</td>
+<td>表示在正常的单词结束处换行。</td>
+</tr>
+<tr>
+<td>break-word</td>
+<td>表示如果行内没有多余的地方容纳该单词到结尾，则那些正常的不能被分割的单词会被强制分割换行。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="CSS3-font-face-规则"><a href="#CSS3-font-face-规则" class="headerlink" title="CSS3 @font-face 规则"></a>CSS3 @font-face 规则</h2><p>以前 CSS3 的版本，网页设计师不得不使用用户计算机上已经安装的字体。</p>
+<p>使用 CSS3，网页设计师可以使用他/她喜欢的任何字体。</p>
+<p>当你发现您要使用的字体文件时，只需简单的将字体文件包含在网站中，它会自动下载给需要的用户。</p>
+<p>您所选择的字体在新的 CSS3 版本有关于 @font-face 规则描述。</p>
+<p>您”自己的”的字体是在 CSS3 @font-face 规则中定义的。</p>
+<p>实例：</p>
+<pre><code>&lt;style&gt; 
+@font-face
+{
+    font-family: myFirstFont;
+    src: url(sansation_light.woff);
+}
+
+div
+{
+    font-family:myFirstFont;
+}
+&lt;/style&gt;
+</code></pre><p>在font-family中，还可以定义字体的其他属性：</p>
+<p><img src="\images\CSS3-文字效果-字体\@font-face_key_value.png" alt="@font-face_key_value"></p>
+<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>通过text-shadow和自定义字体，我们可以实现多种我们想要的字体效果了！结合上一章的背景，网页肯定能换发生机！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/11/04/CSS3-文本效果和字体/" target="_blank" title="CSS3-文本效果和字体">http://yoursite.com/2019/11/04/CSS3-文本效果和字体/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/11/05/CSS3-转换/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CSS3-转换
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/10/29/CSS3-背景/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CSS3-背景</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS3中的文字效果及字体"><span class="nav-number">1.</span> <span class="nav-text">CSS3中的文字效果及字体</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#text-shadow"><span class="nav-number">1.1.</span> <span class="nav-text">text-shadow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#text-shadow案例"><span class="nav-number">1.1.1.</span> <span class="nav-text">text-shadow案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#火焰文字效果"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">火焰文字效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#立体凸起效果"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">立体凸起效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#立体凹下效果"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">立体凹下效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#描边效果"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">描边效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外发光效果"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">外发光效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3D效果"><span class="nav-number">1.1.1.6.</span> <span class="nav-text">3D效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于text-shadow"><span class="nav-number">1.1.1.7.</span> <span class="nav-text">关于text-shadow</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#word-wrap-overflow-wrap"><span class="nav-number">1.2.</span> <span class="nav-text">word-wrap/overflow-wrap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS3-font-face-规则"><span class="nav-number">1.3.</span> <span class="nav-text">CSS3 @font-face 规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束"><span class="nav-number">2.</span> <span class="nav-text">结束</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

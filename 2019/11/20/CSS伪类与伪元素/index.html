@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>css伪类与伪元素 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="CSS伪元素伪类">
+  
+  
+  
+  
+  <meta name="description" content="伪类？伪元素？之前一度认为伪类就是一组选择器，伪元素是不在DOM树的中的一些元素。但是当我看完MDN上的所有伪类与伪元素之后，才发现伪类与伪元素同属于CSS选择器的范畴，而伪元素其特殊之处在于伪元素可以选择的是一些不在DOM树中的元素，比如::selection用于选中用户用鼠标勾选的字符串；当然也可以选择在DOM树中的元素，比如::first-line用于选中元素的第一行，在特殊一点说，伪元素多">
+<meta name="keywords" content="CSS,伪元素,伪类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS伪类与伪元素">
+<meta property="og:url" content="http://yoursite.com/2019/11/20/CSS伪类与伪元素/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="伪类？伪元素？之前一度认为伪类就是一组选择器，伪元素是不在DOM树的中的一些元素。但是当我看完MDN上的所有伪类与伪元素之后，才发现伪类与伪元素同属于CSS选择器的范畴，而伪元素其特殊之处在于伪元素可以选择的是一些不在DOM树中的元素，比如::selection用于选中用户用鼠标勾选的字符串；当然也可以选择在DOM树中的元素，比如::first-line用于选中元素的第一行，在特殊一点说，伪元素多">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-21T07:06:34.306Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS伪类与伪元素">
+<meta name="twitter:description" content="伪类？伪元素？之前一度认为伪类就是一组选择器，伪元素是不在DOM树的中的一些元素。但是当我看完MDN上的所有伪类与伪元素之后，才发现伪类与伪元素同属于CSS选择器的范畴，而伪元素其特殊之处在于伪元素可以选择的是一些不在DOM树中的元素，比如::selection用于选中用户用鼠标勾选的字符串；当然也可以选择在DOM树中的元素，比如::first-line用于选中元素的第一行，在特殊一点说，伪元素多">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-CSS伪类与伪元素" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      CSS伪类与伪元素
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/11/20/CSS伪类与伪元素/" class="article-date">
+	  <time datetime="2019-11-20T14:54:39.000Z" itemprop="datePublished">2019-11-20</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/CSS/">CSS</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="伪类？伪元素？"><a href="#伪类？伪元素？" class="headerlink" title="伪类？伪元素？"></a>伪类？伪元素？</h1><p>之前一度认为伪类就是一组选择器，伪元素是不在DOM树的中的一些元素。但是当我看完MDN上的所有伪类与伪元素之后，才发现<strong>伪类与伪元素同属于CSS选择器的范畴</strong>，而伪元素其特殊之处在于伪元素可以选择的是一些不在DOM树中的元素，比如<code>::selection</code>用于选中用户用鼠标勾选的字符串；当然也可以选择在DOM树中的元素，比如<code>::first-line</code>用于选中元素的第一行，在特殊一点说，伪元素多用于选择一些特殊的东西，而伪类用于元素级别的选择，比如<code>:nth:child</code>用于选择某元素的第n个</p>
+<p>由上面可以看出基本看做：<strong>元素级别的选择器用伪类，元素内的选择器与特殊选择器用伪元素</strong></p>
+<p> <strong>实际上最好的方法就是记住伪类与伪元素主要有哪些、特别是伪元素并不多。</strong></p>
+<h2 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h2><h3 id="状态伪类"><a href="#状态伪类" class="headerlink" title="状态伪类"></a>状态伪类</h3><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:link</td>
+<td>a:link</td>
+<td>选择所有未访问的链接</td>
+</tr>
+<tr>
+<td>:visited</td>
+<td>a:visited</td>
+<td>选择所有访问过的链接</td>
+</tr>
+<tr>
+<td>:hover</td>
+<td>a:hover</td>
+<td>鼠标悬浮在链接上的状态</td>
+</tr>
+<tr>
+<td>:active</td>
+<td>a:active</td>
+<td>选择在激活状态的链接</td>
+</tr>
+<tr>
+<td>:focus</td>
+<td>input:focus</td>
+<td>选择获取焦点的输入框元素</td>
+</tr>
+<tr>
+<td>:focus-within</td>
+<td>form:focus-within</td>
+<td>用在父级元素上，当子元素获得焦点时，父元素获得对应属性(IE未实现)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="结构化伪类"><a href="#结构化伪类" class="headerlink" title="结构化伪类"></a>结构化伪类</h3><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>示例</th>
+<th>示例说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:first-child</td>
+<td>:first-child</td>
+<td>选择p元素的第一个子元素</td>
+</tr>
+<tr>
+<td>:first-of-type</td>
+<td>p:first-of-type</td>
+<td>选择每个父元素是p元素的第一个p子元素</td>
+</tr>
+<tr>
+<td>:last-child</td>
+<td>p:last-child</td>
+<td>选择所有p元素的最后一个子元素</td>
+</tr>
+<tr>
+<td>:last-of-type</td>
+<td>p:last-of-type</td>
+<td>选择每个p元素是其母元素的最后一个p元素</td>
+</tr>
+<tr>
+<td>:not(selector)</td>
+<td>:not§</td>
+<td>选择所有p以外的元素</td>
+</tr>
+<tr>
+<td>:nth-child(n)</td>
+<td>p:nth-child(2)</td>
+<td>选择所有p元素的第二个子元素</td>
+</tr>
+<tr>
+<td>:nth-last-child(n)</td>
+<td>p:nth-last-child(2)</td>
+<td>选择所有p元素倒数的第二个子元素</td>
+</tr>
+<tr>
+<td>:nth-last-of-type(n)</td>
+<td>p:nth-last-of-type(2)</td>
+<td>选择所有p元素倒数的第二个为p的子元素</td>
+</tr>
+<tr>
+<td>:nth-of-type(n)</td>
+<td>p:nth-of-type(2)</td>
+<td>选择所有p元素第二个为p的子元素</td>
+</tr>
+<tr>
+<td>:only-of-type</td>
+<td>p:only-of-type</td>
+<td>选择所有仅有一个子元素为p的元素</td>
+</tr>
+<tr>
+<td>:only-child</td>
+<td>p:only-child</td>
+<td>选择所有仅有一个子元素的p元素</td>
+</tr>
+<tr>
+<td>:target</td>
+<td>#news:target</td>
+<td>选择当前活动#news元素(点击URL包含锚的名字)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="表单伪类"><a href="#表单伪类" class="headerlink" title="表单伪类"></a>表单伪类</h3><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>示例</th>
+<th>示例说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:disabled</td>
+<td>input:disabled</td>
+<td>选择所有禁用的表单元素</td>
+</tr>
+<tr>
+<td>:enabled</td>
+<td>input:enabled</td>
+<td>选择没有设置 disabled 属性的表单元素</td>
+</tr>
+<tr>
+<td>:required</td>
+<td>input:required</td>
+<td>选择设置 required 属性的表单元素</td>
+</tr>
+<tr>
+<td>:read-only</td>
+<td>input:read-only</td>
+<td>选择设置 readonly 只读属性的元素</td>
+</tr>
+<tr>
+<td>:read-write</td>
+<td>input:read-write</td>
+<td>选择处于编辑状态的元素；input，textarea 和设置 contenteditable 的 HTML 元素获取焦点时即处于编辑状态。</td>
+</tr>
+<tr>
+<td>:checked</td>
+<td>input:checked</td>
+<td>匹配被选中的 input 元素，input 元素包括 radio 和 checkbox</td>
+</tr>
+<tr>
+<td>:empty</td>
+<td>p:empty</td>
+<td>匹配所有没有子元素的 p 元素</td>
+</tr>
+<tr>
+<td>:in-range</td>
+<td>input:in-range</td>
+<td>选择在指定区域内的元素</td>
+</tr>
+<tr>
+<td>:out-of-range</td>
+<td>input:out-of-range</td>
+<td>选择不在指定区域内的元素</td>
+</tr>
+<tr>
+<td>:valid</td>
+<td>input:valid</td>
+<td>选择条件验证正确的表单元素</td>
+</tr>
+<tr>
+<td>:invalid</td>
+<td>input:invalid</td>
+<td>选择条件验证错误的表单元素</td>
+</tr>
+<tr>
+<td>:optional</td>
+<td>input:optional</td>
+<td>选择没有 required 属性，即设置 optional 属性的表单元素</td>
+</tr>
+<tr>
+<td>:default</td>
+<td>-</td>
+<td>匹配默认选中的元素(提交按钮总是表单的默认按钮)。</td>
+</tr>
+<tr>
+<td>:indeterminate</td>
+<td>-</td>
+<td>当某组中的单选框或复选框还没有选取状态时，:indeterminate 匹配该组中所有的单选框或复选框。</td>
+</tr>
+<tr>
+<td>:scope</td>
+<td>-</td>
+<td>匹配处于 style 作用域下的元素。当 style 没有设置 scope 属性时，style 内的样式会对整个 html 起作用。(试验阶段)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h2><h3 id="单双冒号"><a href="#单双冒号" class="headerlink" title="单双冒号"></a>单双冒号</h3><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>作用</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>::before/:before</td>
+<td>在被选元素前插入内容。</td>
+<td>需要使用 content 属性来指定要插入的内容。被插入的内容实际上不在文档树中。</td>
+</tr>
+<tr>
+<td>::after/:after</td>
+<td>在选被元素后插入内容</td>
+<td>其用法和特性与:before相似。</td>
+</tr>
+<tr>
+<td>::first-letter/:first-letter</td>
+<td>匹配元素中文本的首字母。</td>
+<td>被修饰的首字母不在文档树中。</td>
+</tr>
+<tr>
+<td>::first-line/:first-line</td>
+<td>匹配元素中第一行的文本。</td>
+<td>这个伪元素只能用在块元素中，不能用在内联元素中。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="双冒号"><a href="#双冒号" class="headerlink" title="双冒号"></a>双冒号</h3><table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>作用</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>::selection</td>
+<td>匹配被用户选中或者处于高亮状态的部分.</td>
+<td>在火狐浏览器使用时需要添加 -moz 前缀。</td>
+</tr>
+<tr>
+<td>::placeholder</td>
+<td>匹配占位符的文本。</td>
+<td>只有元素设置了 placeholder 属性时，该伪元素才能生效。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="LAST"><a href="#LAST" class="headerlink" title="LAST"></a>LAST</h1><p>对于伪类与伪元素，最好的不是区分它们，而是记住常用的选择器是属于伪类还是伪元素。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/11/20/CSS伪类与伪元素/" target="_blank" title="CSS伪类与伪元素">http://yoursite.com/2019/11/20/CSS伪类与伪元素/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/12/22/react中的事件绑定/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          react中的事件绑定
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/18/CSS3过渡与动画/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CSS3过渡与动画</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#伪类？伪元素？"><span class="nav-number">1.</span> <span class="nav-text">伪类？伪元素？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#伪类"><span class="nav-number">1.1.</span> <span class="nav-text">伪类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#状态伪类"><span class="nav-number">1.1.1.</span> <span class="nav-text">状态伪类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结构化伪类"><span class="nav-number">1.1.2.</span> <span class="nav-text">结构化伪类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表单伪类"><span class="nav-number">1.1.3.</span> <span class="nav-text">表单伪类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪元素"><span class="nav-number">1.2.</span> <span class="nav-text">伪元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单双冒号"><span class="nav-number">1.2.1.</span> <span class="nav-text">单双冒号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双冒号"><span class="nav-number">1.2.2.</span> <span class="nav-text">双冒号</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LAST"><span class="nav-number">2.</span> <span class="nav-text">LAST</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>css3-边框 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="CSS3border-radiusbox-shadowborder-image">
+  
+  
+  
+  
+  <meta name="description" content="引言之所以想到重学CSS3，是因为最近在看《CSS揭秘》一书时，在发现原来CSS3的内容有很多当时没有深入去琢磨，只是简单学习了其基础用法。下面就通过其一些高级用法来深入的研究一下CSS3的内容。 该内容分为：  边框 背景 文本效果 字体 2D、3D转换 过渡 动画 多列、用户界面（盒尺寸、轮廓） 媒体查询  CSS边框border-radiusborder-radius参数解析该属性与padd">
+<meta name="keywords" content="CSS3,border-radius,box-shadow,border-image">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS3-边框">
+<meta property="og:url" content="http://yoursite.com/2019/10/19/CSS3-边框/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="引言之所以想到重学CSS3，是因为最近在看《CSS揭秘》一书时，在发现原来CSS3的内容有很多当时没有深入去琢磨，只是简单学习了其基础用法。下面就通过其一些高级用法来深入的研究一下CSS3的内容。 该内容分为：  边框 背景 文本效果 字体 2D、3D转换 过渡 动画 多列、用户界面（盒尺寸、轮廓） 媒体查询  CSS边框border-radiusborder-radius参数解析该属性与padd">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-one.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-two.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-three.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-three.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-paraMean.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-ellipse.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-ex1.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-ex2-1.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-ex2-2.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-ex3.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-ex4.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-radius-ex5.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/box-shadow-multiValue.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/box-shadow-border.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/box-shadow-multiBorder.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/outline1.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/outline-suture.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-image1.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-image-para1.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-image-para3-meta.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-image-para3-2.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-image-para3-0.2.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-image-para4-meta.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-image-para4-1.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-image-para4-2.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-边框/border-image-para4-0.5.png">
+<meta property="og:updated_time" content="2019-10-21T08:30:44.030Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS3-边框">
+<meta name="twitter:description" content="引言之所以想到重学CSS3，是因为最近在看《CSS揭秘》一书时，在发现原来CSS3的内容有很多当时没有深入去琢磨，只是简单学习了其基础用法。下面就通过其一些高级用法来深入的研究一下CSS3的内容。 该内容分为：  边框 背景 文本效果 字体 2D、3D转换 过渡 动画 多列、用户界面（盒尺寸、轮廓） 媒体查询  CSS边框border-radiusborder-radius参数解析该属性与padd">
+<meta name="twitter:image" content="http://yoursite.com/images/CSS3-边框/border-radius-one.png">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-CSS3-边框" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      CSS3-边框
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/10/19/CSS3-边框/" class="article-date">
+	  <time datetime="2019-10-19T14:09:49.000Z" itemprop="datePublished">2019-10-19</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>之所以想到重学CSS3，是因为最近在看《CSS揭秘》一书时，在发现原来CSS3的内容有很多当时没有深入去琢磨，只是简单学习了其基础用法。下面就通过其一些高级用法来深入的研究一下CSS3的内容。</p>
+<p>该内容分为：</p>
+<ol>
+<li>边框</li>
+<li>背景</li>
+<li>文本效果</li>
+<li>字体</li>
+<li>2D、3D转换</li>
+<li>过渡</li>
+<li>动画</li>
+<li>多列、用户界面（盒尺寸、轮廓）</li>
+<li>媒体查询</li>
+</ol>
+<h1 id="CSS边框"><a href="#CSS边框" class="headerlink" title="CSS边框"></a>CSS边框</h1><h2 id="border-radius"><a href="#border-radius" class="headerlink" title="border-radius"></a>border-radius</h2><h3 id="border-radius参数解析"><a href="#border-radius参数解析" class="headerlink" title="border-radius参数解析"></a>border-radius参数解析</h3><p>该属性与padding、margin相同，可以有1、2、3、4个值，所以复习一次：</p>
+<p>Example1: border-radius:10px;</p>
+<p><strong>四个角的弧度相同，均为10px。</strong></p>
+<p><img src="\images\CSS3-边框\border-radius-one.png" alt="border-radius-one"></p>
+<hr>
+<p>Example2: border-radisu:10px 50px;</p>
+<p>左上、右下弧度为10px，左下、右上弧度为50px。</p>
+<p><img src="\images\CSS3-边框\border-radius-two.png" alt="border-radius-two"></p>
+<hr>
+<p>Example3: border-radius:10px 50px 100px;</p>
+<p>左上弧度10px，右上、左下弧度50px，右下弧度100px。</p>
+<p><img src="\images\CSS3-边框\border-radius-three.png" alt="border-radius-three"></p>
+<hr>
+<p>Example4: border-radius:10px 50px 100px 200px;</p>
+<p>左上、右上、右下、左下弧度分别为：10px 50px 100px 200px;</p>
+<p><img src="\images\CSS3-边框\border-radius-three.png" alt="border-radius-three"></p>
+<hr>
+<p>实际上border-radius是一个简写属性，它是下面<strong>四个属性</strong>的简写：</p>
+<ol>
+<li>border-top-left-radius</li>
+<li>border-top-right-radius</li>
+<li>border-bottom-left-radius</li>
+<li>border-bottom-right-radius</li>
+</ol>
+<p>所以也可以直接单独设置每个角的值。</p>
+<h3 id="border-radius参数单位"><a href="#border-radius参数单位" class="headerlink" title="border-radius参数单位"></a>border-radius参数单位</h3><p>border-radius参数可以为：</p>
+<ol>
+<li>绝对值，比如px,em,rem等。</li>
+<li>相对值，百分比值（参数为height、width）</li>
+</ol>
+<h3 id="border-radius参数意义"><a href="#border-radius参数意义" class="headerlink" title="border-radius参数意义"></a>border-radius参数意义</h3><p><img src="\images\CSS3-边框\border-radius-paraMean.png" alt="border-radius-paraMean"></p>
+<p>这个值实际上就是这个圆角的半径值。</p>
+<p>如果是百分比值，则通过这个容器的height\width算出对应的值。</p>
+<h3 id="border-radius配置一个圆角两侧的不同弧度"><a href="#border-radius配置一个圆角两侧的不同弧度" class="headerlink" title="border-radius配置一个圆角两侧的不同弧度"></a>border-radius配置一个圆角两侧的不同弧度</h3><p>如上图所说，如果按照普通配置，圆角就是在容器的一角形成一个圆，将其1/4作为其圆角。</p>
+<p>实际上我们可以分别配置一个圆角的两侧的弧度。即，将一个椭圆的1/4圆作为容器的圆角。</p>
+<pre><code>borde-radius:x1 x2 x3 x4/y1 y2 y3 y4;
+</code></pre><p>等价于:</p>
+<pre><code>border-top-left-radius: x1 y1;
+border-top-right-radius: x2 y2;
+border-bottom-right-radius: x3 y3;
+border-bottom-left-radius: x4 y4;
+</code></pre><p>当然，/前后的属性可以简写：</p>
+<p>一个值：</p>
+<pre><code>borde-radius:x1/y1;
+</code></pre><p>等价于：</p>
+<pre><code>border-top-left-radius: x1 y1;
+border-top-right-radius: x1 y1;
+border-bottom-right-radius: x1 y1;
+border-bottom-left-radius: x1 y1;
+</code></pre><p>两个值：</p>
+<pre><code>borde-radius:x1 x2/y1 y2;
+</code></pre><p>等价于：</p>
+<pre><code>border-top-left-radius: x1 y1;
+border-top-right-radius: x2 y2;
+border-bottom-right-radius: x2 y1;
+border-bottom-left-radius: x2 y2;
+</code></pre><p><strong>/前后的值是配置的是每个角的x半径、y的半径。可以为1，2，3，4个值，原理和上面一样。</strong></p>
+<p><img src="\images\CSS3-边框\border-radius-ellipse.png" alt="border-radius-ellipse"></p>
+<h2 id="border-radius高级应用"><a href="#border-radius高级应用" class="headerlink" title="border-radius高级应用"></a>border-radius高级应用</h2><h3 id="基础用法-圆角"><a href="#基础用法-圆角" class="headerlink" title="基础用法-圆角"></a>基础用法-圆角</h3><pre><code>.div{
+    height: 500px;
+    width: 900px;
+    border: 3px solid red; 
+    bakcground-color: brown;
+    border-radius: 20px;
+}
+</code></pre><p><img src="\images\CSS3-边框\border-radius-ex1.png" alt="border-radius-ex1"></p>
+<h3 id="圆形、椭圆"><a href="#圆形、椭圆" class="headerlink" title="圆形、椭圆"></a>圆形、椭圆</h3><p><strong>圆形</strong>（容器的height、width必须相同，height、width的值即为圆的直径）</p>
+<pre><code>.box{
+      margin: 20px;
+      height: 500px;
+      width: 500px;
+      border: 3px solid red; 
+      background: brown;
+      border-radius: 50%;
+}
+</code></pre><p><img src="\images\CSS3-边框\border-radius-ex2-1.png" alt="border-radius-ex2-1"></p>
+<p><strong>椭圆</strong>（height、width即为该椭圆的x轴、y轴的<strong>直径</strong>）</p>
+<pre><code>.box{
+      margin: 20px;
+      height: 500px;
+      width: 700px;
+      border: 3px solid red; 
+      background: brown;
+      border-radius: 50%;
+}
+</code></pre><p><img src="\images\CSS3-边框\border-radius-ex2-2.png" alt="border-radius-ex2-2"></p>
+<p><strong>标签图形</strong></p>
+<pre><code>.box{
+  margin: 20px;
+  height: 500px;
+  width: 500px;
+  border: 3px solid red; 
+  background: brown; 
+  border-bottom-right-radius: 50% 100px;
+  border-bottom-left-radius: 50% 100px;
+}
+</code></pre><p><img src="\images\CSS3-边框\border-radius-ex3.png" alt="border-radius-ex3"></p>
+<p><strong>烧杯</strong></p>
+<pre><code>.box{
+  margin: 20px;
+  height: 500px;
+  width: 500px;
+  border: 3px solid red; 
+  background: brown;
+  border-bottom-right-radius: 100px 100px;
+  border-bottom-left-radius: 100px 100px;
+}
+</code></pre><p><img src="\images\CSS3-边框\border-radius-ex4.png" alt="border-radius-ex4"></p>
+<p><strong>树叶</strong></p>
+<pre><code>.box{
+  margin: 20px;
+  height: 500px;
+  width: 500px;
+  border: 3px solid red; 
+  background: brown;
+  border-radius: 0 100% / 0 100%;
+}
+</code></pre><p><img src="\images\CSS3-边框\border-radius-ex5.png" alt="border-radius-ex5"></p>
+<p><strong>border-radius总结</strong></p>
+<p>实际上只要是包含圆角的图形我们都可以通过border-radius来构造，通过多个元素的+定位+圆角来构成图形。</p>
+<h2 id="box-shadow"><a href="#box-shadow" class="headerlink" title="box-shadow"></a>box-shadow</h2><h3 id="box-shadow参数解析"><a href="#box-shadow参数解析" class="headerlink" title="box-shadow参数解析"></a>box-shadow参数解析</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>h-shadow</td>
+<td>必需。水平阴影的位置。允许负值。</td>
+</tr>
+<tr>
+<td>v-shadow</td>
+<td>必需。垂直阴影的位置。允许负值。</td>
+</tr>
+<tr>
+<td>blur</td>
+<td>可选。模糊距离。</td>
+</tr>
+<tr>
+<td>spread</td>
+<td>可选。阴影的尺寸。</td>
+</tr>
+<tr>
+<td>color</td>
+<td>可选。阴影的颜色。请参阅 CSS 颜色值。</td>
+</tr>
+<tr>
+<td>inset</td>
+<td>可选。将外部阴影 (outset) 改为内部阴影。</td>
+</tr>
+</tbody>
+</table>
+<p>基础用法：</p>
+<pre><code>box-shadow:10px 10px 10x 10px blue;
+</code></pre><p>值得注意的是：</p>
+<p>box-shadow的值允许有多组值。</p>
+<p>example1:</p>
+<pre><code>box-shadow: 10px 10px 10px 10px blue,20px 20px 20px 20px black;
+</code></pre><p><img src="\images\CSS3-边框\box-shadow-multiValue.png" alt="box-shadow-multiValue"></p>
+<h3 id="高级应用-作为边框"><a href="#高级应用-作为边框" class="headerlink" title="高级应用-作为边框"></a>高级应用-作为边框</h3><p>如果我们将blur值设为0，即不模糊，再将其h-shadow、v-shadow设置为0，即不偏移，即可将其设置边框。</p>
+<p>example2:</p>
+<pre><code>box-shadow: 0 0 0 10px blue；
+</code></pre><p><img src="\images\CSS3-边框\box-shadow-border.png" alt="box-shadow-border"></p>
+<p>再利用可以添加多个边框的性质，即可实现多边框。</p>
+<pre><code>    box-shadow: 0 0 0 10px blue,
+0 0 0 20px black;
+</code></pre><p><img src="\images\CSS3-边框\box-shadow-multiBorder.png" alt="box-shadow-multiBorder">   </p>
+<h2 id="outline"><a href="#outline" class="headerlink" title="outline"></a>outline</h2><p>outline在元素外部绘制一条线。</p>
+<pre><code>outline:outline-color,outline-style,outline-width;
+</code></pre><table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>outline-color</td>
+<td>规定边框的颜色。</td>
+</tr>
+<tr>
+<td>outline-style</td>
+<td>规定边框的样式。</td>
+</tr>
+<tr>
+<td>outline-width</td>
+<td>规定边框的宽度。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 outline 属性的设置。</td>
+</tr>
+</tbody>
+</table>
+<p>example:</p>
+<pre><code>outline: greenyellow 5px solid;
+</code></pre><p><img src="\images\CSS3-边框\outline1.png" alt="outline1"></p>
+<p>outline也是一个简写属性，即为：outline-color、outline-style、outline-width的简写。outline-style的风格繁多。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>none</td>
+<td>默认。定义无轮廓。</td>
+</tr>
+<tr>
+<td>dotted</td>
+<td>定义点状的轮廓。</td>
+</tr>
+<tr>
+<td>dashed</td>
+<td>定义虚线轮廓。</td>
+</tr>
+<tr>
+<td>solid</td>
+<td>定义实线轮廓。</td>
+</tr>
+<tr>
+<td>double</td>
+<td>定义双线轮廓。双线的宽度等同于 outline-width 的值。</td>
+</tr>
+<tr>
+<td>groove</td>
+<td>定义 3D 凹槽轮廓。此效果取决于 outline-color 值。</td>
+</tr>
+<tr>
+<td>ridge</td>
+<td>定义 3D 凸槽轮廓。此效果取决于 outline-color 值。</td>
+</tr>
+<tr>
+<td>inset</td>
+<td>定义 3D 凹边轮廓。此效果取决于 outline-color 值。</td>
+</tr>
+<tr>
+<td>outset</td>
+<td>定义 3D 凸边轮廓。此效果取决于 outline-color 值。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承轮廓样式的设置。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意，还有一个与outline相关的属性-&gt;outline-offset，该属性可以为负值</strong></p>
+<p>利用outline的虚线轮廓与outline-offset可以实现缝线风格的边框。</p>
+<h3 id="缝线风格"><a href="#缝线风格" class="headerlink" title="缝线风格"></a>缝线风格</h3><pre><code>outline:greenyellow 2px dashed;
+outline-offset: -10px;
+</code></pre><p><img src="\images\CSS3-边框\outline-suture.png" alt="outline-suture"></p>
+<h2 id="border-image"><a href="#border-image" class="headerlink" title="border-image"></a>border-image</h2><p><strong>注意：</strong></p>
+<ol>
+<li><strong>在大多数浏览器下，要应用border-image，必须要先设置边框border属性</strong></li>
+<li><strong>当border-image存在且其第一个参数border-image-source不为none时，border-style属性将不会生效，若border-image-source为none，则border-style生效</strong></li>
+</ol>
+<h3 id="border-image参数"><a href="#border-image参数" class="headerlink" title="border-image参数"></a>border-image参数</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>border-image-source</td>
+<td>用在边框的图片的路径。</td>
+</tr>
+<tr>
+<td>border-image-slice</td>
+<td>图片边框向内偏移。</td>
+</tr>
+<tr>
+<td>border-image-width</td>
+<td>图片边框的宽度。</td>
+</tr>
+<tr>
+<td>border-image-outset</td>
+<td>边框图像区域超出边框的量。</td>
+</tr>
+<tr>
+<td>border-image-repeat</td>
+<td>图像边框是否应平铺(repeated)、铺满(rounded)或拉伸(stretched)。</td>
+</tr>
+</tbody>
+</table>
+<p>example:</p>
+<pre><code>.box {
+  margin: 200px;
+  height: 500px;
+  width: 500px;
+  border: 100px solid transparent;
+  background: rgb(243, 103, 103);
+  border-image: url(&apos;/bg.png&apos;) 30% 20%/2/1 repeat;
+}
+</code></pre><p><img src="\images\CSS3-边框\border-image1.png" alt="border-image1"></p>
+<p>注意参数的格式：</p>
+<pre><code>border-image:border-image-source border-image-slice/border-image-width/border-image-outset border-image-repeat
+</code></pre><p>接下来解析一下这几个参数</p>
+<h4 id="border-image-source"><a href="#border-image-source" class="headerlink" title="border-image-source"></a>border-image-source</h4><p>解释：第一个参数，图片地址，这个不用解释。</p>
+<h4 id="border-image-slice"><a href="#border-image-slice" class="headerlink" title="border-image-slice"></a>border-image-slice</h4><p>解释：第二个参数，图片边框向内偏移，即从何处裁剪背景图片。</p>
+<p>   example:</p>
+<pre><code>border-image: url(&apos;/bg.png&apos;) 33% 20% 50% 10% repeat; //省略其他参数
+</code></pre><p><img src="\images\CSS3-边框\border-image-para1.png" alt="border-image-para1"></p>
+<p><strong>该参数的个数与padding,margin相同，四参数则为上右下左的顺序，三参数则为上下、左、右，两参数则为上下、左右、一参数则全相同</strong></p>
+<h4 id="border-image-width"><a href="#border-image-width" class="headerlink" title="border-image-width"></a>border-image-width</h4><p>解释：第三个参数，规定border-image的宽度，被borer-width也会被相应的缩放以适应border-iamge宽度。<strong>单位为倍数，2则为被border-image-slice切割后图片的2倍，0.3则为原来的0.3倍。</strong></p>
+<p>  example:</p>
+<pre><code>border-image: url(&apos;/bg.png&apos;) 33%/1/0 round;//默认该参数为1
+</code></pre><p><img src="\images\CSS3-边框\border-image-para3-meta.png" alt="border-image-para3-meta"></p>
+<p>  改变参数为2、0.3</p>
+<pre><code>border-image: url(&apos;/bg.png&apos;) 33%/2/0 round;
+
+border-image: url(&apos;/bg.png&apos;) 33%/0.2/0 round;
+</code></pre><p><img src="\images\CSS3-边框\border-image-para3-2.png" alt="border-image-para3-2"></p>
+<p><img src="\images\CSS3-边框\border-image-para3-0.2.png" alt="border-image-para3-0.2"></p>
+<p><strong>注意，这个参数并不会实际改变border-width中定义的宽度，如果该属性增加，则会向容器内部扩展</strong></p>
+<h4 id="border-image-outset"><a href="#border-image-outset" class="headerlink" title="border-image-outset"></a>border-image-outset</h4><p>解释：该属性会将border-image向外偏移一定量。单位任然是倍数，默认为0，即占据border的位置，向外扩展0倍，1代表增加1倍，即直接与容器的border连接。向外扩展1倍。2倍则偏移两倍，则会在容器外部与边框相距边框的距离。</p>
+<p>  默认值为0：</p>
+<pre><code>border-image: url(&apos;/bg.png&apos;) 33%/1/0 round;
+</code></pre><p><img src="\images\CSS3-边框\border-image-para4-meta.png" alt="border-image-para4-meta"></p>
+<p>  变为1：</p>
+<pre><code>border-image: url(&apos;/bg.png&apos;) 33%/1/1 round;
+</code></pre><p><img src="\images\CSS3-边框\border-image-para4-1.png" alt="border-image-para4-1"></p>
+<p>  变为2：</p>
+<pre><code>border-image: url(&apos;/bg.png&apos;) 33%/1/2 round;
+</code></pre><p><img src="\images\CSS3-边框\border-image-para4-2.png" alt="border-image-para4-2"></p>
+<p>  变为0.5：</p>
+<pre><code>border-image: url(&apos;/bg.png&apos;) 33%/1/0.5 round;
+</code></pre><p><img src="\images\CSS3-边框\border-image-para4-0.5.png" alt="border-image-para4-0.5"></p>
+<p>注意这里border-image向外偏移了0.5，即占据了border的一半width。</p>
+<h4 id="border-image-repeat"><a href="#border-image-repeat" class="headerlink" title="border-image-repeat"></a>border-image-repeat</h4><p>解释：该属性用于如何分布border-image-slice切割后的部分该如何组合分布在边框上。它含有以下属性：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stretch</td>
+<td>默认值。拉伸图像来填充区域</td>
+</tr>
+<tr>
+<td>repeat</td>
+<td>平铺（repeated）图像来填充区域。</td>
+</tr>
+<tr>
+<td>round</td>
+<td>类似 repeat 值。如果无法完整平铺所有图像，则对图像进行缩放以适应区域。</td>
+</tr>
+<tr>
+<td>space</td>
+<td>类似 repeat 值。如果无法完整平铺所有图像，扩展空间会分布在图像周围</td>
+</tr>
+<tr>
+<td>initial</td>
+<td>将此属性设置为默认值。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>从父元素中继承该属性。</td>
+</tr>
+</tbody>
+</table>
+<p>特别解释一下：</p>
+<ol>
+<li>tretch只会将剪切过后的图片放置一张在边框位置，然后拉伸以适应边框的长度。 </li>
+<li>repeat会将多个切割后的图片组合放到边框位置，并且组合后的图片长/宽<strong>大于</strong>border-width，居中后将多余的部分隐藏在两侧。</li>
+<li>round会将多个切割后的图片组合放在边框位置，并且组合后的图片长/宽<strong>小于</strong>border-width，然后会缩放切割图片以适应长（宽）度。</li>
+<li>space会将多个切割后的图片组合放到边框位置，并且组合后的图片长/宽<strong>小于</strong>border-width，多余的部分会空出来，如果有背景色，则用背景色填充。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/10/19/CSS3-边框/" target="_blank" title="CSS3-边框">http://yoursite.com/2019/10/19/CSS3-边框/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/10/29/CSS3-背景/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CSS3-背景
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/09/javaee之spring框架总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">javaee之spring框架总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS边框"><span class="nav-number">2.</span> <span class="nav-text">CSS边框</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#border-radius"><span class="nav-number">2.1.</span> <span class="nav-text">border-radius</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#border-radius参数解析"><span class="nav-number">2.1.1.</span> <span class="nav-text">border-radius参数解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-radius参数单位"><span class="nav-number">2.1.2.</span> <span class="nav-text">border-radius参数单位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-radius参数意义"><span class="nav-number">2.1.3.</span> <span class="nav-text">border-radius参数意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-radius配置一个圆角两侧的不同弧度"><span class="nav-number">2.1.4.</span> <span class="nav-text">border-radius配置一个圆角两侧的不同弧度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#border-radius高级应用"><span class="nav-number">2.2.</span> <span class="nav-text">border-radius高级应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础用法-圆角"><span class="nav-number">2.2.1.</span> <span class="nav-text">基础用法-圆角</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圆形、椭圆"><span class="nav-number">2.2.2.</span> <span class="nav-text">圆形、椭圆</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#box-shadow"><span class="nav-number">2.3.</span> <span class="nav-text">box-shadow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#box-shadow参数解析"><span class="nav-number">2.3.1.</span> <span class="nav-text">box-shadow参数解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高级应用-作为边框"><span class="nav-number">2.3.2.</span> <span class="nav-text">高级应用-作为边框</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#outline"><span class="nav-number">2.4.</span> <span class="nav-text">outline</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缝线风格"><span class="nav-number">2.4.1.</span> <span class="nav-text">缝线风格</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#border-image"><span class="nav-number">2.5.</span> <span class="nav-text">border-image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#border-image参数"><span class="nav-number">2.5.1.</span> <span class="nav-text">border-image参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#border-image-source"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">border-image-source</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#border-image-slice"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">border-image-slice</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#border-image-width"><span class="nav-number">2.5.1.3.</span> <span class="nav-text">border-image-width</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#border-image-outset"><span class="nav-number">2.5.1.4.</span> <span class="nav-text">border-image-outset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#border-image-repeat"><span class="nav-number">2.5.1.5.</span> <span class="nav-text">border-image-repeat</span></a></li></ol></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

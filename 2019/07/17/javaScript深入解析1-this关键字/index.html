@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>javascript深入解析1-this关键字 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="javaScriptthis关键字">
+  
+  
+  
+  
+  <meta name="description" content="前言花了三天时间粗略看完了《你不知道的JavaScript》下部，这一部分介绍了ES6的部分内容（本书出版时ES7,8）的部分特性还未推出，因为之前已经学过ES6，所以这一遍只是温习和关注细节，感觉除了新增的特征，迭代器应该是最重要的部分，因为ES6的很多特性都用到了迭代器，包括 扩展运算符(spread)‘[…]’，泛数组的迭代(for..of循环，keys(),values(),entries">
+<meta name="keywords" content="javaScript,this关键字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaScript深入解析1-this关键字">
+<meta property="og:url" content="http://yoursite.com/2019/07/17/javaScript深入解析1-this关键字/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="前言花了三天时间粗略看完了《你不知道的JavaScript》下部，这一部分介绍了ES6的部分内容（本书出版时ES7,8）的部分特性还未推出，因为之前已经学过ES6，所以这一遍只是温习和关注细节，感觉除了新增的特征，迭代器应该是最重要的部分，因为ES6的很多特性都用到了迭代器，包括 扩展运算符(spread)‘[…]’，泛数组的迭代(for..of循环，keys(),values(),entries">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-17T03:45:24.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javaScript深入解析1-this关键字">
+<meta name="twitter:description" content="前言花了三天时间粗略看完了《你不知道的JavaScript》下部，这一部分介绍了ES6的部分内容（本书出版时ES7,8）的部分特性还未推出，因为之前已经学过ES6，所以这一遍只是温习和关注细节，感觉除了新增的特征，迭代器应该是最重要的部分，因为ES6的很多特性都用到了迭代器，包括 扩展运算符(spread)‘[…]’，泛数组的迭代(for..of循环，keys(),values(),entries">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-javaScript深入解析1-this关键字" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      javaScript深入解析1-this关键字
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/07/17/javaScript深入解析1-this关键字/" class="article-date">
+	  <time datetime="2019-07-17T03:44:15.000Z" itemprop="datePublished">2019-07-17</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/javaScript/">javaScript</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>花了三天时间粗略看完了《你不知道的JavaScript》下部，这一部分介绍了ES6的部分内容（本书出版时ES7,8）的部分特性还未推出，因为之前已经学过ES6，所以这一遍只是温习和关注细节，感觉除了新增的特征，<strong>迭代器</strong>应该是最重要的部分，因为ES6的很多特性都用到了迭代器，包括 <strong>扩展运算符(spread)‘[…]’</strong>，泛数组的迭代(for..of循环，keys(),values(),entries()等等),其次就是Promise，这个特性用的也很多，特别是在异步操作上，配合生成器(function */)，迭代器(iterator),就是<strong>async异步函数</strong>的底层实现。</p>
+<h1 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于this</h1><p>this关键字作为JavaScript开发者必须理解的概念之一，其实并没有那么高深。</p>
+<h2 id="what"><a href="#what" class="headerlink" title="what"></a>what</h2><p>Q：什么是this？<br>A：this代表的是函数运行的上下文环境。<br><a id="more"></a><br>Detail：</p>
+<p>在所有语言中，都有一个<strong>调用栈</strong>的概念，即函数被哪个对象所调用（注意JavaScript中对象的概念，几乎所有的方法，参数都有一个宿主对象，其中顶层对象在浏览器中window，在node中则为global）。所以我们再执行一个函数或调用一个变量时，默认是带有一个顶层对象前缀的，不过由于我们所有的代码都在该对象中，则可以省略，不信可以试一下：</p>
+<pre><code>var num = 0;
+console.log(num);
+console.log(window.num);
+</code></pre><p>没错，它们的结果都是0。</p>
+<p>回归正题，所以粗略的来说，函数被调用的对象即为他的this指向(先不谈硬绑定)，最简单的例子：</p>
+<pre><code>var obj = {
+    num : 0,
+    func: function(){
+        console.log(this.num);
+    }
+}
+
+obj.func();
+</code></pre><p>执行结果是什么呢？<br>没错，是0；<br>因为这里的func函数由obj调用，所以this指向obj。<br>OK,那么再看一下下面这段代码：</p>
+<pre><code>var num = 0;
+var obj = {
+    num : 1,
+    func: function(){
+        console.log(this.num);
+    }
+}
+
+var outterFunc = obj.func;
+outterFunc();
+</code></pre><p>执行结果又是什么呢？have a try!<br>可能出乎你的意料，结果是<strong>0</strong>.<br>So,why?思考一下我们上面的解释。</p>
+<p>没错，也许你想通了，因为这时候的func函数并不是通过obj来调用的，所以this默认指向window，但window中num变量为0，所以结果是<strong>0</strong>.</p>
+<p>在这之中，我们需要了解的是：<strong>在JavaScript中，函数，对象，数组，或者说所有对象即对象的子类（因为包括函数，数组皆为对象的子类）都是通过地址的形式存储，类似与C语言中的指针形式存储</strong></p>
+<p>思考下面代码：</p>
+<pre><code>var func = function(){console.log(123)}
+</code></pre><p>在JavaScript引擎中时如何运行完这条语句的呢？<br>（你需要了解的是JavaScript不是一门预编译语言，而是一门<strong>解释执行</strong>的语言（即执行一句，编译一句，当然这是不完全正确的，从<strong>变量提升</strong>即可以看出来））</p>
+<ol>
+<li>查询是否存在func这个变量—否</li>
+<li>声明这个变量</li>
+<li>定义函数<code>function(){console.log(123)}</code></li>
+<li>将该函数存储于内存中，并取得其地址</li>
+<li>将该地址赋值给func变量</li>
+</ol>
+<p>所以func变量实际存储的是该函数的地址。<br><strong>所以函数实际上是没有存储作用域链中的任何信息，它总是一个独立存在的个体。</strong><br>这也就解释了为什么func虽然定义在obj中，但是通过某种方式提取出来后直接调用其this就指向了window。</p>
+<p>所以你大概已经明白了了吧，思考一下下面的代码：</p>
+<pre><code>var num = 0;
+function inner()
+{
+    console.log(this.num)
+}
+
+function outter()
+{
+    var num = 1;
+    inner();
+}
+
+outter();
+</code></pre><p>所以，结果是什么呢？</p>
+<p>我猜你肯定答对了，是0；</p>
+<p>同样的道理，inner函数虽然在outter函数中被调用，但任然是直接调用，没有任何前缀对象，所以其this指向任然是window。</p>
+<p>最后一个例子：</p>
+<pre><code>var name = &quot;clever coder&quot;;  
+var person = {  
+    name : &quot;foocoder&quot;,  
+    hello : function(sth){  
+        var that = this;  
+        var sayhello = function(sth) {  
+            console.log(that.name + &quot; says &quot; + sth);  
+        };  
+        sayhello(sth);  
+    }  
+}  
+person.hello(&quot;hello world&quot;);//foocoder says hello world 
+</code></pre><p>这里内层函数this指向的任然是window，有人认为是JavaScript的设计错误，但是从上面内存的角度去分析，会发现这是正确的。</p>
+<h1 id="why-amp-where"><a href="#why-amp-where" class="headerlink" title="why &amp; where"></a>why &amp; where</h1><p>说了这么多this，那么为什么要用this呢？又在哪里用呢？</p>
+<p>Q：why？</p>
+<p>A：this的使用使调用上下文对象变得更加简洁，否则，每次调用函数必须传递上下文对象，编码将及其复杂。</p>
+<p>Q：where？</p>
+<p>A：相信接触过OOP（面向对象编程）的同学应该熟悉这个结构(伪代码)：</p>
+<pre><code>Class Example{
+     constructor(name,age)
+    {
+        this.name = name;
+        this.age = age;     
+    }
+}
+
+declare instan = new Example(&apos;tom&apos;,23);
+</code></pre><p>没错，这是一个基本类的构造，只包括了一个constructor构造器方法，其中的this指向的即是这个被实例化的对象(instan),则instan的name属性为’tom’，age属性为23。试想没有this的话，构造器该如何为实例属性赋值呢？只有显式的将instan传递给constructor函数，这将变得无比繁杂。</p>
+<p>在js中，不仅是在类，即使是用<strong>行为委托</strong>方式编码，任然离不开this，因为总是存在对上下文对象的应用。</p>
+<p><strong>值得注意的是：JavaScript语言基础中并没有class的概念，即使ES6推出了class关键字，但它任然是使用原型链对类的模拟，任然是ES5部分框架class实现的语法糖</strong></p>
+<h1 id="how"><a href="#how" class="headerlink" title="how"></a>how</h1><p>说了那么多，还是要详细讲一下this的绑定问题：</p>
+<ol>
+<li>默认绑定</li>
+</ol>
+<p><strong>独立函数调用执行默认绑定</strong>。</p>
+<pre><code>var a = 0;
+function func()
+{
+    console.log(&apos;a:&apos;this.a);
+}
+
+func();
+
+//a:0
+</code></pre><p>如上面我们所说，这里的func是直接的函数调用，所以执行默认绑定，this指向了window对象。</p>
+<p><strong>值得注意的是：在strict模式下，默认绑定this为undefined</strong></p>
+<pre><code>var a = 0;
+function func()
+{
+    &quot;use strict&quot;
+    console.log(&apos;a:&apos;+this.a);
+}
+
+func();
+
+//Uncaught TypeError: Cannot read property &apos;a&apos; of undefined
+</code></pre><ol start="2">
+<li>隐式绑定</li>
+</ol>
+<p>这就是我们之前熟悉的用对象来调用函数：</p>
+<pre><code>var obj = {
+    num : 0,
+    func: function(){
+        console.log(&apos;num:&apos;+this.num);
+    }
+}
+
+obj.func();
+
+//num:0
+</code></pre><p><strong>当含有多层对象引用的时候，只有距函数最近的一个对象为上下文对象</strong></p>
+<pre><code>var obj0 = {
+    num : 0,
+    func: function(){
+        console.log(&apos;num:&apos;+this.num);
+    }
+}
+
+var obj1 = {
+    num:1,
+    obj0:obj0
+}
+
+obj1.obj0.func()
+
+//num:0
+</code></pre><p>正如我们之前所说的，函数的存储与上下文对象毫无关系，所以，当我们将对象中的函数通过某种方法提取出来时，它就与原来的对象毫无关系了，其this指向则为window了（<strong>这种现象一般被称为隐式丢失</strong>）。具体可以看上面那个例子。</p>
+<ol start="3">
+<li>显示绑定</li>
+</ol>
+<p>所谓显示绑定，即通过call(),apply(),以及ES6的bind()函数直接指定this的指向。</p>
+<pre><code>var a = 0;
+var obj = {
+    a: 1
+}
+
+function func()
+{
+    console.log(this.a);
+}
+
+func.call(obj);
+
+//1
+</code></pre><p>值得注意的是：call(),apply()函数的绑定是<strong>软绑定</strong>，即只在绑定这一次起作用，下一次调用时this任然执行原有绑定规则。</p>
+<p>所以就衍生出了<strong>硬绑定</strong>，ES6之前需要手动封装硬绑定方法：</p>
+<pre><code>function bind(fn,obj)
+{
+    return function(){
+        return fn.apply(obj,arguments)
+    }
+}
+
+//执行此方法后，函数的this指向将被永久绑定在指定对象上，无法修改。
+</code></pre><p>由于这个方法需求太广泛了，所以ES6推出了官方的bind()方法，直接调用即可。</p>
+<ol start="4">
+<li>new绑定</li>
+</ol>
+<p>与其他语言中构造函数的特殊性不同，在JavaScript中，构造函数是一个普通的函数，唯一的特殊点是它在执行new操作符后自动调用，并且开始执行一系列操作：</p>
+<ol>
+<li>创建一个新的对象</li>
+<li>这个新对象会被执行[[prototype]]连接(会在实例与Object原型之间在建立一层Prototype)。</li>
+<li>这个对象将会被绑定到对应的函数的this。</li>
+<li>如果函数没有返回其他对象，那么new表达式中函数调用会自动返回这个新对象。</li>
+</ol>
+<p>第四步解释：</p>
+<pre><code>function Fun()
+{
+    reuturn {
+                b:2
+            }
+}
+
+var instan = new Foo()
+
+//{b:2}
+</code></pre><h2 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h2><ol>
+<li>如果是new绑定，则this按上面的规则绑定对象。</li>
+<li>如果是显示绑定，则this指向显示绑定的对象。</li>
+<li>如果有隐式绑定，则this绑定在调用对象上。</li>
+<li>否则执行默认绑定，非严格模式下为window，严格模式下位undefined。</li>
+</ol>
+<h2 id="箭头函数-gt"><a href="#箭头函数-gt" class="headerlink" title="箭头函数 =&gt;"></a>箭头函数 =&gt;</h2><p>在ES6中，新加了一种声明函数的方式，箭头函数(=&gt;)</p>
+<pre><code>()=&gt;{} 等价于 function(){}
+</code></pre><p>关于箭头函数的特性就不具体细讲，他与this相关的就是：<br>箭头函数的this决定于外层作用域来决定：</p>
+<pre><code>//arrayFunc
+    var a  = 0;
+    //定义全局变量a
+    function fun() {
+        return (arrayFunc = ()=&gt;{
+            console.log(this.a);
+        })()//这是一个立即执行函数，也可以在外围多调用一次
+    }
+
+    var obj = {
+        a : 1,
+        func: fun()
+    }
+
+    fun.call(obj);//将fun的this指向obj
+    //1
+</code></pre><p>由于fun的this指向obj，而箭头函数的this根据外围函数的this决定，所以arrayFunc的this也指向obj，则a为1。</p>
+<pre><code>//normal
+
+    var a  = 0;
+    function fun() {
+        return (function normalFunc(){
+            console.log(this.a);
+        })()
+    }
+
+    var obj = {
+        a : 1,
+        func: fun()
+    }
+    fun.call(obj);
+    //0
+</code></pre><p>这里普通函数的this根据调用的对象来确定，由于它是单独调用的，所以this指向window，则a为0。</p>
+<h1 id="Last"><a href="#Last" class="headerlink" title="Last"></a>Last</h1><p>this的用法相当重要，不管是自己原生开发，或是用框架，特别是使用框架时，由于一般框架会有一个App实例，我们的操作都在这个实例之中进行，所以会无数次用到this，所以我们必须学通。下一期写一下Protype原型链，也是JavaScript中相当重要的一个内容。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/07/17/javaScript深入解析1-this关键字/" target="_blank" title="javaScript深入解析1-this关键字">http://yoursite.com/2019/07/17/javaScript深入解析1-this关键字/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/07/18/javaScript深入解析2-原型及原型链/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          javaScript深入解析2-原型及原型链
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/06/28/Pomise理解/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Pomise理解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于this"><span class="nav-number">2.</span> <span class="nav-text">关于this</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#what"><span class="nav-number">2.1.</span> <span class="nav-text">what</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#why-amp-where"><span class="nav-number">3.</span> <span class="nav-text">why &amp; where</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#how"><span class="nav-number">4.</span> <span class="nav-text">how</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优先级"><span class="nav-number">4.1.</span> <span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#箭头函数-gt"><span class="nav-number">4.2.</span> <span class="nav-text">箭头函数 =&gt;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last"><span class="nav-number">5.</span> <span class="nav-text">Last</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

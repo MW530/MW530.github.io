@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>在esc服务器上搭建静态网站 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="escwebsite">
+  
+  
+  
+  
+  <meta name="description" content="开始前面在连接上服务器后，紧接着我想测试一下服务器的网站搭建，下面就把简单的教程贴出来。 1.首先要要在服务器管理页面对服务器进行配置（我最开始就是忘了配置服务器的端口，结果怎么都不对!!!）由于我们HTTP的对应端口是80，所以我们在安全组规则中添加对80端口的开放。">
+<meta name="keywords" content="esc,website">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在ESC服务器上搭建静态网站">
+<meta property="og:url" content="http://yoursite.com/2018/07/22/ecsAndWebsite/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="开始前面在连接上服务器后，紧接着我想测试一下服务器的网站搭建，下面就把简单的教程贴出来。 1.首先要要在服务器管理页面对服务器进行配置（我最开始就是忘了配置服务器的端口，结果怎么都不对!!!）由于我们HTTP的对应端口是80，所以我们在安全组规则中添加对80端口的开放。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/Ptydk4.md.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsJde.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsNid.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtyV6P.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsMxx.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtseIJ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsZa4.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsuGR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsKR1.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtslM6.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/Pts1sK.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsYIH.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsYIH.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsGZD.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/07/25/Ptsdzt.jpg">
+<meta property="og:updated_time" content="2018-07-25T14:12:41.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在ESC服务器上搭建静态网站">
+<meta name="twitter:description" content="开始前面在连接上服务器后，紧接着我想测试一下服务器的网站搭建，下面就把简单的教程贴出来。 1.首先要要在服务器管理页面对服务器进行配置（我最开始就是忘了配置服务器的端口，结果怎么都不对!!!）由于我们HTTP的对应端口是80，所以我们在安全组规则中添加对80端口的开放。">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/07/25/Ptydk4.md.png">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-ecsAndWebsite" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      在ESC服务器上搭建静态网站
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/22/ecsAndWebsite/" class="article-date">
+	  <time datetime="2018-07-22T14:14:41.000Z" itemprop="datePublished">2018-07-22</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/website/">website</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>前面在连接上服务器后，紧接着我想测试一下服务器的网站搭建，下面就把简单的教程贴出来。</p>
+<p>1.首先要要在服务器管理页面对服务器进行配置（我最开始就是忘了配置服务器的端口，结果怎么都不对!!!）由于我们<br>HTTP的对应端口是80，所以我们在安全组规则中添加对80端口的开放。</p>
+<p><a href="https://imgchr.com/i/Ptydk4" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2018/07/25/Ptydk4.md.png" alt="Ptydk4.md.png"></a><br><a id="more"></a><br>添加好之后:</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtsJde.png" alt="PtsJde.png"></p>
+<p>2.我的windows服务器中是没有自带IIS的，所以先从IIS的安装开始，点击左下角的服务器管理图标进入服务器管理页面。<br><img src="https://s1.ax1x.com/2018/07/25/PtsNid.png" alt="PtsNid.png"></p>
+<p>3.在服务器管理中点击角色并点击右面的添加角色。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtyV6P.png" alt="PtyV6P.png"><br>4.进入添加角色向导。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtsMxx.png" alt="PtsMxx.png"></p>
+<p>5.钩选Web服务器(IIS),点击安装。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtseIJ.png" alt="PtseIJ.png"></p>
+<p>6.点击安装后会弹出是否添加，点击“添加必需的功能”。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtsZa4.png" alt="PtsZa4.png"></p>
+<p>7.然后会弹出角色服务，由于我们搭建的静态网页，所以勾选常见的HTTTP功能，如果需要构建动态网站，可够相爱U呢引用程序开发下的相应功能。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtsuGR.png" alt="PtsuGR.png"></p>
+<p>8.然后等待角色安装完成。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtsKR1.png" alt="PtsKR1.png"><br>9.然后就可以输入服务器的<span style="color:red;font-size:20px">公网</span>IP查看是否成功安装IIS服务。<br>看到上面这张图就代表安装成功了。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtslM6.png" alt="PtslM6.png"></p>
+<p>10.添加应用池。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/Pts1sK.png" alt="Pts1sK.png"></p>
+<p>11.添加站点，注意，IP地址要选择<span style="color:red;font-size:20px">全部未分配</span></p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtsYIH.png" alt="PtsYIH.png"><br>*12.最后是默认文档的修改，服务器中默认的主页是default.htm,你可以把它改成你的主页名。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/PtsYIH.png" alt="PtsYIH.png"><br><img src="https://s1.ax1x.com/2018/07/25/PtsGZD.png" alt="PtsGZD.png"></p>
+<p>13.在浏览器输入你的ip地址。查看你的网页。</p>
+<p><img src="https://s1.ax1x.com/2018/07/25/Ptsdzt.jpg" alt="Ptsdzt.jpg"></p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>至此，一个静态网站就搭建好了。其中容易发生错误的点主要有：</p>
+<ol>
+<li>安全规则没有配置或者没有配置正确。</li>
+<li>创建新站点的IP地址要选择全部未分配。</li>
+</ol>
+<p>借鉴资料：</p>
+<p>部分图片取自csdn博主bestself_iot的文章<a href="https://blog.csdn.net/bestself_iot/article/details/78724286" target="_blank" rel="noopener">IIS 静态页面网站搭建</a></p>
+<!--
+![PtsNid.png](https://s1.ax1x.com/2018/07/25/PtsNid.png)
+![Ptsni9.png](https://s1.ax1x.com/2018/07/25/Ptsni9.png)
+![PtsMxx.png](https://s1.ax1x.com/2018/07/25/PtsMxx.png)
+![PtseIJ.png](https://s1.ax1x.com/2018/07/25/PtseIJ.png)
+![PtsZa4.png](https://s1.ax1x.com/2018/07/25/PtsZa4.png)
+![PtsuGR.png](https://s1.ax1x.com/2018/07/25/PtsuGR.png)
+![PtsKR1.png](https://s1.ax1x.com/2018/07/25/PtsKR1.png)
+![PtslM6.png](https://s1.ax1x.com/2018/07/25/PtslM6.png)
+![Pts3qO.png](https://s1.ax1x.com/2018/07/25/Pts3qO.png)
+![Pts1sK.png](https://s1.ax1x.com/2018/07/25/Pts1sK.png)
+![PtsYIH.png](https://s1.ax1x.com/2018/07/25/PtsYIH.png)
+![PtsGZD.png](https://s1.ax1x.com/2018/07/25/PtsGZD.png)
+![PtsJde.png](https://s1.ax1x.com/2018/07/25/PtsJde.png)
+![PtsaRI.png](https://s1.ax1x.com/2018/07/25/PtsaRI.png)
+![PtsUJA.png](https://s1.ax1x.com/2018/07/25/PtsUJA.png)
+![Ptsdzt.jpg](https://s1.ax1x.com/2018/07/25/Ptsdzt.jpg)
+-->
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2018/07/22/ecsAndWebsite/" target="_blank" title="在ESC服务器上搭建静态网站">http://yoursite.com/2018/07/22/ecsAndWebsite/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/25/《亮剑》精神/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          《亮剑》精神-军人的尊严
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/22/xhellandcsd/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">xhellAnEcsd</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#开始"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#结尾"><span class="nav-number">1.1.</span> <span class="nav-text">结尾</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

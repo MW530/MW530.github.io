@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>image对象的complete与onload()事件(以及canvas的drawimage()函数) | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaScriptCanvas">
+  
+  
+  
+  
+  <meta name="description" content="问题之前基本看完了canvas的API，准备做一个小游戏，emmm，然后今天就遇到了问题，我本来以为是canvas的问题，但是仔细分析之后才发现是JS中的问题：">
+<meta name="keywords" content="JavaScript,Canvas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Image对象的complete与onload()事件(以及Canvas的drawImage()函数)">
+<meta property="og:url" content="http://yoursite.com/2019/03/12/Image对象的complete与onload()事件(以及Canvas的drawImage()函数)/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="问题之前基本看完了canvas的API，准备做一个小游戏，emmm，然后今天就遇到了问题，我本来以为是canvas的问题，但是仔细分析之后才发现是JS中的问题：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-12T11:53:08.590Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Image对象的complete与onload()事件(以及Canvas的drawImage()函数)">
+<meta name="twitter:description" content="问题之前基本看完了canvas的API，准备做一个小游戏，emmm，然后今天就遇到了问题，我本来以为是canvas的问题，但是仔细分析之后才发现是JS中的问题：">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Image对象的complete与onload()事件(以及Canvas的drawImage()函数)" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Image对象的complete与onload()事件(以及Canvas的drawImage()函数)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/03/12/Image对象的complete与onload()事件(以及Canvas的drawImage()函数)/" class="article-date">
+	  <time datetime="2019-03-12T11:45:26.000Z" itemprop="datePublished">2019-03-12</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>之前基本看完了canvas的API，准备做一个小游戏，emmm，然后今天就遇到了问题，我本来以为是canvas的问题，但是仔细分析之后才发现是JS中的问题：<br><a id="more"></a></p>
+<h2 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h2><p>关于HTML与JS的关系可以从网页的加载顺序来看，当浏览器打开网页的时候，网页由上至下的解析该网页，然后开始构建DOM树(Document Object Model)(属于JavaScript)，也就是说将HTML的每一个标签构建成一个相应的对象，但是DOM整体就是一个对象，每一个标签是其的一个子对象，对比与JSX有些相似,遇到JS或CSS时利用相应引擎进行解析。从这里就可以理解出，在网页完成加载后，每一个标签就成为了DOM这个对象里的一个子对象，我们使用相应的方法，比如Document.getElementById(“xxx”)就可以获取相应的对象，并进行操作。</p>
+<h2 id="Image-对象"><a href="#Image-对象" class="headerlink" title="Image()对象"></a>Image()对象</h2><p>由上可知，Image()也是一个节点对象，只是是否渲染至页面上的问题。</p>
+<h3 id="Image对象的属性"><a href="#Image对象的属性" class="headerlink" title="Image对象的属性"></a>Image对象的属性</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>align</td>
+<td>设置或返回与内联内容的对齐方式。</td>
+<td>align</td>
+<td>设置或返回与内联内容的对齐方式。</td>
+</tr>
+<tr>
+<td>alt</td>
+<td>设置或返回无法显示图像时的替代文本。</td>
+<td>alt</td>
+<td>设置或返回无法显示图像时的替代文本。</td>
+</tr>
+<tr>
+<td>border</td>
+<td>设置或返回图像周围的边框。</td>
+<td>border</td>
+<td>设置或返回图像周围的边框。</td>
+</tr>
+<tr>
+<td>complete</td>
+<td>返回浏览器是否已完成对图像的加载。</td>
+<td>complete</td>
+<td>返回浏览器是否已完成对图像的加载。</td>
+</tr>
+<tr>
+<td>height</td>
+<td>设置或返回图像的高度。</td>
+<td>height</td>
+<td>设置或返回图像的高度。</td>
+</tr>
+<tr>
+<td>hspace</td>
+<td>设置或返回图像左侧和右侧的空白。</td>
+<td>hspace</td>
+<td>设置或返回图像左侧和右侧的空白。</td>
+</tr>
+<tr>
+<td>id</td>
+<td>设置或返回图像的 id。</td>
+<td>id</td>
+<td>设置或返回图像的 id。</td>
+</tr>
+<tr>
+<td>isMap</td>
+<td>返回图像是否是服务器端的图像映射。</td>
+<td>isMap</td>
+<td>返回图像是否是服务器端的图像映射。</td>
+</tr>
+<tr>
+<td>longDesc</td>
+<td>设置或返回指向包含图像描述的文档的 URL。</td>
+<td>longDesc</td>
+<td>设置或返回指向包含图像描述的文档的 URL。</td>
+</tr>
+<tr>
+<td>lowsrc</td>
+<td>设置或返回指向图像的低分辨率版本的 URL。</td>
+<td>lowsrc</td>
+<td>设置或返回指向图像的低分辨率版本的 URL。</td>
+</tr>
+<tr>
+<td>name</td>
+<td>设置或返回图像的名称。</td>
+<td>name</td>
+<td>设置或返回图像的名称。</td>
+</tr>
+<tr>
+<td>src</td>
+<td>设置或返回图像的 URL。</td>
+<td>src</td>
+<td>设置或返回图像的 URL。</td>
+</tr>
+<tr>
+<td>useMap</td>
+<td>设置或返回客户端图像映射的 usemap 属性的值。</td>
+<td>useMap</td>
+<td>设置或返回客户端图像映射的 usemap 属性的值。</td>
+</tr>
+<tr>
+<td>vspace</td>
+<td>设置或返回图像的顶部和底部的空白。</td>
+<td>vspace</td>
+<td>设置或返回图像的顶部和底部的空白。</td>
+</tr>
+<tr>
+<td>width</td>
+<td>设置或返回图像的宽度。</td>
+<td>width</td>
+<td>设置或返回图像的宽度。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="标准属性"><a href="#标准属性" class="headerlink" title="标准属性"></a>标准属性</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>className</td>
+<td>设置或返回元素的 class 属性。</td>
+</tr>
+<tr>
+<td>title</td>
+<td>设置或返回元素的 title。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Image对象的事件句柄"><a href="#Image对象的事件句柄" class="headerlink" title="Image对象的事件句柄"></a>Image对象的事件句柄</h3><table>
+<thead>
+<tr>
+<th>事件句柄</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>onabort</td>
+<td>当用户放弃图像的装载时调用的事件句柄。</td>
+</tr>
+<tr>
+<td>onerror</td>
+<td>在装载图像的过程中发生错误时调用的事件句柄。</td>
+</tr>
+<tr>
+<td>onload</td>
+<td>当图像装载完毕时调用的事件句柄。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="浅谈图片加载"><a href="#浅谈图片加载" class="headerlink" title="浅谈图片加载"></a>浅谈图片加载</h2><h3 id="complete属性：图片显示出来之后其属性由false变为true"><a href="#complete属性：图片显示出来之后其属性由false变为true" class="headerlink" title="complete属性：图片显示出来之后其属性由false变为true"></a>complete属性：图片显示出来之后其属性由<code>false</code>变为<code>true</code></h3><p>在这个属性上，IE与其他浏览器有所不同，IE是根据图片的src属性是否是一个有效的图片地址值。即，<strong>在IE下，只有当image()对象的src值为一个正确的图片地址时，complete值才为true，否则一直为false，但是在其他浏览器下，当image()对象呗定义完成的时候，其complete值就为true，不会检测其src属性的有效性</strong></p>
+<p>也就是说：<strong>complete这个属性在IE系浏览器与其他浏览器的判断方式不一样，所以对于适配性来说，最好不用</strong></p>
+<h3 id="onload-回调事件"><a href="#onload-回调事件" class="headerlink" title="onload()回调事件"></a>onload()回调事件</h3><p>onload()是当图像装载完毕后调用的函数。关键是如何才算是装载完毕，经测试，</p>
+<ol>
+<li>当我们直接在HTML中定义一个<img>标签，并且在其中规定其onload事件，只有当src属性填写正确时，才算是<strong>装载完成</strong>，否则onload事件一直不触发，直至修改其src值为有效图片地址的时候才算是<strong>装载完成</strong>。</li>
+<li>当我们在JS代码中手动生成一个Image()对象时，无论其src值是否被赋值为有效的图片地址，其onload事件总会触发，即当我们手动生成一个 Image 对象时，一旦其被生成，则认定为装载完成，立即调用onload事件。至于原因，我还没弄明白，看来需要深入的去了解一下浏览器机制，才能明白这一点。</li>
+</ol>
+<h2 id="Canvas中悟到的Image对象的用发法"><a href="#Canvas中悟到的Image对象的用发法" class="headerlink" title="Canvas中悟到的Image对象的用发法"></a>Canvas中悟到的Image对象的用发法</h2><ol>
+<li>ctx.drawImage(img,x,y)中的Img应当是一个Image对象，可以是从DOM树中获取的Image()子对象，也可以是一个自己定义的Image()对象，不管是这两者中的哪一者，再绘制到画板上时，都必须将绘制语句写到该对象的<code>onload()</code>函数中，其原因在于，Image()的定义是一个异步执行的操作，也就是说，在执行到<code>let img = new Image()</code>时，JS引擎不会等待该语句执行完毕在继续执行，而是直接继续执行，在对象定义完成时，就会自动调用其onlaod.onerror,onabort回调事件。那么问题就是，可能在对象还没有定义完成的时候，已经执行到了<code>ctx.drawImage()</code>这一条语句，所以绘制不出任何效果(而且大部分情况下，JS语句的执行都是快于对象的定义，所以基本上都绘制不出图形)。所以所有的Canvas图形绘制都必须是在onload中进行的。</li>
+<li><p>问题又出现了，那如果要就行较大型的图形绘制，我不可能把所有代码都写到一个函数里吧，所以再写多个函数时就要多次调用onload事件，但是一个图片的onload事件只能执行一次。所以我想到了一种错误的方法，在不同寒暑表中多次载入同一张图片，并分别调用其回调函数onload，结果当然是失败了。这种情况下<strong>onload事件的顺序是无法确定的，即使你是前后分别执行，因为onload函数是异步进行的</strong>，现在惟一的办法就是把这张图片统一载入，然后想办法将下面的代码都建立在onlaod函数执行的前提下。然后我找到了一种方法：</p>
+<p> let img = new Image();<br> img.addEventListener(‘onload’,’start’,’true’);</p>
+<p> function start(){</p>
+<pre><code>draw1();
+draw2();
+}
+</code></pre><p> fucntion draw1(){</p>
+<pre><code>ctx.drawImage();
+...
+</code></pre><p> }</p>
+<p> fucntion draw1(){</p>
+<pre><code>ctx.drawImage();
+...
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>上面这么写的好处在于，所有的函数后在onload回调函数之后执行了，确保了绘图的正确性。</p>
+<h1 id="Last-but-not-least"><a href="#Last-but-not-least" class="headerlink" title="Last but not least"></a>Last but not least</h1><p> 我在网上搜了很久，在讲解onload()事件时基本就一篇文章，被抄了无数次，但是我试验却发现和文章中的结果完全不一样。文章中写到，即使是在JS代码中定义一个Image()对象时，只要src不赋值，其onload事件就不会触发，但是~像我上面实验的那样，我试验了很多次，都是那样的结果，测试了Chrome，Firefox，IE，Edge，每个浏览器的测试都一样。可能是那篇文章已经是很久之前的了，但是这些同学从未自己试过，直接就抄过去了。所以实践才是真理啊。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/03/12/Image对象的complete与onload()事件(以及Canvas的drawImage()函数)/" target="_blank" title="Image对象的complete与onload()事件(以及Canvas的drawImage()函数)">http://yoursite.com/2019/03/12/Image对象的complete与onload()事件(以及Canvas的drawImage()函数)/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/16/webpack中ES6代码的压缩问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          webpack中ES6代码的压缩问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/10/canvas基础/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">canvas基础</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回顾"><span class="nav-number">1.1.</span> <span class="nav-text">回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Image-对象"><span class="nav-number">1.2.</span> <span class="nav-text">Image()对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Image对象的属性"><span class="nav-number">1.2.1.</span> <span class="nav-text">Image对象的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准属性"><span class="nav-number">1.2.2.</span> <span class="nav-text">标准属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Image对象的事件句柄"><span class="nav-number">1.2.3.</span> <span class="nav-text">Image对象的事件句柄</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浅谈图片加载"><span class="nav-number">1.3.</span> <span class="nav-text">浅谈图片加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#complete属性：图片显示出来之后其属性由false变为true"><span class="nav-number">1.3.1.</span> <span class="nav-text">complete属性：图片显示出来之后其属性由false变为true</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#onload-回调事件"><span class="nav-number">1.3.2.</span> <span class="nav-text">onload()回调事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Canvas中悟到的Image对象的用发法"><span class="nav-number">1.4.</span> <span class="nav-text">Canvas中悟到的Image对象的用发法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last-but-not-least"><span class="nav-number">2.</span> <span class="nav-text">Last but not least</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>python3_cgi编程踩坑日记 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="PythonCGI">
+  
+  
+  
+  
+  <meta name="description" content="Hard-start这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。">
+<meta name="keywords" content="Python,CGI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3_CGI编程踩坑日记">
+<meta property="og:url" content="http://yoursite.com/2019/01/14/Python3-CGI编程踩坑日记/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="Hard-start这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/1.png">
+<meta property="og:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/1.png">
+<meta property="og:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/3.png">
+<meta property="og:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/4.png">
+<meta property="og:updated_time" content="2019-01-14T14:02:46.626Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python3_CGI编程踩坑日记">
+<meta name="twitter:description" content="Hard-start这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。">
+<meta name="twitter:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Python3-CGI编程踩坑日记" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Python3_CGI编程踩坑日记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/14/Python3-CGI编程踩坑日记/" class="article-date">
+	  <time datetime="2019-01-14T12:25:07.000Z" itemprop="datePublished">2019-01-14</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Hard-start"><a href="#Hard-start" class="headerlink" title="Hard-start"></a>Hard-start</h1><p>这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。</p>
+<a id="more"></a>
+<h1 id="Problem-I-met"><a href="#Problem-I-met" class="headerlink" title="Problem I met"></a>Problem I met</h1><ol>
+<li>Apache的安装问题</li>
+</ol>
+<p>在得之要使用Apache之后，我直接就百度Apache，然后再官网首页</p>
+<p><img src="\images\Python_CGI编程踩坑日记\1.png" alt="官网1"></p>
+<p>结果下载下来直接用不了，解压了发现文件不对。然后一搜教程才发现文件下载错了。</p>
+<p>应该在这里下载：</p>
+<p><img src="\images\Python_CGI编程踩坑日记\1.png" alt="官网2"></p>
+<p>终于完成填了第一个坑！</p>
+<ol start="2">
+<li>Apache配置问题</li>
+</ol>
+<p>要启用CGI，必需修改配置文件。而这个配置不仅仅是是一个地方，是n个地方：</p>
+<ol>
+<li>ServerRoot配置</li>
+</ol>
+<p>ServerRoot “” 主要用于指定Apache的安装路径，此选项参数值在安装Apache时系统会自动把Apache的路径写入。Windows安装时，该选项的值为Windows安装的路径，Linux安装时该选项值为编译时选择的路径</p>
+<p>找到：</p>
+<pre><code>Define SRVROOT &quot;${SRVROOT}&quot;
+ServerRoot &quot;${SRVROOT}4&quot;
+</code></pre><p>改为：</p>
+<pre><code>Define SRVROOT &quot;D:\web\Apache24&quot;
+ServerRoot &quot;D:\web\Apache24&quot;
+</code></pre><p>其中”${SRVROOT}”应改为你你安装Apache的目录。</p>
+<ol start="2">
+<li>Listen 配置</li>
+</ol>
+<p>Listen主要侦听web服务端口状态，默认为：80，即侦听所有的地址的80端口，注意这里也可以写成IP地址的侦听形式，不写即默认的地址：0.0.0.0</p>
+<p>找到：</p>
+<pre><code>Listen:80
+</code></pre><p>改为：<br>    Listen:8080</p>
+<p>一般不为80，因为容易占用，改为其他好一点。比如我改为8080。</p>
+<ol start="3">
+<li>CGI配置</li>
+</ol>
+<p>找到：</p>
+<pre><code>AddHandler cgi-script .cgi .pl 
+</code></pre><p>改为：</p>
+<pre><code>AddHandler cgi-script .cgi .pl .py
+</code></pre><p>这里是增加对Python的支持。</p>
+<p>找到：</p>
+<pre><code>&lt;Directory &quot;/${SRVROOT}&quot;&gt;
+    AllowOverride none
+    Require all denied
+&lt;/Directory&gt;
+</code></pre><p>改为：</p>
+<pre><code>&lt;Directory &quot;D:\web\Apache24\cgi-bin&quot;&gt;
+    AllowOverride None
+    Options Indexes FollowSymLinks ExecCGI
+    Require all granted 
+    Require host ip
+&lt;/Directory&gt;
+</code></pre><p>注意这里/${SRVROOT}任然还是Apache的安装地址。</p>
+<ol start="3">
+<li>Python解释器</li>
+</ol>
+<p>我就这么按照runoob上代码粘贴下来，like this：</p>
+<pre><code>#!/usr/bin/python3
+
+print (&quot;Content-type:text/html&quot;)
+print ()                             # 空行，告诉服务器结束头部
+print (&apos;&lt;html&gt;&apos;)
+print (&apos;&lt;head&gt;&apos;)
+print (&apos;&lt;meta charset=&quot;utf-8&quot;&gt;&apos;)
+print (&apos;&lt;title&gt;Hello Word - 我的第一个 CGI 程序！&lt;/title&gt;&apos;)
+print (&apos;&lt;/head&gt;&apos;)
+print (&apos;&lt;body&gt;&apos;)
+print (&apos;&lt;h2&gt;Hello Word! 我是来自菜鸟教程的第一CGI程序&lt;/h2&gt;&apos;)
+print (&apos;&lt;/body&gt;&apos;)
+print (&apos;&lt;/html&gt;&apos;)
+</code></pre><p>然后就出现了500错误，下面是log里的提示：</p>
+<pre><code>[Mon Jan 14 11:31:58.626473 2019] [cgi:error] [pid 3624:tid 1196] (OS 2)系统找不到指定的文件。  : [client ::1:52212] couldn&apos;t create child process: 720002: hello.py
+
+[Mon Jan 14 11:31:58.660452 2019] [cgi:error] [pid 3624:tid 1196] (OS 2)系统找不到指定的文件。  : [client ::1:52212] AH01223: couldn&apos;t spawn child process: D:/web/Apache24/cgi-bin/hello.py
+</code></pre><p>百度了半天，突然想起Apache如何载入编译器呢，然后直接百度上面代码的第一行：</p>
+<pre><code>#!/usr/bin/python3
+</code></pre><p>然后才知道这是Linux下Python的解释器位置，我枯了。然后我找到了自己Python3的安装位置，却发现没有exe文件，我又枯了。但是用sys自己的命令：</p>
+<pre><code>import sys
+sys.path
+</code></pre><p>得到了就是这个位置。不管了，直接写吧！<br>于是得到了这一段代码：</p>
+<pre><code>#!D:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python37\\python.exe
+</code></pre><p>没错，就是这么长，不知道自己当时怎么安装的。我又枯了。</p>
+<p>结果成功解析了！！！</p>
+<p><strong>但是！！！</strong></p>
+<p>又乱码了，检查了py文件的编码，发现py默认是utf-8啊。然后终于在网上找到了解决办法。没错，是print()函数的问题。</p>
+<p>又大佬看print()源码使用<strong>Unicode</strong>，果然乱码了，然后引入了这一段代码：</p>
+<pre><code>import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding=&apos;utf-8&apos;)
+</code></pre><p>即：将print()函数改为<strong>utf-8</strong>编码输出，终于留了一张图：</p>
+<p><img src="\images\Python_CGI编程踩坑日记\3.png" alt="正常输出"></p>
+<p>附上正常获取text，textarea的代码，其他的都一样。</p>
+<p>(text.html):</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;title&gt;菜鸟教程(runoob.com)&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=&quot;/cgi-bin/text.py&quot; method=&quot;POST&quot; target=&quot;_blank&quot;&gt;
+&lt;input tyep = &apos;text&apos; name = &apos;name&apos;/&gt;
+&lt;textarea name=&quot;personinform&quot;&gt;个人信息&lt;/textarea&gt;
+&lt;input type=&apos;submit&apos; value=&apos;提交&apos;&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>(text.py):</p>
+<pre><code>#!D:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python37\\python.exe
+import io
+import sys
+import cgi, cgitb
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding=&apos;utf-8&apos;)
+form = cgi.FieldStorage()
+name = form.getvalue(&apos;name&apos;)
+personinform= form.getvalue(&apos;personinform&apos;)
+print (&quot;Content-type:text/html&quot;)
+print ()                             # 空行，告诉服务器结束头部
+print (&apos;&lt;html&gt;&apos;)
+print (&apos;&lt;head&gt;&apos;)
+print (&apos;&lt;meta charset=&quot;utf-8&quot;&gt;&apos;)
+print (&apos;&lt;title&gt;Hello Word - 我的第一个 CGI 程序！&lt;/title&gt;&apos;)
+print (&apos;&lt;/head&gt;&apos;)
+print (&apos;&lt;body&gt;&apos;)
+print (&apos;&lt;h2&gt;Hello Word! 我是第一CGI程序&lt;/h2&gt;&apos;)
+print(name)
+print(personinform)
+print (&apos;&lt;/body&gt;&apos;)
+print (&apos;&lt;/html&gt;&apos;)
+</code></pre><p>下面是get从url来获取键值的方法：</p>
+<pre><code>#!D:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python37\\python.exe
+import io
+import sys
+import cgi, cgitb
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding=&apos;utf-8&apos;)
+form = cgi.FieldStorage()
+name = form.getvalue(&apos;name&apos;)
+number = form.getvalue(&apos;number&apos;)
+print (&quot;Content-type:text/html&quot;)
+print ()                             # 空行，告诉服务器结束头部
+print (&apos;&lt;html&gt;&apos;)
+print (&apos;&lt;head&gt;&apos;)
+print (&apos;&lt;meta charset=&quot;utf-8&quot;&gt;&apos;)
+print (&apos;&lt;title&gt;Hello Word - 我的第一个 CGI 程序！&lt;/title&gt;&apos;)
+print (&apos;&lt;/head&gt;&apos;)
+print (&apos;&lt;body&gt;&apos;)
+print (&apos;&lt;h2&gt;Hello Word! 我是第一CGI程序&lt;/h2&gt;&apos;)
+print(name,number)
+print (&apos;&lt;/body&gt;&apos;)
+print (&apos;&lt;/html&gt;&apos;)
+</code></pre><p><img src="\images\Python_CGI编程踩坑日记\4.png" alt="get方法图片"></p>
+<ul>
+<li>last problem(unsolved)</li>
+</ul>
+<p>最后一个问题就是CGI的文件上传问题。由上面的代码可以知道，所有接受的数据都来自：</p>
+<pre><code>cgi.FieldStorage()
+</code></pre><p>网上的教程都这么获得数据：</p>
+<pre><code>import cgi, os
+import cgitb; cgitb.enable()
+
+form = cgi.FieldStorage()
+
+# 获取文件名
+fileitem = form[&apos;filename&apos;]
+
+# 检测文件是否上传
+if fileitem.filename:
+# 设置文件路径 
+fn = os.path.basename(fileitem.filename)
+open(&apos;/tmp/&apos; + fn,   &apos;wb&apos;).write(fileitem.file.read())
+
+message = &apos;文件 &quot;&apos; + fn + &apos;&quot; 上传成功&apos;
+
+else:
+    message = &apos;文件没有上传&apos;
+</code></pre><p>但是问题在于，</p>
+<pre><code>fileitem.filename == none
+</code></pre><p>我直接输出 fielitem</p>
+<pre><code>fileitem = MiniFielStorage(&apos;filename&apos;,&apos;test.txt&apos;)
+#test.txt为上传的文件名
+</code></pre><p>所以fileitem.filename始终为none。所以一直解决不了，查了各种资料，不过官方文档里有类似的解释，但是还是没有解决办法。明天再看吧~~~难受啊，马飞~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/01/14/Python3-CGI编程踩坑日记/" target="_blank" title="Python3_CGI编程踩坑日记">http://yoursite.com/2019/01/14/Python3-CGI编程踩坑日记/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/28/JSP中的表单编码问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JSP中的表单编码问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/13/欢迎2019-假如我年少有为/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">欢迎2019-假如我年少有为</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hard-start"><span class="nav-number">1.</span> <span class="nav-text">Hard-start</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Problem-I-met"><span class="nav-number">2.</span> <span class="nav-text">Problem I met</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

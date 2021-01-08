@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>css3-转换 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="CSS3transformtranslate()scale()rotate()skew()matrix">
+  
+  
+  
+  
+  <meta name="description" content="CSS3中的转换CSS3中的转换可以形成简单的动画，对于页面的小优化有点金的效果。 CSS3中的转换都在transform属性中定义，在该属性中定义其他函数来进行不同的转换。 CSS3的2D转换translate()该函数接受两个参数，分别是其x，y轴的偏移量，右下为正方向。 transform:translate(50px,100px); 将原元素向右、下移动50px、100px。 如果只填一个">
+<meta name="keywords" content="CSS3,transform,translate(),scale(),rotate(),skew(),matrix">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS3-转换">
+<meta property="og:url" content="http://yoursite.com/2019/11/05/CSS3-转换/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="CSS3中的转换CSS3中的转换可以形成简单的动画，对于页面的小优化有点金的效果。 CSS3中的转换都在transform属性中定义，在该属性中定义其他函数来进行不同的转换。 CSS3的2D转换translate()该函数接受两个参数，分别是其x，y轴的偏移量，右下为正方向。 transform:translate(50px,100px); 将原元素向右、下移动50px、100px。 如果只填一个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/skew_x.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/skew_y.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/skew_xy.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/matrix1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/maxtrixCal.jpg">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/matrix_rotate.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/matrix_rotate1.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/matrix_rotate2.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/maxtrix_skew.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/3d-rays.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/transform-style.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/backface-visibible.png">
+<meta property="og:image" content="http://yoursite.com/images/CSS3-转换/perspective.gif">
+<meta property="og:updated_time" content="2019-11-08T09:18:21.422Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS3-转换">
+<meta name="twitter:description" content="CSS3中的转换CSS3中的转换可以形成简单的动画，对于页面的小优化有点金的效果。 CSS3中的转换都在transform属性中定义，在该属性中定义其他函数来进行不同的转换。 CSS3的2D转换translate()该函数接受两个参数，分别是其x，y轴的偏移量，右下为正方向。 transform:translate(50px,100px); 将原元素向右、下移动50px、100px。 如果只填一个">
+<meta name="twitter:image" content="http://yoursite.com/images/CSS3-转换/skew_x.png">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-CSS3-转换" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      CSS3-转换
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/11/05/CSS3-转换/" class="article-date">
+	  <time datetime="2019-11-05T01:23:39.000Z" itemprop="datePublished">2019-11-05</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CSS3中的转换"><a href="#CSS3中的转换" class="headerlink" title="CSS3中的转换"></a>CSS3中的转换</h1><p>CSS3中的转换可以形成简单的动画，对于页面的小优化有点金的效果。</p>
+<p>CSS3中的转换都在<strong>transform</strong>属性中定义，在该属性中定义其他函数来进行不同的转换。</p>
+<h2 id="CSS3的2D转换"><a href="#CSS3的2D转换" class="headerlink" title="CSS3的2D转换"></a>CSS3的2D转换</h2><h3 id="translate"><a href="#translate" class="headerlink" title="translate()"></a>translate()</h3><p>该函数接受两个参数，分别是其x，y轴的偏移量，右下为正方向。</p>
+<pre><code>transform:translate(50px,100px);
+</code></pre><p>将原元素向右、下移动50px、100px。</p>
+<p>如果只填一个参数，则默认为x轴偏移。</p>
+<pre><code>transform:translate(50px);
+</code></pre><p>向x轴移动50px;</p>
+<pre><code>transform:translate(0,100px);
+</code></pre><p>向y轴移动100px；</p>
+<h3 id="rotate"><a href="#rotate" class="headerlink" title="rotate()"></a>rotate()</h3><p>该函数接受一个参数，确定偏移的角度，正值为顺时针，负值即为逆时针。</p>
+<pre><code>transform: rotate(30deg);//顺时针30度
+transform: rotate(-30deg);//逆时针30度
+</code></pre><h3 id="scale"><a href="#scale" class="headerlink" title="scale()"></a>scale()</h3><p>该函数接受两个参数，分别为x轴的倍数，y轴的倍数。</p>
+<pre><code>scale(2,3);
+</code></pre><p>将容器宽度放大2倍，高度放大3倍。</p>
+<h3 id="skew"><a href="#skew" class="headerlink" title="skew()"></a>skew()</h3><p>通过 skew() 方法，元素将偏斜相应的角度，注意这个偏斜与rotate(旋转)不同，<strong>skew将会绕x,y轴偏斜x,y度，观察到的肉眼的形状会改变！</strong>比如只偏斜某一轴，则原元素会变成一个平行四边形。(与其他转换一样，其内容也会做对应的变换)</p>
+<pre><code>transform: skew(30deg);
+</code></pre><p><img src="\images\CSS3-转换\skew_x.png" alt="skew_x"></p>
+<pre><code>transform: skew(0deg,30deg);
+</code></pre><p><img src="\images\CSS3-转换\skew_y.png" alt="skew_y"></p>
+<pre><code>transform: skew(30deg,30deg);
+</code></pre><p><img src="\images\CSS3-转换\skew_xy.png" alt="skew_xy"></p>
+<h3 id="matrix"><a href="#matrix" class="headerlink" title="matrix()"></a>matrix()</h3><p>matrix() 方法把所有 2D 转换方法组合在一起。默认值为：<code>transforms:matrix(1,0,0,1,0,0);</code></p>
+<p>matrix() 方法需要六个参数，包含数学函数，允许您：旋转、缩放、移动以及倾斜元素。</p>
+<p>matrix原意是矩阵，所以这六个参数分别是矩阵的6个位置的值：</p>
+<pre><code>matrix(a,b,c,d,e,f)
+</code></pre><p><img src="\images\CSS3-转换\matrix1.jpg" alt="matrix1"></p>
+<p>也就是利用这个矩阵与原容器做运算后获得新位置。</p>
+<p><img src="\images\CSS3-转换\maxtrixCal.jpg" alt="maxtrixCal"></p>
+<p>所以我们运算过后的结果就是：</p>
+<p>x’=ax+cy+e</p>
+<p>y’=bx+dy+f</p>
+<h4 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h4><p>所以根据这个式子，我们可以推算如果要对元素进行x轴移动，则x’直接增大固定数值，即改变<strong>e</strong>的值：</p>
+<ol>
+<li><p>向x轴移动10px，y不变</p>
+<p> matrix(1,0,0,1,10,0)</p>
+</li>
+<li><p>向x,y轴都移动10px</p>
+<p> matrix(1,0,0,1,10,10)</p>
+</li>
+</ol>
+<h4 id="缩放"><a href="#缩放" class="headerlink" title="缩放"></a>缩放</h4><p>缩放的实质就是奖x，y轴的数值放大n倍，即：</p>
+<p>x’=2y</p>
+<p>y’=2x</p>
+<p>对于上面的：</p>
+<p>x’=ax+cy+e</p>
+<p>y’=bx+dy+f</p>
+<p>可得到：</p>
+<p>nx = ax+cy+e</p>
+<p>ny = bx+dy+f</p>
+<p>易得：</p>
+<p>a = n<br>b = 0<br>c = 0<br>d = n<br>e = 0<br>f = 0</p>
+<p>即，<strong>进行缩放的话，我们只需要修改a,d的值以修改宽,高的缩放程度</strong></p>
+<h4 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h4><p>利用极坐标，我们可以算出偏移角度与元素某点的坐标的关系。</p>
+<p><img src="\images\CSS3-转换\matrix_rotate.png" alt="matrix_rotate"></p>
+<p>根据原理图得：</p>
+<p><img src="\images\CSS3-转换\matrix_rotate1.png" alt="matrix_rotate1"></p>
+<p>推算可以得到：</p>
+<p><img src="\images\CSS3-转换\matrix_rotate2.png" alt="matrix_rotate2"></p>
+<p>所以，我们得：</p>
+<p>a = cosθ</p>
+<p>b = -sinθ</p>
+<p>d = sinθ</p>
+<p>e = cosθ</p>
+<p>所以改变abde，即可实现旋转。</p>
+<h4 id="偏移"><a href="#偏移" class="headerlink" title="偏移"></a>偏移</h4><p>同样由数学知识</p>
+<p><img src="\images\CSS3-转换\maxtrix_skew.png" alt="maxtrix_skew.png"></p>
+<p>即：</p>
+<p>b = tanθx<br>e = tanθy</p>
+<p>所以，skew操作只与b、e相关。</p>
+<p>不过如果不是利用CSS3来做一些复杂的变换，可以用这种方式来减少代码。否则最好不要使用这个函数，因为它可能会使你的调试复杂困难。</p>
+<h3 id="transform-origin"><a href="#transform-origin" class="headerlink" title="transform-origin()"></a>transform-origin()</h3><p>该属性确定转换的基点位置。</p>
+<p>example:</p>
+<pre><code>transform-origin:20px 20px;
+</code></pre><p>规定变换的基点为：(x=)20px (y=)20px</p>
+<p>其值可以为：</p>
+<ul>
+<li>left</li>
+<li>center</li>
+<li>right</li>
+<li>length</li>
+<li>%</li>
+</ul>
+<h2 id="CSS3的3D转换"><a href="#CSS3的3D转换" class="headerlink" title="CSS3的3D转换"></a>CSS3的3D转换</h2><p>我们在2D之中，我们看过“translate，scale，rotate”这三个变换属性。在3D变换中，这三个属性被拆分3个方向的分属性：</p>
+<p><img src="\images\CSS3-转换\3d-rays.png" alt="3d-rays"></p>
+<ol>
+<li><p>translate()</p>
+<ul>
+<li>translateX()</li>
+<li>translateY()</li>
+<li>translateZ()</li>
+</ul>
+</li>
+<li><p>scale()</p>
+<ul>
+<li>scaleX()</li>
+<li>scaleY()</li>
+<li>scaleZ()</li>
+</ul>
+</li>
+<li><p>ratate()</p>
+<ul>
+<li>rotateX()</li>
+<li>rotateY()</li>
+<li>rotateZ()</li>
+</ul>
+</li>
+</ol>
+<p>每个方向上的分量分别是沿某一轴变换。比如：translateX(120)表示沿X轴正方向移动120px。</p>
+<p>另外3D还有几个属性：</p>
+<h4 id="transform-style"><a href="#transform-style" class="headerlink" title="transform-style"></a>transform-style</h4><p>CSS 属性 transform-style 设置元素的子元素是位于 3D 空间中还是平面中。</p>
+<table>
+<thead>
+<tr>
+<th>flat</th>
+<th>设置元素的子元素位于该元素的平面中。</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>preserve-3d</td>
+<td>指示元素的子元素应位于 3D 空间中。</td>
+</tr>
+</tbody>
+</table>
+<p><img src="\images\CSS3-转换\transform-style.png" alt="transform-style"></p>
+<h4 id="perspective-origin"><a href="#perspective-origin" class="headerlink" title="perspective-origin"></a>perspective-origin</h4><p>perspective-origin属性也可以有3参数方式，第三个值为Z值。</p>
+<h4 id="backface-visibility"><a href="#backface-visibility" class="headerlink" title="backface-visibility"></a>backface-visibility</h4><p>backface-visibility 属性定义当元素不面向屏幕时是否可见。</p>
+<p><img src="\images\CSS3-转换\backface-visibible.png" alt="backface-visibible"></p>
+<h4 id="perspective-amp-amp-perspective-origin"><a href="#perspective-amp-amp-perspective-origin" class="headerlink" title="perspective&amp;&amp;perspective-origin"></a>perspective&amp;&amp;perspective-origin</h4><p>perspective 属性定义 3D 元素距视图的距离，以像素计。(类似于AE相机中的属性值)。</p>
+<p>当为元素定义 perspective 属性时，<strong>其子元素会获得透视效果，而不是元素本身。</strong></p>
+<p>元素添加perspective属性后，可再添加perspec-origin控制观察位置(类似与AE中的相机的x,y位置)。</p>
+<p>注释：<strong>perspective 属性只影响 3D 转换元素</strong>。</p>
+<pre><code>.father{
+width:400px;
+height:400px;
+perspective:120px;
+perspective-origin:10px 10px;
+background-color:blue;
+margin: 60px;
+}
+.son{
+margin:60px ;
+width:120px;
+height:120px;
+background-color:gray;
+transform: rotateX(30deg);
+}
+</code></pre><p>我们观察当perspective-origin值与perspective值改变时，元素发生的变化。</p>
+<p><img src="\images\CSS3-转换\perspective.gif" alt="perspective"></p>
+<p>可以明显看出，当perspective值改变的时候，相当于我们视觉的位置与元素的距离发生了改变。而当perspective-origin发生改变的时候，我们是视觉的x，y位置发生了改变，所以我们看到元素的形状及其位置发生了改变。</p>
+<h1 id="Last"><a href="#Last" class="headerlink" title="Last"></a>Last</h1><p>CSS3中的3D变换算是一门学问，下一章解析过渡的时候一起再解析一下，让自己多理解一下。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/11/05/CSS3-转换/" target="_blank" title="CSS3-转换">http://yoursite.com/2019/11/05/CSS3-转换/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/11/17/Vue中局部修改组件样式/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Vue中局部修改组件样式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/04/CSS3-文本效果和字体/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CSS3-文本效果和字体</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS3中的转换"><span class="nav-number">1.</span> <span class="nav-text">CSS3中的转换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS3的2D转换"><span class="nav-number">1.1.</span> <span class="nav-text">CSS3的2D转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#translate"><span class="nav-number">1.1.1.</span> <span class="nav-text">translate()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rotate"><span class="nav-number">1.1.2.</span> <span class="nav-text">rotate()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scale"><span class="nav-number">1.1.3.</span> <span class="nav-text">scale()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#skew"><span class="nav-number">1.1.4.</span> <span class="nav-text">skew()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#matrix"><span class="nav-number">1.1.5.</span> <span class="nav-text">matrix()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#移动"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">移动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缩放"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">缩放</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#旋转"><span class="nav-number">1.1.5.3.</span> <span class="nav-text">旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偏移"><span class="nav-number">1.1.5.4.</span> <span class="nav-text">偏移</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transform-origin"><span class="nav-number">1.1.6.</span> <span class="nav-text">transform-origin()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS3的3D转换"><span class="nav-number">1.2.</span> <span class="nav-text">CSS3的3D转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transform-style"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">transform-style</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#perspective-origin"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">perspective-origin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#backface-visibility"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">backface-visibility</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#perspective-amp-amp-perspective-origin"><span class="nav-number">1.2.0.4.</span> <span class="nav-text">perspective&amp;&amp;perspective-origin</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last"><span class="nav-number">2.</span> <span class="nav-text">Last</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

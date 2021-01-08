@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>vue中的插槽与keep-alive | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Vue插槽keep-alive">
+  
+  
+  
+  
+  <meta name="description" content="插槽初次真正接触插槽是在Elementui中的表格中在自定义列的内容时 12345678910111213&amp;lt;el-table-column                 label=&amp;quot;姓名&amp;quot;                 width=&amp;quot;180&amp;quot;&amp;gt;    &amp;lt;template slot-scope=&amp;quot;scope&amp;quot;&amp;gt;">
+<meta name="keywords" content="Vue,插槽,keep-alive">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue中的插槽与keep-alive">
+<meta property="og:url" content="http://yoursite.com/2020/01/05/Vue中的插槽与keep-alive/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="插槽初次真正接触插槽是在Elementui中的表格中在自定义列的内容时 12345678910111213&amp;lt;el-table-column                 label=&amp;quot;姓名&amp;quot;                 width=&amp;quot;180&amp;quot;&amp;gt;    &amp;lt;template slot-scope=&amp;quot;scope&amp;quot;&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-01-05T15:02:43.462Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue中的插槽与keep-alive">
+<meta name="twitter:description" content="插槽初次真正接触插槽是在Elementui中的表格中在自定义列的内容时 12345678910111213&amp;lt;el-table-column                 label=&amp;quot;姓名&amp;quot;                 width=&amp;quot;180&amp;quot;&amp;gt;    &amp;lt;template slot-scope=&amp;quot;scope&amp;quot;&amp;gt;">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Vue中的插槽与keep-alive" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Vue中的插槽与keep-alive
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/01/05/Vue中的插槽与keep-alive/" class="article-date">
+	  <time datetime="2020-01-05T15:01:42.000Z" itemprop="datePublished">2020-01-05</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h1><p>初次真正接触插槽是在Elementui中的表格中在自定义列的内容时</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;el-table-column</span><br><span class="line">                 label=&quot;姓名&quot;</span><br><span class="line">                 width=&quot;180&quot;&gt;</span><br><span class="line">    &lt;template slot-scope=&quot;scope&quot;&gt;</span><br><span class="line">&lt;el-popover trigger=&quot;hover&quot; placement=&quot;top&quot;&gt;</span><br><span class="line">    &lt;p&gt;姓名: &#123;&#123; scope.row.name &#125;&#125;&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;住址: &#123;&#123; scope.row.address &#125;&#125;&lt;/p&gt;</span><br><span class="line">    &lt;div slot=&quot;reference&quot; class=&quot;name-wrapper&quot;&gt;</span><br><span class="line">        &lt;el-tag size=&quot;medium&quot;&gt;&#123;&#123; scope.row.name &#125;&#125;&lt;/el-tag&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;/el-popover&gt;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line">&lt;/el-table-column&gt;</span><br></pre></td></tr></table></figure>
+<p>在列中插入一个template用来放置我们自定义的内容，并且可以通过<code>slot-scope=&quot;scope&quot;</code>中的scope来获取这一列的row信息。</p>
+<p>仔细看了官方文档才明白，插槽<code>slot</code>是用来接收父组件在调用子组件时，在子组件标签内添加添加的内容，这个内容可以时文字，标签，或是其他组件。并且可以在slot上通过v-bind绑定值传递到父组件（说起来也算是子组件向父组件传值哦~）。可以预见，在<code>el-table-column</code>组件中，肯定存在一个slot来接受父组件的template:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;el-table-column&gt;</span><br><span class="line">    &lt;slot v-bind:rowRata=&quot;rowData&quot;&gt;&lt;/slot&gt;</span><br><span class="line">&lt;/el-table-column&gt;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是：<code>scope-slot</code>,<code>slot</code>这两个语法在2.6.0之后都被官方废除，但是并未移除。在3.0中会被移除，取而代之的是新的<code>v-slot</code>指令。具体用法如下：</p>
+<h2 id="插槽的作用域"><a href="#插槽的作用域" class="headerlink" title="插槽的作用域"></a>插槽的作用域</h2><p>值得重视的是，插槽总是在父组件中渲染的，引用官方的一句话：</p>
+<blockquote>
+<p>父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。</p>
+</blockquote>
+<p>这句话中的“在”字，即我们能看到的。即使是插槽这样传递到子组件中元素。</p>
+<p>所以，<strong>插槽总是能访问父组件的数据，而不能访问子组件的数组。</strong>但是有时我们又必须访问子组件的数据怎么办呢？这就用到了v-slot（slot-scope）属性。</p>
+<p>官方称之为</p>
+<h2 id="作用域插槽"><a href="#作用域插槽" class="headerlink" title="作用域插槽"></a>作用域插槽</h2><p>对于默认插槽（即default），可以通过开始的代码形式，来获取子组件的值，前提是在子组件中使用 v-bind将其绑定到slot上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//父组件</span><br><span class="line">&lt;child&gt;</span><br><span class="line">    &lt;template v-slot=&quot;defaultPorps&quot;&gt;</span><br><span class="line">        &#123;&#123;defaultPorps.user.name&#125;&#125;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line">&lt;child&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//子组件</span><br><span class="line">&lt;slot v-bind:user = &#123;&quot;name&quot;:&quot;tom&quot;&#125;&gt;</span><br><span class="line">&lt;/slot&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>还有一点值得注意的是，Vue将整个slot的所有bind值封装为一个对象，所以我们使用v-bind绑定的值仅仅是该对象的一个属性（但是我们可以通过ES6的解构方法来直接拿到属性值）</strong></p>
+<h2 id="具名插槽"><a href="#具名插槽" class="headerlink" title="具名插槽"></a>具名插槽</h2><p>这个就很简单的了，一个子组件可能具有多个插槽，我们可以必须为止加上名字来区分，（如果不加，比如上面的例子中，v-slot = “xxx”全称应该是 v-slot:default=”xxx”，默认名字就是default），使用方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//父组件中</span><br><span class="line">&lt;child&gt;</span><br><span class="line">	&lt;template v-slot=&quot;slot1&quot;&gt;对应插槽1&lt;/template&gt;</span><br><span class="line">    &lt;template v-slot=&quot;slot1&quot;&gt;对应插槽2&lt;/template&gt;</span><br><span class="line">    &lt;template v-slot=&quot;slot1&quot;&gt;对应插槽3&lt;/template&gt;</span><br><span class="line">&lt;/child&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//子组件中</span><br><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;slot name=&quot;slot1&quot;&gt;&lt;/slot&gt;</span><br><span class="line">    &lt;slot name=&quot;slot1&quot;&gt;&lt;/slot&gt;</span><br><span class="line">    &lt;slot name=&quot;slot1&quot;&gt;&lt;/slot&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>另外v-slot也可以缩写为#，就像v-on缩写为@，v-bind缩写为:</strong></p>
+<h1 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h1><p>这个属性之前没有尝试过，但是最近遇到有个组件想要在来回切换时保持状态，既保持用户观看的内容，开始是想手动记录用户的状态，后来发现Vue官方提供了这个抽象组件，正好解决了问题，</p>
+<p><code>keep-alive</code>基本用法是缓存某些组件的状态，我们从Vue的生命周期函数中可以发现，在组件失活时，都会触发<code>beforeDestroy</code>生命周期函数，但是如果我们将其包裹在<code>keep-alive</code>标签下，那么这些组件在失活时，并不会调用<code>beforeDestroy</code>方法，而是调用activated<code>和</code>deactivated` 这两个生命周期钩子函数将会被对应执行。将其缓存起来。</p>
+<p>keep-alive组件有3个porp.</p>
+<ul>
+<li><code>include</code> - 字符串或正则表达式。只有名称匹配的组件会被缓存。</li>
+<li><code>exclude</code> - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。</li>
+<li><code>max</code> - 数字。最多可以缓存多少组件实例。</li>
+</ul>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//缓存所有的组件</span><br><span class="line">&lt;keep-alive&gt;</span><br><span class="line">	&lt;component1&gt;&lt;/component1&gt;</span><br><span class="line">    &lt;component2&gt;&lt;/component1&gt;</span><br><span class="line">    &lt;component3&gt;&lt;/component1&gt;</span><br><span class="line">&lt;/keep-alive&gt;</span><br><span class="line"></span><br><span class="line">//缓存特定组件</span><br><span class="line">&lt;keep-alive inlude=&quot;component1&quot;&gt;</span><br><span class="line">	&lt;component1&gt;&lt;/component1&gt;</span><br><span class="line">    &lt;component2&gt;&lt;/component1&gt;</span><br><span class="line">    &lt;component3&gt;&lt;/component1&gt;</span><br><span class="line">&lt;/keep-alive&gt;</span><br><span class="line"></span><br><span class="line">//不缓存特定组件</span><br><span class="line">&lt;keep-alive exclude=&quot;component2&quot;&gt;</span><br><span class="line">	&lt;component1&gt;&lt;/component1&gt;</span><br><span class="line">    &lt;component2&gt;&lt;/component1&gt;</span><br><span class="line">    &lt;component3&gt;&lt;/component1&gt;</span><br><span class="line">&lt;/keep-alive&gt;</span><br><span class="line"></span><br><span class="line">//规定最多缓存2个组件</span><br><span class="line">&lt;keep-alive max=&quot;2&quot;&gt;</span><br><span class="line">	&lt;component1&gt;&lt;/component1&gt;</span><br><span class="line">    &lt;component2&gt;&lt;/component1&gt;</span><br><span class="line">    &lt;component3&gt;&lt;/component1&gt;</span><br><span class="line">&lt;/keep-alive&gt;</span><br></pre></td></tr></table></figure>
+<p>当然，也可以配合Vue-router。来进行使用：</p>
+<h2 id="配合路由"><a href="#配合路由" class="headerlink" title="配合路由"></a>配合路由</h2><p>在使用Vue-router进行组件选择性渲染的时候，我们同样也可以使用<code>keep-alive</code>，因为<code>&lt;router-view&gt;&lt;/router-view&gt;</code>组件是一个抽象路由，并不会真正创建一个组件结构在整个文档结构中，所以<code>keep-alive</code>对其仍然有效。代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//router.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">'vue-router'</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./views/Home.vue'</span></span><br><span class="line"><span class="keyword">import</span> Login <span class="keyword">from</span> <span class="string">'./views/Login.vue'</span></span><br><span class="line"><span class="keyword">import</span> Register <span class="keyword">from</span> <span class="string">"./views/regisetr.vue"</span></span><br><span class="line"></span><br><span class="line">Vue.use(Router)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Router(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/'</span>,</span><br><span class="line">      name: <span class="string">'home'</span>,</span><br><span class="line">      component: Home</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/about'</span>,</span><br><span class="line">      name: <span class="string">'about'</span>,</span><br><span class="line">      componet: About</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/login'</span>,</span><br><span class="line">      name: <span class="string">'login'</span>,</span><br><span class="line">      component: Login</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/register'</span>,</span><br><span class="line">      name: <span class="string">'register'</span>,</span><br><span class="line">      component: Register</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> &lt;transition</span><br><span class="line">            :duration=&quot;500&quot;</span><br><span class="line">            mode=&quot;out-in&quot;</span><br><span class="line">            enter-active-class=&quot;animated bounceIn&quot;</span><br><span class="line">            leave-active-class=&quot;animated bounceOutDown&quot;</span><br><span class="line">          &gt;</span><br><span class="line">     &lt;keep-alive exclude=&quot;Login,Register&quot; max=2&gt;</span><br><span class="line">         &lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">     &lt;/keep-alive&gt;</span><br><span class="line">&lt;/transition&gt;</span><br></pre></td></tr></table></figure>
+<p>上面的代码即表示，不缓存<code>Login</code>,<code>Register</code>组件，并且最多缓存2和组件。</p>
+<p>*值得注意的是，当同时使用<code>transiton</code>组件与<code>keep-alive</code>组件时，<code>transiton</code>组件必须位于外层，很容易想明白，<code>keep-alive</code>组件对其内部的组件进行管控，如果将<code>transiton</code>组件放置到其内部，即使它是抽象组件，也会被被<code>keep-alive</code>组件管控，导致不正常**</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2020/01/05/Vue中的插槽与keep-alive/" target="_blank" title="Vue中的插槽与keep-alive">http://yoursite.com/2020/01/05/Vue中的插槽与keep-alive/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/01/06/Vue中动态添加路由的问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Vue中动态添加路由的问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/01/05/Vue中的组件传值/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Vue中的组件传值</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#插槽"><span class="nav-number">1.</span> <span class="nav-text">插槽</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插槽的作用域"><span class="nav-number">1.1.</span> <span class="nav-text">插槽的作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域插槽"><span class="nav-number">1.2.</span> <span class="nav-text">作用域插槽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具名插槽"><span class="nav-number">1.3.</span> <span class="nav-text">具名插槽</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#keep-alive"><span class="nav-number">2.</span> <span class="nav-text">keep-alive</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本用法"><span class="nav-number">2.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配合路由"><span class="nav-number">2.2.</span> <span class="nav-text">配合路由</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

@@ -282,6 +282,243 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-JSP数据库处理"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/31/JSP数据库处理/">JSP数据库处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/31/JSP数据库处理/" class="article-date">
+	  <time datetime="2019-01-31T08:50:58.000Z" itemprop="datePublished">2019-01-31</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          JSP的数据库操作经过这两天的操作，我觉得还是要看视频或者买书或者看官方文档学习，网上的资料缺点太多，写的过于简单，甚至兼容性也有问题。所以，搞了一天，终于，把数据库搞出来了~
+
+源码分析sql.java
+package student.servlet;
+import java.sql.*;
+
+
+public class sql {
+public static void Update(){
+    Statement stmt = null;
+    Connection connecti...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/31/JSP数据库处理/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-JSP基础部分"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/30/JSP基础部分/">JSP基础部分</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/30/JSP基础部分/" class="article-date">
+	  <time datetime="2019-01-30T13:46:43.000Z" itemprop="datePublished">2019-01-30</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          JSP这几天把JSP基本部分看了，方便记忆，还是回顾一下。文件部分有一点复杂，所以后面直接单独解析一下。
+日期处理其实日期处理部分还是JAVA中的Date()对象提供的。只是之前学习JAVA是没认真看，哈哈哈。
+获取时间eg:
+&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/30/JSP基础部分/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-JSP中的表单编码问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/28/JSP中的表单编码问题/">JSP中的表单编码问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/28/JSP中的表单编码问题/" class="article-date">
+	  <time datetime="2019-01-28T12:13:29.000Z" itemprop="datePublished">2019-01-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          JSP的编码才看了几天的JSP，把最重要的表单提交看了一下，遇到了中文编码的问题，然后我查了一下JSP的默认代码是：ISO-8859-1重新设编码的语句共有下面几句：
+
+pageEncoding=”UTF-8”
+contentType=”text/html;charset=UTF-8”
+request.setCharacterEncoding(“UTF-8”)
+response.setCharacterEncoding(“UTF-8”)
+
+
+pageEncoding=”UTF-8” 是在第...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/28/JSP中的表单编码问题/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Python3-CGI编程踩坑日记"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/14/Python3-CGI编程踩坑日记/">Python3_CGI编程踩坑日记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/14/Python3-CGI编程踩坑日记/" class="article-date">
+	  <time datetime="2019-01-14T12:25:07.000Z" itemprop="datePublished">2019-01-14</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          Hard-start这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。
+
+Problem I met
+Apache的安装问题
+
+在得之要使用Apache之后，我直接就百度Apache，然后再官网首页
+
+结果下载下来直接用不了，解压了发现文件不对。然后一搜教程才发现文件下载错了。
+应该在这里下载：
+
+终于完成填了第一个坑！
+
+Apache配置问题
+
+要启用CGI，必需修改配置文件。而这个配置不仅...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/14/Python3-CGI编程踩坑日记/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-欢迎2019-假如我年少有为"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -629,222 +866,11 @@ JavaScriptJS是一种解释性脚本（不进行预编译）
 
 
   
-    <article id="post-千万不要躺太久-三和大神的生活"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/30/千万不要躺太久-三和大神的生活/">千万不要躺太久-三和大神的生活</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/30/千万不要躺太久-三和大神的生活/" class="article-date">
-	  <time datetime="2018-08-30T11:45:44.000Z" itemprop="datePublished">2018-08-30</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/生活/">生活</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          三和大神“三和大神”是一群平凡而又特殊的工人，平凡在于他们也是干活领工资，也在人才市场找工作。特殊在于他们的工作信仰与普通的工人不同，他们的理念是“干一天，玩三天”，只要身上有钱，就不去工作，什么时候口袋空了，什么时候就去工作。
-三和大神的贫瘠生活经济的贫瘠“干一天玩三天”，这就是三和大神所信奉的生活状态，那这一天挣多少呢？
-–大约86元人民币
-
-
-接下来的三天就可以过着自由的生活，安逸的躺在十几元的廉价旅馆中，把已经发霉的被子盖在身上，闻着各种习以为常的异味，连着WiFi刷着破损的手机，...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/08/30/千万不要躺太久-三和大神的生活/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/25/开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）/">开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/25/开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）/" class="article-date">
-	  <time datetime="2018-08-25T01:01:03.000Z" itemprop="datePublished">2018-08-25</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/博客开发系列/">博客开发系列</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          前言这个小项目花了我大概10天的时间（每天5h左右），可以说是很慢了，主要是JS的很多知识点不熟悉，边研究边开发。而且数据库部分仍然时使用本地存储，也就是说这个案例是无法投入到实际使用中，但后面我会去研究一下mysql，在服务器端部署一个小型的数据库，估计不会花太长时间，另外觉得node.js挺有意思，hexo就是基于node.js，将JS用于与计算机系统的直接沟通，That`s cool，本来我的原计划是将博客信息存储在本地文件中，比如直接在本地存储一个JSON文件用来存储一篇博客，后来...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/08/25/开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-关于JS单线程，异步执行的理解"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/22/关于JS单线程，异步执行的理解/">关于JS单线程，异步执行的理解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/22/关于JS单线程，异步执行的理解/" class="article-date">
-	  <time datetime="2018-08-22T02:13:24.000Z" itemprop="datePublished">2018-08-22</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          前言在这几天的开发过程中，遇到了不少问题，阻塞最久的应该就是一段JS代码没有按照我以为的执行顺序去执行，想想好像也没有具体的了解JS的执行过程，所以花了一整天的时间来了解了一下JS的执行机制。
-问题代码for(var i=0;i&lt;=3;i++){
-    $(document).ready(function){
-        console.log(i);
-    });
-出现问题的代码简化过后大概是这个样式，我的预期是输出1，2，3，但输出的结果却为3,3,3，我开始以为是JS单...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/08/22/关于JS单线程，异步执行的理解/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-利用SS（Shadowsocks）快速搭建一个vpn"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/20/利用SS（Shadowsocks）快速搭建一个vpn/">利用SS（Shadowsocks）快速搭建一个vpn</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/20/利用SS（Shadowsocks）快速搭建一个vpn/" class="article-date">
-	  <time datetime="2018-08-20T10:43:57.000Z" itemprop="datePublished">2018-08-20</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Shadowsocks/">Shadowsocks</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          前言前几天玩kali时发现需要下一个插件，但是需要科学上网，无奈打开之前的vpn软件，发现几乎都关闭了服务，于是我就诞生了自己搭建一个vpn的想法，于是在参考了网上的教程后，折腾了一上午终于成功了。
-正文一，购买服务器（vps）国外的服务器提供商比较多，比如DigtaOcean，Vultr，Amazon等等，我选择了Vultr，因为它提供的vps价格最低的一款仅2.5$/月（后来才发现是个坑，后人谨记），其实DigtaOcean也还不错，绑定信用卡就送10刀，而他价格最低的一款vps价格为...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/08/20/利用SS（Shadowsocks）快速搭建一个vpn/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
   </nav>
 
 </section>

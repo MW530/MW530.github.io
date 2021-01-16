@@ -3,24 +3,26 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>vue插件开发3-拖动窗口的优化 | My Wonderland</title>
+  <title>vue插件开发3-简单拖动窗口的优化 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="Vue插件开发拖动窗口">
   
   
   
-  <meta name="description" content="function doDecrypt (pwd, onError) { 	console.log(&apos;in doDecrypt&apos;); 	const txt = document.getElementById(&apos;enc_content&apos;).innerHTML; 	let plantext; 	try { 		const bytes = CryptoJS.AES.decrypt(txt, pwd);">
-<meta name="keywords" content="Life">
+  
+  <meta name="description" content="思路思路一中心思想：首先算出首次拖动窗口距视窗的上面和左面的距离，然后计算出每次鼠标的偏移量（可正可负）。然后将其相加，就可得到新的偏移量。 代码思路：  设置一个变量，用于标记鼠标是否按下。 mousedown钩子函数中记录下此时的clientX1,clientY1,offsetX,offsetY。 mousemove钩子函数中记录下次此时的clientX2,clientY2，然后计算两组量：">
+<meta name="keywords" content="Vue插件开发,拖动窗口">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue插件开发3-拖动窗口的优化">
+<meta property="og:title" content="Vue插件开发3-简单拖动窗口的优化">
 <meta property="og:url" content="http://yoursite.com/2021/01/13/Vue插件开发3-拖动窗口的优化/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="function doDecrypt (pwd, onError) { 	console.log(&apos;in doDecrypt&apos;); 	const txt = document.getElementById(&apos;enc_content&apos;).innerHTML; 	let plantext; 	try { 		const bytes = CryptoJS.AES.decrypt(txt, pwd);">
+<meta property="og:description" content="思路思路一中心思想：首先算出首次拖动窗口距视窗的上面和左面的距离，然后计算出每次鼠标的偏移量（可正可负）。然后将其相加，就可得到新的偏移量。 代码思路：  设置一个变量，用于标记鼠标是否按下。 mousedown钩子函数中记录下此时的clientX1,clientY1,offsetX,offsetY。 mousemove钩子函数中记录下次此时的clientX2,clientY2，然后计算两组量：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-01-14T13:24:06.552Z">
+<meta property="og:updated_time" content="2021-01-16T02:05:31.776Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue插件开发3-拖动窗口的优化">
-<meta name="twitter:description" content="function doDecrypt (pwd, onError) { 	console.log(&apos;in doDecrypt&apos;); 	const txt = document.getElementById(&apos;enc_content&apos;).innerHTML; 	let plantext; 	try { 		const bytes = CryptoJS.AES.decrypt(txt, pwd);">
+<meta name="twitter:title" content="Vue插件开发3-简单拖动窗口的优化">
+<meta name="twitter:description" content="思路思路一中心思想：首先算出首次拖动窗口距视窗的上面和左面的距离，然后计算出每次鼠标的偏移量（可正可负）。然后将其相加，就可得到新的偏移量。 代码思路：  设置一个变量，用于标记鼠标是否按下。 mousedown钩子函数中记录下此时的clientX1,clientY1,offsetX,offsetY。 mousemove钩子函数中记录下次此时的clientX2,clientY2，然后计算两组量：">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -168,7 +170,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Vue插件开发3-拖动窗口的优化
+      Vue插件开发3-简单拖动窗口的优化
     </h1>
   
 
@@ -181,6 +183,8 @@
 	</a>
 
       
+    <a class="article-category-link" href="/categories/Vue插件/">Vue插件</a>
+
       
 	<a class="article-views">
 	<span id="busuanzi_container_page_pv">
@@ -191,46 +195,83 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <script src=/js/crypto-js.js></script>
-<script>
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-	} catch(err) {
-		if(onError) {
-			onError(err);
-		}
-		return;
-	}
-	document.getElementById('enc_content').innerHTML = plaintext;
-	document.getElementById('enc_content').style.display = 'block';
-	document.getElementById('enc_passwd').style.display = 'none';
-	if(typeof MathJax !== 'undefined') {
-		MathJax.Hub.Queue(
-			['resetEquationNumbers', MathJax.InputJax.TeX],
-			['PreProcess', MathJax.Hub],
-			['Reprocess', MathJax.Hub]
-		);
-	}
-}
-</script>
-<div id="enc_content" style="display:none">U2FsdGVkX19ohrzLOVdXD9+WoLrulpg8iaZfoE3Ms60=</div>
-<div id="enc_passwd"> <input id="enc_pwd_input" type="password" style="border-radius: 5px;border-style: groove;height: 30px;width: 50%;cursor: auto;font-size: 102%;color: currentColor;outline: none;text-overflow: initial;padding-left: 5px;" onkeydown="if (event.keyCode == 13) { decrypt(); return false;}"> <input type="submit" value="解&nbsp;密" onclick="decrypt()" style="width: 58px;height: 34px;border-radius: 5px;background-color: white;border-style: solid;color: currentColor;"><div id="enc_error" style="display: inline-block;color: #d84527;margin-left: 10px"></div>
-<script>
-var onError = function(error) {
-	document.getElementById("enc_error").innerHTML = "不知道密码就别猜了，这是我得小秘密，哈哈哈"
-};
-function decrypt() {
-var passwd = document.getElementById("enc_pwd_input").value;
-console.log(passwd);
-doDecrypt(passwd, onError);
-}
-</script>
-</div>
+        <h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h2><p>中心思想：首先算出首次拖动窗口距视窗的上面和左面的距离，然后计算出每次鼠标的偏移量（可正可负）。然后将其相加，就可得到新的偏移量。</p>
+<p>代码思路：</p>
+<ol>
+<li>设置一个变量，用于标记鼠标是否按下。</li>
+<li><code>mousedown</code>钩子函数中记录下此时的<code>clientX1</code>,<code>clientY1</code>,<code>offsetX</code>,<code>offsetY</code>。</li>
+<li><code>mousemove</code>钩子函数中记录下次此时的<code>clientX2</code>,<code>clientY2</code>，然后计算两组量：<ol>
+<li>拖动之前拖动框距文档边框的距离<code>left1 = clientX1 - offsetX</code>，<code>top1 = clientY1 - offsetY</code></li>
+<li>拖动的距离<code>disX = clientX2 - clientX1</code>，<code>disY = clientY2 - clientY1</code></li>
+</ol>
+</li>
+<li>此时新的<code>left2 = left + disX</code>，<code>top2 = top + disY</code></li>
+</ol>
+<p>代码实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">banMouseDown(e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"鼠标按下"</span>);</span><br><span class="line">    <span class="keyword">this</span>.isDown = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">let</span> dw = <span class="keyword">this</span>.$refs[<span class="keyword">this</span>.wid];</span><br><span class="line">    <span class="keyword">let</span> banner = <span class="keyword">this</span>.$refs[<span class="string">"banner"</span>];</span><br><span class="line">    banner.style.cursor = <span class="string">"move"</span>;</span><br><span class="line">    <span class="keyword">let</span> RectData = dw.getBoundingClientRect();</span><br><span class="line">    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"x"</span>, e.clientX);</span><br><span class="line">    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"y"</span>, e.clientY);</span><br><span class="line">    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"offX"</span>, e.offsetX);</span><br><span class="line">    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"offY"</span>, e.offsetY);</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">banMouseUp() &#123;</span><br><span class="line">    <span class="keyword">this</span>.isDown = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">let</span> banner = <span class="keyword">this</span>.$refs[<span class="string">"banner"</span>];</span><br><span class="line">    banner.style.cursor = <span class="string">"default"</span>;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">banMouseMove(e) &#123;</span><br><span class="line">    debounce(<span class="keyword">this</span>, <span class="keyword">this</span>.handle, <span class="number">20</span>)(e);			<span class="comment">//节流函数</span></span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">handle(e) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.isDown) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e);</span><br><span class="line">        <span class="keyword">let</span> dw = <span class="keyword">this</span>.$refs[<span class="keyword">this</span>.wid];</span><br><span class="line">        <span class="keyword">let</span> banner = <span class="keyword">this</span>.$refs[<span class="string">"banner"</span>];</span><br><span class="line">        banner.style.cursor = <span class="string">"move"</span>;</span><br><span class="line">        <span class="keyword">let</span> RectData = dw.getBoundingClientRect();</span><br><span class="line">        <span class="keyword">let</span> cx = e.clientX;</span><br><span class="line">        <span class="keyword">let</span> cy = e.clientY;</span><br><span class="line">        <span class="keyword">let</span> moveX =</span><br><span class="line">            (<span class="keyword">this</span>.currenctPositon.x -</span><br><span class="line">            <span class="keyword">this</span>.currenctPositon.offX) +</span><br><span class="line">            (cx - <span class="keyword">this</span>.currenctPositon.x);</span><br><span class="line">        <span class="keyword">let</span> moveY =</span><br><span class="line">            (<span class="keyword">this</span>.currenctPositon.y -</span><br><span class="line">            <span class="keyword">this</span>.currenctPositon.offY) +</span><br><span class="line">            (cy - <span class="keyword">this</span>.currenctPositon.y);</span><br><span class="line">        Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"x"</span>, cx);</span><br><span class="line">        Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"y"</span>, cy);</span><br><span class="line">        dw.style.left = moveX + <span class="string">"px"</span>;</span><br><span class="line">        dw.style.top = moveY + <span class="string">"px"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h2 id="思路二"><a href="#思路二" class="headerlink" title="思路二"></a>思路二</h2><p>然后又发现另一个思路（似乎更简单）：</p>
+<p>中心思想：要想达到拖动效果，即要保持鼠标的位置相对于拖动框是相对静止的。而鼠标的位置相对于拖动框就是<code>offset</code>的值，是不会变化的。所以当鼠标发生移动时，拖动框的位置也要发生变化，才能保证<code>offset</code>的值是不变的。所以我们在新的一次鼠标移动(<code>mousemove</code>)后，新的偏移量应当赋予拖动框的<code>left</code>,<code>right</code>值。即<code>left = clientX2 - offsetX</code>，<code>top = clientY2 - offsetY</code></p>
+<p>代码思路：</p>
+<ol>
+<li>设置一个变量，用于标志鼠标是否按下。</li>
+<li><code>mousedown</code>钩子函数中记录下此时的<code>clientX1</code>,<code>clientY1</code>,<code>offsetX</code>,<code>offsetY</code>。</li>
+<li><code>mousemove</code>钩子函数中记录下次此时的<code>clientX2</code>,<code>clientY2</code>，然后计算拖动出偏移量<code>dOffsetX</code>，<code>dOffsetY</code>，具体<ol>
+<li><code>left = clientX2 - offsetX</code></li>
+<li><code>top = clientY2 - offsetY</code></li>
+</ol>
+</li>
+<li>将拖动窗口的样式:<ol>
+<li><code>style.left</code>设置为<code>left</code></li>
+<li><code>style.top</code>设置为<code>top</code></li>
+</ol>
+</li>
+</ol>
+<p>实测是可以使用的。</p>
+<p>代码实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">banMouseDown(e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"鼠标按下"</span>);</span><br><span class="line">    <span class="keyword">this</span>.isDown = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">let</span> dw = <span class="keyword">this</span>.$refs[<span class="keyword">this</span>.wid];</span><br><span class="line">    <span class="keyword">let</span> banner = <span class="keyword">this</span>.$refs[<span class="string">"banner"</span>];</span><br><span class="line">    banner.style.cursor = <span class="string">"move"</span>;</span><br><span class="line">    <span class="keyword">let</span> RectData = dw.getBoundingClientRect();</span><br><span class="line">    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"x"</span>, e.clientX);</span><br><span class="line">    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"y"</span>, e.clientY);</span><br><span class="line">    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"offX"</span>, e.offsetX);</span><br><span class="line">    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"offY"</span>, e.offsetY);</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">    banMouseUp() &#123;</span><br><span class="line">        <span class="keyword">this</span>.isDown = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">let</span> banner = <span class="keyword">this</span>.$refs[<span class="string">"banner"</span>];</span><br><span class="line">        banner.style.cursor = <span class="string">"default"</span>;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">        banMouseMove(e) &#123;</span><br><span class="line">            debounce(<span class="keyword">this</span>, <span class="keyword">this</span>.handle, <span class="number">20</span>)(e);</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">            handle(e) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>.isDown) &#123;</span><br><span class="line">                    <span class="keyword">let</span> dw = <span class="keyword">this</span>.$refs[<span class="keyword">this</span>.wid];</span><br><span class="line">                    <span class="keyword">let</span> banner = <span class="keyword">this</span>.$refs[<span class="string">"banner"</span>];</span><br><span class="line">                    banner.style.cursor = <span class="string">"move"</span>;</span><br><span class="line">                    <span class="keyword">let</span> RectData = dw.getBoundingClientRect();</span><br><span class="line">                    <span class="keyword">let</span> cx = e.clientX;</span><br><span class="line">                    <span class="keyword">let</span> cy = e.clientY;</span><br><span class="line">                    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"x"</span>, cx);</span><br><span class="line">                    Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"y"</span>, cy);</span><br><span class="line">                    <span class="keyword">let</span> moveX = <span class="keyword">this</span>.currenctPositon.x - <span class="keyword">this</span>.currenctPositon.offX;</span><br><span class="line">                    <span class="keyword">let</span> moveY = <span class="keyword">this</span>.currenctPositon.y - <span class="keyword">this</span>.currenctPositon.offY;</span><br><span class="line">                    dw.style.left = moveX + <span class="string">"px"</span>;</span><br><span class="line">                    dw.style.top = moveY + <span class="string">"px"</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="思路三"><a href="#思路三" class="headerlink" title="思路三"></a>思路三</h2><p>接下来我发现了另外一个<code>api</code>：<code>movementX</code>，<code>movementY</code>，这个<code>api</code>会在<code>mousemove</code>时记录与上一次移动的距离，所以就在思路一的基础上可以省略求<code>disX</code>,<code>disY</code>的过程，所以有了以下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">handle(e) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.isDown) &#123;</span><br><span class="line">        <span class="keyword">let</span> dw = <span class="keyword">this</span>.$refs[<span class="keyword">this</span>.wid];</span><br><span class="line">        <span class="keyword">let</span> banner = <span class="keyword">this</span>.$refs[<span class="string">"banner"</span>];</span><br><span class="line">        banner.style.cursor = <span class="string">"move"</span>;</span><br><span class="line">        <span class="keyword">let</span> RectData = dw.getBoundingClientRect();</span><br><span class="line">        <span class="keyword">let</span> cx = e.clientX;</span><br><span class="line">        <span class="keyword">let</span> cy = e.clientY;</span><br><span class="line">        Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"x"</span>, cx);</span><br><span class="line">        Vue.set(<span class="keyword">this</span>.currenctPositon, <span class="string">"y"</span>, cy);</span><br><span class="line">        <span class="keyword">let</span> moveX = <span class="keyword">this</span>.currenctPositon.x -<span class="keyword">this</span>.currenctPositon.offX + e.movementX;</span><br><span class="line">        <span class="keyword">let</span> moveY = <span class="keyword">this</span>.currenctPositon.y -<span class="keyword">this</span>.currenctPositon.offY + e.movementY;</span><br><span class="line">        dw.style.left = moveX + <span class="string">"px"</span>;</span><br><span class="line">        dw.style.top = moveY + <span class="string">"px"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>但是由于<code>movementX</code>,<code>movementY</code>返回的是<code>int</code>，精度不够，所以会出现不跟手的情况；而且IE均不支持该属性，所以不是最优方案。</p>
+<h2 id="思路四"><a href="#思路四" class="headerlink" title="思路四"></a>思路四</h2><p>最后我去参考了<code>layui</code>的方案。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"> moveElem.on(<span class="string">'mousedown'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">    <span class="keyword">if</span>(config.move)&#123;</span><br><span class="line">      dict.moveStart = <span class="literal">true</span>;</span><br><span class="line">      dict.offset = [</span><br><span class="line">        e.clientX - <span class="built_in">parseFloat</span>(layero.css(<span class="string">'left'</span>))</span><br><span class="line">        ,e.clientY - <span class="built_in">parseFloat</span>(layero.css(<span class="string">'top'</span>))</span><br><span class="line">      ];</span><br><span class="line">      ready.moveElem.css(<span class="string">'cursor'</span>, <span class="string">'move'</span>).show();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">_DOC.on(<span class="string">'mousemove'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//拖拽移动</span></span><br><span class="line">    <span class="keyword">if</span>(dict.moveStart)&#123;</span><br><span class="line">      <span class="keyword">var</span> X = e.clientX - dict.offset[<span class="number">0</span>]</span><br><span class="line">      ,Y = e.clientY - dict.offset[<span class="number">1</span>]</span><br><span class="line">      ,fixed = layero.css(<span class="string">'position'</span>) === <span class="string">'fixed'</span>;</span><br><span class="line">      </span><br><span class="line">      e.preventDefault();</span><br><span class="line">      </span><br><span class="line">      dict.stX = fixed ? <span class="number">0</span> : win.scrollLeft();</span><br><span class="line">      dict.stY = fixed ? <span class="number">0</span> : win.scrollTop();</span><br><span class="line"></span><br><span class="line">      <span class="comment">//控制元素不被拖出窗口外</span></span><br><span class="line">      <span class="keyword">if</span>(!config.moveOut)&#123;</span><br><span class="line">        <span class="keyword">var</span> setRig = win.width() - layero.outerWidth() + dict.stX</span><br><span class="line">        ,setBot = win.height() - layero.outerHeight() + dict.stY;  </span><br><span class="line">        X &lt; dict.stX &amp;&amp; (X = dict.stX);</span><br><span class="line">        X &gt; setRig &amp;&amp; (X = setRig); </span><br><span class="line">        Y &lt; dict.stY &amp;&amp; (Y = dict.stY);</span><br><span class="line">        Y &gt; setBot &amp;&amp; (Y = setBot);</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      layero.css(&#123;</span><br><span class="line">        left: X</span><br><span class="line">        ,<span class="attr">top</span>: Y</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><code>layui</code>采用的是一种更为常见的方式。</p>
+<p>其关键在于其并没有直接拿<code>offsetX</code>，而是通过<code>clientX - left</code>，<code>clientY - top</code>来计算<code>offset</code>。其原因在于可能是<code>offset</code>属性的兼容性问题。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Feature</th>
+<th style="text-align:left">Chrome</th>
+<th style="text-align:left">Edge</th>
+<th style="text-align:left">Firefox (Gecko)</th>
+<th style="text-align:left">Internet Explorer</th>
+<th style="text-align:left">Opera</th>
+<th style="text-align:left">Safari</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Basic support</td>
+<td style="text-align:left">(Yes)</td>
+<td style="text-align:left">(Yes)</td>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/Firefox/Releases/39" target="_blank" rel="noopener">39.0</a> (39.0)</td>
+<td style="text-align:left">6</td>
+<td style="text-align:left">(Yes)</td>
+<td style="text-align:left">(Yes)</td>
+</tr>
+<tr>
+<td style="text-align:left">Redefined from <code>long</code> to <code>double</code></td>
+<td style="text-align:left">56</td>
+<td style="text-align:left">?</td>
+<td style="text-align:left">?</td>
+<td style="text-align:left">?</td>
+<td style="text-align:left">?</td>
+<td style="text-align:left">?</td>
+</tr>
+</tbody>
+</table>
+<p><code>offsetX</code>在早期返回一个<code>int</code>，这对于拖动窗口有很大的影响，比如上面的<code>movement</code>属性，所以<code>layui</code>选择了更加稳定的直接获取其<code>style.left</code>属性。</p>
+<h1 id="函数节流"><a href="#函数节流" class="headerlink" title="函数节流"></a>函数节流</h1><p>这一部分，我觉得可加可不加，因为虽然DOM消耗很大，但是目前计算机的性能是完全足够承担一秒几十次到上百次的DOM重绘的。额可以在后期加入检测机制，如果机器性能较差，则可以节流<code>mousemove</code>函数。具体细节可以查看<a href="https://michaelwang.top/2019/11/17/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/" target="_blank" rel="noopener">函数的节流与防抖</a></p>
+
       
     </div>
     <footer class="article-footer">
@@ -256,7 +297,7 @@ var a = new Donate({
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/01/13/Vue插件开发3-拖动窗口的优化/" target="_blank" title="Vue插件开发3-拖动窗口的优化">http://yoursite.com/2021/01/13/Vue插件开发3-拖动窗口的优化/</a>
+          <a href="/2021/01/13/Vue插件开发3-拖动窗口的优化/" target="_blank" title="Vue插件开发3-简单拖动窗口的优化">http://yoursite.com/2021/01/13/Vue插件开发3-拖动窗口的优化/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -328,7 +369,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav">None</ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思路一"><span class="nav-number">1.1.</span> <span class="nav-text">思路一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路二"><span class="nav-number">1.2.</span> <span class="nav-text">思路二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路三"><span class="nav-number">1.3.</span> <span class="nav-text">思路三</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路四"><span class="nav-number">1.4.</span> <span class="nav-text">思路四</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数节流"><span class="nav-number">2.</span> <span class="nav-text">函数节流</span></a></li></ol>
     
     </div>
   </aside>

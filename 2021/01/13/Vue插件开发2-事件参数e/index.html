@@ -21,7 +21,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/vue插件/vue插件2-1.png">
 <meta property="og:image" content="http://yoursite.com/images/vue插件/vue插件2-2.png">
-<meta property="og:updated_time" content="2021-01-15T10:05:41.875Z">
+<meta property="og:updated_time" content="2021-01-16T02:30:37.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue插件开发2-事件对象e">
 <meta name="twitter:description" content="事件参数 首先Vue没有对事件对象做修改，所以在Vue中的事件对象仍然与原生一样。 其对象属性具体又分为4类： 鼠标 / 键盘属性   属性 描述     altKey 返回当事件被触发时，”ALT” 是否被按下。   button 返回当事件被触发时，哪个鼠标按钮被点击。一个数字，表示鼠标事件发生时按下的鼠标按钮。可能的值：0：鼠标左键1：车轮按钮或中间按钮（如果有）2：鼠标右键注意： Inte">
@@ -388,10 +388,17 @@
 </ol>
 <h2 id="视窗相关参数"><a href="#视窗相关参数" class="headerlink" title="视窗相关参数"></a>视窗相关参数</h2><p>这里具体详解视窗相关参数：</p>
 <ol>
-<li><code>clientX</code>,<code>clientY</code>：在<strong>页面</strong>（不包括浏览器bar部分）可视范围，与最左面，最上面的距离。</li>
-<li><code>pageX</code>、<code>pageY</code>：在整个页面范围内（包括不可视的部分），与最左面，最上面的距离。</li>
-<li><code>screenX</code>、<code>screenY</code>：距离显示器最左面，最上面的距离。（当窗口全屏时，即<code>client</code>加浏览器bar）</li>
-<li><code>offsetX</code>、<code>offsetY</code>：距离事件触发元素的左面，上面的距离。<ol>
+<li><p><code>clientX</code>,<code>clientY</code>：在<strong>页面</strong>（不包括浏览器bar部分）可视范围，与最左面，最上面的距离。</p>
+</li>
+<li><p><code>pageX</code>、<code>pageY</code>：在整个页面范围内（包括不可视的部分），与最左面，最上面的距离。</p>
+</li>
+<li><p><code>screenX</code>、<code>screenY</code>：距离显示器最左面，最上面的距离。（当窗口全屏时，即<code>client</code>加浏览器bar）</p>
+</li>
+<li><p><code>layerX</code>、<code>layerY</code>：鼠标相比较于当前坐标系的位置,即如果触发元素没有设置绝对定位或相对定位,以页面为参考点,如果有,将改变参考坐标系,从触发元素盒子模型的border区域的左上角为参考点。值得注意的是：该属性是以<code>border</code>边界为0，而<code>offset</code>是以<code>content</code>边界为0。</p>
+<p><strong>但是<code>MDN</code>上标注该属性为非规范属性，各个浏览器结果预期不一致，最好不要使用。</strong></p>
+</li>
+<li><p><code>offsetX</code>、<code>offsetY</code>：距离事件触发元素的左面，上面的距离。</p>
+<ol>
 <li>注意：<code>offset</code>中，<code>padding</code>会被算在内。<code>border</code>会被算作负值。即<code>offset</code>是以<code>padding</code>作为边界的，超过这个边界即被判为负值。</li>
 </ol>
 </li>
@@ -479,7 +486,7 @@ var a = new Donate({
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Vue插件开发3-拖动窗口的优化
+          Vue插件开发3-简单拖动窗口的优化
         
       </div>
     </a>

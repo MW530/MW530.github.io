@@ -346,7 +346,7 @@ function doDecrypt (pwd, onError) {
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/01/13/Vue插件开发3-拖动窗口的优化/">Vue插件开发3-拖动窗口的优化</a>
+      <a class="article-title" href="/2021/01/13/Vue插件开发3-拖动窗口的优化/">Vue插件开发3-简单拖动窗口的优化</a>
     </h1>
   
 
@@ -359,20 +359,20 @@ function doDecrypt (pwd, onError) {
 	</a>
 
       
+    <a class="article-category-link" href="/categories/Vue插件/">Vue插件</a>
+
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          
+          思路思路一中心思想：首先算出首次拖动窗口距视窗的上面和左面的距离，然后计算出每次鼠标的偏移量（可正可负）。然后将其相加，就可得到新的偏移量。
+代码思路：
 
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc....
+设置一个变量，用于标记鼠标是否按下。
+mousedown钩子函数中记录下此时的clientX1,clientY1,offsetX,offsetY。
+mousemove钩子函数中记录下次此时的clientX2,clientY2，然后计算两组量：
+拖动之前拖动框距文档边框的距离left1 = clientX1 - offsetX，top1 ...
         </p>
         <p class="article-more-link">
           <a href="/2021/01/13/Vue插件开发3-拖动窗口的优化/#more">Read More</a>

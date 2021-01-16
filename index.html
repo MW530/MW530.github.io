@@ -303,20 +303,25 @@
 	</a>
 
       
+    <a class="article-category-link" href="/categories/Vue插件/">Vue插件</a>
+
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          
+          Vue插件的打包还是犯了一个最基础的错误，本来插件打包Vue-CLI官网给出了说明，而我还在苦苦百度。百度上的教程都是几年前的，全是照搬一套。
+具体过程就是：
 
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc....
+按照Vue插件开发1-插件原理即应用编写一个插件。
+
+使用命令vue-cli-service build --target lib --name myLib [entry]
+
+myLib就是你的插件名字，主要是JS文件的命名。
+[entry]是你的文件入口文件，即导出install函数文件
+
+
+执行该命令就会生成打包完成的js文件...
         </p>
         <p class="article-more-link">
           <a href="/2021/01/13/Vue插件开发4-插件的打包与引用/#more">Read More</a>

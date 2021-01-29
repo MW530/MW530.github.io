@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="第一次经手比较大型的项目，总结第一个问题：对象的深拷贝问题。之前没注意这个问题，写完代码发现总是与自己的想法不符合，经调试才发现是对象的深浅拷贝问题。 原理的话也很简单，对象作为基本类型之外的引用类型，在栈内存中保存着引用变量的名字，而这个变量保存的实际是一个地址，这个地址指向堆内存，实际这个变量的值是保存在堆内存中。 所以当我们直接用 “=” 进行变量copy时，实际copy的是对内存中的地址。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-18T03:36:35.602Z">
+<meta property="og:updated_time" content="2021-01-29T06:59:19.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="项目实际问题一:对象深浅拷贝问题">
 <meta name="twitter:description" content="第一次经手比较大型的项目，总结第一个问题：对象的深拷贝问题。之前没注意这个问题，写完代码发现总是与自己的想法不符合，经调试才发现是对象的深浅拷贝问题。 原理的话也很简单，对象作为基本类型之外的引用类型，在栈内存中保存着引用变量的名字，而这个变量保存的实际是一个地址，这个地址指向堆内存，实际这个变量的值是保存在堆内存中。 所以当我们直接用 “=” 进行变量copy时，实际copy的是对内存中的地址。">
@@ -205,22 +205,8 @@
 <p><strong>Point:</strong>这是最简单的进行深拷贝的方法，其原理是先将其转换为JSON字符串，此时就不在存在原变量的堆地址，而是以字符串-基本变量保存在栈地址中。再将其转换回对象，则是一个完全与原变量无关的新变量。但是该方法会丢失对象所有的函数属性，undefined，以及会重置原型对象为Object(),或Array(),如果没修改多原型对象，则没有影响。</p>
 <ol start="2">
 <li><p>递归遍历对象</p>
-<pre><code>    function  deepClone(obj){
-    if(typeof obj == &apos;object&apos;){
-        let newObject = {};
-        let keys = Object.keys(obj);
-        let values = Object.values(obj);
-        for(value of values){
-            if(typeof value == &apos;object&apos;){
-                value = arguments.callee(value)
-            }
-        }
-        for(let i = 0; i&lt; keys.length ;i++){
-            newObject[keys[i]] = values[i];
-        }
-        return newObject;
-    }
-}
+   <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>  <span class="title">deepClone</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(<span class="keyword">typeof</span> obj == <span class="string">'object'</span>)&#123;</span><br><span class="line">     <span class="keyword">let</span> newObject = &#123;&#125;;</span><br><span class="line">     <span class="keyword">let</span> keys = <span class="built_in">Object</span>.keys(obj);</span><br><span class="line">     <span class="keyword">let</span> values = <span class="built_in">Object</span>.values(obj);</span><br><span class="line">     <span class="keyword">for</span>(value <span class="keyword">of</span> values)&#123;</span><br><span class="line">         <span class="keyword">if</span>(<span class="keyword">typeof</span> value == <span class="string">'object'</span>)&#123;</span><br><span class="line">             value = deepClone(value);			<span class="comment">//递归调用deepClone</span></span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i&lt; keys.length ;i++)&#123;</span><br><span class="line">         newObject[keys[i]] = values[i];</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> newObject;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>}
 </code></pre></li>
 <li><p>使用lodash库中的cloneDeep()函数，其原理与上述原理一样，但健壮性更高。</p>
 </li>
@@ -234,14 +220,14 @@ const copy = Object.assign({}, obj);
 console.log(copy); // { a: 1 }
 </code></pre><p><strong>Point:</strong>该方法只适用于由基本数据类型组成的对象，不能用于对象键或值包含引用类型，否则任然是浅拷贝。同时，该函数会忽略undefined与null值（可以用来过滤无效值）</p>
 <h3 id="使用于简单数组"><a href="#使用于简单数组" class="headerlink" title="使用于简单数组"></a>使用于简单数组</h3><ol>
-<li>Array.slice(startPositong,endPositon)</li>
-<li>Array.contact(arr1,arr2)</li>
-<li>array.splice(startPositon,delteteNum,addArr1,addArr2…)</li>
-<li>数组的迭代方法：Array.every(),Array.filter(),Array.map()</li>
+<li><code>Array.slice(startPositong,endPositon)</code></li>
+<li><code>Array.contact(arr1,arr2)</code></li>
+<li><code>array.splice(startPositon,delteteNum,addArr1,addArr2...)</code></li>
+<li>数组的迭代方法：<code>Array.every(),Array.filter(),Array.map()</code></li>
 </ol>
 <p><strong>Point:</strong>使用以上方法，必须是由基本数据类型组成的数组，数组项不能包含引用类型，否则任然是浅拷贝！！！</p>
 <h1 id="Final"><a href="#Final" class="headerlink" title="Final"></a>Final</h1><p>以上方法都只会转化可枚举项，对于不可枚举项，都是默认忽略的。</p>
-<p>综上，JSON.parse(JSON.stringfy(obj))应该算是最简单且最易用的方法了，并且原生代码的效率相较于JS也会有优势，所以，如果仅仅为了深拷贝，没有其他需求，该方法是比较好的方法。</p>
+<p>综上，<code>JSON.parse(JSON.stringfy(obj))</code>应该算是最简单且最易用的方法了，并且原生代码的效率相较于<code>JS</code>也会有优势，所以，如果仅仅为了深拷贝，没有其他需求，该方法是比较好的方法。</p>
 
       
     </div>

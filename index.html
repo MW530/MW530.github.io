@@ -367,9 +367,7 @@
       
         <p class="article-excerpt-content">
           数组for循环最传统的方法，按下标存取，也是最高效的方法
-12345let arr = [1,2,3,4]for(let i = 0; i &lt; arr.length; i++)&#123;    console.log(arr[i])&#125;//1，2，3，4
-for…of循环for...of语句创建一个迭代器(ES6引入，迭代器只会便利可枚举属性)。每一次循环都会调用迭代器的next对象。并返回当前该迭代器的值。
-123456let arr = [1,2,3,4]for(let...
+123456789101112let arr = [1,2,3,4]for(let i = 0; i &lt; arr.length; i++)&#123;    console.log(arr[i])&#125;//1，2，3，4//不用每次计算len，更加高效for(let i = 0, let len = arr.length; i &lt; len; i++)&#123;    console.log(arr[i])&#12...
         </p>
         <p class="article-more-link">
           <a href="/2021/01/26/JavaScript中数组与对象的遍历方法/#more">Read More</a>

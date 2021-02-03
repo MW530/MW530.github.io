@@ -20,13 +20,13 @@
 <meta property="og:description" content="作用域pre：块语句块语句（或其他语言的复合语句）用于组合零个或多个语句。该块由一对大括号界定，可以是labelled： 块语句会生成一个块级作用域，生成块级作用域包含两种方法：  使用任意声明符号（’’, var,let,const）在函数中会生成一个块级作用域。  使用let,const在任何块语句中生成一个块级作用域。 注意：var在非函数的块语句中不会生成一个块级作用域。   介绍中都会使">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="d:/myblog/myblog/source/images/V8内存模型.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/全面理解JavaScript作用域与闭包/V8-2.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/全面理解JavaScript作用域与闭包/V8-3.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/全面理解JavaScript作用域与闭包/GCprocess1.webp">
-<meta property="og:image" content="d:/myblog/myblog/source/images/全面理解JavaScript作用域与闭包/GCprocess2.webp">
-<meta property="og:image" content="d:/myblog/myblog/source/images/全面理解JavaScript作用域与闭包/GCprocess3.webp">
-<meta property="og:image" content="d:/myblog/myblog/source/images/全面理解JavaScript作用域与闭包/GCprocess4.webp">
-<meta property="og:updated_time" content="2021-02-03T09:06:30.306Z">
+<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/V8-2.png">
+<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/V8-3.png">
+<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/GCprocess1.webp">
+<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/GCprocess2.webp">
+<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/GCprocess3.webp">
+<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/GCprocess4.webp">
+<meta property="og:updated_time" content="2021-02-03T09:15:12.080Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="全面理解JavaScript作用域与闭包">
 <meta name="twitter:description" content="作用域pre：块语句块语句（或其他语言的复合语句）用于组合零个或多个语句。该块由一对大括号界定，可以是labelled： 块语句会生成一个块级作用域，生成块级作用域包含两种方法：  使用任意声明符号（’’, var,let,const）在函数中会生成一个块级作用域。  使用let,const在任何块语句中生成一个块级作用域。 注意：var在非函数的块语句中不会生成一个块级作用域。   介绍中都会使">
@@ -415,12 +415,12 @@
 <p>具体比如：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> num = <span class="number">123</span></span><br><span class="line"><span class="keyword">let</span> cont = <span class="number">11</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">'str'</span></span><br><span class="line"><span class="keyword">let</span> cs = <span class="string">'cs'</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    cont,</span><br><span class="line">    cs</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此时内存分配结构为：</p>
-<p><img src="D:\myblog\myblog\source\images\全面理解JavaScript作用域与闭包\V8-2.png" alt></p>
+<p><img src="\images\全面理解JavaScript作用域与闭包\V8-2.png" alt="V8-流程"></p>
 <p>即池和堆中的每个被分配的内存块都可以通过栈区的变量访问到。所以他们都是可达的，故不会被GC回收。</p>
 <p>但是当我们将某一个变量赋为<code>null</code>时候，原来堆池中的值就变成不可达，GC就会进行回收。如：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> num = <span class="number">123</span></span><br><span class="line"><span class="keyword">let</span> cont = <span class="number">11</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">'str'</span></span><br><span class="line"><span class="keyword">let</span> cs = <span class="string">'cs'</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    cont,</span><br><span class="line">    cs</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">num = <span class="literal">null</span></span><br><span class="line">cont = <span class="literal">null</span></span><br><span class="line">str = <span class="literal">null</span></span><br><span class="line">cs = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
 <p>这个时候把所有的基础变量都置为<code>null</code>，则本来按照回收机制，其所有的基础变量都会被GC回收，但是由于<code>obj</code>中引用了<code>cont</code>,<code>cs</code>，所以虽然这两个变量被置为<code>null</code>了，但是内存中实际的值并没有被回收。此时其内存状况如下</p>
-<p><img src="D:\myblog\myblog\source\images\全面理解JavaScript作用域与闭包\V8-3.png" alt="V8-3"></p>
+<p><img src="\images\全面理解JavaScript作用域与闭包\V8-3.png" alt="V8-3"></p>
 <p>可以看到由于可以从<code>obj</code>访问到<code>cs</code>,<code>11</code>，所以他们不会被回收。</p>
 <h3 id="回收算法（精简版）"><a href="#回收算法（精简版）" class="headerlink" title="回收算法（精简版）"></a>回收算法（精简版）</h3><p>基本的垃圾回收算法称为<strong>“标记-清除”</strong>，<strong>定期</strong>执行以下“垃圾回收”步骤:</p>
 <ol>
@@ -436,11 +436,11 @@
 </li>
 </ol>
 <p>下面是一个简单的过程（via<a href="https://segmentfault.com/a/1190000018605776" target="_blank" rel="noopener">前端面试：谈谈 JS 垃圾回收机制](https://segmentfault.com/a/1190000018605776)</a>）：</p>
-<p><img src="D:\myblog\myblog\source\images\全面理解JavaScript作用域与闭包\GCprocess1.webp" alt="GCprocess1"></p>
-<p><img src="D:\myblog\myblog\source\images\全面理解JavaScript作用域与闭包\GCprocess2.webp" alt="GCprocess2"></p>
-<p><img src="D:\myblog\myblog\source\images\全面理解JavaScript作用域与闭包\GCprocess3.webp" alt="GCprocess3"></p>
+<p><img src="\images\全面理解JavaScript作用域与闭包\GCprocess1.webp" alt="GCprocess1"></p>
+<p><img src="\images\全面理解JavaScript作用域与闭包\GCprocess2.webp" alt="GCprocess2"></p>
+<p><img src="\images\全面理解JavaScript作用域与闭包\GCprocess3.webp" alt="GCprocess3"></p>
 <p>可以看出，这实际上是一个<a href="https://baike.baidu.com/item/%E5%AE%BD%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/5224802?fromtitle=%E5%B9%BF%E5%BA%A6%E9%81%8D%E5%8E%86&amp;fromid=23665934&amp;fr=aladdin" target="_blank" rel="noopener">广度遍历</a>的过程，对整个栈区的变量构成的图进行广度遍历，并对遍历到的内存坐下标记。当遍历完成时，内存中未被遍历到的内存则证明时不可达的，则GC则可以将其回收。</p>
-<p><img src="D:\myblog\myblog\source\images\全面理解JavaScript作用域与闭包\GCprocess4.webp" alt="GCprocess4"></p>
+<p><img src="\images\全面理解JavaScript作用域与闭包\GCprocess4.webp" alt="GCprocess4"></p>
 <p>剩下的内存是不可达的，则会被回收。</p>
 <p>上面就是垃圾收集的工作原理。JavaScript引擎应用了许多优化，使其运行得更快，并且不影响执行。</p>
 <p>一些优化:</p>

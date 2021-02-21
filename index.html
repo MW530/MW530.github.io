@@ -522,14 +522,23 @@ function doDecrypt (pwd, onError) {
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+    <a class="article-category-link" href="/categories/JavaScrit/">JavaScrit</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          
+          浏览器进程（chrome）chrome中有4个主要进程：
+
+浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。
+UI Thread：负责浏览器按钮、地址栏。
+network Thread：负责处理网络请求。
+storage Thread：负责文件访问。
+
+
+渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。
+Main：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样式计算 -...
         </p>
         <p class="article-more-link">
           <a href="/2021/02/09/JavaScript宏任务，微任务与Event-loop/#more">Read More</a>

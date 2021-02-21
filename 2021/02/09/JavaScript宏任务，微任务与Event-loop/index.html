@@ -11,18 +11,22 @@
   
   
   
-  <meta name="description" content="Something is going happen if you try to fight for it!">
+  <meta name="description" content="浏览器进程（chrome）chrome中有4个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
 <meta name="keywords" content="JavaScript,宏任务,微任务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript宏任务，微任务与Event-loop">
 <meta property="og:url" content="http://yoursite.com/2021/02/09/JavaScript宏任务，微任务与Event-loop/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="Something is going happen if you try to fight for it!">
+<meta property="og:description" content="浏览器进程（chrome）chrome中有4个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-02-16T07:35:16.880Z">
+<meta property="og:image" content="d:/myblog/myblog/source/images/event-loop/同步-异步.jpg">
+<meta property="og:image" content="d:/myblog/myblog/source/images/event-loop/event-loop.png">
+<meta property="og:image" content="d:/myblog/myblog/source/images/event-loop/任务执行.png">
+<meta property="og:updated_time" content="2021-02-21T09:37:02.554Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript宏任务，微任务与Event-loop">
-<meta name="twitter:description" content="Something is going happen if you try to fight for it!">
+<meta name="twitter:description" content="浏览器进程（chrome）chrome中有4个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
+<meta name="twitter:image" content="d:/myblog/myblog/source/images/event-loop/同步-异步.jpg">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -183,7 +187,7 @@
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+    <a class="article-category-link" href="/categories/JavaScrit/">JavaScrit</a>
 
       
 	<a class="article-views">
@@ -195,7 +199,156 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="浏览器进程（chrome）"><a href="#浏览器进程（chrome）" class="headerlink" title="浏览器进程（chrome）"></a>浏览器进程（chrome）</h1><p>chrome中有4个主要进程：</p>
+<ol>
+<li>浏览器进程（<code>Browser Process</code>）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。<ol>
+<li><code>UI Thread</code>：负责浏览器按钮、地址栏。</li>
+<li><code>network Thread</code>：负责处理网络请求。</li>
+<li><code>storage Thread</code>：负责文件访问。</li>
+</ol>
+</li>
+<li>渲染器进程（<code>Renderer Process</code>）：浏览器内核，负责Tab内的所有工作。<ol>
+<li><code>Main</code>：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样式计算 -&gt; 构建布局树 -&gt; 绘制 -&gt; 创建层树。（注：Main不是一个线程，而是多个线程的集合，为了方便介绍先聚合一下，后面展开讲）。</li>
+<li><code>Worker thread</code>: Web Worker 运行在这个线程，可能存在多个。</li>
+<li><code>Compositor thread</code>: 合成器，将层合成帧，分成多个磁贴。</li>
+<li><code>Raster thread</code>: 栅格化磁贴后交给GPU。</li>
+</ol>
+</li>
+<li>插件控制进程（<code>Plugin Process</code>）：控制所有的插件。</li>
+<li>GPU进程（<code>GPU Process</code>）</li>
+</ol>
+<h2 id="Main线程"><a href="#Main线程" class="headerlink" title="Main线程"></a><code>Main</code>线程</h2><p><code>Main</code>线程是一些线程的集合，主要用于整个网页的工作。</p>
+<p>其包括：</p>
+<ol>
+<li><p>GUI渲染进程：</p>
+<p>负责渲染工作，包括解析HTML，CSS，构建DOM树和RenderObject树，布局和绘制等。</p>
+<p><strong>注意</strong>：GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存等到JS引擎空闲时立即被执行。</p>
+</li>
+<li><p>JS引擎线程：</p>
+<p>JS引擎线程负责解析Javascript脚本，运行代码（比如Chrome的V8)。</p>
+<p>一个Tab页内中无论什么时候都只有一个JS线程在运行JS。</p>
+<p>因为GUI渲染线程与JS引擎线程是互斥的，所以当JS执行的时间过长，页面的渲染也会阻塞。</p>
+</li>
+<li><p>事件触发线程：</p>
+<p>主要用来控制事件循环，添加回调事件到队列中。</p>
+<p>当JS引擎执行代码块如setTimeOut时（也可来自浏览器内核的其他线程,如鼠标点击、AJAX异步请求等），会被添加到事件线程中。 当对应的事件符合触发条件并被触发时，该线程会把事件添加到队列的队尾，等待JS引擎的处理</p>
+<p>注：由于JS单线程的关系，所以这些队列中的事件都得等JS引擎空闲了才会被执行</p>
+</li>
+<li><p>定时触发器线程：</p>
+<p><code>setInterval</code>与<code>setTimeout</code>执行的线程。</p>
+<p>由于js引擎是单线程的，如果由js来计时会影响计时准确性，因此额外使用一个线程来计时并触发定时。</p>
+<p><strong>但是需要注意的是：</strong></p>
+<p><code>setInterval</code>与<code>setTimeout</code>的计时并不是很准确的，其误差在（10~20ms）：</p>
+<ol>
+<li>再chrome底层中规定<code>setInterval</code>的最低时间为4ms。</li>
+<li><code>windows</code>等系统底层的时间并不是完全准确的，普通的时间API误差在10~15ms（部分情况）。</li>
+<li>由于JavaScript引擎是单线程，即使回调完全准确的将任务加入执行队列，但是前面的任务的执行时间仍然会增加回调任务的误差。</li>
+</ol>
+</li>
+<li><p>异步http请求线程：</p>
+<p>XMLHttpRequest连接后会新开一个线程。 将检测到状态变更时，如果设置有回调函数，该线程就产生状态变更事件。</p>
+<p>当然，实际做请求工作的还是 浏览器进程 下 <code>network Thread</code>。</p>
+</li>
+</ol>
+<h1 id="JavaScript单线程"><a href="#JavaScript单线程" class="headerlink" title="JavaScript单线程"></a>JavaScript单线程</h1><p>JavaScript的一大特点就是单线程设计，这一特点也造成了JavaScript的众多特性。这样设计可以使程序的开发更加简单，因为其不会涉及线程的通信，管理，比如在操作DOM的时候，如果是多线程，就需要组织各个线程的先后关系，但是单线程就不会涉及这些问题。这也使得JavaScript成为了一门入门比较简单的语言。</p>
+<h2 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h2><p>而JavaScript的任务又分为同步任务和异步任务。</p>
+<p>同步任务是指直接按照代码顺序将其加入到执行栈中任务。</p>
+<p>而异步任务是指需要一定的时间才能完成，并且这段时间的操作不是JavaScript线程能够控制的，这个时候则需要其他线程予以辅助。比如上面的定时触发器线程，异步http请求线程等。都可以帮助JavaScript完成定时器和http请求的异步任务。而上面的事件触发线程则用来在异步任务完成时，将回调函数添加到执行栈中。其基本过程如图：</p>
+<p><img src="D:\myblog\myblog\source\images\event-loop\同步-异步.jpg" alt="同步-异步"></p>
+<h2 id="执行栈（Execution-Stack）"><a href="#执行栈（Execution-Stack）" class="headerlink" title="执行栈（Execution Stack）"></a><strong>执行栈</strong>（Execution Stack）</h2><p>当我们调用一个方法的时候，js会生成一个与这个方法相对应的执行环境，也叫<strong>执行上下文</strong>，这个执行环境存在着这个方法的私有作用域、参数、this对象等等。因为js是单线程的，同一时间只能执行一个方法，所以当一系列的方法被依次调用的时候，js会先解析这些方法，把其中的任务按照执行顺序排队到一个地方，这个地方叫做执行栈。</p>
+<h2 id="事件表格（Event-Table）"><a href="#事件表格（Event-Table）" class="headerlink" title="事件表格（Event Table）"></a>事件表格（Event Table）</h2><p>JavaScript保有的一中数据结构，它会存储所有的延迟事件（回调函数）。在对应异步操作完成过后，会由事件触发线程将对应的回调函数添加到事件队列中等待执行。</p>
+<h2 id="事件队列（Event-queue）"><a href="#事件队列（Event-queue）" class="headerlink" title="事件队列（Event queue）"></a><strong>事件队列</strong>（Event queue）</h2><p>当我们发出一个ajax请求或其他异步操作的时候，他并不会立刻返回结果，为了防止浏览器出现假死或者空白，主线程会把这个异步任务挂起(pending)，继续执行执行栈中的其他任务，等异步任务返回结果后，js会将这个<strong>异步任务</strong>按照执行顺序，加入到与执行栈不同的另一个队列，也就是事件队列。</p>
+<h1 id="Event-loop"><a href="#Event-loop" class="headerlink" title="Event-loop"></a>Event-loop</h1><blockquote>
+<p>Event-loop Definitions：</p>
+<p>To coordinate events, user interaction, scripts, rendering, networking, and so forth, user agents must use event loops as described in this section. Each <a href="https://tc39.es/ecma262/#sec-agents" target="_blank" rel="noopener">agent</a> has an associated event loop, which is unique to that agent.</p>
+<p>翻译：为了协调事件、用户交互、脚本、渲染、网络等等，用户代理必须使用本节中描述的事件循环。每个代理都有一个相关的事件循环，该事件循环对该代理来说是唯一的。</p>
+<p>每个Event-loop包含：</p>
+<ul>
+<li>正在运行任务，它可以是一个任务或者null。并且在最初的时候，其是一个null。其实为了处理可重入性。</li>
+<li>一个微任务队列，这是一个微任务队列，起初是空的。</li>
+<li>有一个标志微任务检查点的布尔值。</li>
+</ul>
+<h2 id="HTML-Living-Standard"><a href="#HTML-Living-Standard" class="headerlink" title="HTML Living Standard"></a>HTML Living Standard</h2></blockquote>
+<blockquote>
+<p>Agent Definitions：</p>
+<p>An agent comprises a set of ECMAScript execution contexts, an <a href="https://tc39.es/ecma262/#execution-context-stack" target="_blank" rel="noopener">execution context stack</a>, a <a href="https://tc39.es/ecma262/#running-execution-context" target="_blank" rel="noopener">running execution context</a>, an Agent Record, and an executing thread. Except for the <a href="https://tc39.es/ecma262/#executing-thread" target="_blank" rel="noopener">executing thread</a>, the constituents of an <a href="https://tc39.es/ecma262/#agent" target="_blank" rel="noopener">agent</a> belong exclusively to that <a href="https://tc39.es/ecma262/#agent" target="_blank" rel="noopener">agent</a>.</p>
+<p>翻译：代理包括一组ECMAScript执行上下文、一个执行上下文堆栈、一个正在运行的执行上下文、一个代理记录和一个正在执行的线程。除执行线程外，代理的组成部分专属于该代理。</p>
+<h2 id="HTML-Living-Standard-1"><a href="#HTML-Living-Standard-1" class="headerlink" title="HTML Living Standard"></a>HTML Living Standard</h2></blockquote>
+<p>所谓事件循环，就是浏览器中（此处只谈浏览器，不涉及<code>Node</code>）各项任务（同步任务，异步任务）的执行次序之间的协调。其基本过程如下图：</p>
+<p><img src="D:\myblog\myblog\source\images\event-loop\event-loop.png" alt="event-loop"></p>
+<p>其基本过程：</p>
+<ol>
+<li><p>主线程运行的时候会生成堆（heap）和栈（stack）；</p>
+</li>
+<li><p>js从上到下解析方法，将其中的同步任务按照执行顺序排列到执行栈中；</p>
+</li>
+<li><p>当程序调用外部的API时，比如ajax、setTimeout等，会将此类异步任务挂起，继续执行执行栈中的任务，等异步任务返回结果后，再按照执行顺序排列到事件队列中；</p>
+</li>
+<li><p>主线程先将执行栈中的同步任务清空，然后检查事件队列中是否有任务，如果有，就将第一个事件对应的回调推到执行栈中执行，若在执行过程中遇到异步任务，则继续将这个异步任务排列到事件队列中。</p>
+</li>
+<li><p>主线程每次将执行栈清空后，就去事件队列中检查是否有任务，如果有，就每次取出一个推到执行栈中执行，这个过程是循环往复的… …。</p>
+<p><strong>这个过程被称为“Event Loop 事件循环”。</strong></p>
+</li>
+</ol>
+<h1 id="宏任务、微任务"><a href="#宏任务、微任务" class="headerlink" title="宏任务、微任务"></a>宏任务、微任务</h1><p><strong>首先需要明确的是：宏任务和微任务都是异步任务，其不同在于回调执行的时机。</strong></p>
+<p>在标准中，任务是分为<code>task</code>和<code>microtask</code>，任务和微任务。全文中提到宏任务（Macro task）的只有两处：</p>
+<blockquote>
+<p><em>Unlike other algorithms in this and other specifications, which behave similar to programming-language function calls,</em> <a href="https://html.spec.whatwg.org/multipage/webappapis.html#spin-the-event-loop" target="_blank" rel="noopener">spin the event loop</a> <em>is more like a macro, which saves typing and indentation at the usage site by expanding into a series of steps and operations.</em></p>
+<p>翻译：与本规范和其他规范中的其他算法(其行为类似于编程语言函数调用)不同，spin事件循环更像是一个<strong>宏</strong>，它通过展开成一系列步骤和操作来节省使用站点上的输入和缩进。</p>
+</blockquote>
+<p>可能是由于这一处，我们多用<code>macro task</code>来描述<code>task</code>。</p>
+<p>而在HTML Standard中，对于task的解释为：</p>
+<p>形式上，一个task是一个包含如下内容的结构体：</p>
+<ul>
+<li>steps：完成该任务需要的一系列步骤。</li>
+<li>A source：任务源之一，用于对相关任务进行分组和序列化。</li>
+<li>A document：与任务相关联的文档，对于不在<a href="https://html.spec.whatwg.org/multipage/webappapis.html#window-event-loop" target="_blank" rel="noopener">窗口事件</a>循环中的任务，则为空。</li>
+<li>A script evaluation environment settings object set：一组环境设置对象，用于在任务期间跟踪脚本评估。</li>
+</ul>
+<p>对于<code>microtask</code>定义有：</p>
+<blockquote>
+<p>A microtask is a colloquial way of referring to a <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-task" target="_blank" rel="noopener">task</a> that was created via the <a href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-microtask" target="_blank" rel="noopener">queue a microtask</a> algorithm.</p>
+<p>翻译：微任务是指通过微任务算法队列创建的任务。</p>
+</blockquote>
+<p>从执行顺序上来看两者的不同：</p>
+<p><img src="D:\myblog\myblog\source\images\event-loop\任务执行.png" alt="任务执行"></p>
+<p>可以明确的是微任务是在一个宏任务结束后进行，此时即为上文提到的<strong>checkpoint</strong>，查看是否存在可执行的微任务。</p>
+<p>具体宏任务和微任务为：</p>
+<ol>
+<li>宏任务<ul>
+<li>整体script</li>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>setImmediate</li>
+<li>其他</li>
+</ul>
+</li>
+<li>微任务<ul>
+<li>Promise的then方法（注意Promise内部的内容是同步内容，立即执行）</li>
+<li>process.nextTick，</li>
+<li>MutationObserver</li>
+</ul>
+</li>
+</ol>
+<h2 id="几个简单例子"><a href="#几个简单例子" class="headerlink" title="几个简单例子"></a>几个简单例子</h2><h3 id="定时器、Promise"><a href="#定时器、Promise" class="headerlink" title="定时器、Promise"></a>定时器、Promise</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'定时器开始'</span>)</span><br><span class="line"> &#125;);</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'马上执行for循环'</span>);</span><br><span class="line">     <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++)&#123;</span><br><span class="line">         i == <span class="number">99</span> &amp;&amp; resolve();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'执行then函数'</span>)</span><br><span class="line"> &#125;);</span><br><span class="line"> </span><br><span class="line"> <span class="built_in">console</span>.log(<span class="string">'代码执行结束'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 马上开始for循环</span></span><br><span class="line"><span class="comment">* 代码执行结束</span></span><br><span class="line"><span class="comment">* 执行then函数</span></span><br><span class="line"><span class="comment">* 定时器开始</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>解释：</p>
+<ol>
+<li>执行到<code>setTimeout</code>，先由<code>Event Table</code>保留其回调函数。并且在其延迟任务完成后由事件触发线程将其加入到<code>Event Queue</code>。</li>
+<li>执行到<code>new Promise</code>，由于其函数参数是同步的，所以立即执行。<strong>打印：马上执行for循环</strong>。并将then方法的回调加入到微任务队列。</li>
+<li>执行到<code>console.log(&#39;代码执行结束&#39;);</code>，同步代码。<strong>直接打印：代码执行结束</strong></li>
+<li>第一个事件循环结束，到<code>checkpoint</code>，检查是否有微任务，发现<code>then</code>方法回调，<strong>直接打印：执行then函数</strong>。</li>
+<li>第二轮事件循环开始，执行第一个宏任务，<code>setTimeout</code>的回调进入执行栈，即执行 <code>console.log(&#39;定时器开始&#39;)</code>，<strong>直接打印：定时器开始</strong></li>
+</ol>
+<h3 id="定时器、Promise、async"><a href="#定时器、Promise、async" class="headerlink" title="定时器、Promise、async"></a>定时器、Promise、async</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async1</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async1 start'</span>);</span><br><span class="line">    <span class="keyword">await</span> async2();</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async1 end'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async2</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async2'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script start'</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setTimeout'</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">async1();</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'promise1'</span>);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'promise2'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script end'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出顺序：</span></span><br><span class="line"><span class="comment">// script start </span></span><br><span class="line"><span class="comment">// async1 start </span></span><br><span class="line"><span class="comment">// async2 </span></span><br><span class="line"><span class="comment">// promise1 </span></span><br><span class="line"><span class="comment">// script end </span></span><br><span class="line"><span class="comment">// async1 end</span></span><br><span class="line"><span class="comment">// promise2</span></span><br><span class="line"><span class="comment">// setTimeout</span></span><br></pre></td></tr></table></figure>
+<p>对于<code>async函数</code>，本质是基于<code>Promise</code>，所以：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async1</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async1 start'</span>);</span><br><span class="line">    <span class="keyword">await</span> async2();</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async1 end'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//等价于</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">async1</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async1 start'</span>);</span><br><span class="line">    <span class="built_in">Promise</span>.resolve(async2()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'async1 end'</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就容易理解前面的答案了，根据<code>Promise</code>参数函数为同步，<code>then</code>方法为微任务，可以很容易推的结果。</p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>说实话，这一部分仍然没有很好的理解，主要是官方的文档解释的比较抽象并且没有定性的解释，加之我的英语不行，不能很好的理解整个流程，只能简单的确定执行次序。这一部分还需要在后面深入的理解。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://juejin.cn/post/6844903861174403086" target="_blank" rel="noopener">JS引擎的执行机制（event loop），宏任务和微任务</a></li>
+<li><a href="https://html.spec.whatwg.org/multipage/webappapis.html#microtask" target="_blank" rel="noopener">HTML Standard</a></li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
@@ -293,7 +446,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav">None</ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#浏览器进程（chrome）"><span class="nav-number">1.</span> <span class="nav-text">浏览器进程（chrome）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Main线程"><span class="nav-number">1.1.</span> <span class="nav-text">Main线程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript单线程"><span class="nav-number">2.</span> <span class="nav-text">JavaScript单线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#同步与异步"><span class="nav-number">2.1.</span> <span class="nav-text">同步与异步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行栈（Execution-Stack）"><span class="nav-number">2.2.</span> <span class="nav-text">执行栈（Execution Stack）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件表格（Event-Table）"><span class="nav-number">2.3.</span> <span class="nav-text">事件表格（Event Table）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件队列（Event-queue）"><span class="nav-number">2.4.</span> <span class="nav-text">事件队列（Event queue）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Event-loop"><span class="nav-number">3.</span> <span class="nav-text">Event-loop</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-Living-Standard"><span class="nav-number">3.1.</span> <span class="nav-text">HTML Living Standard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-Living-Standard-1"><span class="nav-number">3.2.</span> <span class="nav-text">HTML Living Standard</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#宏任务、微任务"><span class="nav-number">4.</span> <span class="nav-text">宏任务、微任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#几个简单例子"><span class="nav-number">4.1.</span> <span class="nav-text">几个简单例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定时器、Promise"><span class="nav-number">4.1.1.</span> <span class="nav-text">定时器、Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定时器、Promise、async"><span class="nav-number">4.1.2.</span> <span class="nav-text">定时器、Promise、async</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol>
     
     </div>
   </aside>

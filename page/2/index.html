@@ -282,6 +282,57 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-JavaScript中数组与对象的遍历方法"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/26/JavaScript中数组与对象的遍历方法/">JavaScript中数组与对象的遍历方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/26/JavaScript中数组与对象的遍历方法/" class="article-date">
+	  <time datetime="2021-01-26T05:48:19.000Z" itemprop="datePublished">2021-01-26</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          数组for循环最传统的方法，按下标存取，也是最高效的方法
+123456789101112let arr = [1,2,3,4]for(let i = 0; i &lt; arr.length; i++)&#123;    console.log(arr[i])&#125;//1，2，3，4//不用每次计算len，更加高效for(let i = 0, let len = arr.length; i &lt; len; i++)&#123;    console.log(arr[i])&#12...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/26/JavaScript中数组与对象的遍历方法/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-flex布局与grid布局简介"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -777,63 +828,6 @@ function doDecrypt (pwd, onError) {
         </p>
         <p class="article-more-link">
           <a href="/2020/04/22/考研遇到了问题！！！/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue源码1-从初始化到响应式原理"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/08/Vue源码1-从初始化到响应式原理/">Vue源码1-从初始化到响应式原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/08/Vue源码1-从初始化到响应式原理/" class="article-date">
-	  <time datetime="2020-01-08T14:09:52.000Z" itemprop="datePublished">2020-01-08</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue源码/">Vue源码</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          首先介绍后面要用到的几个类：
-
-Observer类：用于将一个数据变为响应式（可被观测）
-Watcher类：一个依赖（一个指令对应一个依赖），一旦有一个指令用到了某个对象属性，那么就会新建一个Watcher作为订阅者。
-Dep类：依赖管理器，一个对象属性对应一个Dep，其有一个内部属性subs用于存放依赖。
-
-Vue初始化Vue原型是在src/instance/idnex.js中定义的：
-12345678910111213141516171819202122232425//src/inst...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/08/Vue源码1-从初始化到响应式原理/#more">Read More</a>
         </p>
       
     </div>

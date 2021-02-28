@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>设计模式3-代理模式 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="设计模式代理模式">
+  
+  
+  
+  
+  <meta name="description" content="代理模式定义当目标对象不方便直接访问或者访问者不满住要求的时候，提供一个代理对象来控制对目标对象的访问。访问者实际上访问的是代理对象。代理对象对请求做出一些处理之后，再把请求转交给目标对象。 主要解决在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有些对象由于某些原因（比如对象创建开销很大，或者某些操作需要安全控制，或者需要进程外的访问），直接访问会给使用者或者系">
+<meta name="keywords" content="设计模式,代理模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式3-代理模式">
+<meta property="og:url" content="http://yoursite.com/2021/02/27/设计模式3-代理模式/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="代理模式定义当目标对象不方便直接访问或者访问者不满住要求的时候，提供一个代理对象来控制对目标对象的访问。访问者实际上访问的是代理对象。代理对象对请求做出一些处理之后，再把请求转交给目标对象。 主要解决在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有些对象由于某些原因（比如对象创建开销很大，或者某些操作需要安全控制，或者需要进程外的访问），直接访问会给使用者或者系">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-02-28T13:22:51.727Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式3-代理模式">
+<meta name="twitter:description" content="代理模式定义当目标对象不方便直接访问或者访问者不满住要求的时候，提供一个代理对象来控制对目标对象的访问。访问者实际上访问的是代理对象。代理对象对请求做出一些处理之后，再把请求转交给目标对象。 主要解决在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有些对象由于某些原因（比如对象创建开销很大，或者某些操作需要安全控制，或者需要进程外的访问），直接访问会给使用者或者系">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-设计模式3-代理模式" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      设计模式3-代理模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/02/27/设计模式3-代理模式/" class="article-date">
+	  <time datetime="2021-02-27T06:32:20.000Z" itemprop="datePublished">2021-02-27</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>当目标对象不方便直接访问或者访问者不满住要求的时候，提供一个代理对象来控制对目标对象的访问。访问者实际上访问的是代理对象。代理对象对请求做出一些处理之后，再把请求转交给目标对象。</p>
+<h2 id="主要解决"><a href="#主要解决" class="headerlink" title="主要解决"></a>主要解决</h2><p>在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有些对象由于某些原因（比如对象创建开销很大，或者某些操作需要安全控制，或者需要进程外的访问），直接访问会给使用者或者系统结构带来很多麻烦，我们可以在访问此对象时加上一个对此对象的访问层。</p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>职责清晰。</li>
+<li>高扩展性。 </li>
+<li>智能化。</li>
+</ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢。</li>
+<li>实现代理模式需要额外的工作，有些代理模式的实现非常复杂。</li>
+</ul>
+<h2 id="远程代理（主要针对Java）"><a href="#远程代理（主要针对Java）" class="headerlink" title="远程代理（主要针对Java）"></a>远程代理（主要针对Java）</h2><p><strong>远程代理可以作为另一个JVM上对象的本地代表。调用代理的方法，会被代理利用网络转发到远程执行，并且结果会通过网络返回给代理，再由代理将结果转给客户。</strong></p>
+<h2 id="Copy-on-Write-代理"><a href="#Copy-on-Write-代理" class="headerlink" title="Copy-on-Write 代理"></a>Copy-on-Write 代理</h2><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><blockquote>
+<p>Copy-on-write (CoW or COW), sometimes referred to as implicit sharing or shadowing, is a resource-management technique used in computer programming to efficiently implement a “duplicate” or “copy” operation on modifiable resources.</p>
+</blockquote>
+<p>写时复制（copy-on-write，简称 CoW 或 COW），也叫隐式共享（implicit sharing）或隐藏（shadowing），是计算机编程中的一种资源管理技术，用于高效地复制或拷贝可修改资源</p>
+<blockquote>
+<p>If a resource is duplicated but not modified, it is not necessary to create a new resource; the resource can be shared between the copy and the original. Modifications must still create a copy, hence the technique: the copy operation is deferred to the first write. By sharing resources in this way, it is possible to significantly reduce the resource consumption of unmodified copies, while adding a small overhead to resource-modifying operations.</p>
+</blockquote>
+<p>具体的，如果复制了一个资源但没有改动，就没必要创建这个新的资源，此时副本能够与原版共享同一资源，在修改时仍需要创建副本。因此，关键在于：<strong>将拷贝操作推迟到第一次写入的时候</strong>。通过这种方式来共享资源，能够显著减少无改动副本的资源消耗，而只是略微增加了资源修改操作的开销</p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>但是在JavaScript种，以前还不好对这种代理进行很好的描述，因为以前JavaScript并没有对对象属性进行监听的方法（实际上也只有<code>obj.defineProperty</code>），在ES6引入了<code>Proxy</code>之后，我们可以很方便的实现<code>COW</code>代理。下面给出简单实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person = &#123;</span><br><span class="line">    name: <span class="string">'tom'</span>,</span><br><span class="line">    num: <span class="number">123</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p_person = <span class="keyword">new</span> <span class="built_in">Proxy</span>(person, &#123;</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params">target, proKey, receiver</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> target[proKey]</span><br><span class="line">    &#125;,</span><br><span class="line">    set: <span class="function"><span class="keyword">function</span>(<span class="params">target, propKey, value, receiver</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//深拷贝一个对象</span></span><br><span class="line">        <span class="keyword">let</span> newObj = deep_clone(target)</span><br><span class="line">        <span class="comment">//修改新对象的值</span></span><br><span class="line">        newObj[proKey] = value</span><br><span class="line">        <span class="comment">//替换proxy对象为新对象</span></span><br><span class="line">        p_preson = newObj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>上面的例子中，充分利用了JavaScript弱类型语言的特征，在最开始时将<code>p_person</code>赋值为<code>Proxy</code>对象，在执行get操作时，直接返回被访问对象的值；在执行set操作时，在对被访问对象执行深拷贝，并把<code>p_person</code>赋值为新对象。</p>
+<p>但是这样存在一些问题：</p>
+<ul>
+<li><code>Proxy</code>对象同样会占用空间，如果确定目标对象大概率会被改动，并且目标对象并不是很大，建议直接<code>deep_clone</code>。</li>
+<li><code>Proxy</code>对象内部的定义比较复杂，每一个对象都要重复该过程。所以我们封装一个函数，来执行这个过程。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person = &#123;</span><br><span class="line">    name: <span class="string">'tom'</span>,</span><br><span class="line">    num: <span class="number">123</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">produce_p</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> new_obj = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span><br><span class="line">        get: <span class="function"><span class="keyword">function</span> (<span class="params">target, propKey, receiver</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> target[propKey];</span><br><span class="line">        &#125;,</span><br><span class="line">        set: <span class="function"><span class="keyword">function</span> (<span class="params">target, propKey, value, receiver</span>) </span>&#123;</span><br><span class="line">            <span class="comment">//深拷贝一个对象</span></span><br><span class="line">            <span class="keyword">let</span> newObj = deep_clone(target)</span><br><span class="line">            <span class="comment">//修改新对象的值</span></span><br><span class="line">            newObj[proKey] = value</span><br><span class="line">            <span class="comment">//替换proxy对象为新对象</span></span><br><span class="line">            new_obj = newObj</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> new_obj</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> person_p = produce_p(person) <span class="comment">//代理对象</span></span><br></pre></td></tr></table></figure>
+<p>这样我们就解决了第二个问题，第一个问题是无法解决的，需要我们自行解决。</p>
+<h2 id="保护（Protect-or-Access）代理"><a href="#保护（Protect-or-Access）代理" class="headerlink" title="保护（Protect or Access）代理"></a>保护（Protect or Access）代理</h2><h3 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h3><p>保护代理模式(Access Proxy), 也叫Protect Proxy. 这种代理用于对真实对象的功能做一些访问限制, 在代理层做身份验证. 通过了验证, 才调用真实的主体对象的相应方法。</p>
+<p>这种限制，应该分为两种：</p>
+<ul>
+<li>对访问来源做限制</li>
+<li>对访问内容做限制</li>
+</ul>
+<h3 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h3><p>但是JavaScript中目前不能对一种进行限制（使用透明代理），我们使用<code>Proxy</code>API来实现对访问内容进行限制：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//加入我们要对sex进行读限制，对person进行写限制</span></span><br><span class="line"><span class="keyword">let</span> content = &#123;</span><br><span class="line">    person: <span class="string">'tom'</span>,</span><br><span class="line">    place: <span class="string">'park'</span>,</span><br><span class="line">    sex: <span class="string">'male'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> content_p = <span class="keyword">new</span> <span class="built_in">Proxy</span>(content, &#123;</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params">target, propKey, receiver</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> proKey === <span class="string">'sex'</span> ? <span class="literal">false</span> : target[proKey]</span><br><span class="line">    &#125;,</span><br><span class="line">    set(target, propKey, value, receiver)&#123;</span><br><span class="line">        proKey === <span class="string">'person'</span> ? <span class="string">''</span> : target[proKey] = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>同样的，我们也可以对<code>content_p</code>进行封装，创建一个工厂，以进行更好复用代码。</p>
+<p>如果实际要对访问来源做限制，只能使用非透明的方式，即读写必须通过函数来进行操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> content = &#123;</span><br><span class="line">    person: <span class="string">'tom'</span>,</span><br><span class="line">    place: <span class="string">'park'</span>,</span><br><span class="line">    sex: <span class="string">'male'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> source1 = &#123;</span><br><span class="line">    name: <span class="string">'source1'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> source2 = &#123;</span><br><span class="line">    name: <span class="string">'source2'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">obj, prop</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//限制来自于source1的访问</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.name === <span class="string">'source1'</span> || prop === <span class="string">'sex'</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> obj[prop]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//模拟从source1来源下访问content</span></span><br><span class="line">get.call(source1, content, <span class="string">'sex'</span>)</span><br><span class="line"><span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<h2 id="缓存-Cache-代理"><a href="#缓存-Cache-代理" class="headerlink" title="缓存(Cache)代理"></a>缓存(Cache)代理</h2><h3 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h3><p>缓存代理可以为一些开销大的运算结果提供暂时的存储，在下次运算的时候，如果传递进来的参数与之前的一致，则直接返回结果，减少运算。</p>
+<h3 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h3><p>下面是一个对乘积进行缓存的代理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mult = <span class="function"><span class="keyword">function</span></span>&#123;</span><br><span class="line">    <span class="keyword">let</span> res = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>, len = <span class="built_in">arguments</span>.length; i &lt; len; i++)&#123;</span><br><span class="line">        res *= <span class="built_in">arguments</span>[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> proxy_mult = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   <span class="keyword">let</span> cache = &#123;&#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">let</span> args = <span class="built_in">Array</span>.prototype.join.call(<span class="built_in">arguments</span>)</span><br><span class="line">       <span class="keyword">if</span>(args <span class="keyword">in</span>  cache)&#123;</span><br><span class="line">           <span class="keyword">return</span> cahe[args]</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> cache[args] = mult.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<p>同样的，我们可以对<code>proxy_mult</code>进行封装，创建一个工厂，来生成函数工厂。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//计算乘积函数</span></span><br><span class="line"><span class="keyword">let</span> mult = <span class="function"><span class="keyword">function</span></span>&#123;</span><br><span class="line">    <span class="keyword">let</span> res = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>, len = <span class="built_in">arguments</span>.length; i &lt; len; i++)&#123;</span><br><span class="line">        res *= <span class="built_in">arguments</span>[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//计算加和函数</span></span><br><span class="line"><span class="keyword">let</span> plus = <span class="function"><span class="keyword">function</span></span>&#123;</span><br><span class="line">    <span class="keyword">let</span> res = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>, len = <span class="built_in">arguments</span>.length; i &lt; len; i++)&#123;</span><br><span class="line">        res += <span class="built_in">arguments</span>[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> proxyProxy = <span class="function"><span class="keyword">function</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cache = &#123;&#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">Array</span>.prototype.join.call(<span class="built_in">arguments</span>)</span><br><span class="line">        <span class="keyword">if</span>(args <span class="keyword">in</span>  cache)&#123;</span><br><span class="line">            <span class="keyword">return</span> cahe[args]</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cache[args] = fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> proxyMult = proxyProxy(mult)</span><br><span class="line"><span class="keyword">let</span> proxyPlus = proxyProxy(plus)</span><br><span class="line"></span><br><span class="line">proxyMult(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)		<span class="comment">//24</span></span><br><span class="line">proxyPlus(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)		<span class="comment">//10</span></span><br></pre></td></tr></table></figure>
+<h2 id="虚拟代理"><a href="#虚拟代理" class="headerlink" title="虚拟代理"></a>虚拟代理</h2><h3 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h3><p>虚拟代理作为创建开销大的对象的代表，经常会<strong>直到我们真正需要一个对象的时候才创建它</strong>。当对象在创建前和创建中时，由虚拟代理地来扮演对象的替身。对象创建后，代理就会将请求直接委托给对象。</p>
+<h3 id="实例-3"><a href="#实例-3" class="headerlink" title="实例"></a>实例</h3><h4 id="合并请求减少开销"><a href="#合并请求减少开销" class="headerlink" title="合并请求减少开销"></a>合并请求减少开销</h4><p>这个用法其实和函数的节流效果一致，将多次操作合并为一次，以减少消耗，特别是网络请求。</p>
+<p>比如文件同步时，虽然我们和设计<code>checkbox</code>来合并请求，但是并不是每个用户都会按我们设计的逻辑来进行操作。他们可能仍然一个一个的同步，这样会加大服务器的负担。所以我们可以把一段时间内的请求存储下来，每隔一段时间进行同步。以减少服务器的负担。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> syncFile = <span class="function"><span class="keyword">function</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//同步</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> proxySyncFile = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> ids = []</span><br><span class="line">    <span class="keyword">let</span> timer</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">        ids.push(id)</span><br><span class="line">        <span class="keyword">if</span>(timer)&#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            syncFile(ids.join())</span><br><span class="line">            claerTimeout(timer)</span><br><span class="line">            timer = <span class="literal">null</span></span><br><span class="line">            cache.length = <span class="number">0</span></span><br><span class="line">        &#125;, <span class="number">2000</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<h4 id="惰性加载"><a href="#惰性加载" class="headerlink" title="惰性加载"></a>惰性加载</h4><p>这个作用就是虚拟代理最初的用法。</p>
+<p>比如我们有一个库名叫<code>composite</code>，其作用是</p>
+<ul>
+<li>查询页面内图片的的OCR文字(picOcr)</li>
+<li>建立页面的虚拟DOM(virtualDOM)</li>
+<li>进行大数计算(bigNumberCalc)</li>
+<li>用webGL绘制一个游戏(webGLGame)</li>
+</ul>
+<p>可以想象，这个库的每个功能都是比较困难，所以其代码量都比较大，并且我们并不一定会使用到其所有功能，假如<code>picOcr</code>是最常用的模块，我们直接加载该模块。所以我们可以将其他的模块做成懒加载，需要使用时再加载。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> composite = &#123;</span><br><span class="line">    picOcr : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//直接加载</span></span><br><span class="line">    &#125;,</span><br><span class="line">    virtualDOM: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> vd = _load(<span class="string">'virtualDOM'</span>)</span><br><span class="line">        composite.virtualDOM = vd</span><br><span class="line">        composite.virtualDOM(<span class="built_in">arguments</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    bigNumberCalc: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//逻辑相同</span></span><br><span class="line">    &#125;,</span><br><span class="line">    webGLGame: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//逻辑相同</span></span><br><span class="line">    &#125;,</span><br><span class="line">    _load: <span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//加载模块</span></span><br><span class="line">		<span class="keyword">return</span>  get(name)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，上面的设计是最简单的模块设计方式，有很多问题，但是这不是我们讨论的重点，我们这里讨论的重点是延迟加载部分，可以看到</p>
+<p><code>virtualDOM</code>模块最初是没有被加载的，在调用的时候我们才通过网络加载，最后覆盖原始对象，下次调用时就是直接调用实际代码了。</p>
+<p>但实际上这不是好的方案，好的延迟加载方案是：</p>
+<p>在库被加载完成后，通过异步网络同时加载需要的模块，这样用户在调用其他模块时，也不会感觉到延迟，同时不会阻塞页面。</p>
+<h2 id="其他代理"><a href="#其他代理" class="headerlink" title="其他代理"></a>其他代理</h2><p>在代理模式中，还有其他的模式，但是在JavaScript中并不是常用的，比如：</p>
+<h3 id="防火墙代理"><a href="#防火墙代理" class="headerlink" title="防火墙代理"></a>防火墙代理</h3><p>控制网络资源的访问，保护服务器资源的安全。</p>
+<h3 id="远程代理"><a href="#远程代理" class="headerlink" title="远程代理"></a>远程代理</h3><p>为一个对象在不同的地址空间提供局部代表。在JavaScript中，远程代理可以是另一个虚拟机中的对象。</p>
+<h3 id="智能引用代理"><a href="#智能引用代理" class="headerlink" title="智能引用代理"></a>智能引用代理</h3><p>取代了简单的指针，它在访问对象的同时执行一些附加操作，比如计算一个对象被引用的次数。</p>
+<h1 id="ES6的Proxy"><a href="#ES6的Proxy" class="headerlink" title="ES6的Proxy"></a>ES6的<code>Proxy</code></h1><p>在ES6之前，JavaScript只能通过<code>Object.defineProperty</code>来进行数据代理。并且还无法做到对对象属性的代理监听。以至于Vue不得不设计一个<code>Vue.prototype.set</code>来监听对象属性的修改。但是ES6的的<code>Proxy</code>API在编程语言的层面上提供了代理，这样使得我们这一章的代理模式的实现变得极其简单。下面简单介绍其用法。</p>
+<p>ES6提供原生的<code>Proxy</code>构造函数，用来生成<code>Proxy</code>实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(target, handler)</span><br></pre></td></tr></table></figure>
+<p>Proxy 对象的所有用法，都是上面这种形式，不同的只是<code>handler</code>参数的写法。其中，<code>new Proxy()</code>表示生成一个<code>Proxy</code>实例，-</p>
+<ul>
+<li><code>target</code>参数表示所要拦截的目标对象。</li>
+<li><code>handler</code>参数也是一个对象，用来定制拦截行为。</li>
+</ul>
+<p>如果<code>handler</code>没有做任何拦截为<code>{}</code>，则直接通向原对象。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> stu = &#123;</span><br><span class="line">    name: <span class="string">'tom'</span>,</span><br><span class="line">    number: <span class="number">123</span>,</span><br><span class="line">    sex: <span class="string">'male'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> handler = &#123;</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span>(<span class="params">target, propKey, receiver</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(propKey === <span class="string">'sex'</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> target[propKey]</span><br><span class="line">    &#125;,</span><br><span class="line">    set: <span class="function"><span class="keyword">function</span>(<span class="params">target, propKey, value, receiver</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(propKey === name)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        target[propKey] = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> stu_p = <span class="keyword">new</span> <span class="built_in">Proxy</span>(stu, handler)</span><br></pre></td></tr></table></figure>
+<p>上面代理拦截了<code>get</code>和<code>set</code>方法，拦截了获取<code>stu</code>对象的<code>sex</code>属性、设置<code>stu</code>的<code>name</code>属性。</p>
+<p>其中handler中，支持的拦截属性有13种：</p>
+<ul>
+<li><strong>get(target, propKey, receiver)</strong>：拦截对象属性的读取，比如<code>proxy.foo</code>和<code>proxy[&#39;foo&#39;]</code>。</li>
+<li><strong>set(target, propKey, value, receiver)</strong>：拦截对象属性的设置，比如<code>proxy.foo = v</code>或<code>proxy[&#39;foo&#39;] = v</code>，返回一个布尔值。</li>
+<li><strong>has(target, propKey)</strong>：拦截<code>propKey in proxy</code>的操作，返回一个布尔值。</li>
+<li><strong>deleteProperty(target, propKey)</strong>：拦截<code>delete proxy[propKey]</code>的操作，返回一个布尔值。</li>
+<li><strong>ownKeys(target)</strong>：拦截<code>Object.getOwnPropertyNames(proxy)</code>、<code>Object.getOwnPropertySymbols(proxy)</code>、<code>Object.keys(proxy)</code>、<code>for...in</code>循环，返回一个数组。该方法返回目标对象所有自身的属性的属性名，而<code>Object.keys()</code>的返回结果仅包括目标对象自身的可遍历属性。</li>
+<li><strong>getOwnPropertyDescriptor(target, propKey)</strong>：拦截<code>Object.getOwnPropertyDescriptor(proxy, propKey)</code>，返回属性的描述对象。</li>
+<li><strong>defineProperty(target, propKey, propDesc)</strong>：拦截<code>Object.defineProperty(proxy, propKey, propDesc）</code>、<code>Object.defineProperties(proxy, propDescs)</code>，返回一个布尔值。</li>
+<li><strong>preventExtensions(target)</strong>：拦截<code>Object.preventExtensions(proxy)</code>，返回一个布尔值。</li>
+<li><strong>getPrototypeOf(target)</strong>：拦截<code>Object.getPrototypeOf(proxy)</code>，返回一个对象。</li>
+<li><strong>isExtensible(target)</strong>：拦截<code>Object.isExtensible(proxy)</code>，返回一个布尔值。</li>
+<li><strong>setPrototypeOf(target, proto)</strong>：拦截<code>Object.setPrototypeOf(proxy, proto)</code>，返回一个布尔值。如果目标对象是函数，那么还有两种额外操作可以拦截。</li>
+<li><strong>apply(target, object, args)</strong>：拦截 Proxy 实例作为函数调用的操作，比如<code>proxy(...args)</code>、<code>proxy.call(object, ...args)</code>、<code>proxy.apply(...)</code>。</li>
+<li><strong>construct(target, args)</strong>：拦截 Proxy 实例作为构造函数调用的操作，比如<code>new proxy(...args)</code>。</li>
+</ul>
+<p>简单介绍上面的参数分别为：</p>
+<ul>
+<li>target：目标对象，即被代理的对象</li>
+<li>propKey： 操作的属性键名</li>
+<li>value：操作的属性值</li>
+<li>receiver：代理对象</li>
+<li>propKey：属性键名</li>
+<li><p>propDesc：属性的描述，详见<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" target="_blank" rel="noopener">Object.defineProperty()</a></p>
+</li>
+<li><p>proto：原型对象</p>
+</li>
+</ul>
+<p>Vue3中的响应式完全依赖了这个API，所以其是非常有用的。用起来也简单。还是需要深入理解。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/02/27/设计模式3-代理模式/" target="_blank" title="设计模式3-代理模式">http://yoursite.com/2021/02/27/设计模式3-代理模式/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/24/设计模式2-策略模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">设计模式2-策略模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#代理模式"><span class="nav-number">1.</span> <span class="nav-text">代理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要解决"><span class="nav-number">1.2.</span> <span class="nav-text">主要解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">1.3.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">1.3.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.3.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程代理（主要针对Java）"><span class="nav-number">1.4.</span> <span class="nav-text">远程代理（主要针对Java）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Copy-on-Write-代理"><span class="nav-number">1.5.</span> <span class="nav-text">Copy-on-Write 代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-1"><span class="nav-number">1.5.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.5.2.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保护（Protect-or-Access）代理"><span class="nav-number">1.6.</span> <span class="nav-text">保护（Protect or Access）代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-2"><span class="nav-number">1.6.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例-1"><span class="nav-number">1.6.2.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存-Cache-代理"><span class="nav-number">1.7.</span> <span class="nav-text">缓存(Cache)代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-3"><span class="nav-number">1.7.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例-2"><span class="nav-number">1.7.2.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟代理"><span class="nav-number">1.8.</span> <span class="nav-text">虚拟代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-4"><span class="nav-number">1.8.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例-3"><span class="nav-number">1.8.2.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#合并请求减少开销"><span class="nav-number">1.8.2.1.</span> <span class="nav-text">合并请求减少开销</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#惰性加载"><span class="nav-number">1.8.2.2.</span> <span class="nav-text">惰性加载</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他代理"><span class="nav-number">1.9.</span> <span class="nav-text">其他代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙代理"><span class="nav-number">1.9.1.</span> <span class="nav-text">防火墙代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程代理"><span class="nav-number">1.9.2.</span> <span class="nav-text">远程代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#智能引用代理"><span class="nav-number">1.9.3.</span> <span class="nav-text">智能引用代理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ES6的Proxy"><span class="nav-number">2.</span> <span class="nav-text">ES6的Proxy</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">2.1.</span> <span class="nav-text">示例</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

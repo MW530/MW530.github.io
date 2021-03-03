@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>设计模式5-发布-订阅模式（观察者模式） | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="设计模式发布-订阅模式">
+  
+  
+  
+  
+  <meta name="description" content="发布-订阅模式（观察者模式）定义其定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变的时候，所有依赖它的对象都会跌倒通知。 主要解决一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的协作。 在JavaScript中，其主要有以下两个用处：  可以广泛应用于异步编程之中，这是一种代替回调函数的方案。 发布-订阅模式可以取代对象之间的硬编码通知机制，一个对象不用再显示">
+<meta name="keywords" content="设计模式,发布-订阅模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式5-发布-订阅模式（观察者模式）">
+<meta property="og:url" content="http://yoursite.com/2021/03/02/设计模式5-发布-订阅模式/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="发布-订阅模式（观察者模式）定义其定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变的时候，所有依赖它的对象都会跌倒通知。 主要解决一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的协作。 在JavaScript中，其主要有以下两个用处：  可以广泛应用于异步编程之中，这是一种代替回调函数的方案。 发布-订阅模式可以取代对象之间的硬编码通知机制，一个对象不用再显示">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-03-03T09:03:29.011Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式5-发布-订阅模式（观察者模式）">
+<meta name="twitter:description" content="发布-订阅模式（观察者模式）定义其定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变的时候，所有依赖它的对象都会跌倒通知。 主要解决一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的协作。 在JavaScript中，其主要有以下两个用处：  可以广泛应用于异步编程之中，这是一种代替回调函数的方案。 发布-订阅模式可以取代对象之间的硬编码通知机制，一个对象不用再显示">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-设计模式5-发布-订阅模式" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      设计模式5-发布-订阅模式（观察者模式）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/03/02/设计模式5-发布-订阅模式/" class="article-date">
+	  <time datetime="2021-03-02T08:01:39.000Z" itemprop="datePublished">2021-03-02</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="发布-订阅模式（观察者模式）"><a href="#发布-订阅模式（观察者模式）" class="headerlink" title="发布-订阅模式（观察者模式）"></a>发布-订阅模式（观察者模式）</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>其定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变的时候，所有依赖它的对象都会跌倒通知。</p>
+<h2 id="主要解决"><a href="#主要解决" class="headerlink" title="主要解决"></a>主要解决</h2><p>一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的协作。</p>
+<p>在JavaScript中，其主要有以下两个用处：</p>
+<ul>
+<li>可以广泛应用于异步编程之中，这是一种代替回调函数的方案。</li>
+<li>发布-订阅模式可以取代对象之间的硬编码通知机制，一个对象不用再显示地调用另外一个对象的某个接口。</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>在web开发中，我们其实已经用到了发布-订阅模式，其就是DOM事件。</p>
+<h3 id="DOM事件"><a href="#DOM事件" class="headerlink" title="DOM事件"></a>DOM事件</h3><p>例如我们给一个按钮绑定一个点击事件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">click</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'click'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.getElmentById(<span class="string">'button'</span>).addEventListener(<span class="string">'click'</span>, click, <span class="literal">false</span>)</span><br></pre></td></tr></table></figure>
+<p>实际上这个事件绑定的过程也是一个发布订阅模式。我们预先将依赖添加到发布者，当发布者事件变化，即点击事件发生的时候，我们再触发该依赖。这就是一个发布订阅模式的触发过程。</p>
+<h3 id="简单实现"><a href="#简单实现" class="headerlink" title="简单实现"></a>简单实现</h3><p>除了DOM事件，我们还会经常实现一些自定义的事件，这种依靠自定义事件完成的发布-订阅者模式可以用于任何JavaScript代码中。</p>
+<p>首先我们要明确三个部分</p>
+<ul>
+<li>指定发布者。</li>
+<li>为发布者添加一个 缓存列表用于缓存回调函数，以用于通知订阅者。</li>
+<li>最后发布消息的时候，发布者遍历整个缓存列表，依次触发里面存放的回调函数。</li>
+</ul>
+<p>下面来进行简单的开发</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> publisher = &#123;&#125;						<span class="comment">//发布者</span></span><br><span class="line"></span><br><span class="line">publisher.cacheList = []				<span class="comment">//缓存列表，存放订阅者的回调函数</span></span><br><span class="line"></span><br><span class="line">publisher.listen = <span class="function"><span class="keyword">function</span>(<span class="params">fn</span>)</span>&#123;		<span class="comment">//订阅消息</span></span><br><span class="line">    <span class="keyword">this</span>.cacheList.push(fn)				<span class="comment">//将订阅者函数添加进缓存列表</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">publisher.trigger = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;			<span class="comment">//发布消息</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>, len = <span class="keyword">this</span>.cacheList.length; i &lt; len; i++)&#123;</span><br><span class="line">        <span class="keyword">this</span>.[cacheList].apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//简单测试</span></span><br><span class="line">publisher.listen(<span class="function"><span class="keyword">function</span>(<span class="params">time, msg</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(time+<span class="string">'的消息为'</span>+msg)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">publisher.trigger(<span class="number">1</span>, <span class="string">'你是猪'</span>)</span><br><span class="line">publisher.trigger(<span class="number">2</span>, <span class="string">'你是狗'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="发布订阅者-关键字"><a href="#发布订阅者-关键字" class="headerlink" title="发布订阅者+关键字"></a>发布订阅者+关键字</h3><p>在上面的例子中，虽然能够实现发布订阅这个功能，但是还有一个问题是不同的订阅者可能需要订阅对不同的消息，所以我们需要给消息加上一个<code>key</code>，以表示消息的类型。</p>
+<p>实际上只是需要将消息队列定义为对象，以表示不同的<code>key</code>；在发布消息时，按照<code>key</code>来触发消息。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> publisher = &#123;&#125;							<span class="comment">//发布者</span></span><br><span class="line"></span><br><span class="line">publisher.cacheList = &#123;&#125;					<span class="comment">//缓存列表，存放回调函数</span></span><br><span class="line"></span><br><span class="line">publisher.listen = <span class="function"><span class="keyword">function</span>(<span class="params">key, fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">this</span>.cacheList[key])&#123;				<span class="comment">//如果还没有订阅过此类的消息，给该类消息创建一个缓存列表</span></span><br><span class="line">        <span class="keyword">this</span>.cacheList[key] = []</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.cacheList[key].push(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">publisher.trigger = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> key = <span class="built_in">Array</span>.prototype.shift.call(<span class="built_in">arguments</span>)			<span class="comment">//发布消息</span></span><br><span class="line">    <span class="keyword">let</span> fns = <span class="keyword">this</span>.cacheList[key]							<span class="comment">//取出对应的消息类型</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(!fns || fns.length === <span class="number">0</span>)&#123;							<span class="comment">//如果没有订阅该消息，则返回</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>, len = fns.length; i &lt; len; i++)&#123;</span><br><span class="line">        fns[i].apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)						<span class="comment">//arguments是发布消息时附送的参数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//测试</span></span><br><span class="line">publiser.listen(<span class="string">'消息类型1'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">msg</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'消息类型1：'</span>+msg)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">publiser.listen(<span class="string">'消息类型2'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">msg</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'消息类型2：'</span>+msg)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">publisher.trigger(<span class="string">'消息类型1'</span>, <span class="string">'你是猪'</span>)</span><br><span class="line"><span class="comment">//消息类型1：你是猪</span></span><br><span class="line"></span><br><span class="line">publisher.trigger(<span class="string">'消息类型2'</span>, <span class="string">'你是狗'</span>)</span><br><span class="line"><span class="comment">//消息类型2：你是狗</span></span><br></pre></td></tr></table></figure>
+<h3 id="为任何对象添加发布订阅者"><a href="#为任何对象添加发布订阅者" class="headerlink" title="为任何对象添加发布订阅者"></a>为任何对象添加发布订阅者</h3><p>实际上发布者订阅者模式可以为任何对象添加，我们只需要将主要的三个属性添加到对象，即可使对象拥有发布订阅模式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> installEvent = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">    obj.cacheList = &#123;&#125;</span><br><span class="line">    obj.listen = <span class="function"><span class="keyword">function</span>(<span class="params">key, fn</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">this</span>.cacheList[key])&#123;				<span class="comment">//如果还没有订阅过此类的消息，给该类消息创建一个缓存列表</span></span><br><span class="line">            <span class="keyword">this</span>.cacheList[key] = []</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.cacheList[key].push(fn)</span><br><span class="line">    &#125;</span><br><span class="line">    obj.function()&#123;</span><br><span class="line">        <span class="keyword">let</span> key = <span class="built_in">Array</span>.prototype.shift.call(<span class="built_in">arguments</span>)			<span class="comment">//发布消息</span></span><br><span class="line">        <span class="keyword">let</span> fns = <span class="keyword">this</span>.cacheList[key]							<span class="comment">//取出对应的消息类型</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!fns || fns.length === <span class="number">0</span>)&#123;							<span class="comment">//如果没有订阅该消息，则返回</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>, len = fns.length; i &lt; len; i++)&#123;</span><br><span class="line">            fns[i].apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)						<span class="comment">//arguments是发布消息时附送的参数</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="取消订阅的事件"><a href="#取消订阅的事件" class="headerlink" title="取消订阅的事件"></a>取消订阅的事件</h3><p>有时候我们需要取消订阅的事件，现在我们来实现这个功能。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> remove = <span class="function"><span class="keyword">function</span>(<span class="params">key, fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> fns = <span class="keyword">this</span>.cacheList[key]</span><br><span class="line">    <span class="keyword">if</span>(!fns)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!fn)&#123;</span><br><span class="line">        fns &amp;&amp; (fns.length = <span class="number">0</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i =fns.length; i &gt; <span class="number">0</span>; i--)&#123;				</span><br><span class="line">            <span class="keyword">let</span> _fn = fns[i]</span><br><span class="line">            <span class="keyword">if</span>(_fn === fn)&#123;</span><br><span class="line">                fns.splice(i, <span class="number">1</span>)									<span class="comment">//删除订阅者的回调函数</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="全局的发布-订阅对象"><a href="#全局的发布-订阅对象" class="headerlink" title="全局的发布-订阅对象"></a>全局的发布-订阅对象</h3><p>对于每一个需要实现发布订阅模式的对象，都需要在对象上添加相同的四个属性，虽然理论上没有性能损失不大，但是我们还是可以建立一个全局的发布订阅对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Event = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cacheList = &#123;&#125;</span><br><span class="line">    <span class="keyword">let</span> listen, trigger, remove</span><br><span class="line">    </span><br><span class="line">    listen = <span class="function"><span class="keyword">function</span>(<span class="params">key, fn</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!cacheList[key])&#123;</span><br><span class="line">            cacheList[key] = []</span><br><span class="line">        &#125;</span><br><span class="line">        cacheList[key].push(fn)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    trigger = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> key = <span class="built_in">Array</span>.prototype.shift.call(<span class="built_in">arguments</span>)</span><br><span class="line">        <span class="keyword">let</span> fns = cacheList[key]</span><br><span class="line">        <span class="keyword">if</span>(!fns || fns.length === <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>,fn; fn = fns[i++];)&#123;</span><br><span class="line">            fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    remove = <span class="function"><span class="keyword">function</span>(<span class="params">key, fn</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> fns = cacheList[key]</span><br><span class="line">        <span class="keyword">if</span>(!fns)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!fn)&#123;</span><br><span class="line">            fns &amp;&amp; (fns.length = <span class="number">0</span>)</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">let</span> l = fns.length - <span class="number">1</span>; l &gt;= <span class="number">0</span>; l--)&#123;</span><br><span class="line">                <span class="keyword">let</span> _fn = fns[l]</span><br><span class="line">                <span class="keyword">if</span>(_fn === fn)&#123;</span><br><span class="line">                    fns.splice(l, i)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        listen,</span><br><span class="line">        trigger,</span><br><span class="line">        remove</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br><span class="line">Event.listen(<span class="string">'类型1'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'类型1：'</span>name)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">Event.trigger(<span class="string">'类型1'</span>, <span class="string">'垃圾'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//类型1：垃圾</span></span><br></pre></td></tr></table></figure>
+<h4 id="全局事件的问题"><a href="#全局事件的问题" class="headerlink" title="全局事件的问题"></a>全局事件的问题</h4><p>全局事件虽然可以解决开销，但是却出现了其他问题：<strong>命名冲突</strong>。</p>
+<p>越来越多的发布订阅的添加，极其可能出现命名冲突的问题，由此我们如果使用全局事件，则必须使用命名空间来解决问题。</p>
+<h4 id="关于离线事件"><a href="#关于离线事件" class="headerlink" title="关于离线事件"></a>关于离线事件</h4><p>在异步事件中，极可能出现我们添加监订阅不够及时，使得事件已经触发了。这样就会出现预期之外的错误了。所以在这种需求中，我们需要实现离线事件。此种情况，我们可以建立一个离线事件的堆栈，当发布的时候还没有对象来订阅此事件，则暂时将其存放至离线栈，等有对象来订阅此对象的时候，我们将遍历堆栈并且依次执行这些函数。</p>
+<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><p>下面我们将上面两点结合起来。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Event = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> global = sthi,</span><br><span class="line">        Event,</span><br><span class="line">        _default = <span class="string">'default'</span></span><br><span class="line">    </span><br><span class="line">    Event = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> _listen,</span><br><span class="line">            _trigger,</span><br><span class="line">            _remove,</span><br><span class="line">            _slice = <span class="built_in">Array</span>.prototype.slice,</span><br><span class="line">            _shift = <span class="built_in">Array</span>.prototype.shift,</span><br><span class="line">            _unshift = <span class="built_in">Array</span>.prototype.unshift,</span><br><span class="line">            namespaceCache = &#123;&#125;,</span><br><span class="line">            _create,</span><br><span class="line">            find,</span><br><span class="line">            each = <span class="function"><span class="keyword">function</span>(<span class="params">ary, fn</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">let</span> ret</span><br><span class="line">                <span class="keyword">for</span>(leti = <span class="number">0</span>, len = ary.length; i &lt; len; i++)&#123;</span><br><span class="line">                    <span class="keyword">let</span> n = ary[i]</span><br><span class="line">                    ret = fn.call(n, i, n)</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> ret</span><br><span class="line">            &#125;</span><br><span class="line">        _listen = <span class="function"><span class="keyword">function</span>(<span class="params">key, fn, cache</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(cache[key])&#123;</span><br><span class="line">                <span class="keyword">if</span>(fn)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">let</span> i = cache[key].length; i &gt;= <span class="number">0</span>; i--)&#123;</span><br><span class="line">                        <span class="keyword">if</span>(cache[key][i] === fn)&#123;</span><br><span class="line">                            cache[key].splice(i, <span class="number">1</span>)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    cache[key] = []</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">       _trigger = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">           <span class="keyword">let</span> cache = _shift.call(<span class="built_in">arguments</span>),</span><br><span class="line">           	   key = _shift.call(<span class="built_in">arguments</span>),</span><br><span class="line">               args = <span class="built_in">arguments</span>,</span><br><span class="line">               _self = <span class="keyword">this</span>,</span><br><span class="line">               stack = cache[key]</span><br><span class="line">           <span class="keyword">if</span>(!stack || !stack.length)&#123;</span><br><span class="line">               <span class="keyword">return</span></span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> each(stack, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">this</span>.apply(_self, args)</span><br><span class="line">           &#125;)</span><br><span class="line">       &#125;</span><br><span class="line">        </span><br><span class="line">        _create = <span class="function"><span class="keyword">function</span>(<span class="params">namespace</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">let</span> namespace = namespace || _default</span><br><span class="line">            <span class="keyword">let</span> cache = &#123;&#125;,</span><br><span class="line">                offlineStack = [],</span><br><span class="line">                ret = &#123;</span><br><span class="line">                    listen: <span class="function"><span class="keyword">function</span>(<span class="params">key, fn, cache</span>)</span>&#123;</span><br><span class="line">                        _listen(key, fn, cache)</span><br><span class="line">                        <span class="keyword">if</span>(offlineStack == <span class="literal">null</span>)&#123;</span><br><span class="line">                            <span class="keyword">return</span></span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">if</span>(last === <span class="string">'last'</span>)&#123;</span><br><span class="line">                            offlineStack.length &amp;&amp; offlineStack.pop()</span><br><span class="line">                        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                            each(offlineStack, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                                <span class="keyword">this</span>()</span><br><span class="line">                            &#125;)</span><br><span class="line">                        &#125;</span><br><span class="line">                        offlienStack = <span class="literal">null</span></span><br><span class="line">                    &#125;,</span><br><span class="line">                    one: <span class="function"><span class="keyword">function</span>(<span class="params">key, fn, last</span>)</span>&#123;</span><br><span class="line">                        _remove(key, cache)</span><br><span class="line">                        <span class="keyword">this</span>.listen(key, fn, last)</span><br><span class="line">                    &#125;,</span><br><span class="line">                    remove: <span class="function"><span class="keyword">function</span>(<span class="params">key, fn</span>)</span>&#123;</span><br><span class="line">                        _remove(key, cache, fn)</span><br><span class="line">                    &#125;,</span><br><span class="line">                    trigger: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                        <span class="keyword">let</span> fn,</span><br><span class="line">                            args,</span><br><span class="line">                            _self = <span class="keyword">this</span></span><br><span class="line">                        _unshift.call(<span class="built_in">arguments</span>, cache)</span><br><span class="line">                        args = <span class="built_in">arguments</span></span><br><span class="line">                        fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                            <span class="keyword">return</span> _trigger.apply(_self, args)</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">if</span>(offlineStack)&#123;</span><br><span class="line">                            <span class="keyword">return</span> offlineStack.push(fn)</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">return</span> fn()</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            <span class="keyword">return</span> namespace ? (namespaceCache[namespace] ? namespaceCache[namespace] : namespaceCache[namespace] = ret) : ret</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            create: _create,</span><br><span class="line">            one: <span class="function"><span class="keyword">function</span>(<span class="params">key, fn, last</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">let</span> event = <span class="keyword">this</span>.create()</span><br><span class="line">                event.one(key, fn, last)</span><br><span class="line">            &#125;,</span><br><span class="line">            remove: <span class="function"><span class="keyword">function</span>(<span class="params">key, fn</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">let</span> event = <span class="keyword">this</span>.create()</span><br><span class="line">                event.remove(key, fn)</span><br><span class="line">            &#125;,</span><br><span class="line">            list: <span class="function"><span class="keyword">function</span>(<span class="params">key, fn, last</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">let</span> event = <span class="keyword">this</span>.create()</span><br><span class="line">                event.listen(key, fn, last)</span><br><span class="line">            &#125;,</span><br><span class="line">            trigger: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="keyword">let</span> event = <span class="keyword">this</span>.create()</span><br><span class="line">                event.trigger.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">return</span> Event</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<h1 id="JavaScript中的发布订阅模式"><a href="#JavaScript中的发布订阅模式" class="headerlink" title="JavaScript中的发布订阅模式"></a>JavaScript中的发布订阅模式</h1><p>值得注意的是，之前我们编写的发布订阅模式，和一些其他的语言（比如Java）中的实现还是有区别的。在Java中实现一个自己的发布订阅模式，通常会把订阅者自身当作引用传入发布者对象中，同时订阅者对象还需提供一个名为诸如update的方法，供发布者对象在适合的时候调用。而在JavaScript中，我们用注册回调函数的形式来代替传统的发布订阅模式，更加方便。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>《JavaScript设计模式与开发实践》</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/03/02/设计模式5-发布-订阅模式/" target="_blank" title="设计模式5-发布-订阅模式（观察者模式）">http://yoursite.com/2021/03/02/设计模式5-发布-订阅模式/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/03/01/设计模式4-迭代器模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">设计模式4-迭代器模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#发布-订阅模式（观察者模式）"><span class="nav-number">1.</span> <span class="nav-text">发布-订阅模式（观察者模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要解决"><span class="nav-number">1.2.</span> <span class="nav-text">主要解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">1.3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM事件"><span class="nav-number">1.3.1.</span> <span class="nav-text">DOM事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单实现"><span class="nav-number">1.3.2.</span> <span class="nav-text">简单实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布订阅者-关键字"><span class="nav-number">1.3.3.</span> <span class="nav-text">发布订阅者+关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为任何对象添加发布订阅者"><span class="nav-number">1.3.4.</span> <span class="nav-text">为任何对象添加发布订阅者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#取消订阅的事件"><span class="nav-number">1.3.5.</span> <span class="nav-text">取消订阅的事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局的发布-订阅对象"><span class="nav-number">1.3.6.</span> <span class="nav-text">全局的发布-订阅对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局事件的问题"><span class="nav-number">1.3.6.1.</span> <span class="nav-text">全局事件的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于离线事件"><span class="nav-number">1.3.6.2.</span> <span class="nav-text">关于离线事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现-1"><span class="nav-number">1.3.6.3.</span> <span class="nav-text">实现</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript中的发布订阅模式"><span class="nav-number">2.</span> <span class="nav-text">JavaScript中的发布订阅模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

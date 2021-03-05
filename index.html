@@ -282,6 +282,62 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-经典1-在浏览器地址栏输入URL后回车，背后所经历的步骤"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/03/05/经典1-在浏览器地址栏输入URL后回车，背后所经历的步骤/">经典1-在浏览器地址栏输入URL后回车，背后所经历的步骤</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/03/05/经典1-在浏览器地址栏输入URL后回车，背后所经历的步骤/" class="article-date">
+	  <time datetime="2021-03-05T02:17:36.000Z" itemprop="datePublished">2021-03-05</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/经典面试题/">经典面试题</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          在浏览器地址栏输入URL后回车，背后所经历的步骤浏览器层面0、URL解析现在几乎所有浏览器都实现了地址栏快捷搜索的功能，所以这里需要判断用户输入的到底是关键词还是地址，然后进行不同的操作。
+关键字使用浏览器内置的搜索引擎地址与关键词来拼接得到最终的URL。
+URL对URL进行补全，编码转换等工作。
+例如：用户在输入URL时，一般都不会携带协议与端口。当用户输入baidu.com的时候，浏览器会将其补全为：
+https://baidu.com:80。
+chrome默认是补全https协议
+其...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/03/05/经典1-在浏览器地址栏输入URL后回车，背后所经历的步骤/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-设计模式5-发布-订阅模式"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -758,76 +814,6 @@ Main：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样式计�
         </p>
         <p class="article-more-link">
           <a href="/2021/02/09/JavaScript宏任务，微任务与Event-loop/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Promise的实现"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/04/Promise的实现/">Promise的实现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/02/04/Promise的实现/" class="article-date">
-	  <time datetime="2021-02-04T05:03:48.000Z" itemprop="datePublished">2021-02-04</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          前面已经写过一篇文章来理解Promise及其使用方法，这里尝试来模拟Promise。
-要求根据Promise/A+原理，有以下几个点需要遵守：
-
-Promise有一个Promise States，其有三种状态：
-
-pending：初始状态，可以转化为fulfilled，rejected。
-fulfilled：
-需要一个value作为结果。
-不能转化为其他状态。
-
-
-rejected：
-需要一个reason作为一个原因。
-不能转化为其他状态。
-
-
-
-
-必须要一个then方法，接受两个参数
-
-...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/02/04/Promise的实现/#more">Read More</a>
         </p>
       
     </div>

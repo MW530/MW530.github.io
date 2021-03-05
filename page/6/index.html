@@ -282,6 +282,59 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-webpack中ES6代码的压缩问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/03/16/webpack中ES6代码的压缩问题/">webpack中ES6代码的压缩问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/03/16/webpack中ES6代码的压缩问题/" class="article-date">
+	  <time datetime="2019-03-16T03:06:14.000Z" itemprop="datePublished">2019-03-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/webpack/">webpack</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          问题webpack中ES6代码压缩问题：
+在使用webpack插件uglifyjs-webpack-plugin压缩JS代码时，发现该插件只能压缩ES5-的代码，遇到ES6，就会报错ERROR in xxx.js from UglifyJs,遂查找解决办法。
+原理解决办法原理如上所说，uglifyjs-webpack-plugin该插件仅支持ES5-的JS代码。
+解决办法1. 不使用ES6语法这个办法理论上可行，但是面对ES6那么多方便快捷的语法，不使用的话会大大降低开发的进度，所以一般不...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/03/16/webpack中ES6代码的压缩问题/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Image对象的complete与onload()事件(以及Canvas的drawImage()函数)"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -786,64 +839,6 @@ function doDecrypt (pwd, onError) {
         </p>
         <p class="article-more-link">
           <a href="/2019/01/13/欢迎2019-假如我年少有为/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-周报(0)"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/12/01/周报(0)/">周报(0)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/12/01/周报(0)/" class="article-date">
-	  <time datetime="2018-12-01T04:10:17.000Z" itemprop="datePublished">2018-12-01</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/周报/">周报</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          LeetCode：
-简单思路：令i从0开始向后跑寻找与下标为length-1不相等的数，找到之后将那个数放到length的位置上，并且令length长度加1，最后返回length就行了。代码部分：
-int removeDuplicates(int* nums, int numsSize) {
-if(numsSize==0){
-    return 0;
-}
-int length = 1;
-for(int i=0;i&lt;numsSize;i++){
-    if(nums[i]!=num...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/12/01/周报(0)/#more">Read More</a>
         </p>
       
     </div>

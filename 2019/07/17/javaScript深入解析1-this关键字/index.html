@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="前言花了三天时间粗略看完了《你不知道的JavaScript》下部，这一部分介绍了ES6的部分内容（本书出版时ES7,8）的部分特性还未推出，因为之前已经学过ES6，所以这一遍只是温习和关注细节，感觉除了新增的特征，迭代器应该是最重要的部分，因为ES6的很多特性都用到了迭代器，包括 扩展运算符(spread)‘[…]’，泛数组的迭代(for..of循环，keys(),values(),entries">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-17T03:45:24.021Z">
+<meta property="og:updated_time" content="2021-03-08T03:38:53.592Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="javaScript深入解析1-this关键字">
 <meta name="twitter:description" content="前言花了三天时间粗略看完了《你不知道的JavaScript》下部，这一部分介绍了ES6的部分内容（本书出版时ES7,8）的部分特性还未推出，因为之前已经学过ES6，所以这一遍只是温习和关注细节，感觉除了新增的特征，迭代器应该是最重要的部分，因为ES6的很多特性都用到了迭代器，包括 扩展运算符(spread)‘[…]’，泛数组的迭代(for..of循环，keys(),values(),entries">
@@ -199,36 +199,18 @@
 <h1 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于this</h1><p>this关键字作为JavaScript开发者必须理解的概念之一，其实并没有那么高深。</p>
 <h2 id="what"><a href="#what" class="headerlink" title="what"></a>what</h2><p>Q：什么是this？<br>A：this代表的是函数运行的上下文环境。<br><a id="more"></a><br>Detail：</p>
 <p>在所有语言中，都有一个<strong>调用栈</strong>的概念，即函数被哪个对象所调用（注意JavaScript中对象的概念，几乎所有的方法，参数都有一个宿主对象，其中顶层对象在浏览器中window，在node中则为global）。所以我们再执行一个函数或调用一个变量时，默认是带有一个顶层对象前缀的，不过由于我们所有的代码都在该对象中，则可以省略，不信可以试一下：</p>
-<pre><code>var num = 0;
-console.log(num);
-console.log(window.num);
-</code></pre><p>没错，它们的结果都是0。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">console</span>.log(num);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.num);</span><br></pre></td></tr></table></figure>
+<p>没错，它们的结果都是0。</p>
 <p>回归正题，所以粗略的来说，函数被调用的对象即为他的this指向(先不谈硬绑定)，最简单的例子：</p>
-<pre><code>var obj = {
-    num : 0,
-    func: function(){
-        console.log(this.num);
-    }
-}
-
-obj.func();
-</code></pre><p>执行结果是什么呢？<br>没错，是0；<br>因为这里的func函数由obj调用，所以this指向obj。<br>OK,那么再看一下下面这段代码：</p>
-<pre><code>var num = 0;
-var obj = {
-    num : 1,
-    func: function(){
-        console.log(this.num);
-    }
-}
-
-var outterFunc = obj.func;
-outterFunc();
-</code></pre><p>执行结果又是什么呢？have a try!<br>可能出乎你的意料，结果是<strong>0</strong>.<br>So,why?思考一下我们上面的解释。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    num : <span class="number">0</span>,</span><br><span class="line">    func: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.func();</span><br></pre></td></tr></table></figure>
+<p>执行结果是什么呢？<br>没错，是0；<br>因为这里的func函数由obj调用，所以this指向obj。<br>OK,那么再看一下下面这段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    num : <span class="number">1</span>,</span><br><span class="line">    func: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> outterFunc = obj.func;</span><br><span class="line">outterFunc();</span><br></pre></td></tr></table></figure>
+<p>执行结果又是什么呢？have a try!<br>可能出乎你的意料，结果是<strong>0</strong>.<br>So,why?思考一下我们上面的解释。</p>
 <p>没错，也许你想通了，因为这时候的func函数并不是通过obj来调用的，所以this默认指向window，但window中num变量为0，所以结果是<strong>0</strong>.</p>
 <p>在这之中，我们需要了解的是：<strong>在JavaScript中，函数，对象，数组，或者说所有对象即对象的子类（因为包括函数，数组皆为对象的子类）都是通过地址的形式存储，类似与C语言中的指针形式存储</strong></p>
 <p>思考下面代码：</p>
-<pre><code>var func = function(){console.log(123)}
-</code></pre><p>在JavaScript引擎中时如何运行完这条语句的呢？<br>（你需要了解的是JavaScript不是一门预编译语言，而是一门<strong>解释执行</strong>的语言（即执行一句，编译一句，当然这是不完全正确的，从<strong>变量提升</strong>即可以看出来））</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="number">123</span>)&#125;</span><br></pre></td></tr></table></figure>
+<p>在JavaScript引擎中时如何运行完这条语句的呢？<br>（你需要了解的是JavaScript不是一门预编译语言，而是一门<strong>解释执行</strong>的语言（即执行一句，编译一句，当然这是不完全正确的，从<strong>变量提升</strong>即可以看出来））</p>
 <ol>
 <li>查询是否存在func这个变量—否</li>
 <li>声明这个变量</li>
@@ -238,51 +220,20 @@ outterFunc();
 </ol>
 <p>所以func变量实际存储的是该函数的地址。<br><strong>所以函数实际上是没有存储作用域链中的任何信息，它总是一个独立存在的个体。</strong><br>这也就解释了为什么func虽然定义在obj中，但是通过某种方式提取出来后直接调用其this就指向了window。</p>
 <p>所以你大概已经明白了了吧，思考一下下面的代码：</p>
-<pre><code>var num = 0;
-function inner()
-{
-    console.log(this.num)
-}
-
-function outter()
-{
-    var num = 1;
-    inner();
-}
-
-outter();
-</code></pre><p>所以，结果是什么呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inner</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="keyword">this</span>.num)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">outter</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> num = <span class="number">1</span>;</span><br><span class="line">	inner();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">outter();</span><br></pre></td></tr></table></figure>
+<p>所以，结果是什么呢？</p>
 <p>我猜你肯定答对了，是0；</p>
 <p>同样的道理，inner函数虽然在outter函数中被调用，但任然是直接调用，没有任何前缀对象，所以其this指向任然是window。</p>
 <p>最后一个例子：</p>
-<pre><code>var name = &quot;clever coder&quot;;  
-var person = {  
-    name : &quot;foocoder&quot;,  
-    hello : function(sth){  
-        var that = this;  
-        var sayhello = function(sth) {  
-            console.log(that.name + &quot; says &quot; + sth);  
-        };  
-        sayhello(sth);  
-    }  
-}  
-person.hello(&quot;hello world&quot;);//foocoder says hello world 
-</code></pre><p>这里内层函数this指向的任然是window，有人认为是JavaScript的设计错误，但是从上面内存的角度去分析，会发现这是正确的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"clever coder"</span>;  </span><br><span class="line"><span class="keyword">var</span> person = &#123;  </span><br><span class="line">    name : <span class="string">"foocoder"</span>,  </span><br><span class="line">    hello : <span class="function"><span class="keyword">function</span>(<span class="params">sth</span>)</span>&#123;  </span><br><span class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>;  </span><br><span class="line">        <span class="keyword">var</span> sayhello = <span class="function"><span class="keyword">function</span>(<span class="params">sth</span>) </span>&#123;  </span><br><span class="line">            <span class="built_in">console</span>.log(that.name + <span class="string">" says "</span> + sth);  </span><br><span class="line">        &#125;;  </span><br><span class="line">        sayhello(sth);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">person.hello(<span class="string">"hello world"</span>);<span class="comment">//foocoder says hello world</span></span><br></pre></td></tr></table></figure>
+<p>这里内层函数this指向的任然是window，有人认为是JavaScript的设计错误，但是从上面内存的角度去分析，会发现这是正确的。</p>
 <h1 id="why-amp-where"><a href="#why-amp-where" class="headerlink" title="why &amp; where"></a>why &amp; where</h1><p>说了这么多this，那么为什么要用this呢？又在哪里用呢？</p>
 <p>Q：why？</p>
 <p>A：this的使用使调用上下文对象变得更加简洁，否则，每次调用函数必须传递上下文对象，编码将及其复杂。</p>
 <p>Q：where？</p>
 <p>A：相信接触过OOP（面向对象编程）的同学应该熟悉这个结构(伪代码)：</p>
-<pre><code>Class Example{
-     constructor(name,age)
-    {
-        this.name = name;
-        this.age = age;     
-    }
-}
-
-declare instan = new Example(&apos;tom&apos;,23);
-</code></pre><p>没错，这是一个基本类的构造，只包括了一个constructor构造器方法，其中的this指向的即是这个被实例化的对象(instan),则instan的name属性为’tom’，age属性为23。试想没有this的话，构造器该如何为实例属性赋值呢？只有显式的将instan传递给constructor函数，这将变得无比繁杂。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Class Example&#123;</span><br><span class="line">	 <span class="keyword">constructor</span>(name,age)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.age = age; 	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">declare instan = <span class="keyword">new</span> Example(<span class="string">'tom'</span>,<span class="number">23</span>);</span><br></pre></td></tr></table></figure>
+<p>没错，这是一个基本类的构造，只包括了一个constructor构造器方法，其中的this指向的即是这个被实例化的对象(instan),则instan的name属性为’tom’，age属性为23。试想没有this的话，构造器该如何为实例属性赋值呢？只有显式的将instan传递给constructor函数，这将变得无比繁杂。</p>
 <p>在js中，不仅是在类，即使是用<strong>行为委托</strong>方式编码，任然离不开this，因为总是存在对上下文对象的应用。</p>
 <p><strong>值得注意的是：JavaScript语言基础中并没有class的概念，即使ES6推出了class关键字，但它任然是使用原型链对类的模拟，任然是ES5部分框架class实现的语法糖</strong></p>
 <h1 id="how"><a href="#how" class="headerlink" title="how"></a>how</h1><p>说了那么多，还是要详细讲一下this的绑定问题：</p>
@@ -290,149 +241,52 @@ declare instan = new Example(&apos;tom&apos;,23);
 <li>默认绑定</li>
 </ol>
 <p><strong>独立函数调用执行默认绑定</strong>。</p>
-<pre><code>var a = 0;
-function func()
-{
-    console.log(&apos;a:&apos;this.a);
-}
-
-func();
-
-//a:0
-</code></pre><p>如上面我们所说，这里的func是直接的函数调用，所以执行默认绑定，this指向了window对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'a:'</span><span class="keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func();</span><br><span class="line"></span><br><span class="line"><span class="comment">//a:0</span></span><br></pre></td></tr></table></figure>
+<p>如上面我们所说，这里的func是直接的函数调用，所以执行默认绑定，this指向了window对象。</p>
 <p><strong>值得注意的是：在strict模式下，默认绑定this为undefined</strong></p>
-<pre><code>var a = 0;
-function func()
-{
-    &quot;use strict&quot;
-    console.log(&apos;a:&apos;+this.a);
-}
-
-func();
-
-//Uncaught TypeError: Cannot read property &apos;a&apos; of undefined
-</code></pre><ol start="2">
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">	"use strict"</span></span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'a:'</span>+<span class="keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func();</span><br><span class="line"></span><br><span class="line"><span class="comment">//Uncaught TypeError: Cannot read property 'a' of undefined</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
 <li>隐式绑定</li>
 </ol>
 <p>这就是我们之前熟悉的用对象来调用函数：</p>
-<pre><code>var obj = {
-    num : 0,
-    func: function(){
-        console.log(&apos;num:&apos;+this.num);
-    }
-}
-
-obj.func();
-
-//num:0
-</code></pre><p><strong>当含有多层对象引用的时候，只有距函数最近的一个对象为上下文对象</strong></p>
-<pre><code>var obj0 = {
-    num : 0,
-    func: function(){
-        console.log(&apos;num:&apos;+this.num);
-    }
-}
-
-var obj1 = {
-    num:1,
-    obj0:obj0
-}
-
-obj1.obj0.func()
-
-//num:0
-</code></pre><p>正如我们之前所说的，函数的存储与上下文对象毫无关系，所以，当我们将对象中的函数通过某种方法提取出来时，它就与原来的对象毫无关系了，其this指向则为window了（<strong>这种现象一般被称为隐式丢失</strong>）。具体可以看上面那个例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    num : <span class="number">0</span>,</span><br><span class="line">    func: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'num:'</span>+<span class="keyword">this</span>.num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.func();</span><br><span class="line"></span><br><span class="line"><span class="comment">//num:0</span></span><br></pre></td></tr></table></figure>
+<p><strong>当含有多层对象引用的时候，只有距函数最近的一个对象为上下文对象</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj0 = &#123;</span><br><span class="line">    num : <span class="number">0</span>,</span><br><span class="line">    func: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'num:'</span>+<span class="keyword">this</span>.num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj1 = &#123;</span><br><span class="line">    num:<span class="number">1</span>,</span><br><span class="line">    obj0:obj0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj1.obj0.func()</span><br><span class="line"></span><br><span class="line"><span class="comment">//num:0</span></span><br></pre></td></tr></table></figure>
+<p>正如我们之前所说的，函数的存储与上下文对象毫无关系，所以，当我们将对象中的函数通过某种方法提取出来时，它就与原来的对象毫无关系了，其this指向则为window了（<strong>这种现象一般被称为隐式丢失</strong>）。具体可以看上面那个例子。</p>
 <ol start="3">
 <li>显示绑定</li>
 </ol>
 <p>所谓显示绑定，即通过call(),apply(),以及ES6的bind()函数直接指定this的指向。</p>
-<pre><code>var a = 0;
-var obj = {
-    a: 1
-}
-
-function func()
-{
-    console.log(this.a);
-}
-
-func.call(obj);
-
-//1
-</code></pre><p>值得注意的是：call(),apply()函数的绑定是<strong>软绑定</strong>，即只在绑定这一次起作用，下一次调用时this任然执行原有绑定规则。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">	a: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func.call(obj);</span><br><span class="line"></span><br><span class="line"><span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<p>值得注意的是：call(),apply()函数的绑定是<strong>软绑定</strong>，即只在绑定这一次起作用，下一次调用时this任然执行原有绑定规则。</p>
 <p>所以就衍生出了<strong>硬绑定</strong>，ES6之前需要手动封装硬绑定方法：</p>
-<pre><code>function bind(fn,obj)
-{
-    return function(){
-        return fn.apply(obj,arguments)
-    }
-}
-
-//执行此方法后，函数的this指向将被永久绑定在指定对象上，无法修改。
-</code></pre><p>由于这个方法需求太广泛了，所以ES6推出了官方的bind()方法，直接调用即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span>(<span class="params">fn,obj</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> fn.apply(obj,<span class="built_in">arguments</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//执行此方法后，函数的this指向将被永久绑定在指定对象上，无法修改。</span></span><br></pre></td></tr></table></figure>
+<p>由于这个方法需求太广泛了，所以ES6推出了官方的bind()方法，直接调用即可。</p>
 <ol start="4">
 <li>new绑定</li>
 </ol>
 <p>与其他语言中构造函数的特殊性不同，在JavaScript中，构造函数是一个普通的函数，唯一的特殊点是它在执行new操作符后自动调用，并且开始执行一系列操作：</p>
 <ol>
 <li>创建一个新的对象</li>
-<li>这个新对象会被执行[[prototype]]连接(会在实例与Object原型之间在建立一层Prototype)。</li>
+<li>这个新对象会被执行[[prototype]]连接(即将<code>__proto__</code>指定为函数的<code>prototype</code>)。</li>
 <li>这个对象将会被绑定到对应的函数的this。</li>
 <li>如果函数没有返回其他对象，那么new表达式中函数调用会自动返回这个新对象。</li>
 </ol>
 <p>第四步解释：</p>
-<pre><code>function Fun()
-{
-    reuturn {
-                b:2
-            }
-}
-
-var instan = new Foo()
-
-//{b:2}
-</code></pre><h2 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h2><ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fun</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">				b:<span class="number">2</span></span><br><span class="line">			&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> instan = <span class="keyword">new</span> Fun()</span><br><span class="line"></span><br><span class="line"><span class="comment">//&#123;b:2&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h2><ol>
 <li>如果是new绑定，则this按上面的规则绑定对象。</li>
 <li>如果是显示绑定，则this指向显示绑定的对象。</li>
 <li>如果有隐式绑定，则this绑定在调用对象上。</li>
 <li>否则执行默认绑定，非严格模式下为window，严格模式下位undefined。</li>
 </ol>
 <h2 id="箭头函数-gt"><a href="#箭头函数-gt" class="headerlink" title="箭头函数 =&gt;"></a>箭头函数 =&gt;</h2><p>在ES6中，新加了一种声明函数的方式，箭头函数(=&gt;)</p>
-<pre><code>()=&gt;{} 等价于 function(){}
-</code></pre><p>关于箭头函数的特性就不具体细讲，他与this相关的就是：<br>箭头函数的this决定于外层作用域来决定：</p>
-<pre><code>//arrayFunc
-    var a  = 0;
-    //定义全局变量a
-    function fun() {
-        return (arrayFunc = ()=&gt;{
-            console.log(this.a);
-        })()//这是一个立即执行函数，也可以在外围多调用一次
-    }
-
-    var obj = {
-        a : 1,
-        func: fun()
-    }
-
-    fun.call(obj);//将fun的this指向obj
-    //1
-</code></pre><p>由于fun的this指向obj，而箭头函数的this根据外围函数的this决定，所以arrayFunc的this也指向obj，则a为1。</p>
-<pre><code>//normal
-
-    var a  = 0;
-    function fun() {
-        return (function normalFunc(){
-            console.log(this.a);
-        })()
-    }
-
-    var obj = {
-        a : 1,
-        func: fun()
-    }
-    fun.call(obj);
-    //0
-</code></pre><p>这里普通函数的this根据调用的对象来确定，由于它是单独调用的，所以this指向window，则a为0。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">()=&gt;&#123;&#125; 等价于 <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>关于箭头函数的特性就不具体细讲，他与this相关的就是：<br>箭头函数的this决定于定义函数时的外层作用域来决定：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//arrayFunc</span></span><br><span class="line">    <span class="keyword">var</span> a  = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//定义全局变量a</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function">(<span class="params">arrayFunc = (</span>)=&gt;</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</span><br><span class="line">        &#125;)()<span class="comment">//这是一个立即执行函数，也可以在外围多调用一次</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> obj = &#123;</span><br><span class="line">        a : <span class="number">1</span>,</span><br><span class="line">        func: fun()</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	fun.call(obj);<span class="comment">//将fun的this指向obj</span></span><br><span class="line">	<span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<p>由于fun的this指向obj，而箭头函数的this根据外围函数的this决定，所以arrayFunc的this也指向obj，则a为1。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//normal</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> a  = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="function"><span class="keyword">function</span> <span class="title">normalFunc</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</span><br><span class="line">        &#125;)()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> obj = &#123;</span><br><span class="line">        a : <span class="number">1</span>,</span><br><span class="line">        func: fun()</span><br><span class="line">    &#125;</span><br><span class="line">	fun.call(obj);</span><br><span class="line">	<span class="comment">//0</span></span><br></pre></td></tr></table></figure>
+<p>这里普通函数的this根据调用的对象来确定，由于它是单独调用的，所以this指向window，则a为0。</p>
 <h1 id="Last"><a href="#Last" class="headerlink" title="Last"></a>Last</h1><p>this的用法相当重要，不管是自己原生开发，或是用框架，特别是使用框架时，由于一般框架会有一个App实例，我们的操作都在这个实例之中进行，所以会无数次用到this，所以我们必须学通。下一期写一下Protype原型链，也是JavaScript中相当重要的一个内容。</p>
 
       

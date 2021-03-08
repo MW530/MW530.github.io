@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://yoursite.com/images/Canvas基础/图像组合.png">
 <meta property="og:image" content="http://yoursite.com/images/Canvas基础/textAlign.png">
 <meta property="og:image" content="http://yoursite.com/images/Canvas基础/textBaseline.gif">
-<meta property="og:updated_time" content="2019-03-10T14:25:16.783Z">
+<meta property="og:updated_time" content="2021-03-08T02:36:51.217Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="canvas基础">
 <meta name="twitter:description" content="创建canvas画布css: canvas{             border:3px solid blue;         }  html: &amp;lt;canvas width=&amp;quot;700&amp;quot; height=&amp;quot;700&amp;quot; id=&amp;quot;myCanvas&amp;quot;&amp;gt;         您的浏览器不支持canvas，请更换浏览器访问！     &amp;lt;">
@@ -232,27 +232,21 @@ Javascript:
 <li>context.fill()</li>
 </ul>
 <p>fill()指的是填充，其默认颜色是黑色，可以在使用fill()之前使用fillStyle()方法改变填充颜色，如果是闭合图像，那么就直接填充。如果是非闭合的路径，则fill()先帮其闭合，然后填充。</p>
-<pre><code>ctx.fillStyle = &quot;red&quot;;//设置填充色
-ctx.fillRect(10,10,100,100);//绘制一个填充矩形
-</code></pre><ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctx.fillStyle = <span class="string">"red"</span>;<span class="comment">//设置填充色</span></span><br><span class="line">ctx.fillRect(<span class="number">10</span>,<span class="number">10</span>,<span class="number">100</span>,<span class="number">100</span>);<span class="comment">//绘制一个填充矩形</span></span><br></pre></td></tr></table></figure>
+<ul>
 <li>context.stroke()</li>
 </ul>
 <p>stroke()方法会实际的绘制出moveTo()和lineTo()方法的路径。默认颜色是黑色，在绘制之前，可以使用strokeStyle()进行设置。</p>
-<pre><code>ctx.strokeStyle = &quot;red&quot;;//设置边框填充色
-ctx.strokeRect(10,10,100,100);//绘制空心矩形
-</code></pre><h1 id="绘制矩形"><a href="#绘制矩形" class="headerlink" title="绘制矩形"></a>绘制矩形</h1><h2 id="绘制基本矩形"><a href="#绘制基本矩形" class="headerlink" title="绘制基本矩形"></a>绘制基本矩形</h2><pre><code>ctx.fillRect(x,y,height,width)//实心矩形
-ctx.strokeRect(x,y,height,width)//空心边框
-</code></pre><ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctx.strokeStyle = <span class="string">"red"</span>;<span class="comment">//设置边框填充色</span></span><br><span class="line">ctx.strokeRect(<span class="number">10</span>,<span class="number">10</span>,<span class="number">100</span>,<span class="number">100</span>);<span class="comment">//绘制空心矩形</span></span><br></pre></td></tr></table></figure>
+<h1 id="绘制矩形"><a href="#绘制矩形" class="headerlink" title="绘制矩形"></a>绘制矩形</h1><h2 id="绘制基本矩形"><a href="#绘制基本矩形" class="headerlink" title="绘制基本矩形"></a>绘制基本矩形</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctx.fillRect(x,y,height,width)<span class="comment">//实心矩形</span></span><br><span class="line">ctx.strokeRect(x,y,height,width)<span class="comment">//空心边框</span></span><br></pre></td></tr></table></figure>
+<ul>
 <li>x:起点的x坐标(即左上角的x坐标)</li>
 <li>y:起点的y坐标(即左上角的y坐标)</li>
 <li>height:矩形的高</li>
 <li>width:矩形的宽</li>
 </ul>
-<h2 id="改变颜色"><a href="#改变颜色" class="headerlink" title="改变颜色"></a>改变颜色</h2><pre><code>ctx.fillStyle = &quot;red&quot;;//设置填充颜色
-ctx.fillRect(10,10,100,100);
-ctx.strokeStyle = &quot;red&quot;;//设置边框颜色
-ctx.strokeRect(200,200,100,100);
-</code></pre><p><strong>Point:</strong></p>
+<h2 id="改变颜色"><a href="#改变颜色" class="headerlink" title="改变颜色"></a>改变颜色</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ctx.fillStyle = <span class="string">"red"</span>;<span class="comment">//设置填充颜色</span></span><br><span class="line">ctx.fillRect(<span class="number">10</span>,<span class="number">10</span>,<span class="number">100</span>,<span class="number">100</span>);</span><br><span class="line">ctx.strokeStyle = <span class="string">"red"</span>;<span class="comment">//设置边框颜色</span></span><br><span class="line">ctx.strokeRect(<span class="number">200</span>,<span class="number">200</span>,<span class="number">100</span>,<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>Point:</strong></p>
 <ul>
 <li>ctx.fillStyle = “red”用来设置填充颜色</li>
 <li>ctx.strokeStyle = “red”用来设置边框颜色</li>
@@ -265,46 +259,36 @@ ctx.strokeRect(200,200,100,100);
 </ul>
 <h1 id="绘制圆形"><a href="#绘制圆形" class="headerlink" title="绘制圆形"></a>绘制圆形</h1><h2 id="绘制基本圆"><a href="#绘制基本圆" class="headerlink" title="绘制基本圆"></a>绘制基本圆</h2><h3 id="实心圆"><a href="#实心圆" class="headerlink" title="实心圆"></a>实心圆</h3><ul>
 <li><p>ctx.arc(x,y,radius,starAngle,endAngle,anticlockwise)</p>
-</li>
-<li><p>x:圆心的x坐标</p>
-</li>
+<ul>
+<li>x:圆心的x坐标</li>
 <li>y:圆心的y坐标</li>
 <li>radius:半径</li>
 <li>startAngle:开始角度</li>
 <li>endAngle:结束角度</li>
-<li>anticlockwise:旋转方向，true:逆时针(可选参数，默认为false)</li>
-<li><p>false:顺时针</p>
-<pre><code>ctx.fillStyle = &quot;red&quot;; //设置填充色
-ctx.arc(200,200,50,0,Math.PI*2,true);//绘制圆形
-ctx.fill();//填充
-</code></pre></li>
+<li><p>anticlockwise:旋转方向，</p>
+<ul>
+<li>true:逆时针(可选参数，默认为false)</li>
+<li>false:顺时针</li>
 </ul>
-<h3 id="空心圆"><a href="#空心圆" class="headerlink" title="空心圆"></a>空心圆</h3><pre><code>ctx.beginPath()
-ctx.arc(200,200,50,0,Math.PI*2,true);
-ctx.strokeStyle = &quot;red&quot;; 
-ctx.closePath();
-ctx.stroke();
-</code></pre><p><strong>Point</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ctx.fillStyle = <span class="string">"red"</span>; <span class="comment">//设置填充色</span></span><br><span class="line">ctx.arc(<span class="number">200</span>,<span class="number">200</span>,<span class="number">50</span>,<span class="number">0</span>,<span class="built_in">Math</span>.PI*<span class="number">2</span>,<span class="literal">true</span>);<span class="comment">//绘制圆形</span></span><br><span class="line">ctx.fill();<span class="comment">//填充</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="空心圆"><a href="#空心圆" class="headerlink" title="空心圆"></a>空心圆</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ctx.beginPath()</span><br><span class="line">ctx.arc(<span class="number">200</span>,<span class="number">200</span>,<span class="number">50</span>,<span class="number">0</span>,<span class="built_in">Math</span>.PI*<span class="number">2</span>,<span class="literal">true</span>);</span><br><span class="line">ctx.strokeStyle = <span class="string">"red"</span>; </span><br><span class="line">ctx.closePath();</span><br><span class="line">ctx.stroke();</span><br></pre></td></tr></table></figure>
+<p><strong>Point</strong></p>
 <p>上面用到了路径，实际ctx.arc()相当于是一个lineTo()的一个集合。利用其绘制出一个圆形，最后要关闭(ctx.cloePath())，以及要(stroke())才能完全绘制出该图形。</p>
 <h3 id="非完整圆"><a href="#非完整圆" class="headerlink" title="非完整圆"></a>非完整圆</h3><p>如果要绘制一个非完整的圆，比如一个实心半圆，该如何绘制呢？</p>
 <p>答案是使用arc方法中的startAngle和endAngle来改变。</p>
-<pre><code>ctx.fillStyle = &quot;red&quot;;
-ctx.arc(200,200,50,0,Math.PI,true);
-</code></pre><p><strong>空心圆形</strong></p>
-<pre><code>ctx.beginPath();
-ctx.strokeStyle = &quot;red&quot;;
-ctx.arc(400,400,100,0,Math.PI);
-ctx.closePath();
-ctx.stroke();
-</code></pre><h2 id="绘制线段"><a href="#绘制线段" class="headerlink" title="绘制线段"></a>绘制线段</h2><ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctx.fillStyle = <span class="string">"red"</span>;</span><br><span class="line">ctx.arc(<span class="number">200</span>,<span class="number">200</span>,<span class="number">50</span>,<span class="number">0</span>,<span class="built_in">Math</span>.PI,<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>空心圆形</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ctx.beginPath();</span><br><span class="line">ctx.strokeStyle = <span class="string">"red"</span>;</span><br><span class="line">ctx.arc(<span class="number">400</span>,<span class="number">400</span>,<span class="number">100</span>,<span class="number">0</span>,<span class="built_in">Math</span>.PI);</span><br><span class="line">ctx.closePath();</span><br><span class="line">ctx.stroke();</span><br></pre></td></tr></table></figure>
+<h2 id="绘制线段"><a href="#绘制线段" class="headerlink" title="绘制线段"></a>绘制线段</h2><ul>
 <li>moveTo(x,y):把画笔移动至画布的制定位置，不创建线条</li>
 <li>lineTo(x,y):添加一个点(x,y)</li>
 <li><p>stroke():按照之前添加的点绘制路径</p>
-<pre><code>ctx.strokeStyle = &quot;red&quot;;//设置填充色
-ctx.moveTo(0,0);//将画笔移动至(0,0)
-ctx.lineTo(100,100);//添加一个点(100,100)
-ctx.stroke();//按点绘制路径
-</code></pre></li>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ctx.strokeStyle = <span class="string">"red"</span>;<span class="comment">//设置填充色</span></span><br><span class="line">ctx.moveTo(<span class="number">0</span>,<span class="number">0</span>);<span class="comment">//将画笔移动至(0,0)</span></span><br><span class="line">ctx.lineTo(<span class="number">100</span>,<span class="number">100</span>);<span class="comment">//添加一个点(100,100)</span></span><br><span class="line">ctx.stroke();<span class="comment">//按点绘制路径</span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <p><strong>Point</strong></p>
 <ul>
@@ -371,18 +355,24 @@ ctx.stroke();//绘制路径
 <li>由于渐变背景的坐标是相对于画布，而图形的坐标也是相对于画布，所以在定义背景时，需要注意与图形的坐标搭配以达到需要的效果</li>
 </ul>
 <h1 id="径向渐变"><a href="#径向渐变" class="headerlink" title="径向渐变"></a>径向渐变</h1><p><img src="\images\Canvas基础\径向渐变.png" alt="径向渐变"></p>
-<pre><code>let rg = ctx.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)
-rg.addCOlorStop(offset,color);
-</code></pre><ul>
-<li>xSart:发散开始的圆心x坐标</li>
-<li>yStart：发散开始的圆心y坐标</li>
-<li>radiusStart：发散开始圆的半径</li>
-<li>xEnd：发散结束圆心的x坐标</li>
-<li>yEnd：发散结束圆心的y坐标</li>
-<li>radiusEnd：发散结束圆的半径</li>
-<li>offset：设定的颜色结束点的偏移量(0-1)</li>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> rg = ctx.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)</span><br><span class="line">rg.addCOlorStop(offset,color);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>xSart:发散开始的圆心x坐标</p>
+</li>
+<li><p>yStart：发散开始的圆心y坐标</p>
+</li>
+<li><p>radiusStart：发散开始圆的半径</p>
+</li>
+<li><p>xEnd：发散结束圆心的x坐标</p>
+</li>
+<li><p>yEnd：发散结束圆心的y坐标</p>
+</li>
+<li><p>radiusEnd：发散结束圆的半径</p>
+</li>
+<li><p>offset：设定的颜色结束点的偏移量(0-1)</p>
+</li>
 <li><p>color:绘制颜色</p>
-<p>  var g1 = ctx.createRadialGradient(200, 150, 0, 200, 150, 200);<br>   g1.addColorStop(0.1, ‘#F09819’);<br>   g1.addColorStop(1, ‘#EDDE5D’);<br>   ctx.fillStyle = g1;<br>   ctx.beginPath();<br>   ctx.arc(200, 150, 100, 0, Math.PI * 2, true);<br>   ctx.closePath();<br>   ctx.fill();</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> g1 = ctx.createRadialGradient(<span class="number">200</span>, <span class="number">150</span>, <span class="number">0</span>, <span class="number">200</span>, <span class="number">150</span>, <span class="number">200</span>);</span><br><span class="line"> g1.addColorStop(<span class="number">0.1</span>, <span class="string">'#F09819'</span>);</span><br><span class="line"> g1.addColorStop(<span class="number">1</span>, <span class="string">'#EDDE5D'</span>);</span><br><span class="line"> ctx.fillStyle = g1;</span><br><span class="line"> ctx.beginPath();</span><br><span class="line"> ctx.arc(<span class="number">200</span>, <span class="number">150</span>, <span class="number">100</span>, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line"> ctx.closePath();</span><br><span class="line"> ctx.fill();</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h1 id="图形变形"><a href="#图形变形" class="headerlink" title="图形变形"></a>图形变形</h1><h2 id="缩放"><a href="#缩放" class="headerlink" title="缩放"></a>缩放</h2><ul>
@@ -394,14 +384,8 @@ rg.addCOlorStop(offset,color);
 <li>前面参数的是按倍数来衡量的(0.5=&gt;50%,1=&gt;100%,2=&gt;200%)</li>
 </ul>
 <p>eg:</p>
-<pre><code>ctx.strokeStyle = &quot;red&quot;;
-ctx.scale(2,2);
-ctx.strokeRect(5,5,25,15);
-ctx.scale(2,2);
-ctx.strokeRect(5,5,25,15);
-ctx.scale(2,2);
-ctx.strokeRect(5,5,25,15);
-</code></pre><p><strong>Point</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ctx.strokeStyle = <span class="string">"red"</span>;</span><br><span class="line">   ctx.scale(<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line">   ctx.strokeRect(<span class="number">5</span>,<span class="number">5</span>,<span class="number">25</span>,<span class="number">15</span>);</span><br><span class="line">   ctx.scale(<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line">   ctx.strokeRect(<span class="number">5</span>,<span class="number">5</span>,<span class="number">25</span>,<span class="number">15</span>);</span><br><span class="line">   ctx.scale(<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line">   ctx.strokeRect(<span class="number">5</span>,<span class="number">5</span>,<span class="number">25</span>,<span class="number">15</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>Point</strong></p>
 <ul>
 <li>缩放一个图形，先使用<code>ctx.scale(x,y)</code>对画布进行缩放处理，后面再创建要缩放的工具<code>ctx.strokeRect(5,5,25,15);</code>。</li>
 <li><p>缩放的原点都是在(0,0)位置。</p>
@@ -412,11 +396,8 @@ ctx.strokeRect(5,5,25,15);
 </li>
 </ul>
 <p>eg:</p>
-<pre><code>ctx.strokeStyle = &quot;red&quot;;
-// ctx.strokeRect(5,5,200,200);
-ctx.rotate(20*Math.PI/180);//旋转5°
-ctx.strokeRect(5,5,200,300);
-</code></pre><p><strong>Point:</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ctx.strokeStyle = <span class="string">"red"</span>;</span><br><span class="line"><span class="comment">// ctx.strokeRect(5,5,200,200);</span></span><br><span class="line">ctx.rotate(<span class="number">20</span>*<span class="built_in">Math</span>.PI/<span class="number">180</span>);<span class="comment">//旋转5°</span></span><br><span class="line">ctx.strokeRect(<span class="number">5</span>,<span class="number">5</span>,<span class="number">200</span>,<span class="number">300</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>Point:</strong></p>
 <p>默认的旋转中心是在(0,0)位置。下面介绍如何改变旋转中心。</p>
 <h2 id="平移"><a href="#平移" class="headerlink" title="平移"></a>平移</h2><ul>
 <li><p>translate(x,y)</p>
@@ -426,29 +407,14 @@ ctx.strokeRect(5,5,200,300);
 <li>y:坐标原点想y轴平移y</li>
 </ul>
 <p>eg1(以矩形中心为原点旋转)：</p>
-<pre><code>ctx.strokeStyle = &quot;red&quot;;
-    //以(0,0)为原点绘制一个起点为(200,200)，边长为200的正方形
-    ctx.strokeRect(200,200,200,200);
-    //移动原点至(300,300)，即上面矩形的中心位置
-    ctx.translate(300,300);
-    //将画布进行一个45°的旋转，得到一个旋转后的图形
-    ctx.rotate(45*Math.PI/180);
-    //将原点坐标改为(0,0)
-    ctx.translate(-300,-300);
-    //绘制出旋转后的矩形
-    ctx.strokeRect(200,200,200,200);
-</code></pre><p>eg2(以矩形中心为原点缩放图形):</p>
-<pre><code>ctx.strokeStyle = &quot;red&quot;;
-ctx.strokeRect(200,200,100,100);
-ctx.translate(250,250);
-ctx.scale(2,2);
-ctx.translate(-250,-250);
-ctx.strokeRect(200,200,100,100);
-</code></pre><p><strong>Point</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ctx.strokeStyle = <span class="string">"red"</span>;</span><br><span class="line">    <span class="comment">//以(0,0)为原点绘制一个起点为(200,200)，边长为200的正方形</span></span><br><span class="line">    ctx.strokeRect(<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>);</span><br><span class="line">    <span class="comment">//移动原点至(300,300)，即上面矩形的中心位置</span></span><br><span class="line">    ctx.translate(<span class="number">300</span>,<span class="number">300</span>);</span><br><span class="line">    <span class="comment">//将画布进行一个45°的旋转，得到一个旋转后的图形</span></span><br><span class="line">    ctx.rotate(<span class="number">45</span>*<span class="built_in">Math</span>.PI/<span class="number">180</span>);</span><br><span class="line">    <span class="comment">//将原点坐标改为(0,0)</span></span><br><span class="line">    ctx.translate(<span class="number">-300</span>,<span class="number">-300</span>);</span><br><span class="line">    <span class="comment">//绘制出旋转后的矩形</span></span><br><span class="line">    ctx.strokeRect(<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>);</span><br></pre></td></tr></table></figure>
+<p>eg2(以矩形中心为原点缩放图形):</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ctx.strokeStyle = <span class="string">"red"</span>;</span><br><span class="line">ctx.strokeRect(<span class="number">200</span>,<span class="number">200</span>,<span class="number">100</span>,<span class="number">100</span>);</span><br><span class="line">ctx.translate(<span class="number">250</span>,<span class="number">250</span>);</span><br><span class="line">ctx.scale(<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line">ctx.translate(<span class="number">-250</span>,<span class="number">-250</span>);</span><br><span class="line">ctx.strokeRect(<span class="number">200</span>,<span class="number">200</span>,<span class="number">100</span>,<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>Point</strong></p>
 <p>上面提到的，scale,rotate方法的操作都是对画布而言的，貌似整的canvas的思维都是这样，需要我们有反向思考的能力。</p>
 <h1 id="组合图形"><a href="#组合图形" class="headerlink" title="组合图形"></a>组合图形</h1><p><img src="\images\Canvas基础\图像组合.png" alt="径向渐变"></p>
-<pre><code>globalCompositeOperation = type
-</code></pre><p>后绘制的图形如何与之前的图像叠加渲染，取决与type。下面是type的种类：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">globalCompositeOperation = type</span><br></pre></td></tr></table></figure>
+<p>后绘制的图形如何与之前的图像叠加渲染，取决与type。下面是type的种类：</p>
 <ul>
 <li>source-over(默认):在原图形之上绘制(覆盖)。</li>
 <li>destination-over:在原图形之下绘制。</li>
@@ -462,12 +428,8 @@ ctx.strokeRect(200,200,100,100);
 <li>copy:只显示新图形</li>
 </ul>
 <p>eg:</p>
-<pre><code>ctx.globalCompositeOperation = &quot;lighter&quot;;  
-ctx.fillStyle = &quot;red&quot;;
-ctx.fillRect(50,50,200,200);   
-ctx.fillStyle = &quot;blue&quot;;
-ctx.fillRect(100,100,200,200);
-</code></pre><p><strong>Point</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ctx.globalCompositeOperation = <span class="string">"lighter"</span>;  </span><br><span class="line">ctx.fillStyle = <span class="string">"red"</span>;</span><br><span class="line">ctx.fillRect(<span class="number">50</span>,<span class="number">50</span>,<span class="number">200</span>,<span class="number">200</span>);   </span><br><span class="line">ctx.fillStyle = <span class="string">"blue"</span>;</span><br><span class="line">ctx.fillRect(<span class="number">100</span>,<span class="number">100</span>,<span class="number">200</span>,<span class="number">200</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>Point</strong></p>
 <p>该属性与上面的<code>ctx.translate(x,y)</code>一样，一旦作用，就对下面的元素都起作用，如果要还原，请在此使用该属性还原。</p>
 <h1 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h1><ul>
 <li>shadowOffsetX:设置或返回阴影距形状的水平距离(默认值为0)<br>-shadowOffsetY:设置或返回阴影形状的垂直距离(默认值为0)</li>
@@ -475,15 +437,11 @@ ctx.fillRect(100,100,200,200);
 <li>shadowBlur:设置或返回阴影的模糊级别(值越大越模糊)</li>
 </ul>
 <p>eg:<br>    ctx.shadowOffsetX=20;<br>    ctx.shadowColor=”blue”;<br>    ctx.shadowBlur = 50;<br>    ctx.fillStyle = “red”;<br>    ctx.fillRect(100,100,200,200);</p>
-<pre><code>ctx.shadowBlur = 0;
-ctx.shadowOffsetX = 0;
-ctx.fillStyle = &quot;yellow&quot;;
-ctx.fillRect(400,400,100,100);
-</code></pre><p><strong>Point</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ctx.shadowBlur = <span class="number">0</span>;</span><br><span class="line">ctx.shadowOffsetX = <span class="number">0</span>;</span><br><span class="line">ctx.fillStyle = <span class="string">"yellow"</span>;</span><br><span class="line">ctx.fillRect(<span class="number">400</span>,<span class="number">400</span>,<span class="number">100</span>,<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>Point</strong></p>
 <p>相同的是，阴影属性也是对一下的所有图形都生效。要取消阴影效果，必须重置:</p>
-<pre><code>ctx.shadowBlur = 0;
-ctx.shadowOffsetX = 0;
-</code></pre><h1 id="图像操作"><a href="#图像操作" class="headerlink" title="图像操作"></a>图像操作</h1><ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctx.shadowBlur = <span class="number">0</span>;</span><br><span class="line">ctx.shadowOffsetX = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="图像操作"><a href="#图像操作" class="headerlink" title="图像操作"></a>图像操作</h1><ul>
 <li>drawImage(img,x,y):在画布上定位图像</li>
 <li>drawImage(img,x,y,width,height):在画布上定位图像，并规定图像的宽度和高度</li>
 <li>drawImage(img,sx,sy,swidth,sheight,x,y,width,height)<ul>
@@ -500,18 +458,13 @@ ctx.shadowOffsetX = 0;
 </li>
 </ul>
 <p>eg:</p>
-<pre><code>let img = new Image();
-img.src = &quot;expi.jpg&quot;;
-img.onload = function(){
-    ctx.drawImage(img,100,100,200,200,200,200,200,200);
-}
-</code></pre><p><strong>Point</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">img.src = <span class="string">"expi.jpg"</span>;</span><br><span class="line">img.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    ctx.drawImage(img,<span class="number">100</span>,<span class="number">100</span>,<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Point</strong></p>
 <ol>
 <li>img因该是一个img对象，<code>img = new Image()</code>或者是一个Image的DOM标签<code>document.getElementById(&quot;img&quot;)</code>(实际也是一个Image对象，因为在HTML中，每创建一个img标签，就会自动创建一个Image对象。)</li>
 <li><p>在使用该标签时，应当使用，Image对象的回调函数onload,否则不能渲染成功，其原因是:</p>
-<pre><code>let img = new Image();
-img.src = &quot;expi.jpg&quot;;
-</code></pre><p>这个过程中，对img.src赋值的时候，可能还没有赋值完成，就进行了<code>ctx.drawImage</code>语句，由于还没赋值完成，此使img.src还是空，所以无法渲染出来。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> img = <span class="keyword">new</span> Image();</span><br><span class="line"> img.src = <span class="string">"expi.jpg"</span>;</span><br></pre></td></tr></table></figure>
+<p>这个过程中，对img.src赋值的时候，可能还没有赋值完成，就进行了<code>ctx.drawImage</code>语句，由于还没赋值完成，此使img.src还是空，所以无法渲染出来。</p>
 </li>
 </ol>
 <h2 id="图像平铺"><a href="#图像平铺" class="headerlink" title="图像平铺"></a>图像平铺</h2><ul>
@@ -540,17 +493,8 @@ img.src = &quot;expi.jpg&quot;;
 <li>进行剪切:ctx.clip();</li>
 </ol>
 <p>eg:</p>
-<pre><code>ctx.fillStyle = &quot;yellow&quot;;
-ctx.fillRect(0,0,300,300);
-
-ctx.rect(100,100,500,500);
-ctx.fillStyle = &quot;pink&quot;;
-ctx.fill();
-ctx.clip();
-
-ctx.fillStyle = &quot;blue&quot;;
-ctx.fillRect(0,0,200,200); 
-</code></pre><p><strong>Point</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ctx.fillStyle = <span class="string">"yellow"</span>;</span><br><span class="line">ctx.fillRect(<span class="number">0</span>,<span class="number">0</span>,<span class="number">300</span>,<span class="number">300</span>);</span><br><span class="line"></span><br><span class="line">ctx.rect(<span class="number">100</span>,<span class="number">100</span>,<span class="number">500</span>,<span class="number">500</span>);</span><br><span class="line">ctx.fillStyle = <span class="string">"pink"</span>;</span><br><span class="line">ctx.fill();</span><br><span class="line">ctx.clip();</span><br><span class="line"></span><br><span class="line">ctx.fillStyle = <span class="string">"blue"</span>;</span><br><span class="line">ctx.fillRect(<span class="number">0</span>,<span class="number">0</span>,<span class="number">200</span>,<span class="number">200</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>Point</strong></p>
 <p>-一旦剪切了某个区域，则之后的所有绘图都会被限制在被剪切区域内进行（不能访问画布上的其他区域）。我们也可以在使用clip()方法之前通过使用save()方法将之前的画布保存下来,并在任意时间使用restored()方法。</p>
 <h1 id="绘制文字"><a href="#绘制文字" class="headerlink" title="绘制文字"></a>绘制文字</h1><ul>
 <li>fillText(text,x,y):绘制实心文字<ul>
@@ -578,12 +522,8 @@ ctx.fillRect(0,0,200,200);
 <li>font:设置或返回文本内容的当前文字属性</li>
 </ul>
 <p>eg:</p>
-<pre><code>ctx.font = &quot;40px Arial&quot;;
-ctx.textAlign = &quot;center&quot;;
-ctx.fillText(&quot;Hello World&quot;,200,200);
-ctx.strokeText(&quot;Hello World&quot;,200,300);
-console.log(ctx.textBaseline);
-</code></pre><p><img src="\images\Canvas基础\textAlign.png" alt="textAlign"><br><img src="\images\Canvas基础\textBaseline.gif" alt="textBaseline"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ctx.font = <span class="string">"40px Arial"</span>;</span><br><span class="line">ctx.textAlign = <span class="string">"center"</span>;</span><br><span class="line">ctx.fillText(<span class="string">"Hello World"</span>,<span class="number">200</span>,<span class="number">200</span>);</span><br><span class="line">ctx.strokeText(<span class="string">"Hello World"</span>,<span class="number">200</span>,<span class="number">300</span>);</span><br><span class="line"><span class="built_in">console</span>.log(ctx.textBaseline);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\Canvas基础\textAlign.png" alt="textAlign"><br><img src="\images\Canvas基础\textBaseline.gif" alt="textBaseline"></p>
 
       
     </div>

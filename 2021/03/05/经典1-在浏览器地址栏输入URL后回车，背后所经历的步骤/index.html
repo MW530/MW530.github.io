@@ -19,17 +19,17 @@
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="在浏览器地址栏输入URL后回车，背后所经历的步骤浏览器层面0、URL解析现在几乎所有浏览器都实现了地址栏快捷搜索的功能，所以这里需要判断用户输入的到底是关键词还是地址，然后进行不同的操作。 关键字使用浏览器内置的搜索引擎地址与关键词来拼接得到最终的URL。 URL对URL进行补全，编码转换等工作。 例如：用户在输入URL时，一般都不会携带协议与端口。当用户输入baidu.com的时候，浏览器会将其">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="d:/myblog/myblog/source/images/浏览器-URL/cache-check.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/浏览器-URL/运输层-应用层.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/浏览器-URL/head.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/浏览器-URL/render-process.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/浏览器-URL/defer-async.webp">
-<meta property="og:image" content="d:/myblog/myblog/source/images/浏览器-URL/JavaScript.jpg">
-<meta property="og:updated_time" content="2021-03-05T14:58:25.895Z">
+<meta property="og:image" content="http://yoursite.com/images/浏览器-URL/cache-check.jpg">
+<meta property="og:image" content="http://yoursite.com/images/浏览器-URL/运输层-应用层.jpg">
+<meta property="og:image" content="http://yoursite.com/images/浏览器-URL/head.jpg">
+<meta property="og:image" content="http://yoursite.com/images/浏览器-URL/render-process.jpg">
+<meta property="og:image" content="http://yoursite.com/images/浏览器-URL/defer-async.webp">
+<meta property="og:image" content="http://yoursite.com/images/浏览器-URL/JavaScript.jpg">
+<meta property="og:updated_time" content="2021-03-08T00:50:56.615Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="经典1-在浏览器地址栏输入URL后回车，背后所经历的步骤">
 <meta name="twitter:description" content="在浏览器地址栏输入URL后回车，背后所经历的步骤浏览器层面0、URL解析现在几乎所有浏览器都实现了地址栏快捷搜索的功能，所以这里需要判断用户输入的到底是关键词还是地址，然后进行不同的操作。 关键字使用浏览器内置的搜索引擎地址与关键词来拼接得到最终的URL。 URL对URL进行补全，编码转换等工作。 例如：用户在输入URL时，一般都不会携带协议与端口。当用户输入baidu.com的时候，浏览器会将其">
-<meta name="twitter:image" content="d:/myblog/myblog/source/images/浏览器-URL/cache-check.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/浏览器-URL/cache-check.jpg">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -212,7 +212,7 @@
 <h5 id="历史记录缓存检查"><a href="#历史记录缓存检查" class="headerlink" title="历史记录缓存检查"></a>历史记录缓存检查</h5><p>这一步即可以让我们直接访问之前访问过的URL。</p>
 <h5 id="访问限制"><a href="#访问限制" class="headerlink" title="访问限制"></a>访问限制</h5><p>有些浏览器会对部分网站进行拦截。</p>
 <h3 id="1、缓存检查"><a href="#1、缓存检查" class="headerlink" title="1、缓存检查"></a>1、缓存检查</h3><p>根据浏览器缓存原则，其会优先检查本地是否已经有缓存文件，然后再向服务器发送请求，具体流程如下：</p>
-<p><img src="D:\myblog\myblog\source\images\浏览器-URL\cache-check.jpg" alt="缓存检查"></p>
+<p><img src="\images\浏览器-URL\cache-check.jpg" alt="缓存检查"></p>
 <h3 id="2-1、-浏览器检查DNS缓存（DNS查询1）"><a href="#2-1、-浏览器检查DNS缓存（DNS查询1）" class="headerlink" title="2.1、 浏览器检查DNS缓存（DNS查询1）"></a>2.1、 浏览器检查DNS缓存（DNS查询1）</h3><p>浏览器检查自己是否有该域名的DNS的缓存。</p>
 <h2 id="操作系统层面"><a href="#操作系统层面" class="headerlink" title="操作系统层面"></a>操作系统层面</h2><h3 id="2-2、-操作系统检查DNS缓存（DNS查询2）"><a href="#2-2、-操作系统检查DNS缓存（DNS查询2）" class="headerlink" title="2.2、 操作系统检查DNS缓存（DNS查询2）"></a>2.2、 操作系统检查DNS缓存（DNS查询2）</h3><p>如果浏览器查询DNS失败，则调用系统的API进行DNS查询，系统则会先检查自己的本地缓存文件。</p>
 <h3 id="2-3、-路由器检查DNS缓存（DNS查询3）"><a href="#2-3、-路由器检查DNS缓存（DNS查询3）" class="headerlink" title="2.3、 路由器检查DNS缓存（DNS查询3）"></a>2.3、 路由器检查DNS缓存（DNS查询3）</h3><p>系统在本地文件中没有发现改DNS条目的时候，请求会依次向上请求，其中路由器也会保有自己的DNS表，也会进行查询。</p>
@@ -221,7 +221,7 @@
 <p>如果上面几步都没有查询到对应的DNS缓存，则请求会被发送到根域名服务器查询。</p>
 <h3 id="2-6、顶级域名服务器查询（如：org域名服务器、com域名服务器、deu域名服务器）"><a href="#2-6、顶级域名服务器查询（如：org域名服务器、com域名服务器、deu域名服务器）" class="headerlink" title="2.6、顶级域名服务器查询（如：org域名服务器、com域名服务器、deu域名服务器）"></a>2.6、顶级域名服务器查询（如：org域名服务器、com域名服务器、deu域名服务器）</h3><p>在多数情况下，根域名服务器并不会直接返回IP地址，而是告诉请求应该去请求哪一个顶级服务器（即告诉该顶级服务器的IP地址，系统再请求顶级服务器拿到目标IP地址）</p>
 <p>注意：应用层的DNS（域名系统）在传输层采用的是UDP协议。下面是运输层与应用的对应：</p>
-<p><img src="D:\myblog\myblog\source\images\浏览器-URL\运输层-应用层.jpg" alt="运输层-应用层"></p>
+<p><img src="\images\浏览器-URL\运输层-应用层.jpg" alt="运输层-应用层"></p>
 <h3 id="建立TCP链接"><a href="#建立TCP链接" class="headerlink" title="建立TCP链接"></a>建立TCP链接</h3><p>由于HTTP协议是建立在TCP协议之上，所以客户端与服务器之间需要先建立TCP连接，然后再在TCP连接之上发送HTTP请求。</p>
 <p>注意：在五层协议中：</p>
 <ul>
@@ -232,7 +232,7 @@
 <li>物理层</li>
 </ul>
 <p>中，上面4层都会有一个头部<code>head</code>来对正文进行封装，物理层传输的数据单位是<code>bit</code>，所以流程大概如下：</p>
-<p><img src="D:\myblog\myblog\source\images\浏览器-URL\head.jpg" alt="head"></p>
+<p><img src="\images\浏览器-URL\head.jpg" alt="head"></p>
 <p>在服务器接受到数据包后，会对报文进行一层一层的去头部，并在每层进行处理，主要是在传输层，TCP协议会进行连接确定，即三次握手过程。</p>
 <ol>
 <li><p>第一次</p>
@@ -268,7 +268,7 @@
 <p>然后对相应资源做缓存。</p>
 <p>然后根据响应资源里的<code>MIME</code>类型去解析响应内容（比如HTML，JSON等）</p>
 <h3 id="渲染页面（如果响应是HTML文件）"><a href="#渲染页面（如果响应是HTML文件）" class="headerlink" title="渲染页面（如果响应是HTML文件）"></a>渲染页面（如果响应是HTML文件）</h3><p>浏览器渲染过程很复杂，其基本流程为：</p>
-<p><img src="D:\myblog\myblog\source\images\浏览器-URL\render-process.jpg" alt="render-process"></p>
+<p><img src="\images\浏览器-URL\render-process.jpg" alt="render-process"></p>
 <h4 id="HTML解析"><a href="#HTML解析" class="headerlink" title="HTML解析"></a>HTML解析</h4><h5 id="1-解码（encoding）"><a href="#1-解码（encoding）" class="headerlink" title="1. 解码（encoding）"></a>1. 解码（encoding）</h5><p>传输回来的其实一些二进制数据，浏览器需要根据文件指定编码（例如UTF-8）转换成字符串，也就是HTML代码。</p>
 <h5 id="2-预解析（pre-parsing）"><a href="#2-预解析（pre-parsing）" class="headerlink" title="2.预解析（pre-parsing）"></a>2.预解析（pre-parsing）</h5><p>预解析做的事情是提前加载资源，减少处理事件，系统会识别一些请求资源的属性，比如<code>img</code>标签，<code>video</code>的<code>src</code>属性，并将其加入到请求队列中。</p>
 <h5 id="3-符号化（Tokenization）"><a href="#3-符号化（Tokenization）" class="headerlink" title="3. 符号化（Tokenization）"></a>3. 符号化（<strong>Tokenization</strong>）</h5><p>符号化就是词法分析的过程，将HTML代码解析成为符号，HTML符号包括，开始标签、结束标签、属性名和属性值。</p>
@@ -293,7 +293,7 @@
 <p>的顺序来计算准确的样式。</p>
 <h5 id="渲染阻塞"><a href="#渲染阻塞" class="headerlink" title="渲染阻塞"></a>渲染阻塞</h5><p>在<a href="https://michaelwang.top/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/" target="_blank" rel="noopener">JavaScript宏任务，微任务与Event-loop</a>中，简单介绍了浏览器进程，其中一点是JavaScript线程与GUI渲染线程无法同时进行，遇到JavaScript标签，就会暂停DOM树的解析。</p>
 <p>所以如果要对DOM树进行操作或者不阻塞页面，应当将<code>script</code>标签放在<code>body</code>标签的底部，或者使用<code>defer</code>与<code>async</code>，下面是<code>defer</code>与<code>async</code>的区别：</p>
-<p><img src="D:\myblog\myblog\source\images\浏览器-URL\defer-async.webp" alt="defer-async"></p>
+<p><img src="\images\浏览器-URL\defer-async.webp" alt="defer-async"></p>
 <h4 id="布局与绘制"><a href="#布局与绘制" class="headerlink" title="布局与绘制"></a>布局与绘制</h4><p>确定渲染树中的所有节点的几何属性，位置，大小等。最后输入一个盒模型，然后遍历渲染树，将其渲染在屏幕中。</p>
 <h4 id="合并渲染层"><a href="#合并渲染层" class="headerlink" title="合并渲染层"></a>合并渲染层</h4><p>将以上绘制的所有图片合并，最终输出一张图片。</p>
 <h4 id="回流与重绘"><a href="#回流与重绘" class="headerlink" title="回流与重绘"></a>回流与重绘</h4><h5 id="回流（reflow）"><a href="#回流（reflow）" class="headerlink" title="回流（reflow）"></a>回流（reflow）</h5><p>当浏览器发现某个部分发生变化并且影响了布局时，需要倒回去重新渲染，会从<code>html</code>标签开始递归往下，重新计算位置和大小。</p>
@@ -309,7 +309,7 @@
 <p>display:none会脱离文档流，不占据页面空间；</p>
 <p>visibility:hidden,只是隐藏内容，并没有脱离文档流，会占据页面的空间。</p>
 <h4 id="JavaScript编译执行"><a href="#JavaScript编译执行" class="headerlink" title="JavaScript编译执行"></a>JavaScript编译执行</h4><p>这里涉及到编译原理的过程，大概是：</p>
-<p><img src="D:\myblog\myblog\source\images\浏览器-URL\JavaScript.jpg" alt="JavaScript"></p>
+<p><img src="\images\浏览器-URL\JavaScript.jpg" alt="JavaScript"></p>
 <h5 id="1-词法分析"><a href="#1-词法分析" class="headerlink" title="1. 词法分析"></a>1. 词法分析</h5><p>JavaScript脚本加载完成后，会首先进入词法分析阶段，首先会分析代码块的语法是否正确，不正确则抛出“语法错误”，停止执行。具体有：</p>
 <ul>
 <li>分词，例如将<code>var a = 2</code>，分成<code>var</code>、<code>a</code>、<code>=</code>，<code>2</code>这样的词法单元。</li>

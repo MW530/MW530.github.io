@@ -19,14 +19,14 @@
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="浏览器进程（chrome）chrome中有4个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="d:/myblog/myblog/source/images/event-loop/同步-异步.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/event-loop/event-loop.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/event-loop/任务执行.png">
-<meta property="og:updated_time" content="2021-02-21T09:37:02.554Z">
+<meta property="og:image" content="http://yoursite.com/images/event-loop/同步-异步.jpg">
+<meta property="og:image" content="http://yoursite.com/images/event-loop/event-loop.png">
+<meta property="og:image" content="http://yoursite.com/images/event-loop/任务执行.png">
+<meta property="og:updated_time" content="2021-03-09T15:23:18.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript宏任务，微任务与Event-loop">
 <meta name="twitter:description" content="浏览器进程（chrome）chrome中有4个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
-<meta name="twitter:image" content="d:/myblog/myblog/source/images/event-loop/同步-异步.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/event-loop/同步-异步.jpg">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -254,7 +254,7 @@
 <h2 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h2><p>而JavaScript的任务又分为同步任务和异步任务。</p>
 <p>同步任务是指直接按照代码顺序将其加入到执行栈中任务。</p>
 <p>而异步任务是指需要一定的时间才能完成，并且这段时间的操作不是JavaScript线程能够控制的，这个时候则需要其他线程予以辅助。比如上面的定时触发器线程，异步http请求线程等。都可以帮助JavaScript完成定时器和http请求的异步任务。而上面的事件触发线程则用来在异步任务完成时，将回调函数添加到执行栈中。其基本过程如图：</p>
-<p><img src="D:\myblog\myblog\source\images\event-loop\同步-异步.jpg" alt="同步-异步"></p>
+<p><img src="\images\event-loop\同步-异步.jpg" alt="同步-异步"></p>
 <h2 id="执行栈（Execution-Stack）"><a href="#执行栈（Execution-Stack）" class="headerlink" title="执行栈（Execution Stack）"></a><strong>执行栈</strong>（Execution Stack）</h2><p>当我们调用一个方法的时候，js会生成一个与这个方法相对应的执行环境，也叫<strong>执行上下文</strong>，这个执行环境存在着这个方法的私有作用域、参数、this对象等等。因为js是单线程的，同一时间只能执行一个方法，所以当一系列的方法被依次调用的时候，js会先解析这些方法，把其中的任务按照执行顺序排队到一个地方，这个地方叫做执行栈。</p>
 <h2 id="事件表格（Event-Table）"><a href="#事件表格（Event-Table）" class="headerlink" title="事件表格（Event Table）"></a>事件表格（Event Table）</h2><p>JavaScript保有的一中数据结构，它会存储所有的延迟事件（回调函数）。在对应异步操作完成过后，会由事件触发线程将对应的回调函数添加到事件队列中等待执行。</p>
 <h2 id="事件队列（Event-queue）"><a href="#事件队列（Event-queue）" class="headerlink" title="事件队列（Event queue）"></a><strong>事件队列</strong>（Event queue）</h2><p>当我们发出一个ajax请求或其他异步操作的时候，他并不会立刻返回结果，为了防止浏览器出现假死或者空白，主线程会把这个异步任务挂起(pending)，继续执行执行栈中的其他任务，等异步任务返回结果后，js会将这个<strong>异步任务</strong>按照执行顺序，加入到与执行栈不同的另一个队列，也就是事件队列。</p>
@@ -275,7 +275,7 @@
 <p>翻译：代理包括一组ECMAScript执行上下文、一个执行上下文堆栈、一个正在运行的执行上下文、一个代理记录和一个正在执行的线程。除执行线程外，代理的组成部分专属于该代理。</p>
 <h2 id="HTML-Living-Standard-1"><a href="#HTML-Living-Standard-1" class="headerlink" title="HTML Living Standard"></a>HTML Living Standard</h2></blockquote>
 <p>所谓事件循环，就是浏览器中（此处只谈浏览器，不涉及<code>Node</code>）各项任务（同步任务，异步任务）的执行次序之间的协调。其基本过程如下图：</p>
-<p><img src="D:\myblog\myblog\source\images\event-loop\event-loop.png" alt="event-loop"></p>
+<p><img src="\images\event-loop\event-loop.png" alt="event-loop"></p>
 <p>其基本过程：</p>
 <ol>
 <li><p>主线程运行的时候会生成堆（heap）和栈（stack）；</p>
@@ -311,7 +311,7 @@
 <p>翻译：微任务是指通过微任务算法队列创建的任务。</p>
 </blockquote>
 <p>从执行顺序上来看两者的不同：</p>
-<p><img src="D:\myblog\myblog\source\images\event-loop\任务执行.png" alt="任务执行"></p>
+<p><img src="\images\event-loop\任务执行.png" alt="任务执行"></p>
 <p>可以明确的是微任务是在一个宏任务结束后进行，此时即为上文提到的<strong>checkpoint</strong>，查看是否存在可执行的微任务。</p>
 <p>具体宏任务和微任务为：</p>
 <ol>

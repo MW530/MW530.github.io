@@ -20,7 +20,7 @@
 <meta property="og:description" content="JavaScript中“纠结的类”正如前文所说，JavaScript中并没有传统意义上的“类”，可能是因为在JavaScript这门脚本语言诞生之初，并没有人会他会有如今的成就，所以就借用了Self语言的基于原型的面向对象设计。具体可以看JavaScript的诞生">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/javaScript深入解析3-类与行为委托/3.1.png">
-<meta property="og:updated_time" content="2019-07-19T14:20:16.472Z">
+<meta property="og:updated_time" content="2021-03-09T11:43:48.933Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="javaScript深入解析3-类与行为委托">
 <meta name="twitter:description" content="JavaScript中“纠结的类”正如前文所说，JavaScript中并没有传统意义上的“类”，可能是因为在JavaScript这门脚本语言诞生之初，并没有人会他会有如今的成就，所以就借用了Self语言的基于原型的面向对象设计。具体可以看JavaScript的诞生">
@@ -210,35 +210,14 @@
 <p><strong>实例化时，他的行为会被复制到实例中；继承时，行为也会被复制到子类中。</strong></p>
 <h2 id="JavaScript中的类"><a href="#JavaScript中的类" class="headerlink" title="JavaScript中的类"></a>JavaScript中的类</h2><p>JavaScript程序员开始大都是由其它语言程序员没经过系统学习这门语言的精髓就开始编程（因为大家认为JavaScript是一门脚本语言，是如此的简单。）所以从开始到现在，程序员们总是试图使用JavaScript来进行面向对象编程，寻找类这个东西的存在。然而不幸的是，<strong>JavaScript没有传统的类</strong>。还好我们拥有[[prototype]]这个好东西，我们才能进行所谓的面向对象编程。但这任然不是我们传统观念上的面向对象编程，<strong>即使是ES6中ECMA提供的class关键字，任然是[[prototype]]的原法糖。</strong></p>
 <h3 id="detail"><a href="#detail" class="headerlink" title="detail"></a>detail</h3><p>在许多JavaScript库中都提供了类的语法糖，我们来看一下其内部是如何实现的。</p>
-<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><pre><code>function Person(name){
-    this.name = name;
-}
-
-var tom = new Person(&apos;tom&apos;);
-var mike = new Person(&apos;mike&apos;);
-</code></pre><p>我们可以直接用new操作符进行“类的实例化”，但是JavaScript中不存在类。所以我们实际上是新创建了一个空对象，然后将其[[prototype]]设为Person.prototype。然后将该函数的this指向新建对象，然后调用该函数，如果函数没有返回对象，就返回新建对象。</p>
+<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tom = <span class="keyword">new</span> Person(<span class="string">'tom'</span>);</span><br><span class="line"><span class="keyword">var</span> mike = <span class="keyword">new</span> Person(<span class="string">'mike'</span>);</span><br></pre></td></tr></table></figure>
+<p>我们可以直接用new操作符进行“类的实例化”，但是JavaScript中不存在类。所以我们实际上是新创建了一个空对象，然后将其[[prototype]]设为Person.prototype。然后将该函数的this指向新建对象，然后调用该函数，如果函数没有返回对象，就返回新建对象。</p>
 <h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p>下面是最典型的一种继承实现方式（JavaScript中多种实现继承的方式，但大同小异）：</p>
-<pre><code>function Person(name){
-    this.name = name;
-    Person.prototype.me = function(){console.log(&apos;Person&apos;)};
-}
-
-function Student(name,id){
-    //调用父级构造函数，相当于super
-    Person.call(name);
-    this.id = id;
-    Student.prototype.onduty = function(){console.log(&apos;Studnet&apos;)};
-}
-
-//&quot;继承&quot;
-Student.prototype = Object.create(Person.prototype);
-
-var person0 = new Person(&apos;tom&apos;);
-var student0 = new Student(&apos;mike&apos;,123);
-</code></pre><p>我们可以看出来，所谓的继承，也就是<code>Student.prototype = Object.create(Person.prototype)</code>这句话，<strong>实际上是将父级类Person的[[prototype]]设置为一个空对象，该对象的[[prototype]]指向父级类Person的prototype。</strong>首先我们需要了解的是，我们有4个对象(在JavaScript中函数也是对象，可以拥有自己的属性)来储存数据：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name = name;</span><br><span class="line">	Person.prototype.me = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">'Person'</span>)&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params">name,id</span>)</span>&#123;</span><br><span class="line">	<span class="comment">//调用父级构造函数，相当于super</span></span><br><span class="line">	Person.call(name);</span><br><span class="line">	<span class="keyword">this</span>.id = id;</span><br><span class="line">	Student.prototype.onduty = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">'Studnet'</span>)&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//"继承"</span></span><br><span class="line">Student.prototype = <span class="built_in">Object</span>.create(Person.prototype);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person0 = <span class="keyword">new</span> Person(<span class="string">'tom'</span>);</span><br><span class="line"><span class="keyword">var</span> student0 = <span class="keyword">new</span> Student(<span class="string">'mike'</span>,<span class="number">123</span>);</span><br></pre></td></tr></table></figure>
+<p>我们可以看出来，所谓的继承，也就是<code>Student.prototype = Object.create(Person.prototype)</code>这句话，<strong>实际上是将子类Student的[[prototype]]设置为一个空对象，该对象的[[prototype]]指向父级类Person的prototype。（Object.create(obj1)）的意义是创建一个空对象，该对象的[[proottype]]指向obj1</strong>首先我们需要了解的是，我们有4个对象(在JavaScript中函数也是对象，可以拥有自己的属性)来储存数据：</p>
 <ol>
 <li>student0</li>
-<li>student0.<strong>proto</strong> ([[prototype]])</li>
+<li>student0.<strong>proto</strong> ([[prototype]])（注意通过Object.create方式创建的<code>__proto__</code>并不指向<code>Student.peototype</code>）</li>
 <li>Student</li>
 <li>Student.prototype</li>
 </ol>
@@ -247,121 +226,28 @@ var student0 = new Student(&apos;mike&apos;,123);
 <p><img src="\images\javaScript深入解析3-类与行为委托\3.1.png" alt="继承链"></p>
 <p>我们可以看到，子类的属性在实例的__proto__中，父类的属性在实例的__proto__的__proto__中，因此我们可以获取子类，父类的所有方法，我们就完成就继承。</p>
 <h4 id="ES6的中类"><a href="#ES6的中类" class="headerlink" title="ES6的中类"></a>ES6的中类</h4><p>上面提过，ES6中的出现了class关键字，下面我们通过ES6的方法重写一下的例子：</p>
-<pre><code>class Person{
-    construct(name){
-        this.name = name;
-    }
-    speak(){
-        console.log(&quot;name:&quot;+this.name);
-    }
-}
-
-class Student extends Person{
-    construct(name,id){
-        super(name);
-        this.id = id;
-    }
-    me(){
-        console.log(&quot;name:&quot;+this.name);
-        console.log(&quot;id:&quot;+this.id);
-    }
-}
-
-var person0 = new Person();
-var student0 = new Student();
-</code></pre><p>这个看上去漂亮多了，就像是在写传统的OOP的语言。但是实际上，它的背后任然是混乱的[[prototype]]的链。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	construct(name)&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	speak()&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"name:"</span>+<span class="keyword">this</span>.name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	construct(name,id)&#123;</span><br><span class="line">		<span class="keyword">super</span>(name);</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">	&#125;</span><br><span class="line">	me()&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"name:"</span>+<span class="keyword">this</span>.name);</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"id:"</span>+<span class="keyword">this</span>.id);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person0 = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="keyword">var</span> student0 = <span class="keyword">new</span> Student();</span><br></pre></td></tr></table></figure>
+<p>这个看上去漂亮多了，就像是在写传统的OOP的语言。但是实际上，它的背后任然是混乱的[[prototype]]的链。</p>
 <p>ES6的class还有一个常用的特点，静态方法。所谓静态方法，就是直接可以在类上面直接调用的方法。</p>
-<pre><code>class Person{
-    construct(name){
-        this.name = name;
-    }
-    speak(){
-        console.log(&quot;name:&quot;+this.name);
-    }
-    static sayme(){
-        console.log(&apos;me&apos;);
-    }
-}
-</code></pre><p>想一下class背后的原理，用ES5的语法来实现以下static：</p>
-<pre><code>Person.sayme = function(){console.log(&apos;me&apos;);}
-</code></pre><p>没错，就是这么简单！<strong>只是因为这个方法是类自身的方法，并不是方法的[[prototype]]属性值。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	construct(name)&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	speak()&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"name:"</span>+<span class="keyword">this</span>.name);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> sayme()&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'me'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>想一下class背后的原理，用ES5的语法来实现以下static：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person.sayme = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">'me'</span>);&#125;</span><br></pre></td></tr></table></figure>
+<p>没错，就是这么简单！<strong>只是因为这个方法是类自身的属性，并不是方法的[[prototype]]属性值。</strong></p>
 <h3 id="混入-mixin"><a href="#混入-mixin" class="headerlink" title="混入(mixin)"></a>混入(mixin)</h3><p>正如我们之前所说，<strong>传统的OOP意味着复制</strong>。</p>
 <p>然而我们JavaScript中模拟的类，并不是传统的复制，而是基于原型链的“伪类”。</p>
 <p>所以为了实现很真实的“类”，我们有了<strong>混入(mixin)</strong>这一概念。</p>
 <h4 id="显示混入"><a href="#显示混入" class="headerlink" title="显示混入"></a>显示混入</h4><p>看下面的例子：</p>
-<pre><code>function mixin(sourceObj,tragetObj){
-    for(var key in sourceObj){
-        if(!(key in targetObj)){
-            targetObj[key] = sourceObj[key]    
-        }
-    }
-    return targetObj;
-}
-
-var Vehicle = {
-    engines: 1,
-    ignition: function(){
-        console.log(&quot;turn on my engine&quot;)
-    },
-    drive: function(){
-        this.ignition();
-        console.log(&quot;Steering and move forward!&quot;);
-    }
-};
-
-var Car = mixin(Vehicle,{
-    wheel: 4,
-    dirive: function(){
-        Vehicle.drive.call(this);
-        console.log(&quot;Rolling on all&quot;+this.wheels+&quot;wheels!&quot;)    
-    }
-})
-</code></pre><p>没错，就是一次复制过程。现在我们也可以用：</p>
-<pre><code>object.assign(targetObj,sourceObj);
-</code></pre><p>因为这个方法的原理就是上面的mixin函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixin</span>(<span class="params">sourceObj,tragetObj</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> sourceObj)&#123;</span><br><span class="line">		<span class="keyword">if</span>(!(key <span class="keyword">in</span> targetObj))&#123;</span><br><span class="line">			targetObj[key] = sourceObj[key]	</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> targetObj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Vehicle = &#123;</span><br><span class="line">	engines: <span class="number">1</span>,</span><br><span class="line">	ignition: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"turn on my engine"</span>)</span><br><span class="line">	&#125;,</span><br><span class="line">	drive: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.ignition();</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"Steering and move forward!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Car = mixin(Vehicle,&#123;</span><br><span class="line">	wheel: <span class="number">4</span>,</span><br><span class="line">	dirive: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		Vehicle.drive.call(<span class="keyword">this</span>);</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"Rolling on all"</span>+<span class="keyword">this</span>.wheels+<span class="string">"wheels!"</span>)	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>​<br>没错，就是一次复制过程。现在我们也可以用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.assign(targetObj,sourceObj);</span><br></pre></td></tr></table></figure>
+<p>因为这个方法的原理就是上面的mixin函数。</p>
 <h4 id="隐式混入"><a href="#隐式混入" class="headerlink" title="隐式混入"></a>隐式混入</h4><p>思考下面代码：</p>
-<pre><code>var something = {
-    cool: function(){
-        this.greeting = &quot;hello wowld!&quot;;
-        this.count = this.count ? this.count++ : 1;
-    }
-}
-
-Something.cool();
-something.greeting; //hello world
-something.count; //1
-
-var Another = {
-    cool: function(){
-        something.cool.call(this);
-    }
-}
-
-Another.cool();
-Another.greeting; //&quot;hello world&quot;
-Another.count; //1 (count不是共享的)
-</code></pre><p>关键在于<strong>something.cool.call(this)</strong>，将something.cool函数的this指向了Another这个对象。因此，我们把Something的行为“混入”到Another中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> something = &#123;</span><br><span class="line">	cool: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.greeting = <span class="string">"hello wowld!"</span>;</span><br><span class="line">		<span class="keyword">this</span>.count = <span class="keyword">this</span>.count ? <span class="keyword">this</span>.count++ : <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Something.cool();</span><br><span class="line">something.greeting; <span class="comment">//hello world</span></span><br><span class="line">something.count; <span class="comment">//1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Another = &#123;</span><br><span class="line">	cool: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		something.cool.call(<span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Another.cool();</span><br><span class="line">Another.greeting; <span class="comment">//"hello world"</span></span><br><span class="line">Another.count; <span class="comment">//1 (count不是共享的)</span></span><br></pre></td></tr></table></figure>
+<p>关键在于<strong>something.cool.call(this)</strong>，将something.cool函数的this指向了Another这个对象。因此，我们把Something的行为“混入”到Another中。</p>
 <h1 id="更合理的编程思想：行为委托"><a href="#更合理的编程思想：行为委托" class="headerlink" title="更合理的编程思想：行为委托"></a>更合理的编程思想：行为委托</h1><h2 id="类与委托的前世今生"><a href="#类与委托的前世今生" class="headerlink" title="类与委托的前世今生"></a>类与委托的前世今生</h2><p>如我们前面所说，JavaScript本身是不存在类的，只是为了适应程序员们的设计习惯，我们使JavaScript中有了“类”的存在，实际上这种设计方式无疑是把吧苹果涂上橙色，在上面插上孔…然后把它装饰成橘子。但他始终都是苹果，无论我们怎么在外部伪装。既然如此，为什么我们不直接把它当成橘子来吃呢？</p>
 <h2 id="如何使用行为委托"><a href="#如何使用行为委托" class="headerlink" title="如何使用行为委托"></a>如何使用行为委托</h2><p>看下面的例子：</p>
-<pre><code>var Task = {
-    setId: fucntion(id){this.id = id;},
-    outputID: function(){console.log(this.id)}
-}
-
-var someWork = Object.create(Task);
-
-someWork.prepareTask = fucntion(id,label){
-    this.setId(id);
-    this.label = label;
-}
-
-some.outputTaskDetails = function(){
-    this.outputId();
-    console.log(this.label);
-}
-
-var someWork0 = Object.create(someWork);
-</code></pre><p>在上面这段代码中，Task，someWork都不是类（或者函数），而是对象。我们把someWork的[[prototype]]委托给了Task。这很符合Self语言的基于原型的面向对象编程的思想。这也被成为“对象关联（OLOO）”</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Task = &#123;</span><br><span class="line">	setId: fucntion(id)&#123;<span class="keyword">this</span>.id = id;&#125;,</span><br><span class="line">	outputID: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="keyword">this</span>.id)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> someWork = <span class="built_in">Object</span>.create(Task);</span><br><span class="line"></span><br><span class="line">someWork.prepareTask = fucntion(id,label)&#123;</span><br><span class="line">	<span class="keyword">this</span>.setId(id);</span><br><span class="line">	<span class="keyword">this</span>.label = label;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">some.outputTaskDetails = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.outputId();</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="keyword">this</span>.label);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> someWork0 = <span class="built_in">Object</span>.create(someWork);</span><br></pre></td></tr></table></figure>
+<p>在上面这段代码中，Task，someWork都不是类（或者函数），而是对象。我们把someWork的[[prototype]]委托给了Task。这很符合Self语言的基于原型的面向对象编程的思想。这也被成为“对象关联（OLOO）”</p>
 <p>对象关联风格的代码还有一些不同之处。</p>
 <ol>
 <li>在代码上，id和label数据成员都是直接存储someWork之上，而不是Task。</li>

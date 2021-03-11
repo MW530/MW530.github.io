@@ -11,21 +11,21 @@
   
   
   
-  <meta name="description" content="浏览器进程（chrome）chrome中有4个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
+  <meta name="description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
 <meta name="keywords" content="JavaScript,宏任务,微任务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript宏任务，微任务与Event-loop">
 <meta property="og:url" content="http://yoursite.com/2021/02/09/JavaScript宏任务，微任务与Event-loop/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="浏览器进程（chrome）chrome中有4个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
+<meta property="og:description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/event-loop/同步-异步.jpg">
 <meta property="og:image" content="http://yoursite.com/images/event-loop/event-loop.png">
 <meta property="og:image" content="http://yoursite.com/images/event-loop/任务执行.png">
-<meta property="og:updated_time" content="2021-03-09T15:23:18.885Z">
+<meta property="og:updated_time" content="2021-03-11T08:27:57.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript宏任务，微任务与Event-loop">
-<meta name="twitter:description" content="浏览器进程（chrome）chrome中有4个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
+<meta name="twitter:description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
 <meta name="twitter:image" content="http://yoursite.com/images/event-loop/同步-异步.jpg">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -199,7 +199,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="浏览器进程（chrome）"><a href="#浏览器进程（chrome）" class="headerlink" title="浏览器进程（chrome）"></a>浏览器进程（chrome）</h1><p>chrome中有4个主要进程：</p>
+        <h1 id="浏览器进程（chrome）"><a href="#浏览器进程（chrome）" class="headerlink" title="浏览器进程（chrome）"></a>浏览器进程（chrome）</h1><p>chrome中有5个主要进程：</p>
 <ol>
 <li>浏览器进程（<code>Browser Process</code>）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。<ol>
 <li><code>UI Thread</code>：负责浏览器按钮、地址栏。</li>
@@ -214,8 +214,9 @@
 <li><code>Raster thread</code>: 栅格化磁贴后交给GPU。</li>
 </ol>
 </li>
+<li>网络进程（Network Process）：负责真正的发送http请求，接收和发送网络请求。</li>
 <li>插件控制进程（<code>Plugin Process</code>）：控制所有的插件。</li>
-<li>GPU进程（<code>GPU Process</code>）</li>
+<li>GPU进程（<code>GPU Process</code>）：负责真正的发送http请求，接收和发送网络请求。</li>
 </ol>
 <h2 id="Main线程"><a href="#Main线程" class="headerlink" title="Main线程"></a><code>Main</code>线程</h2><p><code>Main</code>线程是一些线程的集合，主要用于整个网页的工作。</p>
 <p>其包括：</p>

@@ -11,21 +11,21 @@
   
   
   
-  <meta name="description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
+  <meta name="description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Main Thread ：构建dom树 -&amp;gt; 加">
 <meta name="keywords" content="JavaScript,宏任务,微任务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript宏任务，微任务与Event-loop">
 <meta property="og:url" content="http://yoursite.com/2021/02/09/JavaScript宏任务，微任务与Event-loop/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
+<meta property="og:description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Main Thread ：构建dom树 -&amp;gt; 加">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/event-loop/同步-异步.jpg">
 <meta property="og:image" content="http://yoursite.com/images/event-loop/event-loop.png">
 <meta property="og:image" content="http://yoursite.com/images/event-loop/任务执行.png">
-<meta property="og:updated_time" content="2021-03-11T08:27:57.550Z">
+<meta property="og:updated_time" content="2021-03-11T08:49:44.762Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript宏任务，微任务与Event-loop">
-<meta name="twitter:description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 network Thread：负责处理网络请求。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Ma">
+<meta name="twitter:description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Main Thread ：构建dom树 -&amp;gt; 加">
 <meta name="twitter:image" content="http://yoursite.com/images/event-loop/同步-异步.jpg">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -203,25 +203,24 @@
 <ol>
 <li>浏览器进程（<code>Browser Process</code>）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。<ol>
 <li><code>UI Thread</code>：负责浏览器按钮、地址栏。</li>
-<li><code>network Thread</code>：负责处理网络请求。</li>
 <li><code>storage Thread</code>：负责文件访问。</li>
 </ol>
 </li>
 <li>渲染器进程（<code>Renderer Process</code>）：浏览器内核，负责Tab内的所有工作。<ol>
-<li><code>Main</code>：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样式计算 -&gt; 构建布局树 -&gt; 绘制 -&gt; 创建层树。（注：Main不是一个线程，而是多个线程的集合，为了方便介绍先聚合一下，后面展开讲）。</li>
-<li><code>Worker thread</code>: Web Worker 运行在这个线程，可能存在多个。</li>
-<li><code>Compositor thread</code>: 合成器，将层合成帧，分成多个磁贴。</li>
-<li><code>Raster thread</code>: 栅格化磁贴后交给GPU。</li>
+<li><code>Main Thread</code> ：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样式计算 -&gt; 构建布局树 -&gt; 绘制 -&gt; 创建层树。（注：Main不是一个线程，而是多个线程的集合，为了方便介绍先聚合一下，后面展开讲）。</li>
+<li><code>Worker Thread</code>: Web Worker 运行在这个线程，可能存在多个。</li>
+<li><code>Compositor Thread</code>: 合成器，将层合成帧，分成多个磁贴。</li>
+<li><code>Raster Thread</code>: 栅格化磁贴后交给GPU。</li>
 </ol>
 </li>
-<li>网络进程（Network Process）：负责真正的发送http请求，接收和发送网络请求。</li>
+<li>网络进程（<code>Network Process</code>）：负责真正的发送http请求，接收和发送网络请求。</li>
 <li>插件控制进程（<code>Plugin Process</code>）：控制所有的插件。</li>
-<li>GPU进程（<code>GPU Process</code>）：负责真正的发送http请求，接收和发送网络请求。</li>
+<li>GPU进程（<code>GPU Process</code>）：其实，Chrome刚开始发布的时候是没有GPU进程的。而GPU的使用初衷是为了实现3DCSS的效果，只是随后网页、Chrome的UI界面都选择采取GPU来绘制，这使得GPU成为浏览器普遍的需求。最后，Chrome也引入了GPU进程。</li>
 </ol>
 <h2 id="Main线程"><a href="#Main线程" class="headerlink" title="Main线程"></a><code>Main</code>线程</h2><p><code>Main</code>线程是一些线程的集合，主要用于整个网页的工作。</p>
 <p>其包括：</p>
 <ol>
-<li><p>GUI渲染进程：</p>
+<li><p>GUI渲染线            程：</p>
 <p>负责渲染工作，包括解析HTML，CSS，构建DOM树和RenderObject树，布局和绘制等。</p>
 <p><strong>注意</strong>：GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存等到JS引擎空闲时立即被执行。</p>
 </li>
@@ -248,7 +247,7 @@
 </li>
 <li><p>异步http请求线程：</p>
 <p>XMLHttpRequest连接后会新开一个线程。 将检测到状态变更时，如果设置有回调函数，该线程就产生状态变更事件。</p>
-<p>当然，实际做请求工作的还是 浏览器进程 下 <code>network Thread</code>。</p>
+<p>当然，实际做请求工作的还是 <code>Network Process</code>。</p>
 </li>
 </ol>
 <h1 id="JavaScript单线程"><a href="#JavaScript单线程" class="headerlink" title="JavaScript单线程"></a>JavaScript单线程</h1><p>JavaScript的一大特点就是单线程设计，这一特点也造成了JavaScript的众多特性。这样设计可以使程序的开发更加简单，因为其不会涉及线程的通信，管理，比如在操作DOM的时候，如果是多线程，就需要组织各个线程的先后关系，但是单线程就不会涉及这些问题。这也使得JavaScript成为了一门入门比较简单的语言。</p>

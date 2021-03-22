@@ -282,6 +282,61 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Vue插件开发1-插件原理即应用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/12/Vue插件开发1-插件原理即应用/">Vue插件开发1-插件原理即应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/12/Vue插件开发1-插件原理即应用/" class="article-date">
+	  <time datetime="2021-01-12T06:45:27.000Z" itemprop="datePublished">2021-01-12</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue插件/">Vue插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          原理简介
+插件通常用来为 Vue 添加全局功能。-Vue官网
+
+我觉得广义上的插件，实际上就是一些可以复用的功能或组件的封装。
+首先分析Vue源码：
+12345678910111213141516171819202122232425//src-&gt;core-&gt;instance-&gt;index.jsimport &#123; initMixin &#125; from './init'import &#123; stateMixin &#125; from './state'i...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/12/Vue插件开发1-插件原理即应用/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-TypeScript特点2"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -753,62 +808,6 @@ Vue初始化Vue原型是在src/instance/idnex.js中定义的：
         </p>
         <p class="article-more-link">
           <a href="/2020/01/05/Vue中的组件传值/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue中异步请求更新data导致数据变为非响应式的问题"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/">Vue中异步请求更新data导致数据变为非响应式的问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/" class="article-date">
-	  <time datetime="2020-01-05T04:22:40.000Z" itemprop="datePublished">2020-01-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          问题最近在项目遇到一个棘手的问题，看了1天才发现是异步与Vue的数据更新机制导致了结果与预期不一致。
-最开始的代码流程是这样：
-通过一个请求拿到一组数据data1，包括下一个请求的关键字
-在第一个请求的回掉函数中使用for循环利用上一个数组的关键字发送多个子请求得到对应的datan，并在每个子请求的回调中对data1和datan进行对比，然后给data1添加一个字段key
-在第一个请求的回调中把修改后的data1赋给Vue实例的data中
-
-产生的问题在Vue实例中的data1对象中，原来...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/#more">Read More</a>
         </p>
       
     </div>

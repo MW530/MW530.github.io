@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>node节点的操作 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="HTMLDOMNode">
+  
+  
+  
+  
+  <meta name="description" content="DOM操作Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象；比如, 继承同一组方法，或者用同样的方式测试。 这里我们不谈其属性，只关注Node节点的操作。 Node.appendChild()Node.appendChild(aChild)方法将一个节点附加到指定父节点的子节点列表的末尾处。 值得注意的是：  该方法只接受一个参">
+<meta name="keywords" content="HTML,DOM,Node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node节点的操作">
+<meta property="og:url" content="http://yoursite.com/2021/03/22/Node节点的操作/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="DOM操作Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象；比如, 继承同一组方法，或者用同样的方式测试。 这里我们不谈其属性，只关注Node节点的操作。 Node.appendChild()Node.appendChild(aChild)方法将一个节点附加到指定父节点的子节点列表的末尾处。 值得注意的是：  该方法只接受一个参">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node/appendChild.png">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node/append.png">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node/insertBefore.png">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node/replaceChild.png">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node/cloneNode.png">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node/contains.png">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node/innerHTML.png">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node/textContent.png">
+<meta property="og:updated_time" content="2021-03-22T12:18:58.743Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node节点的操作">
+<meta name="twitter:description" content="DOM操作Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象；比如, 继承同一组方法，或者用同样的方式测试。 这里我们不谈其属性，只关注Node节点的操作。 Node.appendChild()Node.appendChild(aChild)方法将一个节点附加到指定父节点的子节点列表的末尾处。 值得注意的是：  该方法只接受一个参">
+<meta name="twitter:image" content="d:/myblog/myblog/source/images/Node/appendChild.png">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Node节点的操作" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Node节点的操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/03/22/Node节点的操作/" class="article-date">
+	  <time datetime="2021-03-22T07:41:53.000Z" itemprop="datePublished">2021-03-22</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/DOM/">DOM</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h1><p><strong><code>Node</code></strong> 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象；比如, 继承同一组方法，或者用同样的方式测试。</p>
+<p>这里我们不谈其属性，只关注<code>Node</code>节点的操作。</p>
+<h2 id="Node-appendChild"><a href="#Node-appendChild" class="headerlink" title="Node.appendChild()"></a><code>Node.appendChild()</code></h2><p><strong><code>Node.appendChild(aChild)</code></strong>方法将一个节点附加到指定父节点的子节点列表的末尾处。</p>
+<p>值得注意的是：</p>
+<ol>
+<li>该方法只接受一个参数</li>
+<li>其参数必须是一个<code>Node</code>，不能接受<code>DOMString</code>对象</li>
+<li>如果<code>aChild</code>已存在文档中，则该方法会先remove该节点，再在目标位置插入节点</li>
+<li>其会返回插入的子节点（<code>aChild</code>）</li>
+</ol>
+<p>兼容性如下，可以说是最起始一部分操作方法了。</p>
+<p><img src="D:\myblog\myblog\source\images\Node\appendChild.png" alt="append"></p>
+<h2 id="ParentNode-append"><a href="#ParentNode-append" class="headerlink" title="ParentNode.append()"></a><code>ParentNode.append()</code></h2><p> <strong><code>ParentNode.append</code></strong> 方法在 <code>ParentNode</code>的最后一个子节点之后插入一组 <code>Node</code>对象或 <code>DOMString</code>对象。</p>
+<p>被插入的 <code>DOMString</code>对象等价为 <code>Text</code>节点。</p>
+<p>与<code>appendChild</code>不同的是：</p>
+<ol>
+<li>允许追加  DOMString 对象，而 Node.appendChild() 只接受 Node 对象。</li>
+<li>没有返回值，而 Node.appendChild() 返回追加的 Node 对象。</li>
+<li>可以追加多个节点和字符串，而 Node.appendChild() 只能追加一个节点。</li>
+</ol>
+<p>这个方法的兼容性相对差一些，但是功能全面。</p>
+<p><img src="D:\myblog\myblog\source\images\Node\append.png" alt="append"></p>
+<h2 id="Node-insertBefore"><a href="#Node-insertBefore" class="headerlink" title="Node.insertBefore()"></a><code>Node.insertBefore()</code></h2><p><strong><code>Node.insertBefore()</code></strong> 方法在参考节点之前插入一个拥有指定父节点的子节点。函数返回被插入过的子节点。</p>
+<p>注意：</p>
+<ol>
+<li>如果给定的子节点是对文档中现有节点的引用，<code>insertBefore()</code> 会将其从当前位置移动到新位置</li>
+</ol>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> insertedNode = parentNode.insertBefore(newNode, referenceNode);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>insertedNode</code> 被插入节点(newNode)</li>
+<li><code>parentNode</code> 新插入节点的父节点</li>
+<li><code>newNode</code> 用于插入的节点</li>
+<li><code>referenceNode</code> <code>newNode</code> 将要插在这个节点之前</li>
+</ul>
+<p>如果 <code>referenceNode</code> 为 <code>null</code> 则 <code>newNode</code> 将被插入到子节点的末尾<em>。</em></p>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\insertBefore.png" alt="insertBefore"></p>
+<h2 id="Node-removeChild"><a href="#Node-removeChild" class="headerlink" title="Node.removeChild"></a><code>Node.removeChild</code></h2><p><strong><code>Node.removeChild()</code></strong> 方法从DOM中删除一个子节点。返回删除的节点。</p>
+<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> oldChild = node.removeChild(child);</span><br><span class="line"></span><br><span class="line"><span class="comment">//OR</span></span><br><span class="line"></span><br><span class="line">element.removeChild(child);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>child</code> 是要移除的那个子节点.</li>
+<li><code>node</code> 是<code>child</code>的父节点.</li>
+<li>oldChild保存对删除的子节点的引用. <code>oldChild</code> === <code>child</code>.</li>
+</ul>
+<p>注意：</p>
+<blockquote>
+<p>被移除的这个子节点仍然存在于内存中,只是没有添加到当前文档的DOM树中,因此,你还可以把这个节点重新添加回文档中,当然,实现要用另外一个变量比如<code>上例中的oldChild</code>来保存这个节点的引用. 如果使用上述语法中的第二种方法, 即没有使用 oldChild 来保存对这个节点的引用, 则认为被移除的节点已经是无用的, 在短时间内将会被内存管理回收.</p>
+</blockquote>
+<h2 id="Node-replaceChild"><a href="#Node-replaceChild" class="headerlink" title="Node.replaceChild()"></a><code>Node.replaceChild()</code></h2><p><strong><code>Node.replaceChild()</code></strong> 方法用指定的节点替换当前节点的一个子节点，并返回被替换掉的节点。</p>
+<h3 id="语法-2"><a href="#语法-2" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> node = parentNode.replaceChild(newChild, oldChild);</span><br></pre></td></tr></table></figure>
+<p><strong>newChild</strong></p>
+<p>用来替换 <code>oldChild</code> 的新节点。如果该节点已经存在于 DOM 树中，则它首先会被从原始位置删除。</p>
+<p><strong>oldChild</strong></p>
+<p>被替换掉的原始节点。</p>
+<h3 id="兼容性-1"><a href="#兼容性-1" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\replaceChild.png" alt="replaceChild"></p>
+<h2 id="Node-cloneNode"><a href="#Node-cloneNode" class="headerlink" title="Node.cloneNode"></a><code>Node.cloneNode</code></h2><p><strong><code>Node.cloneNode()</code></strong>方法返回调用该方法的节点的一个副本.</p>
+<h3 id="语法-3"><a href="#语法-3" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dupNode = node.cloneNode(deep);</span><br></pre></td></tr></table></figure>
+<p><code>node</code></p>
+<p>将要被克隆的节点</p>
+<p><code>dupNode</code></p>
+<p>克隆生成的副本节点</p>
+<p><code>deep</code> 可选</p>
+<p>是否采用深度克隆<code>,如果为true,</code>则该节点的所有后代节点也都会被克隆,如果为<code>false,则只克隆该节点本身.</code></p>
+<blockquote>
+<p><strong>注意:</strong> 在 DOM4 规范中(实现于Gecko 13.0(Firefox 13.0 / Thunderbird 13.0 / SeaMonkey 2.10))，<code>deep</code>是一个可选参数。如果省略的话，参数的默认值为 <code>true，</code>也就是说默认是深度克隆。如果想使用浅克隆, 你需要将该参数设置为 <code>false。</code></p>
+<p>在最新的规范里，该方法的行为已经改变了，其默认值变成了 false。虽然该参数仍旧是可选的，但是你必须要为该方法设置 deep 参数，无论是为了向前还是向后兼容考虑。假如开发者没设置参数的话，Gecko 28.0 (Firefox 28 / Thunderbird 28 / SeaMonkey 2.25 / Firefox OS 1.3)) 版本的控制台会发出警告。从 Gecko 29.0 (Firefox 29 / Thunderbird 29 / SeaMonkey 2.26)) 开始该方法默认为浅复制而不是深度复制。</p>
+</blockquote>
+<p>值得注意的是：</p>
+<ol>
+<li><p>克隆一个元素节点会拷贝它所有的属性以及属性值,当然也就包括了属性上绑定的事件(比如<code>onclick=&quot;alert(1)&quot;</code>),但不会拷贝那些使用<code>addEventListener()</code>方法或者<code>node.onclick = fn</code>这种用JavaScript动态绑定的事件。</p>
+</li>
+<li><p>在使用<code>Node.appendChild()</code>或其他类似的方法将拷贝的节点添加到文档中之前,那个拷贝节点并不属于当前文档树的一部分,也就是说,它没有父节点。</p>
+</li>
+<li><p>如果<code>deep</code>参数设为<code>false</code>,则不克隆它的任何子节点.该节点所包含的所有文本也不会被克隆,因为文本本身也是一个或多个的<code>Text</code>节点。</p>
+<h3 id="兼容性-2"><a href="#兼容性-2" class="headerlink" title="兼容性"></a>兼容性</h3></li>
+</ol>
+<blockquote>
+<p>注意:为了防止一<img src="D:\myblog\myblog\source\images\Node\cloneNode.png" alt="cloneNode">个文档中出现两个ID重复的元素,使用<code>cloneNode()方法克隆的节点在需要时应该指定另外一个与原ID值不同的ID</code></p>
+</blockquote>
+<h2 id="Node-contains"><a href="#Node-contains" class="headerlink" title="Node.contains"></a><code>Node.contains</code></h2><p><code>Node.contains()</code>返回的是一个布尔值，来表示传入的节点是否为该节点的后代节点。</p>
+<h3 id="语法-4"><a href="#语法-4" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.contains( otherNode )</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>node</code> 是否包含otherNode节点.</li>
+<li><code>otherNode</code> 是否是node的后代节点.</li>
+</ul>
+<p>如果 <code>otherNode</code> 是 <code>node 的后代节点或是</code> <code>node</code> 节点本身.则返回<code>true</code> , 否则返回 <code>false</code>.</p>
+<h3 id="兼容性-3"><a href="#兼容性-3" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\contains.png" alt="contains"></p>
+<h2 id="Node-isEqualNode"><a href="#Node-isEqualNode" class="headerlink" title="Node.isEqualNode"></a><code>Node.isEqualNode</code></h2><p> <strong><code>Node.isEqualNode()</code></strong>方法可以判断两个节点是否相等。当两个节点的类型相同，定义特征(defining characteristics)相同（对元素来说，即 id，孩子节点的数量等等），属性一致等，这两个节点就是相等的。一些具体的数据指出：多数时候的比较是根据节点的类型来的。</p>
+<h3 id="语法-5"><a href="#语法-5" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isEqualNode = node.isEqualNode(otherNode);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>otherNode: 比较是否相等的节点.</li>
+</ul>
+<p>注意：这里的<code>equal</code>与<code>===</code>不同，用<code>===</code>比较时，比较的是node的唯一id。而这里是鸭子比较法。</p>
+<h2 id="Node-hasChildNodes"><a href="#Node-hasChildNodes" class="headerlink" title="Node.hasChildNodes"></a><code>Node.hasChildNodes</code></h2><p><code>hasChildNodes</code>方法返回一个布尔值,表明当前节点是否包含有子节点.</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>有三种方法可以判断当前节点是否有子节点。</p>
+<ul>
+<li>node.firstChild !== null</li>
+<li>node.childNodes.length &gt; 0</li>
+<li>node.hasChildNodes()</li>
+</ul>
+<h1 id="附加"><a href="#附加" class="headerlink" title="附加"></a>附加</h1><p>可以使用<code>element</code>标签的<code>innerHTML</code>与<code>innerText</code>属性。以及<code>insertAdjacentHTML</code>方法来修改元素内部的值。</p>
+<h2 id="element-innerHTML"><a href="#element-innerHTML" class="headerlink" title="element.innerHTML"></a><code>element.innerHTML</code></h2><p><strong><code>Element.innerHTML</code></strong> 属性设置或获取HTML语法表示的元素的后代。</p>
+<p>注意：如果一个 <div>, <span>, 或 <noembed> 节点有一个文本子节点，该节点包含字符 (&amp;), (&lt;),  或(&gt;), innerHTML 将这些字符分别返回为&amp;, &lt; 和 &gt; 。使用Node.textContent  可获取一个这些文本节点内容的正确副本。</noembed></span></div></p>
+<h3 id="语法-6"><a href="#语法-6" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> content = element.innerHTML;</span><br><span class="line">element.innerHTML = htmlString;</span><br></pre></td></tr></table></figure>
+<p><code>DOMString</code>包含元素后代的HTML序列。设置元素的 <code>innerHTML</code> 将会删除所有该元素的后代并以上面给出的 htmlString 替代。</p>
+<p>注意：</p>
+<p><strong><code>SyntaxError</code></strong> </p>
+<p>​    当 HTML 没有被正确标记时，设置 <code>innerHTML</code> 将会抛出语法错误。</p>
+<p><strong><code>NoModificationAllowedError</code></strong> </p>
+<p>​    当父元素是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document" target="_blank" rel="noopener"><code>Document</code></a> 时，设置 <code>innerHTML</code> 将会提示不允许修改。</p>
+<h3 id="安全问题"><a href="#安全问题" class="headerlink" title="安全问题"></a>安全问题</h3><p>用 <code>innerHTML</code> 插入文本到网页中并不罕见。但这有可能成为网站攻击的媒介，从而产生潜在的安全风险问题。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">"John"</span>;</span><br><span class="line"><span class="comment">// assuming 'el' is an HTML DOM element</span></span><br><span class="line">el.innerHTML = name; <span class="comment">// harmless in this case</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">name = <span class="string">"&lt;script&gt;alert('I am John in an annoying alert!')&lt;/script&gt;"</span>;</span><br><span class="line">el.innerHTML = name; <span class="comment">// harmless in this case</span></span><br></pre></td></tr></table></figure>
+<p>尽管这看上去像 <a href="https://zh.wikipedia.org/wiki/Cross-site_scripting" target="_blank" rel="noopener">cross-site scripting</a> 攻击，结果并不会导致什么。<strong>HTML 5 中指定不执行由 <code>innerHTML</code> 插入的<code>script</code>标签。</strong></p>
+<p>然而，有很多不依赖<code>&lt;script&gt;</code>标签去执行，<code>innerHTML</code> 去设置你无法控制的字符串时，这仍然是一个安全问题。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">"&lt;img src='x' onerror='alert(1)'&gt;"</span>;</span><br><span class="line">el.innerHTML = name; <span class="comment">// shows the alert</span></span><br></pre></td></tr></table></figure>
+<p>于这个原因，当插入纯文本时，建议不要使用 <code>innerHTML</code> 。取而代之的是使用 <code>Node.textContent</code>或者<code>element.innerText</code>，它不会把给定的内容解析为 HTML，它仅仅是将原始文本插入给定的位置。</p>
+<h3 id="兼容性-4"><a href="#兼容性-4" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\innerHTML.png" alt="innerHTML"></p>
+<h2 id="HTMLElement-innerText"><a href="#HTMLElement-innerText" class="headerlink" title="HTMLElement.innerText"></a><code>HTMLElement.innerText</code></h2><p><strong><code>innerText</code></strong> 属性表示一个节点及其后代的“渲染”文本内容。与<code>innerText</code>一样，其可以作为一个getter，其作为一个getter的时候，获取的内容与用户光标选中后复制的内容差不多</p>
+<blockquote>
+<p><strong>Note:</strong> <code>innerText</code> 很容易与<code>Node.textContent</code>混淆, 但这两个属性间实际上有很重要的区别. 大体来说, <code>innerText</code> 可操作已被渲染的内容， 而 <code>textContent</code> 则不会.</p>
+</blockquote>
+<h2 id="Node-textContent"><a href="#Node-textContent" class="headerlink" title="Node.textContent"></a><code>Node.textContent</code></h2><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node" target="_blank" rel="noopener"><code>Node</code></a> 接口的 <code>textContent</code> 属性表示一个节点及其后代的文本内容。</p>
+<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p><code>textContent</code> 的值取决于具体情况：</p>
+<ol>
+<li>如果节点是一个 <code>document</code>，或者一个 DOCTYPE ，则 <code>textContent</code> 返回 <code>null</code>。</li>
+<li>如果节点是个 <code>CDATA section</code>、注释、<code>processing instruction</code>或者 <code>text node</code>，<code>textContent</code> 返回节点内部的文本内容，例如 <code>Node.nodeValue</code>。</li>
+<li>对于其他节点类型，<code>textContent</code> 将所有子节点的 <code>textContent</code> 合并后返回，除了注释和processing instructions。（如果该节点没有子节点的话，返回一个空字符串。）</li>
+</ol>
+<p>注意：在节点上设置 <code>textContent</code> 属性的话，会删除它的所有子节点，并替换为一个具有给定值的文本节点。</p>
+<h3 id="与-innerText-的区别"><a href="#与-innerText-的区别" class="headerlink" title="与 innerText 的区别"></a>与 <strong>innerText</strong> 的区别</h3><ol>
+<li><code>textContent</code> 会获取<em>所有</em>元素的内容，包括<code>&lt;script&gt;</code>和<code>&lt;style&gt;</code>元素，然而 <code>innerText</code> 只展示给人看的元素。</li>
+<li><code>textContent</code> 会返回节点中的每一个元素。相反，<code>innerText</code> 受 CSS 样式的影响，并且不会返回隐藏元素的文本，<ul>
+<li>此外，由于 <code>innerText</code> 受 CSS 样式的影响，它会触发回流（ <a href="https://wiki.developer.mozilla.org/en-US/docs/Glossary/Reflow" target="_blank" rel="noopener">reflow</a> ）去确保是最新的计算样式。（回流在计算上可能会非常昂贵，因此应尽可能避免。）</li>
+</ul>
+</li>
+<li>与 <code>textContent</code> 不同的是, 在 Internet Explorer (小于和等于 11 的版本) 中对 <code>innerText</code> 进行修改， 不仅会移除当前元素的子节点，而且还会<em>永久性地破坏</em>所有后代文本节点。在之后不可能再次将节点再次插入到任何其他元素或同一元素中。</li>
+</ol>
+<h3 id="兼容性-5"><a href="#兼容性-5" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\textContent.png" alt="textContent"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://developer.mozilla.org/zh-CN/docs" target="_blank" rel="noopener">MDN</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/03/22/Node节点的操作/" target="_blank" title="Node节点的操作">http://yoursite.com/2021/03/22/Node节点的操作/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/03/11/HTTP缓存/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HTTP缓存</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DOM操作"><span class="nav-number">1.</span> <span class="nav-text">DOM操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-appendChild"><span class="nav-number">1.1.</span> <span class="nav-text">Node.appendChild()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ParentNode-append"><span class="nav-number">1.2.</span> <span class="nav-text">ParentNode.append()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-insertBefore"><span class="nav-number">1.3.</span> <span class="nav-text">Node.insertBefore()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.3.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兼容性"><span class="nav-number">1.3.2.</span> <span class="nav-text">兼容性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-removeChild"><span class="nav-number">1.4.</span> <span class="nav-text">Node.removeChild</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-replaceChild"><span class="nav-number">1.5.</span> <span class="nav-text">Node.replaceChild()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法-2"><span class="nav-number">1.5.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兼容性-1"><span class="nav-number">1.5.2.</span> <span class="nav-text">兼容性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-cloneNode"><span class="nav-number">1.6.</span> <span class="nav-text">Node.cloneNode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法-3"><span class="nav-number">1.6.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兼容性-2"><span class="nav-number">1.6.2.</span> <span class="nav-text">兼容性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-contains"><span class="nav-number">1.7.</span> <span class="nav-text">Node.contains</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法-4"><span class="nav-number">1.7.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兼容性-3"><span class="nav-number">1.7.2.</span> <span class="nav-text">兼容性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-isEqualNode"><span class="nav-number">1.8.</span> <span class="nav-text">Node.isEqualNode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法-5"><span class="nav-number">1.8.1.</span> <span class="nav-text">语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-hasChildNodes"><span class="nav-number">1.9.</span> <span class="nav-text">Node.hasChildNodes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.9.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附加"><span class="nav-number">2.</span> <span class="nav-text">附加</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#element-innerHTML"><span class="nav-number">2.1.</span> <span class="nav-text">element.innerHTML</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法-6"><span class="nav-number">2.1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全问题"><span class="nav-number">2.1.2.</span> <span class="nav-text">安全问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兼容性-4"><span class="nav-number">2.1.3.</span> <span class="nav-text">兼容性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTMLElement-innerText"><span class="nav-number">2.2.</span> <span class="nav-text">HTMLElement.innerText</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-textContent"><span class="nav-number">2.3.</span> <span class="nav-text">Node.textContent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#返回值"><span class="nav-number">2.3.1.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与-innerText-的区别"><span class="nav-number">2.3.2.</span> <span class="nav-text">与 innerText 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#兼容性-5"><span class="nav-number">2.3.3.</span> <span class="nav-text">兼容性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

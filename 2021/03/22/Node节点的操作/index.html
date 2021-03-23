@@ -19,19 +19,19 @@
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="DOM操作Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象；比如, 继承同一组方法，或者用同样的方式测试。 这里我们不谈其属性，只关注Node节点的操作。 Node.appendChild()Node.appendChild(aChild)方法将一个节点附加到指定父节点的子节点列表的末尾处。 值得注意的是：  该方法只接受一个参">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node/appendChild.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node/append.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node/insertBefore.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node/replaceChild.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node/cloneNode.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node/contains.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node/innerHTML.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node/textContent.png">
-<meta property="og:updated_time" content="2021-03-22T12:18:58.743Z">
+<meta property="og:image" content="http://yoursite.com/images/Node/appendChild.png">
+<meta property="og:image" content="http://yoursite.com/images/Node/append.png">
+<meta property="og:image" content="http://yoursite.com/images/Node/insertBefore.png">
+<meta property="og:image" content="http://yoursite.com/images/Node/replaceChild.png">
+<meta property="og:image" content="http://yoursite.com/images/Node/cloneNode.png">
+<meta property="og:image" content="http://yoursite.com/images/Node/contains.png">
+<meta property="og:image" content="http://yoursite.com/images/Node/innerHTML.png">
+<meta property="og:image" content="http://yoursite.com/images/Node/textContent.png">
+<meta property="og:updated_time" content="2021-03-23T12:34:17.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node节点的操作">
 <meta name="twitter:description" content="DOM操作Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象；比如, 继承同一组方法，或者用同样的方式测试。 这里我们不谈其属性，只关注Node节点的操作。 Node.appendChild()Node.appendChild(aChild)方法将一个节点附加到指定父节点的子节点列表的末尾处。 值得注意的是：  该方法只接受一个参">
-<meta name="twitter:image" content="d:/myblog/myblog/source/images/Node/appendChild.png">
+<meta name="twitter:image" content="http://yoursite.com/images/Node/appendChild.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -215,7 +215,7 @@
 <li>其会返回插入的子节点（<code>aChild</code>）</li>
 </ol>
 <p>兼容性如下，可以说是最起始一部分操作方法了。</p>
-<p><img src="D:\myblog\myblog\source\images\Node\appendChild.png" alt="append"></p>
+<p><img src="\images\Node\appendChild.png" alt="append"></p>
 <h2 id="ParentNode-append"><a href="#ParentNode-append" class="headerlink" title="ParentNode.append()"></a><code>ParentNode.append()</code></h2><p> <strong><code>ParentNode.append</code></strong> 方法在 <code>ParentNode</code>的最后一个子节点之后插入一组 <code>Node</code>对象或 <code>DOMString</code>对象。</p>
 <p>被插入的 <code>DOMString</code>对象等价为 <code>Text</code>节点。</p>
 <p>与<code>appendChild</code>不同的是：</p>
@@ -225,7 +225,7 @@
 <li>可以追加多个节点和字符串，而 Node.appendChild() 只能追加一个节点。</li>
 </ol>
 <p>这个方法的兼容性相对差一些，但是功能全面。</p>
-<p><img src="D:\myblog\myblog\source\images\Node\append.png" alt="append"></p>
+<p><img src="\images\Node\append.png" alt="append"></p>
 <h2 id="Node-insertBefore"><a href="#Node-insertBefore" class="headerlink" title="Node.insertBefore()"></a><code>Node.insertBefore()</code></h2><p><strong><code>Node.insertBefore()</code></strong> 方法在参考节点之前插入一个拥有指定父节点的子节点。函数返回被插入过的子节点。</p>
 <p>注意：</p>
 <ol>
@@ -239,7 +239,7 @@
 <li><code>referenceNode</code> <code>newNode</code> 将要插在这个节点之前</li>
 </ul>
 <p>如果 <code>referenceNode</code> 为 <code>null</code> 则 <code>newNode</code> 将被插入到子节点的末尾<em>。</em></p>
-<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\insertBefore.png" alt="insertBefore"></p>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="\images\Node\insertBefore.png" alt="insertBefore"></p>
 <h2 id="Node-removeChild"><a href="#Node-removeChild" class="headerlink" title="Node.removeChild"></a><code>Node.removeChild</code></h2><p><strong><code>Node.removeChild()</code></strong> 方法从DOM中删除一个子节点。返回删除的节点。</p>
 <h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> oldChild = node.removeChild(child);</span><br><span class="line"></span><br><span class="line"><span class="comment">//OR</span></span><br><span class="line"></span><br><span class="line">element.removeChild(child);</span><br></pre></td></tr></table></figure>
 <ul>
@@ -257,7 +257,7 @@
 <p>用来替换 <code>oldChild</code> 的新节点。如果该节点已经存在于 DOM 树中，则它首先会被从原始位置删除。</p>
 <p><strong>oldChild</strong></p>
 <p>被替换掉的原始节点。</p>
-<h3 id="兼容性-1"><a href="#兼容性-1" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\replaceChild.png" alt="replaceChild"></p>
+<h3 id="兼容性-1"><a href="#兼容性-1" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="\images\Node\replaceChild.png" alt="replaceChild"></p>
 <h2 id="Node-cloneNode"><a href="#Node-cloneNode" class="headerlink" title="Node.cloneNode"></a><code>Node.cloneNode</code></h2><p><strong><code>Node.cloneNode()</code></strong>方法返回调用该方法的节点的一个副本.</p>
 <h3 id="语法-3"><a href="#语法-3" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dupNode = node.cloneNode(deep);</span><br></pre></td></tr></table></figure>
 <p><code>node</code></p>
@@ -280,7 +280,7 @@
 <h3 id="兼容性-2"><a href="#兼容性-2" class="headerlink" title="兼容性"></a>兼容性</h3></li>
 </ol>
 <blockquote>
-<p>注意:为了防止一<img src="D:\myblog\myblog\source\images\Node\cloneNode.png" alt="cloneNode">个文档中出现两个ID重复的元素,使用<code>cloneNode()方法克隆的节点在需要时应该指定另外一个与原ID值不同的ID</code></p>
+<p>注意:为了防止一<img src="\images\Node\cloneNode.png" alt="cloneNode">个文档中出现两个ID重复的元素,使用<code>cloneNode()方法克隆的节点在需要时应该指定另外一个与原ID值不同的ID</code></p>
 </blockquote>
 <h2 id="Node-contains"><a href="#Node-contains" class="headerlink" title="Node.contains"></a><code>Node.contains</code></h2><p><code>Node.contains()</code>返回的是一个布尔值，来表示传入的节点是否为该节点的后代节点。</p>
 <h3 id="语法-4"><a href="#语法-4" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.contains( otherNode )</span><br></pre></td></tr></table></figure>
@@ -289,7 +289,7 @@
 <li><code>otherNode</code> 是否是node的后代节点.</li>
 </ul>
 <p>如果 <code>otherNode</code> 是 <code>node 的后代节点或是</code> <code>node</code> 节点本身.则返回<code>true</code> , 否则返回 <code>false</code>.</p>
-<h3 id="兼容性-3"><a href="#兼容性-3" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\contains.png" alt="contains"></p>
+<h3 id="兼容性-3"><a href="#兼容性-3" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="\images\Node\contains.png" alt="contains"></p>
 <h2 id="Node-isEqualNode"><a href="#Node-isEqualNode" class="headerlink" title="Node.isEqualNode"></a><code>Node.isEqualNode</code></h2><p> <strong><code>Node.isEqualNode()</code></strong>方法可以判断两个节点是否相等。当两个节点的类型相同，定义特征(defining characteristics)相同（对元素来说，即 id，孩子节点的数量等等），属性一致等，这两个节点就是相等的。一些具体的数据指出：多数时候的比较是根据节点的类型来的。</p>
 <h3 id="语法-5"><a href="#语法-5" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isEqualNode = node.isEqualNode(otherNode);</span><br></pre></td></tr></table></figure>
 <ul>
@@ -319,7 +319,7 @@
 <p>然而，有很多不依赖<code>&lt;script&gt;</code>标签去执行，<code>innerHTML</code> 去设置你无法控制的字符串时，这仍然是一个安全问题。例如：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">"&lt;img src='x' onerror='alert(1)'&gt;"</span>;</span><br><span class="line">el.innerHTML = name; <span class="comment">// shows the alert</span></span><br></pre></td></tr></table></figure>
 <p>于这个原因，当插入纯文本时，建议不要使用 <code>innerHTML</code> 。取而代之的是使用 <code>Node.textContent</code>或者<code>element.innerText</code>，它不会把给定的内容解析为 HTML，它仅仅是将原始文本插入给定的位置。</p>
-<h3 id="兼容性-4"><a href="#兼容性-4" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\innerHTML.png" alt="innerHTML"></p>
+<h3 id="兼容性-4"><a href="#兼容性-4" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="\images\Node\innerHTML.png" alt="innerHTML"></p>
 <h2 id="HTMLElement-innerText"><a href="#HTMLElement-innerText" class="headerlink" title="HTMLElement.innerText"></a><code>HTMLElement.innerText</code></h2><p><strong><code>innerText</code></strong> 属性表示一个节点及其后代的“渲染”文本内容。与<code>innerText</code>一样，其可以作为一个getter，其作为一个getter的时候，获取的内容与用户光标选中后复制的内容差不多</p>
 <blockquote>
 <p><strong>Note:</strong> <code>innerText</code> 很容易与<code>Node.textContent</code>混淆, 但这两个属性间实际上有很重要的区别. 大体来说, <code>innerText</code> 可操作已被渲染的内容， 而 <code>textContent</code> 则不会.</p>
@@ -340,7 +340,7 @@
 </li>
 <li>与 <code>textContent</code> 不同的是, 在 Internet Explorer (小于和等于 11 的版本) 中对 <code>innerText</code> 进行修改， 不仅会移除当前元素的子节点，而且还会<em>永久性地破坏</em>所有后代文本节点。在之后不可能再次将节点再次插入到任何其他元素或同一元素中。</li>
 </ol>
-<h3 id="兼容性-5"><a href="#兼容性-5" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="D:\myblog\myblog\source\images\Node\textContent.png" alt="textContent"></p>
+<h3 id="兼容性-5"><a href="#兼容性-5" class="headerlink" title="兼容性"></a>兼容性</h3><p><img src="\images\Node\textContent.png" alt="textContent"></p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://developer.mozilla.org/zh-CN/docs" target="_blank" rel="noopener">MDN</a></p>
 
       

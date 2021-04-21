@@ -282,6 +282,64 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-设计模式6-命令模式与组合模式"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/04/21/设计模式6-命令模式与组合模式/">设计模式6-命令模式与组合模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/21/设计模式6-命令模式与组合模式/" class="article-date">
+	  <time datetime="2021-04-21T02:06:08.000Z" itemprop="datePublished">2021-04-21</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          
+
+function doDecrypt (pwd, onError) {
+	console.log('in doDecrypt');
+	const txt = document.getElementById('enc_content').innerHTML;
+	let plantext;
+	try {
+		const bytes = CryptoJS.AES.decrypt(txt, pwd);
+		var plaintext = bytes.toString(CryptoJS.enc....
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/04/21/设计模式6-命令模式与组合模式/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Node节点的操作"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -754,59 +812,6 @@ chrome默认是补全https协议
         </p>
         <p class="article-more-link">
           <a href="/2021/02/14/JavaScript中的模块导入导出/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Fetch方法的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/13/Fetch方法的使用/">Fetch方法的使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/02/13/Fetch方法的使用/" class="article-date">
-	  <time datetime="2021-02-13T06:16:24.000Z" itemprop="datePublished">2021-02-13</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Fetch/">Fetch</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          介绍Fetch是基于Promise开发的用于访问和操纵 HTTP 管道的一个API。其提供了一个全局 fetch()方法，该方法提供了一种简单，合理的方式来跨网络异步获取资源。
-以前浏览器中的网络请求只能通过XMLHttpRequest实现（虽然大多使用的是封装过后的接口）。而Fetch则结合Promise提供了一种更加简化的发送网络请求的方式（其调用方法与axiso相似）。
-用法Fetch()方法Fetch接受两个参数：
-Promise&lt;Response&gt; fetch(inp...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/02/13/Fetch方法的使用/#more">Read More</a>
         </p>
       
     </div>

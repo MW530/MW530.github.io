@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>nodejs学习2-异步的原理和应用 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Node.js模块">
+  
+  
+  
+  
+  <meta name="description" content="内部原理理想的非阻塞异步I/O完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。">
+<meta name="keywords" content="Node.js,模块">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS学习2-异步的原理和应用">
+<meta property="og:url" content="http://yoursite.com/2021/04/24/NodeJS学习2-异步的原理和应用/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="内部原理理想的非阻塞异步I/O完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/理想中的异步.jpg">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/理想中的异步.jpg">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/基于libuv的架构.jpg">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/Tick流程.jpg">
+<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/fs调用.jpg">
+<meta property="og:updated_time" content="2021-04-24T16:29:09.625Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS学习2-异步的原理和应用">
+<meta name="twitter:description" content="内部原理理想的非阻塞异步I/O完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。">
+<meta name="twitter:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/理想中的异步.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-NodeJS学习2-异步的原理和应用" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      NodeJS学习2-异步的原理和应用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/24/NodeJS学习2-异步的原理和应用/" class="article-date">
+	  <time datetime="2021-04-24T11:38:03.000Z" itemprop="datePublished">2021-04-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="内部原理"><a href="#内部原理" class="headerlink" title="内部原理"></a>内部原理</h1><h2 id="理想的非阻塞异步I-O"><a href="#理想的非阻塞异步I-O" class="headerlink" title="理想的非阻塞异步I/O"></a>理想的非阻塞异步I/O</h2><p>完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。        </p>
+<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\理想中的异步.jpg" alt="理想中的异步">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </p>
+<p>幸运的是：Linux下的<code>AIO</code>就是通过信号或回调来传递数据。</p>
+<p>不幸的是：只有Linux下有，而且它还有缺陷-<code>AIO</code>仅支持I/O内核中的<code>O_DIRECT</code>方式读取，导致无法使用系统缓存。</p>
+<h2 id="现实的异步I-O"><a href="#现实的异步I-O" class="headerlink" title="现实的异步I/O"></a>现实的异步I/O</h2><p>现实更加骨感，但是要达成I/O的目标，并非难事。前面我们将场景限定在了单线程的状态下，实际上使用多线程来模拟异步，就会轻松达成效果了。通过让部分线程进行阻塞I/O或者非阻塞I/O加轮询技术来完成数据获取，让一个线程进行计算处理，通过线程之间的通信将I/O得到的数据及性能传递，就轻松实现了异步I/O。</p>
+<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\理想中的异步.jpg" alt="理想中的异步"></p>
+<p>最初的Node在*nix平台下采用了<code>libeio</code>，<code>libeio</code>实质上依然采用的线程池与阻塞I/O模拟异步I/O。配合<code>libev</code>实现I/O部分，实现了异步I/O。在<code>Node v0.9.3</code>以后，自行实现了线程池来完成异步I/O。</p>
+<p>而在Windows平台下，<code>IOCP</code>在某种程度上提供了较为理想的异步I/O：调用异步方法，等待I/O完成之后的通知，执行回调。用户无须考虑轮询。但是它的内部依然是线程池原理，不同之处在于这些线程池是由系统内核接受管理。</p>
+<p>由于Windows平台和<em>in平台的差异，Node提供了<code>libuv</code>作为抽象封装层，使得所有平台兼容性的判断都由这一层来完成，并保证上层的Node与下层的系定义线程池<code>IOCP</code>之间各自独立。Node会在编译期间判断平台，选择性编译\</em>nix或是win目录下的源文件到目标程序中。</p>
+<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\基于libuv的架构.jpg" alt="基于libuv的架构"></p>
+<p>值得注意的是：</p>
+<ol>
+<li>这里的I/O不仅仅只限于磁盘文件的读写。*nix将计算机抽象了一番，磁盘文件，硬件，套接字等几乎所有的计算机资源都被抽象成为了文件，因此这里描述的阻塞和非阻塞的情况同样适用于套接字等。</li>
+<li>平时我们提及到Node是单线程的，这里单线程仅仅只是JavaScript执行在单线程中。在Node中，无论是*nix或者windows平台，内部完成I/O任务的另有线程池。</li>
+</ol>
+<h1 id="执行原理"><a href="#执行原理" class="headerlink" title="执行原理"></a>执行原理</h1><h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>之前在<a href="https://michaelwang.top/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/" target="_blank" rel="noopener">JavaScript宏任务，微任务与Event-loop</a>简单介绍过事件循环的概念。</p>
+<p>其在进程启动时，Node便会创建一个类似于<code>while(true)</code>的循环，每执行一次循环体的过程我们称为一个Tick，每个Tick的过程就是查看是否有事件待处理。如果有，就取出事件及其相关的回调函数。如果存在关联的回调函数，就执行他们。然后进入下一个循环，如果不再有事件处理，就退出进程。</p>
+<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\Tick流程.jpg" alt="Tick流程"></p>
+<h2 id="观察者"><a href="#观察者" class="headerlink" title="观察者"></a>观察者</h2><p>在每一个Tick中，都是通过观察者来判断是否有事件需要处理。</p>
+<p>每个事件循环有一个或者多个观察者，而判断是否有事件要处理的过程就是向这些观察者询问是否有要处理的事件。</p>
+<p>浏览器采用了类似的机制。事件可能来自用户的点击或者加载某个文件时产生，而这些产生的事件都有对应的观察者。在Node中，事件主要来源于网络请求，文件I/O等，这些事件对应的观察者有文件I/O观察者，网络I/O观察者等。观察者将事件进行了分类。</p>
+<p>事件循环是一个经典的生产者/消费者模型。异步I/O，网络请求等则是网络事件的请求者，源源不断的为Node提供不同类型的事件，这些事件被传递到对应的观察者那里，事件循环则从观察者那里取出事件并处理。</p>
+<p>这里用到了观察者模式，在<a href="https://michaelwang.top/2021/03/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F5-%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/" target="_blank" rel="noopener">设计模式5-发布-订阅模式（观察者模式）</a>详细介绍过。</p>
+<h2 id="请求对象"><a href="#请求对象" class="headerlink" title="请求对象"></a>请求对象</h2><p>在异步请求回调中，从JavaScript发起调用到内核执行完I/O操作的过渡过程中，存在一种中间产物，它叫做<strong>请求对象</strong>。</p>
+<p>下面以<code>fs.open()</code>作为例子，来看一下其源代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">open</span>(<span class="params">path, flags, mode, callback</span>) </span>&#123;</span><br><span class="line">  path = getValidatedPath(path);</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">arguments</span>.length &lt; <span class="number">3</span>) &#123;</span><br><span class="line">    callback = flags;</span><br><span class="line">    flags = <span class="string">'r'</span>;</span><br><span class="line">    mode = <span class="number">0o666</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> mode === <span class="string">'function'</span>) &#123;</span><br><span class="line">    callback = mode;</span><br><span class="line">    mode = <span class="number">0o666</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    mode = parseFileMode(mode, <span class="string">'mode'</span>, <span class="number">0o666</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> flagsNumber = stringToFlags(flags);</span><br><span class="line">  callback = makeCallback(callback);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> req = <span class="keyword">new</span> FSReqCallback();</span><br><span class="line">  req.oncomplete = callback;</span><br><span class="line"></span><br><span class="line">  binding.open(pathModule.toNamespacedPath(path),</span><br><span class="line">               flagsNumber,</span><br><span class="line">               mode,</span><br><span class="line">               req);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>fs.open()</code>是根据指定的路径和参数去打开一个文件，从而得到一个文件描述符，这是后续所有I/O操作的初始操作。从代码可以看出，JavaScript层面的代码时通过调用C++核心模块进行下层的操作。其执行流程如下：</p>
+<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\fs调用.jpg" alt="fs调用"></p>
+<p>这里是JavaScript典型的调用方法：</p>
+<ol>
+<li>从JavaScript调用Node的核心模块</li>
+<li>核心模块调用C++内建模块</li>
+<li>内建模块通过libuv进行系统调用</li>
+</ol>
+<p>在libuv中，实质上调用了<code>uv_fs_open()</code>方法。在<code>uv_fs_open()</code>方法中，创建了一个<code>FSReqWrap</code>请求对象。从JavaScript层传入的参数和当前方法都被封装在这个请求对象中，其中我们最为关注的回调函数被设置在这个对象的<code>oncomplete_sym</code>上属性上：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">req_wrap-&gt;object_-&gt;Set(oncomplete, callback);</span><br></pre></td></tr></table></figure>
+<p>对象封装完毕后，在Windows下，则调用<code>QueueUserWorkItem()</code>方法将这个<code>FSReqWrap</code>对象推入，线程池中等待执行，该方法的代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QueueUserWorkItem(&amp;uv_fs_thread_proc, req, WT_EXECUTEDEFAULT)</span><br></pre></td></tr></table></figure>
+<p>该方法接受3个参数：</p>
+<ol>
+<li><code>&amp;uv_fs_thread_proc</code>：要执行的方法的引用。</li>
+<li><code>req</code>：<code>&amp;uv_fs_thread_proc</code>方法运行时所需的要的参数。</li>
+<li><code>WT_EXECUTEDEFAULT</code>：执行的标志。</li>
+</ol>
+<p>当线程池有可用线程时，我们会调用<code>uv_fs_thread_proc</code>方法，<code>uv_fs_thread_proc()</code>方法会根据传入参数的类型调用相应的底层函数。以<code>uv_fs_open()</code>为例，实际上调用<code>fs_open()</code>方法。</p>
+<p>至此，JavaScript调用立即返回，由JavaScript底层发起的异步调用的第一阶段就此结束。JavaScript线程可以继续执行当前的后续操作。当前的I/O操作在线程池中等待执行，不断是否阻塞I/O，都不会影响JavaScript线程的后续操作，如此就达到了异步的目的。</p>
+<p><strong>请求对象时异步I/O过程中的重要中间产物，所有的状态都保存在这个对象中，包括送入线程池等待执行以及I/O操作完毕后的回调处理。</strong></p>
+<h2 id="执行回调"><a href="#执行回调" class="headerlink" title="执行回调"></a>执行回调</h2><h1 id="非I-O的异步API"><a href="#非I-O的异步API" class="headerlink" title="非I/O的异步API"></a>非I/O的异步API</h1><h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><h2 id="process-nextTick"><a href="#process-nextTick" class="headerlink" title="process.nextTick()"></a><code>process.nextTick()</code></h2><h2 id="setIMMediate"><a href="#setIMMediate" class="headerlink" title="setIMMediate()"></a><code>setIMMediate()</code></h2><h2 id="事件驱动与高性能服务器"><a href="#事件驱动与高性能服务器" class="headerlink" title="事件驱动与高性能服务器"></a>事件驱动与高性能服务器</h2><h1 id="异步编程的优势与难点"><a href="#异步编程的优势与难点" class="headerlink" title="异步编程的优势与难点"></a>异步编程的优势与难点</h1><h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><h3 id="函数嵌套过深"><a href="#函数嵌套过深" class="headerlink" title="函数嵌套过深"></a>函数嵌套过深</h3><h3 id="阻塞代码"><a href="#阻塞代码" class="headerlink" title="阻塞代码"></a>阻塞代码</h3><h3 id="多线程编程"><a href="#多线程编程" class="headerlink" title="多线程编程"></a>多线程编程</h3><h1 id="异步编程的解决方案"><a href="#异步编程的解决方案" class="headerlink" title="异步编程的解决方案"></a>异步编程的解决方案</h1><h2 id="事件发布订阅模式"><a href="#事件发布订阅模式" class="headerlink" title="事件发布订阅模式"></a>事件发布订阅模式</h2><h2 id="Promise-Deferred模式"><a href="#Promise-Deferred模式" class="headerlink" title="Promise/Deferred模式"></a>Promise/Deferred模式</h2><h2 id="流程控制库"><a href="#流程控制库" class="headerlink" title="流程控制库"></a>流程控制库</h2><h1 id="异步并发控制"><a href="#异步并发控制" class="headerlink" title="异步并发控制"></a>异步并发控制</h1>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/04/24/NodeJS学习2-异步的原理和应用/" target="_blank" title="NodeJS学习2-异步的原理和应用">http://yoursite.com/2021/04/24/NodeJS学习2-异步的原理和应用/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/22/NodeJS学习1-模块机制/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">NodeJS学习1-模块机制</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#内部原理"><span class="nav-number">1.</span> <span class="nav-text">内部原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#理想的非阻塞异步I-O"><span class="nav-number">1.1.</span> <span class="nav-text">理想的非阻塞异步I/O</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现实的异步I-O"><span class="nav-number">1.2.</span> <span class="nav-text">现实的异步I/O</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#执行原理"><span class="nav-number">2.</span> <span class="nav-text">执行原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件循环"><span class="nav-number">2.1.</span> <span class="nav-text">事件循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者"><span class="nav-number">2.2.</span> <span class="nav-text">观察者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求对象"><span class="nav-number">2.3.</span> <span class="nav-text">请求对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行回调"><span class="nav-number">2.4.</span> <span class="nav-text">执行回调</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#非I-O的异步API"><span class="nav-number">3.</span> <span class="nav-text">非I/O的异步API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定时器"><span class="nav-number">3.1.</span> <span class="nav-text">定时器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#process-nextTick"><span class="nav-number">3.2.</span> <span class="nav-text">process.nextTick()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setIMMediate"><span class="nav-number">3.3.</span> <span class="nav-text">setIMMediate()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件驱动与高性能服务器"><span class="nav-number">3.4.</span> <span class="nav-text">事件驱动与高性能服务器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异步编程的优势与难点"><span class="nav-number">4.</span> <span class="nav-text">异步编程的优势与难点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优势"><span class="nav-number">4.1.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#难点"><span class="nav-number">4.2.</span> <span class="nav-text">难点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异常处理"><span class="nav-number">4.2.1.</span> <span class="nav-text">异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数嵌套过深"><span class="nav-number">4.2.2.</span> <span class="nav-text">函数嵌套过深</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞代码"><span class="nav-number">4.2.3.</span> <span class="nav-text">阻塞代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程编程"><span class="nav-number">4.2.4.</span> <span class="nav-text">多线程编程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异步编程的解决方案"><span class="nav-number">5.</span> <span class="nav-text">异步编程的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件发布订阅模式"><span class="nav-number">5.1.</span> <span class="nav-text">事件发布订阅模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-Deferred模式"><span class="nav-number">5.2.</span> <span class="nav-text">Promise/Deferred模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程控制库"><span class="nav-number">5.3.</span> <span class="nav-text">流程控制库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异步并发控制"><span class="nav-number">6.</span> <span class="nav-text">异步并发控制</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

@@ -19,20 +19,20 @@
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="内部原理理想的非阻塞异步I/O完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/理想中的异步.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/理想中的异步.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/基于libuv的架构.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/architecture.png">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/Tick流程.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/fs调用.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/整个异步IO流程.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/setTimeout.jpg">
-<meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/async.png">
-<meta property="og:updated_time" content="2021-04-26T13:13:40.063Z">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/理想中的异步.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/理想中的异步.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/基于libuv的架构.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/architecture.png">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/Tick流程.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/fs调用.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/整个异步IO流程.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/setTimeout.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/async.png">
+<meta property="og:updated_time" content="2021-04-26T13:50:20.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NodeJS学习2-异步的原理和应用">
 <meta name="twitter:description" content="内部原理理想的非阻塞异步I/O完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。">
-<meta name="twitter:image" content="d:/myblog/myblog/source/images/Node-JS的异步原理和应用/理想中的异步.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/理想中的异步.jpg">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -206,16 +206,16 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="内部原理"><a href="#内部原理" class="headerlink" title="内部原理"></a>内部原理</h1><h2 id="理想的非阻塞异步I-O"><a href="#理想的非阻塞异步I-O" class="headerlink" title="理想的非阻塞异步I/O"></a>理想的非阻塞异步I/O</h2><p>完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。        </p>
-<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\理想中的异步.jpg" alt="理想中的异步">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </p>
+<p><img src="\images\Node-JS的异步原理和应用\理想中的异步.jpg" alt="理想中的异步">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </p>
 <p>幸运的是：Linux下的<code>AIO</code>就是通过信号或回调来传递数据。</p>
 <p>不幸的是：只有Linux下有，而且它还有缺陷-<code>AIO</code>仅支持I/O内核中的<code>O_DIRECT</code>方式读取，导致无法使用系统缓存。</p>
 <h2 id="现实的异步I-O"><a href="#现实的异步I-O" class="headerlink" title="现实的异步I/O"></a>现实的异步I/O</h2><p>现实更加骨感，但是要达成I/O的目标，并非难事。前面我们将场景限定在了单线程的状态下，实际上使用多线程来模拟异步，就会轻松达成效果了。通过让部分线程进行阻塞I/O或者非阻塞I/O加轮询技术来完成数据获取，让一个线程进行计算处理，通过线程之间的通信将I/O得到的数据及性能传递，就轻松实现了异步I/O。</p>
-<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\理想中的异步.jpg" alt="理想中的异步"></p>
+<p><img src="\images\Node-JS的异步原理和应用\理想中的异步.jpg" alt="理想中的异步"></p>
 <p>最初的Node在*nix平台下采用了<code>libeio</code>，<code>libeio</code>实质上依然采用的线程池与阻塞I/O模拟异步I/O。配合<code>libev</code>实现I/O部分，实现了异步I/O。在<code>Node v0.9.3</code>以后，自行实现了线程池来完成异步I/O。</p>
 <p>而在Windows平台下，<code>IOCP</code>在某种程度上提供了较为理想的异步I/O：调用异步方法，等待I/O完成之后的通知，执行回调。用户无须考虑轮询。但是它的内部依然是线程池原理，不同之处在于这些线程池是由系统内核接受管理。</p>
 <p>由于Windows平台和<em>in平台的差异，Node提供了<code>libuv</code>作为抽象封装层，使得所有平台兼容性的判断都由这一层来完成，并保证上层的Node与下层的系定义线程池<code>IOCP</code>之间各自独立。Node会在编译期间判断平台，选择性编译\</em>nix或是win目录下的源文件到目标程序中。</p>
-<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\基于libuv的架构.jpg" alt="基于libuv的架构"></p>
-<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\architecture.png" alt="architecture"></p>
+<p><img src="\images\Node-JS的异步原理和应用\基于libuv的架构.jpg" alt="基于libuv的架构"></p>
+<p><img src="\images\Node-JS的异步原理和应用\architecture.png" alt="architecture"></p>
 <p>而在*nix平台，对线程池也有不同的方案：</p>
 <blockquote>
 <p>The event loop follows the rather usual single threaded asynchronous I/O approach: all (network) I/O is performed on non-blocking sockets which are polled using the best mechanism available on the given platform: epoll on Linux, kqueue on OSX and other BSDs, event ports on SunOS and IOCP on Windows. As part of a loop iteration the loop will block waiting for I/O activity on sockets which have been added to the poller and callbacks will be fired indicating socket conditions (readable, writable hangup) so handles can read, write or perform the desired I/O operation.</p>
@@ -234,7 +234,7 @@
 </ol>
 <h1 id="执行原理"><a href="#执行原理" class="headerlink" title="执行原理"></a>执行原理</h1><h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>之前在<a href="https://michaelwang.top/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/" target="_blank" rel="noopener">JavaScript宏任务，微任务与Event-loop</a>简单介绍过事件循环的概念。</p>
 <p>其在进程启动时，Node便会创建一个类似于<code>while(true)</code>的循环，每执行一次循环体的过程我们称为一个Tick，每个Tick的过程就是查看是否有事件待处理。如果有，就取出事件及其相关的回调函数。如果存在关联的回调函数，就执行他们。然后进入下一个循环，如果不再有事件处理，就退出进程。</p>
-<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\Tick流程.jpg" alt="Tick流程"></p>
+<p><img src="\images\Node-JS的异步原理和应用\Tick流程.jpg" alt="Tick流程"></p>
 <h2 id="观察者"><a href="#观察者" class="headerlink" title="观察者"></a>观察者</h2><p>在每一个Tick中，都是通过观察者来判断是否有事件需要处理。</p>
 <p>每个事件循环有一个或者多个观察者，而判断是否有事件要处理的过程就是向这些观察者询问是否有要处理的事件。</p>
 <p>浏览器采用了类似的机制。事件可能来自用户的点击或者加载某个文件时产生，而这些产生的事件都有对应的观察者。在Node中，事件主要来源于网络请求，文件I/O等，这些事件对应的观察者有文件I/O观察者，网络I/O观察者等。观察者将事件进行了分类。</p>
@@ -244,7 +244,7 @@
 <p>下面以<code>fs.open()</code>作为例子，来看一下其源代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">open</span>(<span class="params">path, flags, mode, callback</span>) </span>&#123;</span><br><span class="line">  path = getValidatedPath(path);</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">arguments</span>.length &lt; <span class="number">3</span>) &#123;</span><br><span class="line">    callback = flags;</span><br><span class="line">    flags = <span class="string">'r'</span>;</span><br><span class="line">    mode = <span class="number">0o666</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> mode === <span class="string">'function'</span>) &#123;</span><br><span class="line">    callback = mode;</span><br><span class="line">    mode = <span class="number">0o666</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    mode = parseFileMode(mode, <span class="string">'mode'</span>, <span class="number">0o666</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> flagsNumber = stringToFlags(flags);</span><br><span class="line">  callback = makeCallback(callback);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> req = <span class="keyword">new</span> FSReqCallback();</span><br><span class="line">  req.oncomplete = callback;</span><br><span class="line"></span><br><span class="line">  binding.open(pathModule.toNamespacedPath(path),</span><br><span class="line">               flagsNumber,</span><br><span class="line">               mode,</span><br><span class="line">               req);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>fs.open()</code>是根据指定的路径和参数去打开一个文件，从而得到一个文件描述符，这是后续所有I/O操作的初始操作。从代码可以看出，JavaScript层面的代码时通过调用C++核心模块进行下层的操作。其执行流程如下：</p>
-<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\fs调用.jpg" alt="fs调用"></p>
+<p><img src="\images\Node-JS的异步原理和应用\fs调用.jpg" alt="fs调用"></p>
 <p>这里是JavaScript典型的调用方法：</p>
 <ol>
 <li>从JavaScript调用Node的核心模块</li>
@@ -279,11 +279,11 @@
 <p><code>PostQueuedCompletionStatus()</code>方法的作用是向IOCP提交执行状态，并将线程归还给线程池。通过<code>PostQueuedCompletionStatus()</code>方法提交的状态，可以通过<code>GetQueueCompletionStatus()</code>提取。</p>
 <p>在这个过程中，其实还动用了事件循环的I/O观察者。在每次Tick的执行中，它会调用IOCP相关的<code>GetQueueCompletionStatus()</code>方法检测线程池中是否有执行完的请求，如果存在，会将请求对象加入到I/O观察者的队列中没然后将其作为事件处理。</p>
 <p>I/O观察者回调函数的行为就是取出请求对象的<code>result</code>属性作为参数，取出<code>cb</code>属性作为方法，然后调用执行，以此达到调用JavaScript中传入的回调函数的目的。</p>
-<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\整个异步IO流程.jpg" alt="整个异步IO流程"></p>
+<p><img src="\images\Node-JS的异步原理和应用\整个异步IO流程.jpg" alt="整个异步IO流程"></p>
 <p>事件循环、观察者、请求对象、I/O线程池这四者共同构成了Node异步I/O模型的基本要素。</p>
 <h1 id="非I-O的异步API"><a href="#非I-O的异步API" class="headerlink" title="非I/O的异步API"></a>非I/O的异步API</h1><h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><p><code>setTimeout()</code>和<code>setInterval()</code>与浏览器中的API是一致的，分别用于单词和多次定时器执行任务。他们的实现与异步I/O相似，只是不需要I/O线程池的参与。调用<code>setTimeout()</code>或者<code>setInterval()</code>创建的定时器会被插入到定时器观察者内部的一个<strong>红黑树</strong>。每次Tick执行时，会从红黑树迭代取出定时器对象，检查是否超过定时时间，如果超过，就会形成一个事件，它的回调函数会立即执行。</p>
 <p>众所周知，定时器并不是那么准确其原因也在于事件循环，虽然事件循环非常快，但是如果某个循环占用的时间比较多，那么下次循环时，它也许已经超时很久了。</p>
-<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\setTimeout.jpg" alt="setTimeout"></p>
+<p><img src="\images\Node-JS的异步原理和应用\setTimeout.jpg" alt="setTimeout"></p>
 <h2 id="process-nextTick"><a href="#process-nextTick" class="headerlink" title="process.nextTick()"></a><code>process.nextTick()</code></h2><p><code>process.nextTick()</code> 会添加 <code>callback</code> 到下一个时间点队列。 在 JavaScript 堆栈上的当前操作运行完成之后，且允许事件循环继续之前，此队列会被完全耗尽。</p>
 <p>此方法与<code>setTimeout</code>比起来，更加轻量级，因为不需要动用红黑树，创建定时器对象和迭代等操作。其代码如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// `nextTick()` will not enqueue any callback when the process is about to</span></span><br><span class="line"><span class="comment">// exit since the callback would not have a chance to be executed.</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">nextTick</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  validateCallback(callback);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (process._exiting)</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> args;</span><br><span class="line">  <span class="keyword">switch</span> (<span class="built_in">arguments</span>.length) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>: args = [<span class="built_in">arguments</span>[<span class="number">1</span>]]; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>: args = [<span class="built_in">arguments</span>[<span class="number">1</span>], <span class="built_in">arguments</span>[<span class="number">2</span>]]; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>: args = [<span class="built_in">arguments</span>[<span class="number">1</span>], <span class="built_in">arguments</span>[<span class="number">2</span>], <span class="built_in">arguments</span>[<span class="number">3</span>]]; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      args = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="built_in">arguments</span>.length - <span class="number">1</span>);</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; <span class="built_in">arguments</span>.length; i++)</span><br><span class="line">        args[i - <span class="number">1</span>] = <span class="built_in">arguments</span>[i];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (queue.isEmpty())</span><br><span class="line">    setHasTickScheduled(<span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">const</span> asyncId = newAsyncId();</span><br><span class="line">  <span class="keyword">const</span> triggerAsyncId = getDefaultTriggerAsyncId();</span><br><span class="line">  <span class="keyword">const</span> tickObject = &#123;</span><br><span class="line">    [async_id_symbol]: asyncId,</span><br><span class="line">    [trigger_async_id_symbol]: triggerAsyncId,</span><br><span class="line">    callback,</span><br><span class="line">    args</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">if</span> (initHooksExist())</span><br><span class="line">    emitInit(asyncId, <span class="string">'TickObject'</span>, triggerAsyncId, tickObject);</span><br><span class="line">  queue.push(tickObject);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -332,7 +332,7 @@
 <li><code>await</code>命令只能在<code>async</code>函数中使用，而<code>async</code>返回的是一个<code>promise</code>对象，也就是说，我们必须最后再调用一个<code>then()</code>方法用于获取结果。（或许这不算什么问题，至少让嵌套次数减少到一次）</li>
 <li>兼容性问题：</li>
 </ol>
-<p><img src="D:\myblog\myblog\source\images\Node-JS的异步原理和应用\async.png" alt="async"></p>
+<p><img src="\images\Node-JS的异步原理和应用\async.png" alt="async"></p>
 <p>可以看出，IE完全不支持，chrome也到55版本才支持，所以兼容性是一个很大的问题。</p>
 <p>但是如果在工程化的前端开发中，由于多了预编译过程，所以使用ES6的语法会被转义为ES5的可接受代码。比如<code>vue-cli</code>中，在初始化项目时就包含了<code>babel</code>。</p>
 <h3 id="阻塞代码"><a href="#阻塞代码" class="headerlink" title="阻塞代码"></a>阻塞代码</h3><p>在Node中还有一个问题是，没有<code>sleep()</code>这样的线程沉睡功能，能用做延时操作的只有<code>setInterval</code>和<code>setTimeout</code>。但这两个函数并不能阻塞后面的代码执行。</p>

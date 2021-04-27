@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>nodejs学习3-内存控制 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Node.js内存控制">
+  
+  
+  
+  
+  <meta name="description" content="V8的内存分配在一般的后端开发语言中，在基本的内存使用上没有什么限制，然而在Node中通过JavaScript使用内存时就会发现只能使用部分内存（64位系统下约为1.4GB，32位系统下约为0.7GB），在这样的限制下，将会导致Node无法直接操作大内存对象。比如无法将一个2GB的文件读入内存中进行字符串分析处理，即使物理内存大于2GB，这样在单个Node进程的情况下，计算机的内存资源无法得到充足">
+<meta name="keywords" content="Node.js,内存控制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS学习3-内存控制">
+<meta property="og:url" content="http://yoursite.com/2021/04/27/NodeJS学习3-内存控制/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="V8的内存分配在一般的后端开发语言中，在基本的内存使用上没有什么限制，然而在Node中通过JavaScript使用内存时就会发现只能使用部分内存（64位系统下约为1.4GB，32位系统下约为0.7GB），在这样的限制下，将会导致Node无法直接操作大内存对象。比如无法将一个2GB的文件读入内存中进行字符串分析处理，即使物理内存大于2GB，这样在单个Node进程的情况下，计算机的内存资源无法得到充足">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的内存控制/V8堆结构.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的内存控制/mark-sweep.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Node-JS的内存控制/mark-compact.jpg">
+<meta property="og:updated_time" content="2021-04-27T06:15:49.426Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS学习3-内存控制">
+<meta name="twitter:description" content="V8的内存分配在一般的后端开发语言中，在基本的内存使用上没有什么限制，然而在Node中通过JavaScript使用内存时就会发现只能使用部分内存（64位系统下约为1.4GB，32位系统下约为0.7GB），在这样的限制下，将会导致Node无法直接操作大内存对象。比如无法将一个2GB的文件读入内存中进行字符串分析处理，即使物理内存大于2GB，这样在单个Node进程的情况下，计算机的内存资源无法得到充足">
+<meta name="twitter:image" content="http://yoursite.com/images/Node-JS的内存控制/V8堆结构.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-NodeJS学习3-内存控制" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      NodeJS学习3-内存控制
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/27/NodeJS学习3-内存控制/" class="article-date">
+	  <time datetime="2021-04-27T01:13:46.000Z" itemprop="datePublished">2021-04-27</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="V8的内存分配"><a href="#V8的内存分配" class="headerlink" title="V8的内存分配"></a>V8的内存分配</h1><p>在一般的后端开发语言中，在基本的内存使用上没有什么限制，然而在Node中通过JavaScript使用内存时就会发现只能使用部分内存（64位系统下约为1.4GB，32位系统下约为0.7GB），在这样的限制下，将会导致Node无法直接操作大内存对象。比如无法将一个2GB的文件读入内存中进行字符串分析处理，即使物理内存大于2GB，这样在单个Node进程的情况下，计算机的内存资源无法得到充足的使用。</p>
+<p>造成这个问题的主要原因在于Node基于V8构建，所以在Node中使用的JavaScript对象基本上都是通过V8自己的方式来进行分配和管理的。V8这套内存管理机制在浏览器的应用场景下使用起来是绰绰有余，足以胜任前端页面中的所有需求。但在Node中，却限制了开发者随心所欲使用大内存的想法。</p>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>表层原因在于，V8最初为浏览器设计，不大可能设计大内存使用的场景。对于一个网页（在浏览器中，一个tab有一个JS线程），1.5GB已经足够使用。从官方的说法来说，以1.5GB的垃圾回收堆内存为例，V8做一次垃圾回收需要50ms以上，做一次非增量式的垃圾回收甚至要1s以上。这是垃圾回收中引起JavaScript线程暂停执行的时间，在这样的时间花销下，应用的性能和响应能力都会直线下降。这样的情况不仅仅后端无法接受，前端浏览器同样无法接受。</p>
+<p>当然，这个限制也不是不能改变，V8依然在启动时提供可选参数来使用更多内存。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node --max-old-space-size = 1700		//老生代，单位为MB</span><br><span class="line">node --max-new-space-size = 1024		//新生代，单位为KB</span><br></pre></td></tr></table></figure>
+<p>但是注意，这个参数在运行中是无法改变的，一旦启动，内存分配就无法改变，这一点，确实限制了Node的发挥。</p>
+<h1 id="V8的垃圾回收机制"><a href="#V8的垃圾回收机制" class="headerlink" title="V8的垃圾回收机制"></a>V8的垃圾回收机制</h1><p>之前在分析闭包的那篇文章中，<a href="https://michaelwang.top/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/" target="_blank" rel="noopener">全面理解JavaScript作用域与闭包</a>，虽然详细分析了V8的内存结构，但是并没有详细分析垃圾回收机制,这里详细看一下。</p>
+<h2 id="V8主要的垃圾回收算法"><a href="#V8主要的垃圾回收算法" class="headerlink" title="V8主要的垃圾回收算法"></a>V8主要的垃圾回收算法</h2><p>V8的垃圾回收策略主要基于分布式垃圾回收机制。在自动垃圾回收的演变过程中，人们发现暂时没有一种垃圾回收算法能够胜任所有的场景。因为在实际应用中，对象的生存周期长短不一，不同的算法只能针对特定情况具有最好的效果。为此，统计学在垃圾回收算法中产生了较大的作用，现在的垃圾回收算法按对象的存活时间将内存的垃圾回收进行不同的分代。然后分别对不同的内存施以更高效的算法。</p>
+<h3 id="V8的内存分代"><a href="#V8的内存分代" class="headerlink" title="V8的内存分代"></a>V8的内存分代</h3><p>在V8中，主要讲内存分为新生代和老生代两代。新生代中的对象为存活时间较短的对象，老生代中的对象主要为存活时间较长或或者常驻内存的对象。</p>
+<p>所以V8的堆的整体大小就是新生代所用内存空间加上老生代的内存空间。前面提到的改变Node的内存限制就是用以改变新生代和老生代的内存空间的大小。</p>
+<h3 id="Scavenge算法"><a href="#Scavenge算法" class="headerlink" title="Scavenge算法"></a>Scavenge算法</h3><p>在分代的基础上，新生代中的对象主要是通过Scavenge算法进行垃圾回收的。在Scavenge的具体实现中，主要采用了Cheney算法，该算法由C.J.Cheney于1970年首次发表在ACM论文上。</p>
+<p>Cheney算法是一种采用复制的方法实现的垃圾回收算法。它讲堆的内存一分为二，每一部分空间成为semispace。在这两个semispace中，只有一个处于使用中，另一个处于空闲中。处于使用状态的semispace称为From空间，处于闲置状态的空间称为To空间。当我们分配对象时，先是在From空间进行分配。当开始机型垃圾回收时，会检查From空间中的存活对象，这些存活对象将被复制到To空间中，二非存活对象占用的空间将会被释放。完成复制后，From空间和To空间的角色发生对换。简而言之，在垃圾回收的工程中，就是通过讲存活对象在两个semispace空间之间进行复制。</p>
+<p>Scavenge的缺点是只能使用堆内存的一半，这是由划分空间和复制机制决定的。但是Scavenge由于只复制存活的对象，并且对于生命周期短的场景只占少部分，所以它在时间效率上有优异的表现。</p>
+<p>由于Scavenge是典型的空间换时间的算法，所以无法大规模的应用到所有的垃圾回收机制中。但是可以发现，Scavenge非常适合应用在新生代中，因为新生代中对象的生命周期较短，恰恰适合这个算法。所以，V8的堆内存分配应当如下：</p>
+<p><img src="\images\Node-JS的内存控制\V8堆结构.jpg" alt="V8堆结构"></p>
+<p>实际使用的堆是新生代的两个semispace空间大小和老生代所使用的内存大小之和。</p>
+<h4 id="新生代向老生代的转换"><a href="#新生代向老生代的转换" class="headerlink" title="新生代向老生代的转换"></a>新生代向老生代的转换</h4><p>在V8中，在两种情况下，新生代的对象会转变为老生代的对象（对象晋升）：</p>
+<ol>
+<li>当一个对象从From空间中复制到To空间时，会检查它的内存地址来判断这个对象是否已经经历过一次Scavenge回收，如果已经经历过了，会检查它的内存来判断这个对象是否已经经历过一次Scavenge回收，如果经历过了，将该对象从From空间复制到老生代空间中，如果没有，则复制到To空间中。</li>
+<li>当要从From空间复制一个对象到To空间时，如果To空间的内存占用使用超过了25%，则这个对象直接晋升到老生代空间中。这个限制的原因在于当这次Scavenge回收完成后，这个To空间将会变成From空间，接下来的内存分将会在这个空间中进行。如果占比过高，会影响后续的内存分配。</li>
+</ol>
+<h3 id="Mark-Sweep-amp-Mark-Compact"><a href="#Mark-Sweep-amp-Mark-Compact" class="headerlink" title="Mark-Sweep &amp; Mark-Compact"></a>Mark-Sweep &amp; Mark-Compact</h3><p>在老生代的对象中，由于存活对象占较大的比例，再采用Scavenge算法就会出现两个问题：</p>
+<ol>
+<li>存活的对象较多，复制存活对象的效率会降低。</li>
+<li>浪费另一半内存的弊端在这个就先会放大。</li>
+</ol>
+<p>为此，V8再老生代中主要采用了Mark-Sweep和Mark-Compact相结合的方式进行垃圾回收。</p>
+<h4 id="Mark-Sweep"><a href="#Mark-Sweep" class="headerlink" title="Mark-Sweep"></a>Mark-Sweep</h4><p>Mark-Sweep即标记清楚，它分为标记和清楚两个阶段。其核心在于，Mark-Sweep再标记阶段遍历堆中的所有对象，并标记活着的对象，再随后的清楚阶段中，只清楚没有被标记的对象。</p>
+<p>可以看出，Scavenge中只复制或者的对象，而Mark-Sweep只清除死亡的对象。</p>
+<p>而活对象在新生代中只占小部分，死对象在老生代只占较少部分，所以这两种算法刚好能够发挥最大性能。示意图如下（黑色表示死亡的对象）：</p>
+<p><img src="\images\Node-JS的内存控制\mark-sweep.jpg" alt="mark-sweep"></p>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><p>Mark-Sweep最大问题在于一次标记清除回收后，内存空间会出现不连续的状态。这种内存碎片会对后面的内存分配造成问题，因为可能会出现需要分配一个大对象的情况，这时所有的碎片空间都无法完成此次分配，就提前触发垃圾回收，而这次回收是不必要的。</p>
+<h4 id="Mark-Compact"><a href="#Mark-Compact" class="headerlink" title="Mark-Compact"></a>Mark-Compact</h4><p>为了解决上面Mark-Sweep的碎片问题，在Mark-Sweep上的基础上提出了Mark-Compact，即标记整理。他们的差别在，Mark-Compact会在对象被标记为死亡后，在整理的过程中，将活着的对象向一端移动，移动完成后，直接清理掉边界外的内存。示意图如下（白色各自为存活对象，深色格子为死亡对象，浅色对象为存活对象移动后留下的空间）：</p>
+<p><img src="\images\Node-JS的内存控制\mark-compact.jpg" alt="mark-compact"></p>
+<p>完成移动后，就可以直接清除最右边的存活对象后面的内存区域完成回收。</p>
+<p>但是由于Mark-Sweep与Mark-Compact的时间复杂度有很大差距，所以V8采用了结合使用的方式。将其对比如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数/回收算法</th>
+<th>Mark-Sweep</th>
+<th>Mark-Compact</th>
+<th>Scavenge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>速度</td>
+<td>较慢</td>
+<td>很慢</td>
+<td>较快</td>
+</tr>
+<tr>
+<td>碎片</td>
+<td>有</td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td>空间开销</td>
+<td>少</td>
+<td>少</td>
+<td>双倍空间</td>
+</tr>
+<tr>
+<td>发生移动</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<p>具体上，V8主要使用Mark-Sweep，在空间不足以对从新生代晋升过来的对象进行分配时才使用Mark-Compact。</p>
+<h4 id="Incremental-Marking"><a href="#Incremental-Marking" class="headerlink" title="Incremental Marking"></a>Incremental Marking</h4><p>为了避免出现JavaScript逻辑与垃圾回收器看到的不一致的情况，垃圾回收的3种基本算法都要讲应该逻辑暂停下来，带执行完毕垃圾回收后再恢复执行应用的逻辑，这种行为被称为”全停顿“（stop-the-world）。在V8的分布式垃圾回收中，一次小垃圾的回收只影响新生代，由于新生代默认配置得比较少，且存活对象较多，全堆垃圾回收（full垃圾回收）得标记、清理、整理等动作造成得停顿就会比较可怕，需要设法改善。</p>
+<p>为了降低全堆垃圾回收带来的停顿时间，V8先从标记阶段入手，将原本要一口气停顿完成的动作改为增量标记（incremental marking），也就是将回收的时间拆分为多个小”步进“，每做完一个”步进“，就让JavaScript应用逻辑执行一会，垃圾回收与应用逻辑交替执行直到标记阶段完成。</p>
+<p>经过改进，垃圾回收的最大停顿时间可以减少到原来的1/6左右。</p>
+<p>V8后续还引入了延迟清理（lazy sweeping）与增量式整理（incremental compaction），让清理与整理的动作也变为增量式的。同时还引入了并行标记和并行清理，进一步利用多核性能降低每次的停顿动作。 </p>
+<h2 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h2><p>我们可以通过在Node启动的时候加上<code>trace_gc</code>来查看Node的垃圾回收日志。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --trace_gc app.js</span><br></pre></td></tr></table></figure>
+<p>下面贴出一部分运行时日志示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[14632:000002A161C54EC0]   395853 ms: Scavenge 21.0 (24.3) -&gt; 19.8 (22.0) MB, 1.4 / 0.0 ms  (average mu = 0.995, current mu = 0.962) allocation failure </span><br><span class="line">[14632:000002A161C54EC0]   395862 ms: Scavenge 20.5 (22.0) -&gt; 20.1 (22.3) MB, 2.0 / 0.0 ms  (average mu = 0.995, current mu = 0.962) allocation failure </span><br><span class="line">[14632:000002A161C54EC0]   395870 ms: Scavenge 20.7 (22.3) -&gt; 20.4 (22.5) MB, 1.9 / 0.0 ms  (average mu = 0.995, current mu = 0.962) allocation failure</span><br><span class="line">[14632:000002A161C54EC0]   395879 ms: Scavenge 21.1 (22.5) -&gt; 20.5 (22.8) MB, 2.3 / 0.0 ms  (average mu = 0.995, current mu = 0.962) allocation failure </span><br><span class="line">[14632:000002A161C54EC0]   395915 ms: Mark-sweep 21.0 (22.8) -&gt; 14.1 (20.0) MB, 10.8 / 0.0 ms  (+ 0.3 ms <span class="keyword">in</span> 3 steps since start of marking, biggest step 0.1 ms, walltime since start of marking 30 ms) (average mu = 1.000, current mu = 1.000) finalize incremental marking via task GC <span class="keyword">in</span> old space requested</span><br></pre></td></tr></table></figure>
+<p>通过垃圾回收日志，可以了解垃圾回收的运行状态，找出垃圾回收的哪些阶段比较耗时，触发的原因是什么。</p>
+<p>在启动的时候加上<code>--prof</code>参数可以得到V8运行时的性能分析数据。期中也包含垃圾回收时占用的时间。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --prof app.js</span><br></pre></td></tr></table></figure>
+<p>这将会在文件根目录生成一个xxx-v8.log文件，从这个文件可以读到每个内存的动作（包括shared libraries, code-creation, sfi, tick等），但是仍然不是很好读，下面是一段示例代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">v8-version,7,7,299,13,-node.16,0</span><br><span class="line">shared-library,C:\\Program Files\\nodejs\\node.exe,0x7ff76b1a0000,0x7ff76cfc1000,0</span><br><span class="line">shared-library,C:\\Windows\\SYSTEM32\\ntdll.dll,0x7ffcc8750000,0x7ffcc8945000,0</span><br><span class="line">shared-library,C:\\Windows\\System32\\KERNEL32.DLL,0x7ffcc6dd0000,0x7ffcc6e8d000,0</span><br><span class="line">shared-library,C:\\Windows\\System32\\KERNELBASE.dll,0x7ffcc60c0000,0x7ffcc6388000,0</span><br><span class="line">shared-library,C:\\Windows\\System32\\WS2_32.dll,0x7ffcc7270000,0x7ffcc72db000,0</span><br><span class="line">shared-library,C:\\Windows\\System32\\RPCRT4.dll,0x7ffcc6920000,0x7ffcc6a4b000,0</span><br><span class="line">...</span><br><span class="line">code-creation,Builtin,3,156659,0x7ff76bede690,86,Construct</span><br><span class="line">code-creation,Builtin,3,156665,0x7ff76bede6f0,78,ConstructVarargs</span><br><span class="line">code-creation,Builtin,3,156672,0x7ff76bede750,1028,ConstructWithSpread</span><br><span class="line">code-creation,Builtin,3,156678,0x7ff76bedeb70,1080,ConstructWithArrayLike</span><br><span class="line">code-creation,Builtin,3,156685,0x7ff76bedefb0,142,ConstructForwardVarargs</span><br><span class="line">code-creation,Builtin,3,156692,0x7ff76bedf050,142,ConstructFunctionForwardVarargs</span><br><span class="line">code-creation,Builtin,3,156699,0x7ff76bedf0f0,328,JSConstructStubGeneric</span><br><span class="line">code-creation,Builtin,3,156706,0x7ff76bedf250,244,JSBuiltinsConstructStub</span><br><span class="line">code-creation,Builtin,3,156712,0x7ff76bedf350,947,FastNewObject</span><br><span class="line">...</span><br><span class="line">sfi-move,0x3a2b6497110,0xde45da4bb8</span><br><span class="line">sfi-move,0x3a2b6497160,0xde45da3f50</span><br><span class="line">sfi-move,0x3a2b64971b0,0xde45da3fa0</span><br><span class="line">sfi-move,0x3a2b6497200,0xde45da3ff0</span><br><span class="line">...</span><br><span class="line">tick,0x7ffcc87efb14,66266607,0,0x0,6</span><br><span class="line">tick,0x7ffcc87efb14,66283096,0,0x0,6</span><br><span class="line">tick,0x7ffcc87efb14,66298653,0,0x0,6</span><br><span class="line">tick,0x7ffcc87efb14,66314624,0,0x0,6</span><br><span class="line">tick,0x7ffcc87efb14,66330633,0,0x0,6</span><br><span class="line">tick,0x7ffcc87efb14,66346563,0,0x0,6</span><br><span class="line">tick,0x7ffcc87efb14,66362684,0,0x0,6</span><br><span class="line">tick,0x7ffcc87efb14,66378772,0,0x0,6</span><br><span class="line">tick,0x7ffcc87efb14,66394645,0,0x0,6</span><br><span class="line">tick,0x7ffcc87efb14,66410815,0,0x0,6</span><br></pre></td></tr></table></figure>
+<p>我们可以通过V8提供的API：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --prof-process isolate-0xnnnnnnnnnnnn-v8.log &gt; processed.txt</span><br></pre></td></tr></table></figure>
+<p>生成profile文件，下面是例子（部分）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Statistical profiling result from .\isolate-000001A24906A4A0-14888-v8.log, (4214 ticks, 0 unaccounted, 0 excluded).</span><br><span class="line"></span><br><span class="line"> [Shared libraries]:</span><br><span class="line">   ticks  total  nonlib   name</span><br><span class="line">   4141   98.3%          C:\Windows\SYSTEM32\ntdll.dll</span><br><span class="line">     71    1.7%          C:\Program Files\nodejs\node.exe</span><br><span class="line"></span><br><span class="line"> [JavaScript]:</span><br><span class="line">   ticks  total  nonlib   name</span><br><span class="line">      1    0.0%   50.0%  LazyCompile: *resolve path.js:130:10</span><br><span class="line">      1    0.0%   50.0%  LazyCompile: *nextPart fs.js:1433:31</span><br><span class="line"></span><br><span class="line"> [C++]:</span><br><span class="line">   ticks  total  nonlib   name</span><br><span class="line"></span><br><span class="line"> [Summary]:</span><br><span class="line">   ticks  total  nonlib   name</span><br><span class="line">      2    0.0%  100.0%  JavaScript</span><br><span class="line">      0    0.0%    0.0%  C++</span><br><span class="line">      9    0.2%  450.0%  GC</span><br><span class="line">   4212  100.0%          Shared libraries</span><br></pre></td></tr></table></figure>
+<p>也可以采用其他第三方工具进行分析，具体不在细讲。</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>V8的这些限制在浏览器端看起来很合理，一个页面很少能占用超多2GB内存，但是在服务端，这就显得捉襟见肘了，为此，Node开发了<code>Buffer</code>，<code>Stream</code>等模块，来弥补V8的不足，后面会陆续详解。</p>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>本文大部分参考《深入浅出nodejs》以及<a href="https://nodejs.org/" target="_blank" rel="noopener">Node</a>官网</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/04/27/NodeJS学习3-内存控制/" target="_blank" title="NodeJS学习3-内存控制">http://yoursite.com/2021/04/27/NodeJS学习3-内存控制/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/24/NodeJS学习2-异步的原理和应用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">NodeJS学习2-异步的原理和应用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#V8的内存分配"><span class="nav-number">1.</span> <span class="nav-text">V8的内存分配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原因"><span class="nav-number">1.0.1.</span> <span class="nav-text">原因</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V8的垃圾回收机制"><span class="nav-number">2.</span> <span class="nav-text">V8的垃圾回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#V8主要的垃圾回收算法"><span class="nav-number">2.1.</span> <span class="nav-text">V8主要的垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#V8的内存分代"><span class="nav-number">2.1.1.</span> <span class="nav-text">V8的内存分代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scavenge算法"><span class="nav-number">2.1.2.</span> <span class="nav-text">Scavenge算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新生代向老生代的转换"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">新生代向老生代的转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mark-Sweep-amp-Mark-Compact"><span class="nav-number">2.1.3.</span> <span class="nav-text">Mark-Sweep &amp; Mark-Compact</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mark-Sweep"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">Mark-Sweep</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">2.1.3.1.1.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mark-Compact"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">Mark-Compact</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Incremental-Marking"><span class="nav-number">2.1.3.3.</span> <span class="nav-text">Incremental Marking</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看日志"><span class="nav-number">2.2.</span> <span class="nav-text">查看日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决办法"><span class="nav-number">3.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

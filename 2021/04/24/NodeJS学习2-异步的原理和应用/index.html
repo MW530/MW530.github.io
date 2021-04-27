@@ -6,13 +6,13 @@
   <title>nodejs学习2-异步的原理和应用 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Node.js模块">
+  <meta name="keywords" content="Node.js异步">
   
   
   
   
   <meta name="description" content="内部原理理想的非阻塞异步I/O完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。">
-<meta name="keywords" content="Node.js,模块">
+<meta name="keywords" content="Node.js,异步">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NodeJS学习2-异步的原理和应用">
 <meta property="og:url" content="http://yoursite.com/2021/04/24/NodeJS学习2-异步的原理和应用/index.html">
@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/整个异步IO流程.jpg">
 <meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/setTimeout.jpg">
 <meta property="og:image" content="http://yoursite.com/images/Node-JS的异步原理和应用/async.png">
-<meta property="og:updated_time" content="2021-04-26T13:50:20.967Z">
+<meta property="og:updated_time" content="2021-04-27T06:15:13.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NodeJS学习2-异步的原理和应用">
 <meta name="twitter:description" content="内部原理理想的非阻塞异步I/O完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。">
@@ -377,6 +377,7 @@
 <li><a href="https://michaelwang.top/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/" target="_blank" rel="noopener">Promise的实现</a></li>
 <li><a href="https://michaelwang.top/2019/06/28/Promise%E7%90%86%E8%A7%A3/" target="_blank" rel="noopener">Promise理解</a></li>
 </ol>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>本文大部分参考《深入浅出nodejs》以及<a href="https://nodejs.org/" target="_blank" rel="noopener">Node</a>官网</p>
 
       
     </div>
@@ -449,6 +450,15 @@ var a = new Donate({
     
 <nav id="article-nav">
   
+    <a href="/2021/04/27/NodeJS学习3-内存控制/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          NodeJS学习3-内存控制
+        
+      </div>
+    </a>
+  
   
     <a href="/2021/04/22/NodeJS学习1-模块机制/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
@@ -466,7 +476,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#内部原理"><span class="nav-number">1.</span> <span class="nav-text">内部原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#理想的非阻塞异步I-O"><span class="nav-number">1.1.</span> <span class="nav-text">理想的非阻塞异步I/O</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现实的异步I-O"><span class="nav-number">1.2.</span> <span class="nav-text">现实的异步I/O</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#执行原理"><span class="nav-number">2.</span> <span class="nav-text">执行原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件循环"><span class="nav-number">2.1.</span> <span class="nav-text">事件循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者"><span class="nav-number">2.2.</span> <span class="nav-text">观察者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求对象"><span class="nav-number">2.3.</span> <span class="nav-text">请求对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行回调"><span class="nav-number">2.4.</span> <span class="nav-text">执行回调</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#非I-O的异步API"><span class="nav-number">3.</span> <span class="nav-text">非I/O的异步API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定时器"><span class="nav-number">3.1.</span> <span class="nav-text">定时器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#process-nextTick"><span class="nav-number">3.2.</span> <span class="nav-text">process.nextTick()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setIMmediate"><span class="nav-number">3.3.</span> <span class="nav-text">setIMmediate()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">3.3.1.</span> <span class="nav-text">例子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异步编程的优势与难点"><span class="nav-number">4.</span> <span class="nav-text">异步编程的优势与难点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优势"><span class="nav-number">4.1.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#难点"><span class="nav-number">4.2.</span> <span class="nav-text">难点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异常处理"><span class="nav-number">4.2.1.</span> <span class="nav-text">异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数嵌套过深"><span class="nav-number">4.2.2.</span> <span class="nav-text">函数嵌套过深</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#async函数解决办法"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">async函数解决办法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞代码"><span class="nav-number">4.2.3.</span> <span class="nav-text">阻塞代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#setTimeout实现"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">setTimeout实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setTimeout配合async实现"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">setTimeout配合async实现</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异步编程的解决方案"><span class="nav-number">5.</span> <span class="nav-text">异步编程的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件发布订阅模式"><span class="nav-number">5.1.</span> <span class="nav-text">事件发布订阅模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-Deferred模式"><span class="nav-number">5.2.</span> <span class="nav-text">Promise/Deferred模式</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#内部原理"><span class="nav-number">1.</span> <span class="nav-text">内部原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#理想的非阻塞异步I-O"><span class="nav-number">1.1.</span> <span class="nav-text">理想的非阻塞异步I/O</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现实的异步I-O"><span class="nav-number">1.2.</span> <span class="nav-text">现实的异步I/O</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#执行原理"><span class="nav-number">2.</span> <span class="nav-text">执行原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件循环"><span class="nav-number">2.1.</span> <span class="nav-text">事件循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者"><span class="nav-number">2.2.</span> <span class="nav-text">观察者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求对象"><span class="nav-number">2.3.</span> <span class="nav-text">请求对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行回调"><span class="nav-number">2.4.</span> <span class="nav-text">执行回调</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#非I-O的异步API"><span class="nav-number">3.</span> <span class="nav-text">非I/O的异步API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定时器"><span class="nav-number">3.1.</span> <span class="nav-text">定时器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#process-nextTick"><span class="nav-number">3.2.</span> <span class="nav-text">process.nextTick()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setIMmediate"><span class="nav-number">3.3.</span> <span class="nav-text">setIMmediate()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">3.3.1.</span> <span class="nav-text">例子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异步编程的优势与难点"><span class="nav-number">4.</span> <span class="nav-text">异步编程的优势与难点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优势"><span class="nav-number">4.1.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#难点"><span class="nav-number">4.2.</span> <span class="nav-text">难点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异常处理"><span class="nav-number">4.2.1.</span> <span class="nav-text">异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数嵌套过深"><span class="nav-number">4.2.2.</span> <span class="nav-text">函数嵌套过深</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#async函数解决办法"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">async函数解决办法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞代码"><span class="nav-number">4.2.3.</span> <span class="nav-text">阻塞代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#setTimeout实现"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">setTimeout实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setTimeout配合async实现"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">setTimeout配合async实现</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异步编程的解决方案"><span class="nav-number">5.</span> <span class="nav-text">异步编程的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事件发布订阅模式"><span class="nav-number">5.1.</span> <span class="nav-text">事件发布订阅模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-Deferred模式"><span class="nav-number">5.2.</span> <span class="nav-text">Promise/Deferred模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引用"><span class="nav-number">6.</span> <span class="nav-text">引用</span></a></li></ol>
     
     </div>
   </aside>

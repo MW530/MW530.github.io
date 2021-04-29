@@ -282,6 +282,114 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-设计模式4-迭代器模式"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/03/01/设计模式4-迭代器模式/">设计模式4-迭代器模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/03/01/设计模式4-迭代器模式/" class="article-date">
+	  <time datetime="2021-03-01T02:30:22.000Z" itemprop="datePublished">2021-03-01</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/迭代器模式/">迭代器模式</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          迭代器模式定义迭代器模式是指提供一种方法顺序访问一个集合对象中的各个元素，而不需要暴露该对象的内部表示。
+遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
+主要解决不需要关心对象内部表示来遍历整个对象。
+内部迭代器内部迭代器是指事先定义好迭代器的迭代规则，他完全接受整个迭代过程，外部只需要一次初始调用。
+实现我们实现一个each内部迭代器，接...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/03/01/设计模式4-迭代器模式/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-设计模式3-代理模式"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/02/27/设计模式3-代理模式/">设计模式3-代理模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/02/27/设计模式3-代理模式/" class="article-date">
+	  <time datetime="2021-02-27T06:32:20.000Z" itemprop="datePublished">2021-02-27</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          代理模式定义当目标对象不方便直接访问或者访问者不满住要求的时候，提供一个代理对象来控制对目标对象的访问。访问者实际上访问的是代理对象。代理对象对请求做出一些处理之后，再把请求转交给目标对象。
+主要解决在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有些对象由于某些原因（比如对象创建开销很大，或者某些操作需要安全控制，或者需要进程外的访问），直接访问会给使用者或者系统结构带来很多麻烦，我们可以在访问此对象时加上一个对此对象的访问层。
+优缺点优点
+职责清晰。
+...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/02/27/设计模式3-代理模式/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-设计模式2-策略模式"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -722,113 +830,6 @@ rejected：
         </p>
         <p class="article-more-link">
           <a href="/2021/01/31/全面理解JavaScript作用域与闭包/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-bind-call-apply的用法及实现"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/01/27/bind-call-apply的用法及实现/">bind,call,apply的用法及实现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/01/27/bind-call-apply的用法及实现/" class="article-date">
-	  <time datetime="2021-01-27T09:57:04.000Z" itemprop="datePublished">2021-01-27</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          bindbind() 方法创建一个新的函数，在 bind() 被调用时，这个新函数的 this 被指定为 bind() 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。
-参数thisArg
-调用绑定函数时作为 this 参数传递给目标函数的值。 
-
-如果使用new运算符构造绑定函数，则忽略该值。
-当使用 bind 在 setTimeout 中创建一个函数（作为回调提供）时，作为 thisArg 传递的任何原始值都将转换为 object。
-如果 bind 函数的参数列表为空，或者t...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/01/27/bind-call-apply的用法及实现/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-JavaScript中数组与对象的遍历方法"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/01/26/JavaScript中数组与对象的遍历方法/">JavaScript中数组与对象的遍历方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/01/26/JavaScript中数组与对象的遍历方法/" class="article-date">
-	  <time datetime="2021-01-26T05:48:19.000Z" itemprop="datePublished">2021-01-26</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          数组for循环最传统的方法，按下标存取，也是最高效的方法
-123456789101112let arr = [1,2,3,4]for(let i = 0; i &lt; arr.length; i++)&#123;    console.log(arr[i])&#125;//1，2，3，4//不用每次计算len，更加高效for(let i = 0, let len = arr.length; i &lt; len; i++)&#123;    console.log(arr[i])&#12...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/01/26/JavaScript中数组与对象的遍历方法/#more">Read More</a>
         </p>
       
     </div>

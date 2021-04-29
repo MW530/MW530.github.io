@@ -282,6 +282,113 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-javaScript深入解析3-类与行为委托"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/07/19/javaScript深入解析3-类与行为委托/">javaScript深入解析3-类与行为委托</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/07/19/javaScript深入解析3-类与行为委托/" class="article-date">
+	  <time datetime="2019-07-19T14:11:44.000Z" itemprop="datePublished">2019-07-19</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/javaScript/">javaScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          JavaScript中“纠结的类”正如前文所说，JavaScript中并没有传统意义上的“类”，可能是因为在JavaScript这门脚本语言诞生之初，并没有人会他会有如今的成就，所以就借用了Self语言的基于原型的面向对象设计。具体可以看JavaScript的诞生
+
+面向对象编程（OOP）面向对象编程是一种编程思想，其重要思维体现在：
+
+封装性：讲一组方法，变量封装在一个“模块”中，一般来说是一个类。
+继承性：继承性是面向对象技术中的另外一个重要特点，是指一个类继承另一个类的方法，类的继承...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/07/19/javaScript深入解析3-类与行为委托/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-javaScript深入解析2-原型及原型链"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/07/18/javaScript深入解析2-原型及原型链/">javaScript深入解析2-原型及原型链</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/07/18/javaScript深入解析2-原型及原型链/" class="article-date">
+	  <time datetime="2019-07-18T12:05:44.000Z" itemprop="datePublished">2019-07-18</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          关于原型(prototype)原型可以说是JavaScript设计中最特殊，也可以说是最精髓的设计，他遍布整个JavaScript对象。几乎也是整个JavaScript技术的核心，只有熟悉了原型，才能充分理解JavaScript中的类与委托机制了。
+whatQ：什么是原型呢？
+A：在所有对象中都有一个特殊的[[Prototype]]属性，其实就是对其他对象的引用。几乎所有的对象在创建时[[Prototype]]都会被赋予一个非空的值。(注意，部分浏览器将该属性暴露出来，并命名为 __pro...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/07/18/javaScript深入解析2-原型及原型链/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-javaScript深入解析1-this关键字"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -700,131 +807,6 @@ const register = {templat...
         </p>
         <p class="article-more-link">
           <a href="/2019/03/12/Image对象的complete与onload()事件(以及Canvas的drawImage()函数)/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-canvas基础"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/03/10/canvas基础/">canvas基础</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/03/10/canvas基础/" class="article-date">
-	  <time datetime="2019-03-10T13:56:25.000Z" itemprop="datePublished">2019-03-10</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Canvas/">Canvas</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          创建canvas画布css:
-canvas{
-            border:3px solid blue;
-        }
-
-html:
-&lt;canvas width=&quot;700&quot; height=&quot;700&quot; id=&quot;myCanvas&quot;&gt;
-        您的浏览器不支持canvas，请更换浏览器访问！
-    &lt;/canvas&gt;
-
-Javascript:
-
-    &lt;script&gt;
-  ...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/03/10/canvas基础/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-JavaScript中的.与[]的区别"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/03/03/JavaScript中的.与[]的区别/">JavaScript中的.与[]的区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/03/03/JavaScript中的.与[]的区别/" class="article-date">
-	  <time datetime="2019-03-03T04:17:00.000Z" itemprop="datePublished">2019-03-03</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          叨叨一下最近在看ES6，感觉很有意思啊。然后就遇到了这个问题，.(点)与[] (方括号)的区别。
-
-正文这个问题是在遍历器(Iterator)这一部分发现的，其中对于不存在遍历器的数据结构，比如一个对象。我们可以自定义一个遍历器，就可以实现forEach,for…in…等方法。然后就出现下面这段语句：
-var arrlike = {
-    0:a,
-    1:b,
-    2:c
-}
-
-arrlike.[Symbol.iterator](){
-    //遍历器内容，略
-}
-问题就在：...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/03/03/JavaScript中的.与[]的区别/#more">Read More</a>
         </p>
       
     </div>

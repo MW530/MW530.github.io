@@ -282,6 +282,112 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-TypeScript特点2"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/10/TypeScript特点2/">TypeScript特点2</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/10/TypeScript特点2/" class="article-date">
+	  <time datetime="2021-01-10T06:40:17.000Z" itemprop="datePublished">2021-01-10</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/TypeScript/">TypeScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          类型兼容性TS中的类型兼容性是基于结构子类型的。结构类型是一种只使用其成员来描述类型的方式。 与Java不同，Java的强制转换是基于继承的，只有有继承关系的对象才可以进行转换。
+即只要对象中的成员有包含关系，则可以进行类型转换。如，
+1234567891011interface Named &#123;    name: string;&#125;class Person &#123;    name: string;&#125;let p: Named;// OK, because o...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/10/TypeScript特点2/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-TypeScript特点1"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/09/TypeScript特点1/">TypeScript特点1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/09/TypeScript特点1/" class="article-date">
+	  <time datetime="2021-01-09T07:18:36.000Z" itemprop="datePublished">2021-01-09</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/TypeScript/">TypeScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          基础类型VoidTS中增加了void类型，用于表示没有任何类型，一般也是用于一个函数没有返回值，但是与其他语言不同的是，TS允许一个变量直接声明为Void型（虽然这没什么用）。
+1let unusable: void = undefined;
+void型变量只能被赋值undefined,null
+Null 和 Undefined这里的null与undefined与JS中基本一致，其是所有类型的子类，即所有的变量都可被赋值为null与undifined。
+Nevernever表示那些永远不存...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/09/TypeScript特点1/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-2020-奋斗的一年"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -703,118 +809,6 @@ Vue初始化Vue原型是在src/instance/idnex.js中定义的：
         </p>
         <p class="article-more-link">
           <a href="/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-2019年的我，21岁的人生"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/04/2019年的我，21岁的人生/">2019年的我，21岁的人生</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/04/2019年的我，21岁的人生/" class="article-date">
-	  <time datetime="2020-01-04T02:59:17.000Z" itemprop="datePublished">2020-01-04</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/生活/">生活</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          
-
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc....
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/04/2019年的我，21岁的人生/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-react中的事件绑定"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/12/22/react中的事件绑定/">react中的事件绑定</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/12/22/react中的事件绑定/" class="article-date">
-	  <time datetime="2019-12-22T08:39:36.000Z" itemprop="datePublished">2019-12-22</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/React/">React</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          遇到的问题最近想试一下React，之前一直用Vue在写东西。稍微看了几篇教程后，就开始写，能够基本运行起来，可能是因为项目比较简单吧。但是也遇到了几个问题，首先就是React的事件绑定问题：
-我第一次的写法是：
-12345handleEvent()&#123;	console.log("test")&#125;&lt;Button onClick="handleEvent"&gt; &lt;/Button&gt;
-这样普通的点击事件是能够正常触发的。
-this的指向问题但是当我要使用thi...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/12/22/react中的事件绑定/#more">Read More</a>
         </p>
       
     </div>

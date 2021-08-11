@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>聚类的几种算法简述 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="机器学习聚类">
+  
+  
+  
+  
+  <meta name="description" content="聚类聚类是无监督学习中应用最广泛的算法。聚类会将数据集中的样本划分为若干个不同的子集，每个子集称为一个簇。 原型聚类原型聚类假设聚类结构能通过一组原型刻画。通常情况下，该类算法先对原型进行初始化，然后对原型进行迭代更新求解。 k均值算法（k-means）该算法的目的是最小化每个簇中每个样本到对应原型的距离。 但是直接求解的话会是一个NP难问题，较难求解，因此我们仍然采用迭代更新的贪心算法来求解可能">
+<meta name="keywords" content="机器学习,聚类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聚类的几种算法简述">
+<meta property="og:url" content="http://yoursite.com/2021/08/11/聚类的几种算法简述/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="聚类聚类是无监督学习中应用最广泛的算法。聚类会将数据集中的样本划分为若干个不同的子集，每个子集称为一个簇。 原型聚类原型聚类假设聚类结构能通过一组原型刻画。通常情况下，该类算法先对原型进行初始化，然后对原型进行迭代更新求解。 k均值算法（k-means）该算法的目的是最小化每个簇中每个样本到对应原型的距离。 但是直接求解的话会是一个NP难问题，较难求解，因此我们仍然采用迭代更新的贪心算法来求解可能">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-08-11T17:21:41.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="聚类的几种算法简述">
+<meta name="twitter:description" content="聚类聚类是无监督学习中应用最广泛的算法。聚类会将数据集中的样本划分为若干个不同的子集，每个子集称为一个簇。 原型聚类原型聚类假设聚类结构能通过一组原型刻画。通常情况下，该类算法先对原型进行初始化，然后对原型进行迭代更新求解。 k均值算法（k-means）该算法的目的是最小化每个簇中每个样本到对应原型的距离。 但是直接求解的话会是一个NP难问题，较难求解，因此我们仍然采用迭代更新的贪心算法来求解可能">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-聚类的几种算法简述" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      聚类的几种算法简述
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/08/11/聚类的几种算法简述/" class="article-date">
+	  <time datetime="2021-08-11T15:40:33.000Z" itemprop="datePublished">2021-08-11</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/聚类/">聚类</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h1><p>聚类是无监督学习中应用最广泛的算法。聚类会将数据集中的样本划分为若干个不同的子集，每个子集称为一个簇。</p>
+<h2 id="原型聚类"><a href="#原型聚类" class="headerlink" title="原型聚类"></a>原型聚类</h2><p>原型聚类假设聚类结构能通过一组原型刻画。通常情况下，该类算法先对原型进行初始化，然后对原型进行迭代更新求解。</p>
+<h3 id="k均值算法（k-means）"><a href="#k均值算法（k-means）" class="headerlink" title="k均值算法（k-means）"></a>k均值算法（k-means）</h3><p>该算法的目的是最小化每个簇中每个样本到对应原型的距离。</p>
+<p>但是直接求解的话会是一个NP难问题，较难求解，因此我们仍然采用迭代更新的贪心算法来求解可能的最近似解。值得注意的是，这样并不一定能求得最优解。</p>
+<p>其算法大致思想如下：</p>
+<ol>
+<li>初始化簇的数目K和一组原型向量（从样本中随机选择K个）</li>
+<li>迭代每个样本和原型向量，为每个样本找到其距离最近的簇，并将其划为到对应的簇中。</li>
+<li>重新计算每个簇对应的原型向量</li>
+<li>检查新的原型向量和原来的原型向量是否相等，如果全部更新就停止迭代，即找到了最近似解。</li>
+</ol>
+<p>python代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Created on Tue Aug 10 15:17:10 2021</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">@author: mw530</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProBasedClusterin</span>:</span></span><br><span class="line">    clusterNum = <span class="number">3</span></span><br><span class="line">    data = <span class="keyword">None</span></span><br><span class="line">    dataLen = <span class="number">0</span></span><br><span class="line">    clusterVector = []</span><br><span class="line">    clusterSplit = []</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,  data, clusterNum = <span class="number">3</span>)</span>:</span></span><br><span class="line">        self.clusterNum = clusterNum</span><br><span class="line">        self.data = data</span><br><span class="line">        self.dataLen = data.shape[<span class="number">0</span>]</span><br><span class="line">        randArray = self.uniqueRandInt(clusterNum, <span class="number">0</span>, self.data.shape[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(clusterNum):</span><br><span class="line">            self.clusterVector.append(data[randArray[i]])</span><br><span class="line">            self.clusterSplit.append([])</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniqueRandInt</span><span class="params">(self, num, low, high)</span>:</span></span><br><span class="line">        randArray = []</span><br><span class="line">        currNum = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> currNum &lt; num:</span><br><span class="line">            randInt = np.random.randint(low, high)</span><br><span class="line">            <span class="keyword">if</span> randInt <span class="keyword">not</span> <span class="keyword">in</span> randArray:</span><br><span class="line">                randArray.append(randInt)</span><br><span class="line">                currNum += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> randArray</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eucDistance</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> np.sqrt(np.sum((x - y)**<span class="number">2</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(self)</span>:</span></span><br><span class="line">        vectorChangeNum = <span class="number">-1</span></span><br><span class="line">        cycle = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> vectorChangeNum != <span class="number">0</span>:</span><br><span class="line">            cycle += <span class="number">1</span></span><br><span class="line">            vectorChangeNum = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(self.clusterNum):</span><br><span class="line">                self.clusterSplit[i] = []</span><br><span class="line">            <span class="comment"># 将每个样本分到对应的簇</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(self.dataLen):</span><br><span class="line">                minDis  = <span class="number">9999999</span></span><br><span class="line">                clusterIndex = <span class="number">-1</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(self.clusterNum):</span><br><span class="line">                    dis = self.eucDistance(self.data[i], self.clusterVector[j])</span><br><span class="line">                    <span class="keyword">if</span>(dis &lt; minDis):</span><br><span class="line">                        minDis = dis</span><br><span class="line">                        clusterIndex = j</span><br><span class="line">                self.clusterSplit[clusterIndex].append(self.data[i])</span><br><span class="line">            <span class="comment"># print(self.clusterSplit)</span></span><br><span class="line">            print(<span class="string">"##############################"</span>)</span><br><span class="line">            <span class="comment">#计算每个簇的新原型向量</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(self.clusterNum):</span><br><span class="line">                vector = np.mean(self.clusterSplit[i], axis=<span class="number">0</span>)</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> (vector == self.clusterVector[i]).all():</span><br><span class="line">                    vectorChangeNum += <span class="number">1</span></span><br><span class="line">                self.clusterVector[i] = vector</span><br><span class="line">            print(<span class="string">"第"</span>, cycle, <span class="string">"次遍历"</span>, <span class="string">"有"</span>, vectorChangeNum, <span class="string">"个原型向量不同"</span>)</span><br><span class="line">            <span class="keyword">if</span> vectorChangeNum == <span class="number">0</span>:</span><br><span class="line">                print(<span class="string">"找到最佳原型向量，共循环"</span>, cycle, <span class="string">"次"</span>)</span><br><span class="line">        <span class="keyword">return</span> self.clusterSplit</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadData</span><span class="params">(name)</span>:</span></span><br><span class="line">    path = <span class="string">'./data/'</span> + name</span><br><span class="line">    file = open(path, <span class="string">'r'</span>)</span><br><span class="line">    csv = pd.read_csv(file)</span><br><span class="line">    arr = np.array(csv)</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line"></span><br><span class="line">data = loadData(<span class="string">'cetics_game.csv'</span>)</span><br><span class="line"><span class="comment"># print(data[1:20, :])</span></span><br><span class="line">clustering = ProBasedClusterin(data)</span><br><span class="line">clusterSplit = clustering.train()</span><br><span class="line"><span class="comment"># print(clusterSplit)</span></span><br></pre></td></tr></table></figure>
+<h3 id="学习向量量化（Learning-Vector-Quantization）"><a href="#学习向量量化（Learning-Vector-Quantization）" class="headerlink" title="学习向量量化（Learning Vector Quantization）"></a>学习向量量化（Learning Vector Quantization）</h3><p>该算法仍然属于原型聚类，因此与K均值相似。也是试图使用一组原型向量来刻画聚类结构。但是该算法假设每个样本有一个标记，学习算法的过程会利用样本的这些监督信息来辅助聚类。</p>
+<p>其算法大致思想如下:</p>
+<ol>
+<li>初始化学习率 μ，原型向量的个数K，K个原型向量（从样本中随机选择）</li>
+<li>从样本集随机选择一个样本x，迭代每个原型向量，找到距离x最近的原型向量p。</li>
+<li></li>
+<li>根据公式p = p ± μ * (x - p) 更新该原型向量。（如果x与p标记相同为＋，否则为-）</li>
+</ol>
+<p>注意该算法的迭代一般就人为确定循环次数。</p>
+<p>python代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Created on Tue Aug 10 18:34:25 2021</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">@author: mw530</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LearningVectorQuan</span>:</span></span><br><span class="line">    protoVecNum = <span class="number">0</span></span><br><span class="line">    eTa = <span class="number">0.5</span></span><br><span class="line">    data = <span class="keyword">None</span></span><br><span class="line">    dataLen = <span class="number">0</span></span><br><span class="line">    labels =<span class="keyword">None</span></span><br><span class="line">    protoVector = []</span><br><span class="line">    protoLabels = []</span><br><span class="line">    cycleNum = <span class="number">1000</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, data, labels, protoVecNum = <span class="number">3</span>, eTa = <span class="number">0.5</span>, cycleNum = <span class="number">1000</span>)</span>:</span></span><br><span class="line">        self.protoVecNum = protoVecNum</span><br><span class="line">        self.eTa = eTa</span><br><span class="line">        self.cycleNum = cycleNum</span><br><span class="line">        self.data = data</span><br><span class="line">        self.labels = labels</span><br><span class="line">        self.dataLen = self.data.shape[<span class="number">0</span>]</span><br><span class="line">        randInt = self.uniqueRandInt(self.protoVecNum, <span class="number">0</span>, self.dataLen - <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> randInt:</span><br><span class="line">            self.protoVector.append(self.data[i])</span><br><span class="line">            self.protoLabels.append(self.labels[i])</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">uniqueRandInt</span><span class="params">(self, num, low, high)</span>:</span></span><br><span class="line">        randArray = []</span><br><span class="line">        currNum = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> currNum &lt; num:</span><br><span class="line">            randInt = np.random.randint(low, high)</span><br><span class="line">            <span class="keyword">if</span> randInt <span class="keyword">not</span> <span class="keyword">in</span> randArray:</span><br><span class="line">                randArray.append(randInt)</span><br><span class="line">                currNum += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> randArray</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eucDistance</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> np.sqrt(np.sum((x - y)**<span class="number">2</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.cycleNum):</span><br><span class="line">            randIndex = np.random.randint(<span class="number">0</span>, self.dataLen - <span class="number">1</span>)</span><br><span class="line">            randData = self.data[randIndex]</span><br><span class="line">            randLabel = self.labels[randIndex][<span class="number">0</span>]</span><br><span class="line">            minIndex = <span class="number">-1</span></span><br><span class="line">            minDis = <span class="number">9999999</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(self.protoVecNum):</span><br><span class="line">                dis = self.eucDistance(randData, self.protoVector[j])</span><br><span class="line">                <span class="keyword">if</span> dis &lt; minDis:</span><br><span class="line">                    minDis = dis</span><br><span class="line">                    minIndex = j</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> randLabel == self.labels[minIndex]:</span><br><span class="line">                self.protoVector[minIndex] = self.protoVector[minIndex] + self.eTa * (randData - self.protoVector[minIndex])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.protoVector[minIndex] = self.protoVector[minIndex] - self.eTa * (randData - self.protoVector[minIndex])</span><br><span class="line">        <span class="keyword">return</span> self.protoVector</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadData</span><span class="params">(name)</span>:</span></span><br><span class="line">    path = <span class="string">'./data/'</span> + name</span><br><span class="line">    file = open(path, <span class="string">'r'</span>)</span><br><span class="line">    csv = pd.read_csv(file)</span><br><span class="line">    arr = np.array(csv)</span><br><span class="line">    <span class="keyword">return</span> arr[:, :<span class="number">-1</span>], arr[:, <span class="number">-1</span>:]</span><br><span class="line"></span><br><span class="line">data, labels = loadData(<span class="string">'cetics_game.csv'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(data, labels)</span></span><br><span class="line">clustering = LearningVectorQuan(data, labels)</span><br><span class="line">clusterSplit = clustering.train()</span><br><span class="line">print(np.array(clusterSplit).shape)</span><br></pre></td></tr></table></figure>
+<h3 id="高斯混合聚类（高斯分布即正态分布）"><a href="#高斯混合聚类（高斯分布即正态分布）" class="headerlink" title="高斯混合聚类（高斯分布即正态分布）"></a>高斯混合聚类（高斯分布即正态分布）</h3><p>与以上两种算法不同，该算法使用的概率模型来表达聚类原型。</p>
+<h2 id="密度聚类"><a href="#密度聚类" class="headerlink" title="密度聚类"></a>密度聚类</h2><p>该算法亦称为“基于密度的聚类”，此类算法假设聚类结构能够通过样本分布的紧密程度确定。并基于可连接样本不断扩展聚类簇以获得最终的聚类结果。</p>
+<p>DBSCAN是一种著名的密度聚类算法，它基于一组“邻域”参数（ε，MinPts）来刻画样本分布的紧密程度。给定数据集D，有一下几个概念需要了解。</p>
+<ul>
+<li>ε-邻域：对于xi∈D，其ε-邻域包括样本集D中与xi距离不大于ε的所有样本。</li>
+<li>核心对象：若xi的ε-邻域中至少包含MinPts个样本，则xi为一个核心对象。</li>
+<li>密度直达：若xi位于xj的ε-邻域中，且xj是一个核心对象，则称xi由xj密度直达。</li>
+<li>密度可达：对于xi和xj，若存在样本序列p1, p2, p3, … , pn，其中p1 = xi, pn = xj, 且pi+1由pi密度直达，则称xj由xi密度直达。</li>
+<li>密度相连：对xi与xj，若存在xk使得xi与xj均由xk密度可达，则称xi与xj密度相连。</li>
+</ul>
+<p>该算法的核心思想如下：</p>
+<ol>
+<li>算法先根据给定的邻域参数（ε， MinPts）找出所有的核心对象</li>
+<li>以任一核心对象为出发点，找出由其密度可达的样本生成聚类簇，直到所有核心对象均被访问过。</li>
+</ol>
+<h2 id="层次聚类"><a href="#层次聚类" class="headerlink" title="层次聚类"></a>层次聚类</h2><p>层次聚类（hierarchical clustering）试图在不同层次上对数据集进行划分，从而形成树状的聚类结构。数据集的划分可以采用自底向上的聚类策略，也可以采用自顶而下的分拆策略。</p>
+<p>AGNES是以这种采用自底向上聚类策略的层次聚类算法。</p>
+<p>其算法思想如下：</p>
+<ol>
+<li>它先将数据集中的每个样本看作一个初始聚类簇。</li>
+<li>然后再算法运行的每一步中找出距离最近的两个聚类进行合并，该过程不断重复，直到达到预设的聚类簇个数。</li>
+</ol>
+<p>注意：以上的代码都是自己手写的，可能会有不足。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/08/11/聚类的几种算法简述/" target="_blank" title="聚类的几种算法简述">http://yoursite.com/2021/08/11/聚类的几种算法简述/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/13/机器学习1-决策树算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">机器学习1-决策树算法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#聚类"><span class="nav-number">1.</span> <span class="nav-text">聚类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原型聚类"><span class="nav-number">1.1.</span> <span class="nav-text">原型聚类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#k均值算法（k-means）"><span class="nav-number">1.1.1.</span> <span class="nav-text">k均值算法（k-means）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习向量量化（Learning-Vector-Quantization）"><span class="nav-number">1.1.2.</span> <span class="nav-text">学习向量量化（Learning Vector Quantization）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高斯混合聚类（高斯分布即正态分布）"><span class="nav-number">1.1.3.</span> <span class="nav-text">高斯混合聚类（高斯分布即正态分布）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密度聚类"><span class="nav-number">1.2.</span> <span class="nav-text">密度聚类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#层次聚类"><span class="nav-number">1.3.</span> <span class="nav-text">层次聚类</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

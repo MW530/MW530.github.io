@@ -11,18 +11,18 @@
   
   
   
-  <meta name="description" content="Something is going happen if you try to fight for it!">
+  <meta name="description" content="算法回忆总述首先决策树算法的一个核心思想是通过一些方法将数据递归的划分为一个树状结构。其算法流程大致如下：  读取数据 注意CSV是文本格式，读取时是r；Excel是二进制文件，读取时是rb   根据标准计算最优属性，一般选择香农熵，其流程如下： 递归每一个属性，计算该属性的总熵值，总熵值为每个值得熵得和 先统计该属性得所有不重复值的数据条数 根据公式：ent = (-item/count)*np">
 <meta name="keywords" content="机器学习,决策树算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习1-决策树算法">
 <meta property="og:url" content="http://yoursite.com/2021/07/13/机器学习1-决策树算法/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="Something is going happen if you try to fight for it!">
+<meta property="og:description" content="算法回忆总述首先决策树算法的一个核心思想是通过一些方法将数据递归的划分为一个树状结构。其算法流程大致如下：  读取数据 注意CSV是文本格式，读取时是r；Excel是二进制文件，读取时是rb   根据标准计算最优属性，一般选择香农熵，其流程如下： 递归每一个属性，计算该属性的总熵值，总熵值为每个值得熵得和 先统计该属性得所有不重复值的数据条数 根据公式：ent = (-item/count)*np">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-13T08:05:05.976Z">
+<meta property="og:updated_time" content="2021-09-14T08:42:29.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习1-决策树算法">
-<meta name="twitter:description" content="Something is going happen if you try to fight for it!">
+<meta name="twitter:description" content="算法回忆总述首先决策树算法的一个核心思想是通过一些方法将数据递归的划分为一个树状结构。其算法流程大致如下：  读取数据 注意CSV是文本格式，读取时是r；Excel是二进制文件，读取时是rb   根据标准计算最优属性，一般选择香农熵，其流程如下： 递归每一个属性，计算该属性的总熵值，总熵值为每个值得熵得和 先统计该属性得所有不重复值的数据条数 根据公式：ent = (-item/count)*np">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -195,7 +195,33 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="算法回忆总述"><a href="#算法回忆总述" class="headerlink" title="算法回忆总述"></a>算法回忆总述</h1><p>首先决策树算法的一个核心思想是通过一些方法将数据递归的划分为一个树状结构。其算法流程大致如下：</p>
+<ol>
+<li>读取数据<ol>
+<li>注意CSV是文本格式，读取时是r；Excel是二进制文件，读取时是rb</li>
+</ol>
+</li>
+<li>根据标准计算最优属性，一般选择香农熵，其流程如下：<ol>
+<li>递归每一个属性，计算该属性的总熵值，总熵值为每个值得熵得和<ol>
+<li>先统计该属性得所有不重复值的数据条数</li>
+<li>根据公式：ent = (-item/count)*np.log2(item/count)  计算每个属性值的熵值 ， 其中item为该属性<span style="color:red">值</span>的数据数量、count为该属性的数据数量</li>
+<li>将上面的每个属性值的ent相加，就得到该属性的总熵值</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>根据最优属性划分数据</li>
+<li>根据划分得到的数据构建决策树，接下来有几种可能：<ol>
+<li>如果最优属性的label唯一，那么则该属性的值即为该树节点的值</li>
+<li>如果不是唯一的，则根据属性值来将其划分为对应的数据字典（例如： {属性值1：[数据1-1， 数据1-2，…]}），然后遍历该字典：<ol>
+<li>如果该属性值的list的label唯一，则该属性的该值几位一个节点，由此构造节点。</li>
+<li>否则对该属性递归该过程来构建树。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
       
     </div>
     <footer class="article-footer">
@@ -293,7 +319,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav">None</ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#算法回忆总述"><span class="nav-number">1.</span> <span class="nav-text">算法回忆总述</span></a></li></ol>
     
     </div>
   </aside>

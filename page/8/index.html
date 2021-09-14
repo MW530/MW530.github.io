@@ -282,6 +282,119 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-JSP基础部分"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/30/JSP基础部分/">JSP基础部分</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/30/JSP基础部分/" class="article-date">
+	  <time datetime="2019-01-30T13:46:43.000Z" itemprop="datePublished">2019-01-30</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          JSP这几天把JSP基本部分看了，方便记忆，还是回顾一下。文件部分有一点复杂，所以后面直接单独解析一下。
+日期处理其实日期处理部分还是JAVA中的Date()对象提供的。只是之前学习JAVA是没认真看，哈哈哈。
+获取时间eg:
+&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/30/JSP基础部分/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-JSP中的表单编码问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/28/JSP中的表单编码问题/">JSP中的表单编码问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/28/JSP中的表单编码问题/" class="article-date">
+	  <time datetime="2019-01-28T12:13:29.000Z" itemprop="datePublished">2019-01-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          JSP的编码才看了几天的JSP，把最重要的表单提交看了一下，遇到了中文编码的问题，然后我查了一下JSP的默认代码是：ISO-8859-1重新设编码的语句共有下面几句：
+
+pageEncoding=”UTF-8”
+contentType=”text/html;charset=UTF-8”
+request.setCharacterEncoding(“UTF-8”)
+response.setCharacterEncoding(“UTF-8”)
+
+
+pageEncoding=”UTF-8” 是在第...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/28/JSP中的表单编码问题/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Python3-CGI编程踩坑日记"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -730,111 +843,6 @@ JavaScriptJS是一种解释性脚本（不进行预编译）
         </p>
         <p class="article-more-link">
           <a href="/2018/08/30/千万不要躺太久-三和大神的生活/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/25/开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）/">开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/25/开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）/" class="article-date">
-	  <time datetime="2018-08-25T01:01:03.000Z" itemprop="datePublished">2018-08-25</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/博客开发系列/">博客开发系列</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          前言这个小项目花了我大概10天的时间（每天5h左右），可以说是很慢了，主要是JS的很多知识点不熟悉，边研究边开发。而且数据库部分仍然时使用本地存储，也就是说这个案例是无法投入到实际使用中，但后面我会去研究一下mysql，在服务器端部署一个小型的数据库，估计不会花太长时间，另外觉得node.js挺有意思，hexo就是基于node.js，将JS用于与计算机系统的直接沟通，That`s cool，本来我的原计划是将博客信息存储在本地文件中，比如直接在本地存储一个JSON文件用来存储一篇博客，后来...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/08/25/开发一个简单的个人博客（2）代码开发（利用localStorage保存数据）/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-关于JS单线程，异步执行的理解"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/22/关于JS单线程，异步执行的理解/">关于JS单线程，异步执行的理解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/22/关于JS单线程，异步执行的理解/" class="article-date">
-	  <time datetime="2018-08-22T02:13:24.000Z" itemprop="datePublished">2018-08-22</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          前言在这几天的开发过程中，遇到了不少问题，阻塞最久的应该就是一段JS代码没有按照我以为的执行顺序去执行，想想好像也没有具体的了解JS的执行过程，所以花了一整天的时间来了解了一下JS的执行机制。
-问题代码for(var i=0;i&lt;=3;i++){
-    $(document).ready(function){
-        console.log(i);
-    });
-出现问题的代码简化过后大概是这个样式，我的预期是输出1，2，3，但输出的结果却为3,3,3，我开始以为是JS单...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/08/22/关于JS单线程，异步执行的理解/#more">Read More</a>
         </p>
       
     </div>

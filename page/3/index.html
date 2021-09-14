@@ -282,6 +282,112 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-JavaScript中的模块导入导出"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/02/14/JavaScript中的模块导入导出/">JavaScript中的模块导入导出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/02/14/JavaScript中的模块导入导出/" class="article-date">
+	  <time datetime="2021-02-14T10:47:09.000Z" itemprop="datePublished">2021-02-14</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          模块的概念
+（Modular design）　所谓的模块化设计，简单地说就是将产品的某些要素组合在一起，构成一个具有特定功能的子系统，将这个子系统作为通用性的模块与其他产品要素进行多种组合，构成新的系统，产生多种不同功能或相同功能、不同性能的系列产品。
+
+这是在整个设计行业对模块化的定义。对于编程语言中的模块化设计，其基本思路就是将有相同功能的部分代码封装在一起，形成一个通用的，可复用的模块，使之在其它系统中可以重复利用，并不会对模块内部产生影响。所以设计模式中模块化设计的三大特征也要遵循...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/02/14/JavaScript中的模块导入导出/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Fetch方法的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/02/13/Fetch方法的使用/">Fetch方法的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/02/13/Fetch方法的使用/" class="article-date">
+	  <time datetime="2021-02-13T06:16:24.000Z" itemprop="datePublished">2021-02-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Fetch/">Fetch</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          介绍Fetch是基于Promise开发的用于访问和操纵 HTTP 管道的一个API。其提供了一个全局 fetch()方法，该方法提供了一种简单，合理的方式来跨网络异步获取资源。
+以前浏览器中的网络请求只能通过XMLHttpRequest实现（虽然大多使用的是封装过后的接口）。而Fetch则结合Promise提供了一种更加简化的发送网络请求的方式（其调用方法与axiso相似）。
+用法Fetch()方法Fetch接受两个参数：
+Promise&lt;Response&gt; fetch(inp...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/02/13/Fetch方法的使用/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-about跨域"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -729,129 +835,6 @@ myLib就是你的插件名字，主要是JS文件的命名。
         </p>
         <p class="article-more-link">
           <a href="/2021/01/13/Vue插件开发4-插件的打包与引用/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue插件开发3-拖动窗口的优化"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/01/13/Vue插件开发3-拖动窗口的优化/">Vue插件开发3-简单拖动窗口的优化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/01/13/Vue插件开发3-拖动窗口的优化/" class="article-date">
-	  <time datetime="2021-01-13T04:02:08.000Z" itemprop="datePublished">2021-01-13</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue插件/">Vue插件</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          思路思路一中心思想：首先算出首次拖动窗口距视窗的上面和左面的距离，然后计算出每次鼠标的偏移量（可正可负）。然后将其相加，就可得到新的偏移量。
-代码思路：
-
-设置一个变量，用于标记鼠标是否按下。
-mousedown钩子函数中记录下此时的clientX1,clientY1,offsetX,offsetY。
-mousemove钩子函数中记录下次此时的clientX2,clientY2，然后计算两组量：
-拖动之前拖动框距文档边框的距离left1 = clientX1 - offsetX，top1 ...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/01/13/Vue插件开发3-拖动窗口的优化/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue插件开发2-事件对象e与视窗api详解"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/01/13/Vue插件开发2-事件对象e与视窗api详解/">Vue插件开发2-事件对象e与视窗api详解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/01/13/Vue插件开发2-事件对象e与视窗api详解/" class="article-date">
-	  <time datetime="2021-01-13T03:57:39.000Z" itemprop="datePublished">2021-01-13</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue插件/">Vue插件</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          事件参数
-首先Vue没有对事件对象做修改，所以在Vue中的事件对象仍然与原生一样。
-其对象属性具体又分为4类：
-鼠标 / 键盘属性
-
-
-属性
-描述
-
-
-
-
-altKey
-返回当事件被触发时，”ALT” 是否被按下。
-
-
-button
-返回当事件被触发时，哪个鼠标按钮被点击。一个数字，表示鼠标事件发生时按下的鼠标按钮。可能的值：0：鼠标左键1：车轮按钮或中间按钮（如果有）2：鼠标右键注意： Internet Explorer 8和更早版本具有不同的返回值：1：鼠标左键2：鼠标右键4：车轮按钮...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/01/13/Vue插件开发2-事件对象e与视窗api详解/#more">Read More</a>
         </p>
       
     </div>

@@ -282,6 +282,119 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Tensorflow2-0-data模块的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/09/04/Tensorflow2-0-data模块的使用/">Tensorflow2.0-data模块的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/09/04/Tensorflow2-0-data模块的使用/" class="article-date">
+	  <time datetime="2021-09-04T12:06:03.000Z" itemprop="datePublished">2021-09-04</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Tensorflow/">Tensorflow</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          Tensorflow-dataTesorflow官方提供了一些数据集来供我们使用。其地址为Tensorflow-data，我们可以在这里查看数据集的详细细节Tensorflow-data-catalog。
+其API地址为API。
+简单使用Tensorflow-data有137个API，一般不会全部使用。我们需要了解的第一个API是：
+tfds.load：从本地或网络载入数据集，并生成tf.data.Dataset对象。
+其基本形式为：
+1234567891011121314151617tf...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/09/04/Tensorflow2-0-data模块的使用/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-西瓜书总结3-线性模型"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/09/02/西瓜书总结3-线性模型/">西瓜书总结3-线性模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/09/02/西瓜书总结3-线性模型/" class="article-date">
+	  <time datetime="2021-09-02T14:30:41.000Z" itemprop="datePublished">2021-09-02</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          基本形式线性模型（linear model）顾名思义即通过线性函数来进行预测的模型。
+大部分机器学习算法的本质都是寻找一个函数来将输入进行处理得到预测结果。这里最简单的线性模型是这样，最复杂的神经网络模型也是如此。
+
+线性模型的一般形式为：
+f(x) = w1x1+w1x1+…+wdxd+b
+向量形式则为：
+f(x) = wTx + b
+其中w = (w1; w1; …;wd;)， w和b学得之后，模型就得以确定。
+线性模型形式简单、易于构造，但却蕴含着机器学习中一些重要的思想。许多更为强...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/09/02/西瓜书总结3-线性模型/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-西瓜书总结2-模型评估与选择"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -423,7 +536,16 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          
+          算法回忆总述首先决策树算法的一个核心思想是通过一些方法将数据递归的划分为一个树状结构。其算法流程大致如下：
+
+读取数据
+注意CSV是文本格式，读取时是r；Excel是二进制文件，读取时是rb
+
+
+根据标准计算最优属性，一般选择香农熵，其流程如下：
+递归每一个属性，计算该属性的总熵值，总熵值为每个值得熵得和
+先统计该属性得所有不重复值的数据条数
+根据公式：ent = (-item/count)*np.log2(item/count)  计算每个属性值的熵值 ， 其中item为该属性值的数据数...
         </p>
         <p class="article-more-link">
           <a href="/2021/07/13/机器学习1-决策树算法/#more">Read More</a>
@@ -709,120 +831,6 @@ TextEditorDecorationType
         </p>
         <p class="article-more-link">
           <a href="/2021/04/24/NodeJS学习2-异步的原理和应用/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-NodeJS学习1-模块机制"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/04/22/NodeJS学习1-模块机制/">NodeJS学习1-模块机制</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/04/22/NodeJS学习1-模块机制/" class="article-date">
-	  <time datetime="2021-04-22T11:28:08.000Z" itemprop="datePublished">2021-04-22</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          CommonJS规范commonJS制定了一套模块的规范，来解决当时JavaScript中没有完善的模块机制，但是现在ES Module已经比较成熟了，在前端工程化开发中大部分都是用的ES Module来进行模块的导入导出。
-由于内容比较多，之前在JavaScript中的模块导入导出中已经介绍过基本用法。详细的内容可以看这里。
-Node的模块实现Node中，模块总的分为两类：
-
-核心模块：由Node提供的模块
-文件模块：由用户编写的模块
-
-这两类模块都会经过以下三个步骤：
-
-路径分析
-文件...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/04/22/NodeJS学习1-模块机制/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-设计模式6-命令模式与组合模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/04/21/设计模式6-命令模式与组合模式/">设计模式6-命令模式与组合模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/04/21/设计模式6-命令模式与组合模式/" class="article-date">
-	  <time datetime="2021-04-21T02:06:08.000Z" itemprop="datePublished">2021-04-21</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          命令模式定义命令模式（Command Pattern）是一种数据驱动的设计模式，它属于行为型模式。请求以命令的形式包裹在对象中，并传给调用对象。调用对象寻找可以处理该命令的合适的对象，并把该命令传给相应的对象，该对象执行命令。
-主要解决在软件系统中，行为请求者与行为实现者通常是一种紧耦合的关系，但某些场合，比如需要对行为进行记录、撤销或重做、事务等处理时，这种无法抵御变化的紧耦合的设计就不太合适。
-优缺点优点
-通过引入中间件（抽象接口）降低系统的耦合度。
-扩展性良好，增加或删除命令非常方便...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/04/21/设计模式6-命令模式与组合模式/#more">Read More</a>
         </p>
       
     </div>

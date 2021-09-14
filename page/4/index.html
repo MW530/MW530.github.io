@@ -282,6 +282,129 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Vue插件开发3-拖动窗口的优化"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/13/Vue插件开发3-拖动窗口的优化/">Vue插件开发3-简单拖动窗口的优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/13/Vue插件开发3-拖动窗口的优化/" class="article-date">
+	  <time datetime="2021-01-13T04:02:08.000Z" itemprop="datePublished">2021-01-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue插件/">Vue插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          思路思路一中心思想：首先算出首次拖动窗口距视窗的上面和左面的距离，然后计算出每次鼠标的偏移量（可正可负）。然后将其相加，就可得到新的偏移量。
+代码思路：
+
+设置一个变量，用于标记鼠标是否按下。
+mousedown钩子函数中记录下此时的clientX1,clientY1,offsetX,offsetY。
+mousemove钩子函数中记录下次此时的clientX2,clientY2，然后计算两组量：
+拖动之前拖动框距文档边框的距离left1 = clientX1 - offsetX，top1 ...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/13/Vue插件开发3-拖动窗口的优化/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Vue插件开发2-事件对象e与视窗api详解"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/13/Vue插件开发2-事件对象e与视窗api详解/">Vue插件开发2-事件对象e与视窗api详解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/13/Vue插件开发2-事件对象e与视窗api详解/" class="article-date">
+	  <time datetime="2021-01-13T03:57:39.000Z" itemprop="datePublished">2021-01-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue插件/">Vue插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          事件参数
+首先Vue没有对事件对象做修改，所以在Vue中的事件对象仍然与原生一样。
+其对象属性具体又分为4类：
+鼠标 / 键盘属性
+
+
+属性
+描述
+
+
+
+
+altKey
+返回当事件被触发时，”ALT” 是否被按下。
+
+
+button
+返回当事件被触发时，哪个鼠标按钮被点击。一个数字，表示鼠标事件发生时按下的鼠标按钮。可能的值：0：鼠标左键1：车轮按钮或中间按钮（如果有）2：鼠标右键注意： Internet Explorer 8和更早版本具有不同的返回值：1：鼠标左键2：鼠标右键4：车轮按钮...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/13/Vue插件开发2-事件对象e与视窗api详解/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Vue插件开发1-插件原理即应用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -705,109 +828,6 @@ Vue初始化Vue原型是在src/instance/idnex.js中定义的：
         </p>
         <p class="article-more-link">
           <a href="/2020/01/06/Vue中动态添加路由的问题/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue中的插槽与keep-alive"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/05/Vue中的插槽与keep-alive/">Vue中的插槽与keep-alive</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/05/Vue中的插槽与keep-alive/" class="article-date">
-	  <time datetime="2020-01-05T15:01:42.000Z" itemprop="datePublished">2020-01-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          插槽初次真正接触插槽是在Elementui中的表格中在自定义列的内容时
-12345678910111213&lt;el-table-column                 label=&quot;姓名&quot;                 width=&quot;180&quot;&gt;    &lt;template slot-scope=&quot;scope&quot;&gt;&lt;el-popover trigger=&quot;hover&quot; placem...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/05/Vue中的插槽与keep-alive/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue中的组件传值"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/05/Vue中的组件传值/">Vue中的组件传值</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/05/Vue中的组件传值/" class="article-date">
-	  <time datetime="2020-01-05T10:05:01.000Z" itemprop="datePublished">2020-01-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          父 =&gt; 子父组件向子组件传值比较简单，直接使用v-bind:key = val 
-1234//父组件&lt;template&gt;	&lt;child :name = &quot;&apos;tom&apos;&quot; :age=&quot;&apos;12&apos;&quot; /&gt;&lt;/template&gt;
-12345678910//子组件&lt;template&gt;	&lt;div&gt;    	&#123;&#123;name&#125;&#12...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/05/Vue中的组件传值/#more">Read More</a>
         </p>
       
     </div>

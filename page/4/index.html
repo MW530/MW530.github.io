@@ -282,6 +282,119 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-flex布局与grid布局简介"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/24/flex布局与grid布局简介/">flex布局与grid布局简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/24/flex布局与grid布局简介/" class="article-date">
+	  <time datetime="2021-01-24T07:45:23.000Z" itemprop="datePublished">2021-01-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/布局/">布局</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          flex布局flex布局可以更加简洁的实现之前使用浮动和绝对布局实现的一些布局。特别是item的展示界面等。
+首先应该明确一个概念，这个概念在grid布局中也存在，就是container与item，即被布局的元素被称为item，包围这些item的元素即为container。在flex布局中，item的大小要自己设置。
+flex布局相对于grid布局，简单许多，它是按照轴线的方式进行布局，按照item其规定一个主轴线main axis（默认为水平），然后对应的即为交叉轴cross axis（...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/24/flex布局与grid布局简介/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Vue插件开发4-插件的打包与引用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/13/Vue插件开发4-插件的打包与引用/">Vue插件开发4-插件的打包与引用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/13/Vue插件开发4-插件的打包与引用/" class="article-date">
+	  <time datetime="2021-01-13T04:10:05.000Z" itemprop="datePublished">2021-01-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue插件/">Vue插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          Vue插件的打包还是犯了一个最基础的错误，本来插件打包Vue-CLI官网给出了说明，而我还在苦苦百度。百度上的教程都是几年前的，全是照搬一套。
+具体过程就是：
+
+按照Vue插件开发1-插件原理即应用编写一个插件。
+
+使用命令vue-cli-service build --target lib --name myLib [entry]
+
+myLib就是你的插件名字，主要是JS文件的命名。
+[entry]是你的文件入口文件，即导出install函数文件
+
+
+执行该命令就会生成打包完成的js文件...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/13/Vue插件开发4-插件的打包与引用/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Vue插件开发3-拖动窗口的优化"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -739,118 +852,11 @@ Vue初始化Vue原型是在src/instance/idnex.js中定义的：
 
 
   
-    <article id="post-JavaScript中的与或运算"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/07/JavaScript中的与或运算/">JavaScript中的&amp;，&amp;&amp;，|，||</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/07/JavaScript中的与或运算/" class="article-date">
-	  <time datetime="2020-01-07T11:51:20.000Z" itemprop="datePublished">2020-01-07</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          简单区分&amp;,&amp;&amp;,|,||&amp;&amp; 位与运算符 — 用于位运算（非数字会通过primitive原则转换为数字）—- 左右全为1才为1
-|| 位或运算符 — 用于位运算（非数字会通过primitive原则转换为数字）—- 左右有一个1结果就为1
-&amp;&amp;&amp;&amp; 逻辑运算符（与） — 用于逻辑运算 （非Boolean型会被转化为Boolean型进行对比）—- 
-
-如果第一个值（转换后）为true，则返回后一个值。
-
-如果第一个值（转...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/07/JavaScript中的与或运算/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue中动态添加路由的问题"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/06/Vue中动态添加路由的问题/">Vue中动态添加路由的问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/06/Vue中动态添加路由的问题/" class="article-date">
-	  <time datetime="2020-01-06T01:52:42.000Z" itemprop="datePublished">2020-01-06</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          起始前端的权限控制一直是一个可繁可简的问题，要想简单，直接写入所有路由，然后将每个路由的权限写入路由原信息中，然后在router.beforeEach中判断这个路由是否该用户的权限，进行reject()或者next()。这样做很简单，但是Vue提供了一个addRouter的api，用于动态注册路由，由此可以用这个api来根据用户角色进行动态路由注入。
-问题动态注入路由后404问题一般我们将公共路由放置到路的初始化中，这其中就包括404页面，他的path一般是*,也就是匹配所有路由，因此Vu...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/06/Vue中动态添加路由的问题/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
   </nav>
 
 </section>

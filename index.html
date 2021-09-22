@@ -282,6 +282,111 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-基于java的脚本语言hair的开发思路1-词法分析"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/">基于java的脚本语言hair的开发思路1-词法分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/" class="article-date">
+	  <time datetime="2021-09-21T07:23:07.000Z" itemprop="datePublished">2021-09-21</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/hair/">hair</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          申明：本脚本语言前面的开发思路基本是《两周自制脚本语言》中Stone语言的模型，后期将逐渐分离，添加更多特征。这本书作为入门读物确实不错，但是其设计规范还是有待商榷，一是没有给出一个确定的项目架构、二是部分的结构的成分不够规范（比如token的定义，运算优先级的处理等）。
+词法分析一个程序片段被编译器解析的时候是一个很长的字符串。我们的目标是通过一定的手段分析将这个字符串分开来。
+而这个被分割后的子字符串我们一般称为Token，Token有很多类型。在V8中定义的部分代码如下：
+12345...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-java的正则表达式"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/09/19/java的正则表达式/">java的正则表达式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/09/19/java的正则表达式/" class="article-date">
+	  <time datetime="2021-09-19T01:00:40.000Z" itemprop="datePublished">2021-09-19</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/java/">java</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          APIPattern类pattern 对象是一个正则表达式的编译表示。Pattern 类没有公共构造方法。要创建一个 Pattern 对象，你必须首先调用其公共静态编译方法，它返回一个 Pattern 对象。该方法接受一个正则表达式作为它的第一个参数。
+示例12private String regexPat = "\\abc"private Pattern pattern = Pattern.compile(regexPat);
+Matcher 类Matcher 对象是对输入字符串进行解释...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/09/19/java的正则表达式/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Tensorflow2-0-data模块的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -747,113 +852,11 @@ TextEditorDecorationType
 
 
   
-    <article id="post-NodeJS学习3-内存控制"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/04/27/NodeJS学习3-内存控制/">NodeJS学习3-内存控制</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/04/27/NodeJS学习3-内存控制/" class="article-date">
-	  <time datetime="2021-04-27T01:13:46.000Z" itemprop="datePublished">2021-04-27</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          V8的内存分配在一般的后端开发语言中，在基本的内存使用上没有什么限制，然而在Node中通过JavaScript使用内存时就会发现只能使用部分内存（64位系统下约为1.4GB，32位系统下约为0.7GB），在这样的限制下，将会导致Node无法直接操作大内存对象。比如无法将一个2GB的文件读入内存中进行字符串分析处理，即使物理内存大于2GB，这样在单个Node进程的情况下，计算机的内存资源无法得到充足的使用。
-造成这个问题的主要原因在于Node基于V8构建，所以在Node中使用的JavaScr...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/04/27/NodeJS学习3-内存控制/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-NodeJS学习2-异步的原理和应用"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/04/24/NodeJS学习2-异步的原理和应用/">NodeJS学习2-异步的原理和应用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/04/24/NodeJS学习2-异步的原理和应用/" class="article-date">
-	  <time datetime="2021-04-24T11:38:03.000Z" itemprop="datePublished">2021-04-24</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          内部原理理想的非阻塞异步I/O完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。        
-                                                                                                                                               ...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/04/24/NodeJS学习2-异步的原理和应用/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>

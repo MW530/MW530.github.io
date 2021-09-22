@@ -282,6 +282,108 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-NodeJS学习3-内存控制"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/04/27/NodeJS学习3-内存控制/">NodeJS学习3-内存控制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/27/NodeJS学习3-内存控制/" class="article-date">
+	  <time datetime="2021-04-27T01:13:46.000Z" itemprop="datePublished">2021-04-27</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          V8的内存分配在一般的后端开发语言中，在基本的内存使用上没有什么限制，然而在Node中通过JavaScript使用内存时就会发现只能使用部分内存（64位系统下约为1.4GB，32位系统下约为0.7GB），在这样的限制下，将会导致Node无法直接操作大内存对象。比如无法将一个2GB的文件读入内存中进行字符串分析处理，即使物理内存大于2GB，这样在单个Node进程的情况下，计算机的内存资源无法得到充足的使用。
+造成这个问题的主要原因在于Node基于V8构建，所以在Node中使用的JavaScr...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/04/27/NodeJS学习3-内存控制/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-NodeJS学习2-异步的原理和应用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/04/24/NodeJS学习2-异步的原理和应用/">NodeJS学习2-异步的原理和应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/24/NodeJS学习2-异步的原理和应用/" class="article-date">
+	  <time datetime="2021-04-24T11:38:03.000Z" itemprop="datePublished">2021-04-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          内部原理理想的非阻塞异步I/O完美的异步I/O应该是应用程序发起非阻塞调用，无须通过遍历或者事件唤醒等方式轮询，可以直接处理下一个任务，只需要在I/O完成后通过回调将数据传递给应用程序即可。        
+                                                                                                                                               ...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/04/24/NodeJS学习2-异步的原理和应用/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-NodeJS学习1-模块机制"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -726,118 +828,11 @@ chrome默认是补全https协议
 
 
   
-    <article id="post-设计模式2-策略模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/24/设计模式2-策略模式/">设计模式2-策略模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/02/24/设计模式2-策略模式/" class="article-date">
-	  <time datetime="2021-02-24T01:55:03.000Z" itemprop="datePublished">2021-02-24</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          策略模式定义定义一系列的算法，把它们一个个封装起来，并且使他们可以相互替换。
-主要解决在多种算法相似的情况下，使用 if…else 所带来的复杂和难以维护的问题。
-奖金的例子很多公司的年终奖的是根据员工的工资基数和年底绩效情况来发放的。例如，绩效为S的员工年终奖有4倍工资，绩效为A的员工年终奖有3倍工资，绩效为B的员工年终奖有2倍工资。假如需要一段代码来计算对应员工的年终奖。
-最基础写法我们直观想到的就是用if...else或者switch...case的方法来写。如下
-123456789...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/02/24/设计模式2-策略模式/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-设计模式1-单例模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/22/设计模式1-单例模式/">设计模式1-单例模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/02/22/设计模式1-单例模式/" class="article-date">
-	  <time datetime="2021-02-22T02:19:56.000Z" itemprop="datePublished">2021-02-22</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          设计模式最近在写Vue插件，发现自己通过直观想法写的东西总是与别人的插件有一定的差距。我也明白别人的库中用了一种或多种设计模式，使代码结构更加恰当等等。之前就说要学习一下设计模式，被搁置到现在，现在买了《JavaScript设计模式与开发实践》，后面会陆续将自己的学习过程通过博客记录。
-单例模式定义保证一个类仅有一个实例，并提供一个访问它的全局访问点。
-描述单例模式是一种常用的模式，有一些对象我们往往只需要一个，比如线程池、全局缓存、浏览器中的window对象。
-实现传统单例模式JavaS...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/02/22/设计模式1-单例模式/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>

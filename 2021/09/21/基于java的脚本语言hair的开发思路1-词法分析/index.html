@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>基于java的脚本语言hair的开发思路1-词法分析 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="hair脚本语言">
+  
+  
+  
+  
+  <meta name="description" content="申明：本脚本语言前面的开发思路基本是《两周自制脚本语言》中Stone语言的模型，后期将逐渐分离，添加更多特征。这本书作为入门读物确实不错，但是其设计规范还是有待商榷，一是没有给出一个确定的项目架构、二是部分的结构的成分不够规范（比如token的定义，运算优先级的处理等）。 词法分析一个程序片段被编译器解析的时候是一个很长的字符串。我们的目标是通过一定的手段分析将这个字符串分开来。 而这个被分割后的">
+<meta name="keywords" content="hair,脚本语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于java的脚本语言hair的开发思路1-词法分析">
+<meta property="og:url" content="http://yoursite.com/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="申明：本脚本语言前面的开发思路基本是《两周自制脚本语言》中Stone语言的模型，后期将逐渐分离，添加更多特征。这本书作为入门读物确实不错，但是其设计规范还是有待商榷，一是没有给出一个确定的项目架构、二是部分的结构的成分不够规范（比如token的定义，运算优先级的处理等）。 词法分析一个程序片段被编译器解析的时候是一个很长的字符串。我们的目标是通过一定的手段分析将这个字符串分开来。 而这个被分割后的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-09-22T03:32:53.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于java的脚本语言hair的开发思路1-词法分析">
+<meta name="twitter:description" content="申明：本脚本语言前面的开发思路基本是《两周自制脚本语言》中Stone语言的模型，后期将逐渐分离，添加更多特征。这本书作为入门读物确实不错，但是其设计规范还是有待商榷，一是没有给出一个确定的项目架构、二是部分的结构的成分不够规范（比如token的定义，运算优先级的处理等）。 词法分析一个程序片段被编译器解析的时候是一个很长的字符串。我们的目标是通过一定的手段分析将这个字符串分开来。 而这个被分割后的">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css">
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-基于java的脚本语言hair的开发思路1-词法分析" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      基于java的脚本语言hair的开发思路1-词法分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/" class="article-date">
+	  <time datetime="2021-09-21T07:23:07.000Z" itemprop="datePublished">2021-09-21</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/hair/">hair</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>申明：本脚本语言前面的开发思路基本是《两周自制脚本语言》中Stone语言的模型，后期将逐渐分离，添加更多特征。</strong>这本书作为入门读物确实不错，但是其设计规范还是有待商榷，一是没有给出一个确定的项目架构、二是部分的结构的成分不够规范（比如token的定义，运算优先级的处理等）。</p>
+<h1 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h1><p>一个程序片段被编译器解析的时候是一个很长的字符串。我们的目标是通过一定的手段分析将这个字符串分开来。</p>
+<p>而这个被分割后的子字符串我们一般称为Token，Token有很多类型。在V8中定义的部分代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BINARY_OP_TOKEN_LIST(T, E) \</span></span><br><span class="line">  E(T, NULLISH, <span class="string">"??"</span>, <span class="number">3</span>)           \</span><br><span class="line">  E(T, OR, <span class="string">"||"</span>, <span class="number">4</span>)                \</span><br><span class="line">  E(T, AND, <span class="string">"&amp;&amp;"</span>, <span class="number">5</span>)               \</span><br><span class="line">  E(T, BIT_OR, <span class="string">"|"</span>, <span class="number">6</span>)             \</span><br><span class="line">  E(T, BIT_XOR, <span class="string">"^"</span>, <span class="number">7</span>)            \</span><br><span class="line">  E(T, BIT_AND, <span class="string">"&amp;"</span>, <span class="number">8</span>)            \</span><br><span class="line">  E(T, SHL, <span class="string">"&lt;&lt;"</span>, <span class="number">11</span>)              \</span><br><span class="line">  E(T, SAR, <span class="string">"&gt;&gt;"</span>, <span class="number">11</span>)              \</span><br><span class="line">  E(T, SHR, <span class="string">"&gt;&gt;&gt;"</span>, <span class="number">11</span>)             \</span><br><span class="line">  E(T, MUL, <span class="string">"*"</span>, <span class="number">13</span>)               \</span><br><span class="line">  E(T, DIV, <span class="string">"/"</span>, <span class="number">13</span>)               \</span><br><span class="line">  E(T, MOD, <span class="string">"%"</span>, <span class="number">13</span>)               \</span><br><span class="line">  E(T, EXP, <span class="string">"**"</span>, <span class="number">14</span>)              \</span><br><span class="line">  E(T, ADD, <span class="string">"+"</span>, <span class="number">12</span>)               \</span><br><span class="line">  E(T, SUB, <span class="string">"-"</span>, <span class="number">12</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EXPAND_BINOP_ASSIGN_TOKEN(T, name, string, precedence) \</span></span><br><span class="line">  T(ASSIGN_##name, <span class="built_in">string</span> <span class="string">"="</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EXPAND_BINOP_TOKEN(T, name, string, precedence) \</span></span><br><span class="line">  T(name, <span class="built_in">string</span>, precedence)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TOKEN_LIST(T, K)                                           \</span></span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* BEGIN PropertyOrCall */</span>                                       \</span><br><span class="line">  <span class="comment">/* BEGIN Member */</span>                                               \</span><br><span class="line">  <span class="comment">/* BEGIN Template */</span>                                             \</span><br><span class="line">  <span class="comment">/* ES6 Template Literals */</span>                                      \</span><br><span class="line">  T(TEMPLATE_SPAN, <span class="literal">nullptr</span>, <span class="number">0</span>)                                     \</span><br><span class="line">  T(TEMPLATE_TAIL, <span class="literal">nullptr</span>, <span class="number">0</span>)                                     \</span><br><span class="line">  <span class="comment">/* END Template */</span>                                               \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* Punctuators (ECMA-262, section 7.7, page 15). */</span>              \</span><br><span class="line">  <span class="comment">/* BEGIN Property */</span>                                             \</span><br><span class="line">  T(PERIOD, <span class="string">"."</span>, <span class="number">0</span>)                                                \</span><br><span class="line">  T(LBRACK, <span class="string">"["</span>, <span class="number">0</span>)                                                \</span><br><span class="line">  <span class="comment">/* END Property */</span>                                               \</span><br><span class="line">  <span class="comment">/* END Member */</span>                                                 \</span><br><span class="line">  T(QUESTION_PERIOD, <span class="string">"?."</span>, <span class="number">0</span>)                                      \</span><br><span class="line">  T(LPAREN, <span class="string">"("</span>, <span class="number">0</span>)                                                \</span><br><span class="line">  <span class="comment">/* END PropertyOrCall */</span>                                         \</span><br><span class="line">  T(RPAREN, <span class="string">")"</span>, <span class="number">0</span>)                                                \</span><br><span class="line">  T(RBRACK, <span class="string">"]"</span>, <span class="number">0</span>)                                                \</span><br><span class="line">  T(LBRACE, <span class="string">"&#123;"</span>, <span class="number">0</span>)                                                \</span><br><span class="line">  T(COLON, <span class="string">":"</span>, <span class="number">0</span>)                                                 \</span><br><span class="line">  T(ELLIPSIS, <span class="string">"..."</span>, <span class="number">0</span>)                                            \</span><br><span class="line">  T(CONDITIONAL, <span class="string">"?"</span>, <span class="number">3</span>)                                           \</span><br><span class="line">  <span class="comment">/* BEGIN AutoSemicolon */</span>                                        \</span><br><span class="line">  T(SEMICOLON, <span class="string">";"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  T(RBRACE, <span class="string">"&#125;"</span>, <span class="number">0</span>)                                                \</span><br><span class="line">  <span class="comment">/* End of source indicator. */</span>                                   \</span><br><span class="line">  T(EOS, <span class="string">"EOS"</span>, <span class="number">0</span>)                                                 \</span><br><span class="line">  <span class="comment">/* END AutoSemicolon */</span>                                          \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* BEGIN ArrowOrAssignmentOp */</span>                                  \</span><br><span class="line">  T(ARROW, <span class="string">"=&gt;"</span>, <span class="number">0</span>)                                                \</span><br><span class="line">  <span class="comment">/* BEGIN AssignmentOp */</span>                                         \</span><br><span class="line">  <span class="comment">/* IsAssignmentOp() relies on this block of enum values being */</span> \</span><br><span class="line">  <span class="comment">/* contiguous and sorted in the same order! */</span>                   \</span><br><span class="line">  T(INIT, <span class="string">"=init"</span>, <span class="number">2</span>) <span class="comment">/* AST-use only. */</span>                          \</span><br><span class="line">  T(ASSIGN, <span class="string">"="</span>, <span class="number">2</span>)                                                \</span><br><span class="line">  BINARY_OP_TOKEN_LIST(T, EXPAND_BINOP_ASSIGN_TOKEN)               \</span><br><span class="line">  <span class="comment">/* END AssignmentOp */</span>                                           \</span><br><span class="line">  <span class="comment">/* END ArrowOrAssignmentOp */</span>                                    \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* Binary operators sorted by precedence. */</span>                     \</span><br><span class="line">  <span class="comment">/* IsBinaryOp() relies on this block of enum values */</span>           \</span><br><span class="line">  <span class="comment">/* being contiguous and sorted in the same order! */</span>             \</span><br><span class="line">  T(COMMA, <span class="string">","</span>, <span class="number">1</span>)                                                 \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* Unary operators, starting at ADD in BINARY_OP_TOKEN_LIST  */</span>  \</span><br><span class="line">  <span class="comment">/* IsUnaryOp() relies on this block of enum values */</span>            \</span><br><span class="line">  <span class="comment">/* being contiguous and sorted in the same order! */</span>             \</span><br><span class="line">  BINARY_OP_TOKEN_LIST(T, EXPAND_BINOP_TOKEN)                      \</span><br><span class="line">                                                                   \</span><br><span class="line">  T(NOT, <span class="string">"!"</span>, <span class="number">0</span>)                                                   \</span><br><span class="line">  T(BIT_NOT, <span class="string">"~"</span>, <span class="number">0</span>)                                               \</span><br><span class="line">  K(DELETE, <span class="string">"delete"</span>, <span class="number">0</span>)                                           \</span><br><span class="line">  K(TYPEOF, <span class="string">"typeof"</span>, <span class="number">0</span>)                                           \</span><br><span class="line">  K(VOID, <span class="string">"void"</span>, <span class="number">0</span>)                                               \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* BEGIN IsCountOp */</span>                                            \</span><br><span class="line">  T(INC, <span class="string">"++"</span>, <span class="number">0</span>)                                                  \</span><br><span class="line">  T(DEC, <span class="string">"--"</span>, <span class="number">0</span>)                                                  \</span><br><span class="line">  <span class="comment">/* END IsCountOp */</span>                                              \</span><br><span class="line">  <span class="comment">/* END IsUnaryOrCountOp */</span>                                       \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* Compare operators sorted by precedence. */</span>                    \</span><br><span class="line">  <span class="comment">/* IsCompareOp() relies on this block of enum values */</span>          \</span><br><span class="line">  <span class="comment">/* being contiguous and sorted in the same order! */</span>             \</span><br><span class="line">  T(EQ, <span class="string">"=="</span>, <span class="number">9</span>)                                                   \</span><br><span class="line">  T(EQ_STRICT, <span class="string">"==="</span>, <span class="number">9</span>)                                           \</span><br><span class="line">  T(NE, <span class="string">"!="</span>, <span class="number">9</span>)                                                   \</span><br><span class="line">  T(NE_STRICT, <span class="string">"!=="</span>, <span class="number">9</span>)                                           \</span><br><span class="line">  T(LT, <span class="string">"&lt;"</span>, <span class="number">10</span>)                                                   \</span><br><span class="line">  T(GT, <span class="string">"&gt;"</span>, <span class="number">10</span>)                                                   \</span><br><span class="line">  T(LTE, <span class="string">"&lt;="</span>, <span class="number">10</span>)                                                 \</span><br><span class="line">  T(GTE, <span class="string">"&gt;="</span>, <span class="number">10</span>)                                                 \</span><br><span class="line">  K(INSTANCEOF, <span class="string">"instanceof"</span>, <span class="number">10</span>)                                  \</span><br><span class="line">  K(IN, <span class="string">"in"</span>, <span class="number">10</span>)                                                  \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* Keywords (ECMA-262, section 7.5.2, page 13). */</span>               \</span><br><span class="line">  K(BREAK, <span class="string">"break"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  K(CASE, <span class="string">"case"</span>, <span class="number">0</span>)                                               \</span><br><span class="line">  K(CATCH, <span class="string">"catch"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  K(CONTINUE, <span class="string">"continue"</span>, <span class="number">0</span>)                                       \</span><br><span class="line">  K(DEBUGGER, <span class="string">"debugger"</span>, <span class="number">0</span>)                                       \</span><br><span class="line">  K(DEFAULT, <span class="string">"default"</span>, <span class="number">0</span>)                                         \</span><br><span class="line">  <span class="comment">/* DELETE */</span>                                                     \</span><br><span class="line">  K(DO, <span class="string">"do"</span>, <span class="number">0</span>)                                                   \</span><br><span class="line">  K(ELSE, <span class="string">"else"</span>, <span class="number">0</span>)                                               \</span><br><span class="line">  K(FINALLY, <span class="string">"finally"</span>, <span class="number">0</span>)                                         \</span><br><span class="line">  K(FOR, <span class="string">"for"</span>, <span class="number">0</span>)                                                 \</span><br><span class="line">  K(FUNCTION, <span class="string">"function"</span>, <span class="number">0</span>)                                       \</span><br><span class="line">  K(IF, <span class="string">"if"</span>, <span class="number">0</span>)                                                   \</span><br><span class="line">  <span class="comment">/* IN */</span>                                                         \</span><br><span class="line">  <span class="comment">/* INSTANCEOF */</span>                                                 \</span><br><span class="line">  K(NEW, <span class="string">"new"</span>, <span class="number">0</span>)                                                 \</span><br><span class="line">  K(RETURN, <span class="string">"return"</span>, <span class="number">0</span>)                                           \</span><br><span class="line">  K(SWITCH, <span class="string">"switch"</span>, <span class="number">0</span>)                                           \</span><br><span class="line">  K(THROW, <span class="string">"throw"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  K(TRY, <span class="string">"try"</span>, <span class="number">0</span>)                                                 \</span><br><span class="line">  <span class="comment">/* TYPEOF */</span>                                                     \</span><br><span class="line">  K(VAR, <span class="string">"var"</span>, <span class="number">0</span>)                                                 \</span><br><span class="line">  <span class="comment">/* VOID */</span>                                                       \</span><br><span class="line">  K(WHILE, <span class="string">"while"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  K(WITH, <span class="string">"with"</span>, <span class="number">0</span>)                                               \</span><br><span class="line">  K(THIS, <span class="string">"this"</span>, <span class="number">0</span>)                                               \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* Literals (ECMA-262, section 7.8, page 16). */</span>                 \</span><br><span class="line">  K(NULL_LITERAL, <span class="string">"null"</span>, <span class="number">0</span>)                                       \</span><br><span class="line">  K(TRUE_LITERAL, <span class="string">"true"</span>, <span class="number">0</span>)                                       \</span><br><span class="line">  K(FALSE_LITERAL, <span class="string">"false"</span>, <span class="number">0</span>)                                     \</span><br><span class="line">  T(NUMBER, <span class="literal">nullptr</span>, <span class="number">0</span>)                                            \</span><br><span class="line">  T(SMI, <span class="literal">nullptr</span>, <span class="number">0</span>)                                               \</span><br><span class="line">  T(BIGINT, <span class="literal">nullptr</span>, <span class="number">0</span>)                                            \</span><br><span class="line">  T(STRING, <span class="literal">nullptr</span>, <span class="number">0</span>)                                            \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* BEGIN Callable */</span>                                             \</span><br><span class="line">  K(SUPER, <span class="string">"super"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  <span class="comment">/* BEGIN AnyIdentifier */</span>                                        \</span><br><span class="line">  <span class="comment">/* Identifiers (not keywords or future reserved words). */</span>       \</span><br><span class="line">  T(IDENTIFIER, <span class="literal">nullptr</span>, <span class="number">0</span>)                                        \</span><br><span class="line">  K(GET, <span class="string">"get"</span>, <span class="number">0</span>)                                                 \</span><br><span class="line">  K(SET, <span class="string">"set"</span>, <span class="number">0</span>)                                                 \</span><br><span class="line">  K(ASYNC, <span class="string">"async"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  <span class="comment">/* `await` is a reserved word in module code only */</span>             \</span><br><span class="line">  K(AWAIT, <span class="string">"await"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  K(YIELD, <span class="string">"yield"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  K(LET, <span class="string">"let"</span>, <span class="number">0</span>)                                                 \</span><br><span class="line">  K(STATIC, <span class="string">"static"</span>, <span class="number">0</span>)                                           \</span><br><span class="line">  <span class="comment">/* Future reserved words (ECMA-262, section 7.6.1.2). */</span>         \</span><br><span class="line">  T(FUTURE_STRICT_RESERVED_WORD, <span class="literal">nullptr</span>, <span class="number">0</span>)                       \</span><br><span class="line">  T(ESCAPED_STRICT_RESERVED_WORD, <span class="literal">nullptr</span>, <span class="number">0</span>)                      \</span><br><span class="line">  <span class="comment">/* END AnyIdentifier */</span>                                          \</span><br><span class="line">  <span class="comment">/* END Callable */</span>                                               \</span><br><span class="line">  K(ENUM, <span class="string">"enum"</span>, <span class="number">0</span>)                                               \</span><br><span class="line">  K(CLASS, <span class="string">"class"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  K(CONST, <span class="string">"const"</span>, <span class="number">0</span>)                                             \</span><br><span class="line">  K(EXPORT, <span class="string">"export"</span>, <span class="number">0</span>)                                           \</span><br><span class="line">  K(EXTENDS, <span class="string">"extends"</span>, <span class="number">0</span>)                                         \</span><br><span class="line">  K(IMPORT, <span class="string">"import"</span>, <span class="number">0</span>)                                           \</span><br><span class="line">  T(PRIVATE_NAME, <span class="literal">nullptr</span>, <span class="number">0</span>)                                      \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* Illegal token - not able to scan. */</span>                          \</span><br><span class="line">  T(ILLEGAL, <span class="string">"ILLEGAL"</span>, <span class="number">0</span>)                                         \</span><br><span class="line">  T(ESCAPED_KEYWORD, <span class="literal">nullptr</span>, <span class="number">0</span>)                                   \</span><br><span class="line">                                                                   \</span><br><span class="line">  <span class="comment">/* Scanner-internal use only. */</span>                                 \</span><br><span class="line">  T(WHITESPACE, <span class="literal">nullptr</span>, <span class="number">0</span>)                                        \</span><br><span class="line">  T(UNINITIALIZED, <span class="literal">nullptr</span>, <span class="number">0</span>)                                     \</span><br><span class="line">  T(REGEXP_LITERAL, <span class="literal">nullptr</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到V8定义了很多token类型，符号、关键字都被分开来定义。</p>
+<p>但是作为一门简单的脚本语言，书中简单的将Token分为了3大类：</p>
+<ol>
+<li>Number Token：整形Token。</li>
+<li>String Token：字符串Token。</li>
+<li>Identifier Token: 标识符、关键字、变量名、运算符等。（除Number， String以外的单词）。</li>
+</ol>
+<p>每种Token我们定义了一个类，其存储的主要信息有行号和实值（数字，字符串，标识符）。</p>
+<p>最主要对于代码的解析我们用到了Java的正则匹配。而在V8中是自己写了匹配规则。</p>
+<p>我们简单介绍一下：</p>
+<h2 id="java的正则表达式"><a href="#java的正则表达式" class="headerlink" title="java的正则表达式"></a>java的正则表达式</h2><h3 id="Pattern类"><a href="#Pattern类" class="headerlink" title="Pattern类"></a>Pattern类</h3><p>pattern 对象是一个正则表达式的编译表示。Pattern 类没有公共构造方法。要创建一个 Pattern 对象，你必须首先调用其公共静态编译方法，它返回一个 Pattern 对象。该方法接受一个正则表达式作为它的第一个参数。下面是他的所有成员：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>解释</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>compile(String regex, ?int flags)</td>
+<td>Pattern类没有构造函数，都是通过该函数来获得匹配实体。其中regex是正则表达式，flags是模式，比如是否匹配换行等，一般使用Patter提供的静态变量来传递。</td>
+<td>Pattern：由传入正则表达式编译形成的patter实体。</td>
+</tr>
+<tr>
+<td>match(String regex, CharSequence input)</td>
+<td>通过传入的regex创建匹配实体并且尝试匹配input。</td>
+<td>boolean：是否成功匹配。</td>
+</tr>
+<tr>
+<td>quote(String s)</td>
+<td>将返回一个仅匹配s的正则表达式。（实际上是在s前后分别\Q和\E）。</td>
+<td>String：一个仅可匹配s的一个字符串。</td>
+</tr>
+<tr>
+<td>CANON_EQ: int</td>
+<td>表示当两个字符严格相等时才匹配。主要是对于Unicode字符而言。（不重要，不再赘述）。</td>
+<td>/</td>
+</tr>
+<tr>
+<td>CASE_INSENSITIVE:int</td>
+<td>是否大小写敏感，默认是，传入该变量则表示不敏感（也可在regex中插入?i表示此意）。</td>
+<td>/</td>
+</tr>
+<tr>
+<td>COMMENTS:int</td>
+<td>是否忽略regex中的空格，不是//s，而是空格或者tab等（也可在regex中插入?x表示此意）。</td>
+<td>/</td>
+</tr>
+<tr>
+<td>DOTALL:int</td>
+<td>表示点(.)是否可以匹配所有字符，包括结束符。（也可在regex中插入?s表示此意）。</td>
+<td>/</td>
+</tr>
+<tr>
+<td>LITERAL:int</td>
+<td>表示启用字面值解析模式。         指定此标志后，指定模式的输入字符串就会作为字面值字符序列来对待。输入序列中的元字符或转义序列不具有任何特殊意义。</td>
+<td>/</td>
+</tr>
+<tr>
+<td>MULTILINE:int</td>
+<td>默认情况下，输入的字符串被看作是一行，即便是这一行中包好了换行符也被看作一行。当匹配“^”到“$”之间的内容的时候，整个输入被看成一个一行。启用多行模式之后，包含换行符的输入将被自动转换成多行，然后进行匹配。</td>
+<td>/</td>
+</tr>
+<tr>
+<td>UNIX_LINES:int</td>
+<td>表示仅以\n为换行，\r\n将不会被识别为换行。（也可在regex中插入?d表示此意）。</td>
+<td>/</td>
+</tr>
+</tbody>
+</table>
+<p>所以基本只会使用<code>compile</code>这个函数和以下的几个静态变量。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> String regexPat = <span class="string">"\\abc"</span></span><br><span class="line"><span class="keyword">private</span> Pattern pattern = Pattern.compile(regexPat);</span><br></pre></td></tr></table></figure>
+<h3 id="Matcher-类"><a href="#Matcher-类" class="headerlink" title="Matcher 类"></a>Matcher 类</h3><p>Matcher 对象是对输入字符串进行解释和匹配操作的引擎。与Pattern 类一样，Matcher 也没有公共构造方法。你需要调用 Pattern 对象的 matcher 方法来获得一个 Matcher 对象。</p>
+<p>下面是其成员：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public MatchResult toMatchResult()</td>
+<td>将匹配结果以MatchResult的形式返回</td>
+</tr>
+<tr>
+<td>public Matcher usePattern(Pattern newPattern)</td>
+<td>修改Matcher对象的Pattern，用以进行新的模式匹配。</td>
+</tr>
+<tr>
+<td>public Matcher reset()</td>
+<td>重置匹配器的状态。</td>
+</tr>
+<tr>
+<td>public Matcher reset(CharSequence input)</td>
+<td>重置匹配器的状态，重置目标字符串的值为input。</td>
+</tr>
+<tr>
+<td>public int start()</td>
+<td>返回当前匹配到的字符串在原目标字符串中的起始索引位置</td>
+</tr>
+<tr>
+<td>public int start(int group)</td>
+<td>返回当前匹配到的字符串中group组在目标字符串的起始索引位置</td>
+</tr>
+<tr>
+<td>public int end()</td>
+<td>返回当前匹配的字符串的最后一个字符在原目标字符串中的offset（偏移量），这个需要大家注意一下。</td>
+</tr>
+<tr>
+<td>public int end(int group)</td>
+<td>返回当前匹配的字符串中group组的最后一个字符在原目标字符串中的offset（偏移量），这个需要大家注意一下。</td>
+</tr>
+<tr>
+<td>public String group()</td>
+<td>返回匹配到的所有字符串，结合find函数使用。</td>
+</tr>
+<tr>
+<td>public String group(int group)</td>
+<td>返回匹配到的字符串中的对应index的group组的字符串。</td>
+</tr>
+<tr>
+<td>public String group(String name)</td>
+<td>返回被named-capturing组捕获的字符串，关于named-capturing group（命名捕获组）是JDK1.7新增的功能，可以将正则表达式中的组进行命名。</td>
+</tr>
+<tr>
+<td>public int groupCount()</td>
+<td>返回当前Matcher对象捕获的组的个数。</td>
+</tr>
+<tr>
+<td>public boolean matches()</td>
+<td>将整个目标字符串与正则表达式进行匹配，只有完全匹配才能返回true，否则false。</td>
+</tr>
+<tr>
+<td>public boolean find()</td>
+<td>对目标字符串进行正则匹配，通过while可以多次执行find方法，获取多次的匹配结果，代码编写方式类似于iterator.next()。</td>
+</tr>
+<tr>
+<td>public boolean find(int start)</td>
+<td>在指定的索引位置对目标字符串进行正则匹配。</td>
+</tr>
+<tr>
+<td>public boolean lookingAt()</td>
+<td>目标字符串的起始字符串与正则表达式匹配返回true，否则返回false。</td>
+</tr>
+<tr>
+<td>public static String quoteReplacement(String s)</td>
+<td>返回字符串s字面意义的替代字符串。</td>
+</tr>
+<tr>
+<td>public Matcher appendReplacement(StringBuffer sb, String replacement)</td>
+<td>向sb中追加replacement字符串，replacement字符串中可以包含匹配器中的分组参数，如1，2。</td>
+</tr>
+<tr>
+<td>public StringBuffer appendTail(StringBuffer sb)</td>
+<td>将Matcher匹配后的尾部字符串追加至sb中。</td>
+</tr>
+<tr>
+<td>public String replaceAll(String replacement)</td>
+<td>将目标字符串中所有满足正则匹配的字符串替换为replacement。</td>
+</tr>
+<tr>
+<td>public String replaceFirst(String replacement)</td>
+<td>将目标字符串中第一个满足正则匹配的字符串替换为replacement。</td>
+</tr>
+<tr>
+<td>public Matcher region(int start, int end)</td>
+<td>设置目标字符串的匹配范围。</td>
+</tr>
+<tr>
+<td>public int regionStart()</td>
+<td>返回匹配器区域的起始点索引位置。</td>
+</tr>
+<tr>
+<td>public int regionEnd()</td>
+<td>返回匹配器区域的结束点索引位置。</td>
+</tr>
+<tr>
+<td>public boolean hasTransparentBounds()</td>
+<td>TransparentBounds标志位：查询TransparentBounds标志位true</td>
+</tr>
+<tr>
+<td>public Matcher useTransparentBounds(boolean b)</td>
+<td>设置TransparentBounds标志位的值true</td>
+</tr>
+<tr>
+<td>public boolean hasAnchoringBounds()</td>
+<td>AnchoringBounds标志位：查询AnchoringBounds标志位的值，此标志位默认为true。在应用正则表达式的时候，我们可以指定目标字符串的检索范围，也就是说在目标字符串的子字符串中应用正则表达式。但此时会有一个问题，那就是 ^ 和 $ 应该匹配整个字符串的开头和结尾呢？ 还是检索范围的起始和结束位置呢？Java 为我们提供了足够的灵活性，我们可以通过下面的方法来查看和设置，默认值是匹配检索范围的起始和结束位置。</td>
+</tr>
+<tr>
+<td>public Matcher useAnchoringBounds(boolean b)</td>
+<td>设置AnchoringBounds标志位的值true</td>
+</tr>
+<tr>
+<td>public boolean hitEnd()</td>
+<td></td>
+</tr>
+<tr>
+<td>public boolean requireEnd()</td>
+<td></td>
+</tr>
+<tr>
+<td>boolean match(int from, int anchor)</td>
+<td></td>
+</tr>
+<tr>
+<td>int getTextLength()</td>
+<td>返回目标字符串的长度。</td>
+</tr>
+<tr>
+<td>CharSequence getSubSequence(int beginIndex, int endIndex)</td>
+<td>获取目标字符串的子字符串。</td>
+</tr>
+<tr>
+<td>char charAt(int i)</td>
+<td>返回目标字符串中索引为i的字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="PatternSyntaxException"><a href="#PatternSyntaxException" class="headerlink" title="PatternSyntaxException"></a>PatternSyntaxException</h3><p>PatternSyntaxException 是一个非强制异常类，它表示一个正则表达式模式中的语法错误。</p>
+<h3 id="捕获组"><a href="#捕获组" class="headerlink" title="捕获组"></a>捕获组</h3><p>捕获组是把多个字符当一个单独单元进行处理的方法，它通过对括号内的字符分组来创建。</p>
+<p>捕获组是通过从左至右计算其开括号来编号。例如，在表达式（（A）（B（C））），有四个这样的组：</p>
+<ul>
+<li>((A)(B(C)))</li>
+<li>(A)</li>
+<li>(B(C))</li>
+<li>(C)</li>
+</ul>
+<p>可以通过调用 matcher 对象的 groupCount 方法来查看表达式有多少个分组。groupCount 方法返回一个 int 值，表示matcher对象当前有多个捕获组。</p>
+<p>还有一个特殊的组（group(0)），它总是代表整个表达式。该组不包括在 groupCount 的返回值中。 </p>
+<h3 id="正则表达式语法"><a href="#正则表达式语法" class="headerlink" title="正则表达式语法"></a>正则表达式语法</h3><p>有一个需要注意的点：</p>
+<p>Java中的转移字符为两个反斜杠\\,这与其他语言不同。即当我们需要对一个字符进行转义的时候，我们需要在前面写两个\。</p>
+<p>如：一般的我们需要匹配换行符\n这个符号的时候，我们只需要这么写：\n。</p>
+<p>而在Java中，我们需要这么写：\\n。</p>
+<p>下面是匹配的字符：</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\</td>
+<td>将下一字符标记为特殊字符、文本、反向引用或八进制转义符。例如， n匹配字符 n。\n 匹配换行符。序列 \\\\ 匹配 \\ ，\\( 匹配 (。</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与”\n”或”\r”之后的位置匹配。</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配输入字符串结尾的位置。如果设置了 RegExp 对象的 Multiline 属性，$ 还会与”\n”或”\r”之前的位置匹配。</td>
+</tr>
+<tr>
+<td>*</td>
+<td>零次或多次匹配<strong>前面</strong>的字符或子表达式。例如，zo<em> 匹配”z”和”zoo”。</em> 等效于 {0,}。</td>
+</tr>
+<tr>
+<td>+</td>
+<td>一次或多次匹配<strong>前面</strong>的字符或子表达式。例如，”zo+”与”zo”和”zoo”匹配，但与”z”不匹配。+ 等效于 {1,}。</td>
+</tr>
+<tr>
+<td>?</td>
+<td>零次或一次匹配<strong>前面</strong>的字符或子表达式。例如，”do(es)?”匹配”do”或”does”中的”do”。? 等效于 {0,1}。</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>n 是非负整数。正好匹配 n 次。例如，”o{2}”与”Bob”中的”o”不匹配，但与”food”中的两个”o”匹配。</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td>n 是非负整数。至少匹配 n 次。例如，”o{2,}”不匹配”Bob”中的”o”，而匹配”foooood”中的所有 o。”o{1,}”等效于”o+”。”o{0,}”等效于”o*”。</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>m 和 n 是非负整数，其中 n &lt;= m。匹配至少 n 次，至多 m 次。例如，”o{1,3}”匹配”fooooood”中的头三个 o。’o{0,1}’ 等效于 ‘o?’。注意：您不能将空格插入逗号和数字之间。</td>
+</tr>
+<tr>
+<td>?</td>
+<td>当此字符紧随任何其他限定符（*、+、?、{n}、{n,}、{n,m}）之后时，匹配模式是”非贪心的”。”非贪心的”模式匹配搜索到的、尽可能短的字符串，而默认的”贪心的”模式匹配搜索到的、尽可能长的字符串。例如，在字符串”oooo”中，”o+?”只匹配单个”o”，而”o+”匹配所有”o”。</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配除”\r\n”之外的任何单个字符。若要匹配包括”\r\n”在内的任意字符，请使用诸如”[\s\S]”之类的模式。</td>
+</tr>
+<tr>
+<td>(pattern)</td>
+<td>匹配 pattern 并捕获该匹配的子表达式。可以使用 $0…$9 属性从结果”匹配”集合中检索捕获的匹配。若要匹配括号字符 ( )，请使用”\(“或者”\)”。</td>
+</tr>
+<tr>
+<td>(?:pattern)</td>
+<td>匹配 <em>pattern</em> 但不捕获该匹配的子表达式，即它是一个非捕获匹配，不存储供以后使用的匹配。这对于用”or”字符 (\</td>
+<td>) 组合模式部件的情况很有用。例如，’industr(?:y\</td>
+<td>ies) 是比 ‘industry\</td>
+<td>industries’ 更经济的表达式。</td>
+</tr>
+<tr>
+<td>(？=pattern)</td>
+<td>执行正向预测先行搜索的子表达式，该表达式匹配处于匹配 <em>pattern</em> 的字符串的起始点的字符串。它是一个非捕获匹配，即不能捕获供以后使用的匹配。例如，’Windows (?=95\</td>
+<td>98\</td>
+<td>NT\</td>
+<td>2000)’ 匹配”Windows 2000”中的”Windows”，但不匹配”Windows 3.1”中的”Windows”。预测先行不占用字符，即发生匹配后，下一匹配的搜索紧随上一匹配之后，而不是在组成预测先行的字符后。</td>
+</tr>
+<tr>
+<td>(?!pattern)</td>
+<td>执行反向预测先行搜索的子表达式，该表达式匹配不处于匹配 <em>pattern</em> 的字符串的起始点的搜索字符串。它是一个非捕获匹配，即不能捕获供以后使用的匹配。例如，’Windows (?!95\</td>
+<td>98\</td>
+<td>NT\</td>
+<td>2000)’ 匹配”Windows 3.1”中的 “Windows”，但不匹配”Windows 2000”中的”Windows”。预测先行不占用字符，即发生匹配后，下一匹配的搜索紧随上一匹配之后，而不是在组成预测先行的字符后。</td>
+</tr>
+<tr>
+<td>x\</td>
+<td>y</td>
+<td>匹配 <em>x</em> 或 <em>y</em>。例如，’z\</td>
+<td>food’ 匹配”z”或”food”。’(z\</td>
+<td>f)ood’ 匹配”zood”或”food”。</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>字符集。匹配包含的任一字符。例如，”[abc]”匹配”plain”中的”a”。</td>
+</tr>
+<tr>
+<td>[^xyz]</td>
+<td>反向字符集。匹配未包含的任何字符。例如，”[^abc]”匹配”plain”中”p”，”l”，”i”，”n”。</td>
+</tr>
+<tr>
+<td>[a-z]</td>
+<td>字符范围。匹配指定范围内的任何字符。例如，”[a-z]”匹配”a”到”z”范围内的任何小写字母。</td>
+</tr>
+<tr>
+<td>[^a-z]</td>
+<td>反向范围字符。匹配不在指定的范围内的任何字符。例如，”[^a-z]”匹配任何不在”a”到”z”范围内的任何字符。</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个字边界，即字与空格间的位置。例如，”er\b”匹配”never”中的”er”，但不匹配”verb”中的”er”。</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>非字边界匹配。”er\B”匹配”verb”中的”er”，但不匹配”never”中的”er”。</td>
+</tr>
+<tr>
+<td>\cx</td>
+<td>匹配 x 指示的控制字符。例如，\cM 匹配 Control-M 或回车符。x 的值必须在 A-Z 或 a-z 之间。如果不是这样，则假定 c 就是”c”字符本身。</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>数字字符匹配。等效于 [0-9]。</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>非数字字符匹配。等效于 [^0-9]。</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>换页符匹配。等效于 \x0c 和 \cL。</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>换行符匹配。等效于 \x0a 和 \cJ。</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>匹配一个回车符。等效于 \x0d 和 \cM。</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配任何空白字符，包括空格、制表符、换页符等。与 [ \f\n\r    \v] 等效。</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配任何非空白字符。与 [^ \f\n\r\t\v] 等效。</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>制表符匹配。与 \x09 和 \cI 等效。</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>垂直制表符匹配。与 \x0b 和 \cK 等效。</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配任何字类字符，包括下划线。与”[A-Za-z0-9_]”等效。</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>与任何非单词字符匹配。与”[^A-Za-z0-9_]”等效。</td>
+</tr>
+<tr>
+<td>\xn</td>
+<td>匹配 n，此处的 n 是一个十六进制转义码。十六进制转义码必须正好是两位数长。例如，”\x41”匹配”A”。”\x041”与”\x04”&amp;”1”等效。允许在正则表达式中使用 ASCII 代码。</td>
+</tr>
+<tr>
+<td>\num</td>
+<td>匹配 num，此处的 num 是一个正整数。到捕获匹配的反向引用。例如，”(.)\1”匹配两个连续的相同字符。</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>标识一个八进制转义码或反向引用。如果 \n 前面至少有 n 个捕获子表达式，那么 n 是反向引用。否则，如果 n 是八进制数 (0-7)，那么 n 是八进制转义码。</td>
+</tr>
+<tr>
+<td>\nm</td>
+<td>标识一个八进制转义码或反向引用。如果 \nm 前面至少有 nm 个捕获子表达式，那么 nm 是反向引用。如果 \nm 前面至少有 n 个捕获，则 n 是反向引用，后面跟有字符 m。如果两种前面的情况都不存在，则 \nm 匹配八进制值 nm，其中 n 和 m 是八进制数字 (0-7)。</td>
+</tr>
+<tr>
+<td>\nml</td>
+<td>当 n 是八进制数 (0-3)，m 和 l 是八进制数 (0-7) 时，匹配八进制转义码 nml。</td>
+</tr>
+<tr>
+<td>\un</td>
+<td>匹配 n，其中 n 是以四位十六进制数表示的 Unicode 字符。例如，\u00A9 匹配版权符号 (©)。</td>
+</tr>
+<tr>
+<td>\p{Punct}</td>
+<td>匹配任何标点字符。</td>
+</tr>
+</tbody>
+</table>
+<p>下面我们看一下主要的regexPat：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String regexPat = </span><br><span class="line">		<span class="string">"\\s*((//.*)|([0-9]+)|(\"(\\\\\"|\\\\\\\\|\\\\n|[^\"])*\")"</span></span><br><span class="line">		+<span class="string">"|[A-Z_a-z][A-Z_a-z0-9]*|==|&lt;=|&gt;=|&amp;&amp;|\\|\\||\\p&#123;Punct&#125;)?"</span>;</span><br></pre></td></tr></table></figure>
+<p>接下来我们按上面的规则来分析这个解析表达式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"\\s*((//.*)|([0-9]+)|(\"(\\\\\"|\\\\\\\\|\\\\n|[^\"])*\")|[A-Z_a-z][A-Z_a-z0-9]*|==|&lt;=|&gt;=|&amp;&amp;|\\|\\||\\p&#123;Punct&#125;)?"</span>;</span><br></pre></td></tr></table></figure>
+<p>我们经过格式化。可以得到以下结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">\\s*                                            匹配空格</span><br><span class="line">(											  	  group(1)</span><br><span class="line">	(</span><br><span class="line">		//.*										  匹配注释-group(2)</span><br><span class="line">	)                                        </span><br><span class="line">	|</span><br><span class="line">	(</span><br><span class="line">		[0-9]+										  匹配数字-group(3)</span><br><span class="line">	)                                      </span><br><span class="line">	|</span><br><span class="line">	(</span><br><span class="line">		\&quot;(\\\\\&quot;|\\\\\\\\|\\\\n|[^\&quot;])*\&quot;            匹配字符串-group(4)</span><br><span class="line">	)          </span><br><span class="line">	|</span><br><span class="line">	[A-Z_a-z][A-Z_a-z0-9]*                        匹配标识符，identifier</span><br><span class="line">	|</span><br><span class="line">	==											  匹配==</span><br><span class="line">	|</span><br><span class="line">	&lt;=                                            匹配&lt;=</span><br><span class="line">	|</span><br><span class="line">	&gt;=                                            匹配&gt;=</span><br><span class="line">	|</span><br><span class="line">	&amp;&amp;                                            匹配&amp;&amp;</span><br><span class="line">	|</span><br><span class="line">	\\                                            匹配\</span><br><span class="line">	|</span><br><span class="line">	\\|											  匹配|</span><br><span class="line">	|</span><br><span class="line">	\\p&#123;Punct&#125;                                    匹配任何标点字符</span><br><span class="line">)?                                                匹配0次或1次</span><br></pre></td></tr></table></figure>
+<p>可以看出，我们将其分割开来，还是比较容易看懂的。所以此时我们再看匹配的Java代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addToken</span><span class="params">(<span class="keyword">int</span> lineNumber, Matcher matcher)</span> </span>&#123;</span><br><span class="line">    String m = matcher.group(<span class="number">1</span>);  <span class="comment">//最外层匹配项</span></span><br><span class="line">    <span class="comment">//			System.out.println(m);</span></span><br><span class="line">    <span class="keyword">if</span>(m != <span class="keyword">null</span>) &#123; <span class="comment">//not a space</span></span><br><span class="line">        <span class="keyword">if</span>(matcher.group(<span class="number">2</span>) == <span class="keyword">null</span>) &#123; <span class="comment">//not a comment</span></span><br><span class="line">            Token token;</span><br><span class="line">            <span class="keyword">if</span>(matcher.group(<span class="number">3</span>) != <span class="keyword">null</span>) &#123; <span class="comment">//数字Token，例如123</span></span><br><span class="line">                token = <span class="keyword">new</span> NumToken(lineNumber, Integer.parseInt(m));</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(matcher.group(<span class="number">4</span>) != <span class="keyword">null</span>) &#123;	<span class="comment">//字符串匹配，例如 "123"</span></span><br><span class="line">                token = <span class="keyword">new</span> StrToken(lineNumber, toStringLiteral(m));</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;		<span class="comment">//id匹配，例如while</span></span><br><span class="line">                token = <span class="keyword">new</span> IdToken(lineNumber, m);</span><br><span class="line">            &#125;</span><br><span class="line">            queue.add(token);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即可以完全和Java代码匹配出来。</p>
+<h2 id="总体思路"><a href="#总体思路" class="headerlink" title="总体思路"></a>总体思路</h2><p>所以词法分析的主要流程很简答：</p>
+<ol>
+<li>将代码读取出来为stream，按行读取。</li>
+<li>使用正则表达式匹配每一行的代码，将其识别为对应的单词（token）。</li>
+<li>将识别出的token加入到Lexer的ArrayList中。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/" target="_blank" title="基于java的脚本语言hair的开发思路1-词法分析">http://yoursite.com/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/09/19/java的正则表达式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">java的正则表达式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#词法分析"><span class="nav-number">1.</span> <span class="nav-text">词法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#java的正则表达式"><span class="nav-number">1.1.</span> <span class="nav-text">java的正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pattern类"><span class="nav-number">1.1.1.</span> <span class="nav-text">Pattern类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">1.1.2.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Matcher-类"><span class="nav-number">1.1.3.</span> <span class="nav-text">Matcher 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PatternSyntaxException"><span class="nav-number">1.1.4.</span> <span class="nav-text">PatternSyntaxException</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#捕获组"><span class="nav-number">1.1.5.</span> <span class="nav-text">捕获组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则表达式语法"><span class="nav-number">1.1.6.</span> <span class="nav-text">正则表达式语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总体思路"><span class="nav-number">1.2.</span> <span class="nav-text">总体思路</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

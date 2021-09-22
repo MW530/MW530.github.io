@@ -282,6 +282,113 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-JavaScript中的与或运算"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2020/01/07/JavaScript中的与或运算/">JavaScript中的&amp;，&amp;&amp;，|，||</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/01/07/JavaScript中的与或运算/" class="article-date">
+	  <time datetime="2020-01-07T11:51:20.000Z" itemprop="datePublished">2020-01-07</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          简单区分&amp;,&amp;&amp;,|,||&amp;&amp; 位与运算符 — 用于位运算（非数字会通过primitive原则转换为数字）—- 左右全为1才为1
+|| 位或运算符 — 用于位运算（非数字会通过primitive原则转换为数字）—- 左右有一个1结果就为1
+&amp;&amp;&amp;&amp; 逻辑运算符（与） — 用于逻辑运算 （非Boolean型会被转化为Boolean型进行对比）—- 
+
+如果第一个值（转换后）为true，则返回后一个值。
+
+如果第一个值（转...
+        </p>
+        <p class="article-more-link">
+          <a href="/2020/01/07/JavaScript中的与或运算/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Vue中动态添加路由的问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2020/01/06/Vue中动态添加路由的问题/">Vue中动态添加路由的问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/01/06/Vue中动态添加路由的问题/" class="article-date">
+	  <time datetime="2020-01-06T01:52:42.000Z" itemprop="datePublished">2020-01-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          起始前端的权限控制一直是一个可繁可简的问题，要想简单，直接写入所有路由，然后将每个路由的权限写入路由原信息中，然后在router.beforeEach中判断这个路由是否该用户的权限，进行reject()或者next()。这样做很简单，但是Vue提供了一个addRouter的api，用于动态注册路由，由此可以用这个api来根据用户角色进行动态路由注入。
+问题动态注入路由后404问题一般我们将公共路由放置到路的初始化中，这其中就包括404页面，他的path一般是*,也就是匹配所有路由，因此Vu...
+        </p>
+        <p class="article-more-link">
+          <a href="/2020/01/06/Vue中动态添加路由的问题/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Vue中的插槽与keep-alive"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -708,124 +815,11 @@ transition也是一个复合属性：
 
 
   
-    <article id="post-Vue中局部修改组件样式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/11/17/Vue中局部修改组件样式/">Vue中局部修改组件样式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/11/17/Vue中局部修改组件样式/" class="article-date">
-	  <time datetime="2019-11-17T11:52:19.000Z" itemprop="datePublished">2019-11-17</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          Vue如何修改子组件样式在使用element-ui或者i-view这些第三方样式库时，我们有时会想只在某一个组件中局部修改库中的样式而部影响全局样式。
-首先我们需要打开控制器找到对应组件的CSS样式的类名或者id
-有以下几种方式
-不在style样式上添加scope属性&lt;template&gt;
-    &lt;div class=&quot;father&quot;&gt;
-        &lt;el-input&gt;&lt;/el-input&gt;
-    &lt;/div&...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/11/17/Vue中局部修改组件样式/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-CSS3-转换"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/11/05/CSS3-转换/">CSS3-转换</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/11/05/CSS3-转换/" class="article-date">
-	  <time datetime="2019-11-05T01:23:39.000Z" itemprop="datePublished">2019-11-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          CSS3中的转换CSS3中的转换可以形成简单的动画，对于页面的小优化有点金的效果。
-CSS3中的转换都在transform属性中定义，在该属性中定义其他函数来进行不同的转换。
-CSS3的2D转换translate()该函数接受两个参数，分别是其x，y轴的偏移量，右下为正方向。
-transform:translate(50px,100px);
-将原元素向右、下移动50px、100px。
-如果只填一个参数，则默认为x轴偏移。
-transform:translate(50px);
-向x轴移动50...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/11/05/CSS3-转换/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
   </nav>
 
 </section>

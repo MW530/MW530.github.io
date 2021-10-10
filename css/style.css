@@ -224,6 +224,15 @@ body {
   -ms-transform: scale(1.4, 3.2);
   transform: scale(1.4, 3.2);
 }
+#mwSearch {
+  position: fixed;
+  bottom: 20px;
+  left: 50px;
+  -webkit-transform: scale(1.6, 1.6);
+  -moz-transform: scale(1.6, 1.6);
+  -ms-transform: scale(1.6, 1.6);
+  transform: scale(1.6, 1.6);
+}
 #menu-switch {
   display: block;
   position: fixed;

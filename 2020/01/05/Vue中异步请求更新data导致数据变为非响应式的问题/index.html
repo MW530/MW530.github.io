@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>vue中异步请求更新data导致数据变为非响应式的问题 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Vueaxios响应式数据">
+  <meta name="keywords" content="Vueaxios响应式数据" />
   
   
   
   
   <meta name="description" content="问题最近在项目遇到一个棘手的问题，看了1天才发现是异步与Vue的数据更新机制导致了结果与预期不一致。 最开始的代码流程是这样： 通过一个请求拿到一组数据data1，包括下一个请求的关键字 在第一个请求的回掉函数中使用for循环利用上一个数组的关键字发送多个子请求得到对应的datan，并在每个子请求的回调中对data1和datan进行对比，然后给data1添加一个字段key 在第一个请求的回调中把修">
-<meta name="keywords" content="Vue,axios,响应式数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue中异步请求更新data导致数据变为非响应式的问题">
-<meta property="og:url" content="http://yoursite.com/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/01/05/Vue%E4%B8%AD%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%9B%B4%E6%96%B0data%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E5%8F%98%E4%B8%BA%E9%9D%9E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="问题最近在项目遇到一个棘手的问题，看了1天才发现是异步与Vue的数据更新机制导致了结果与预期不一致。 最开始的代码流程是这样： 通过一个请求拿到一组数据data1，包括下一个请求的关键字 在第一个请求的回掉函数中使用for循环利用上一个数组的关键字发送多个子请求得到对应的datan，并在每个子请求的回调中对data1和datan进行对比，然后给data1添加一个字段key 在第一个请求的回调中把修">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/Vue中异步请求更新data导致数据变为非响应式的问题/lifecycle.png">
-<meta property="og:updated_time" content="2020-01-05T07:27:21.749Z">
+<meta property="og:image" content="http://yoursite.com/images/Vue%E4%B8%AD%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%9B%B4%E6%96%B0data%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E5%8F%98%E4%B8%BA%E9%9D%9E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/lifecycle.png">
+<meta property="article:published_time" content="2020-01-05T04:22:40.000Z">
+<meta property="article:modified_time" content="2020-01-05T07:27:21.749Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="axios">
+<meta property="article:tag" content="响应式数据">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue中异步请求更新data导致数据变为非响应式的问题">
-<meta name="twitter:description" content="问题最近在项目遇到一个棘手的问题，看了1天才发现是异步与Vue的数据更新机制导致了结果与预期不一致。 最开始的代码流程是这样： 通过一个请求拿到一组数据data1，包括下一个请求的关键字 在第一个请求的回掉函数中使用for循环利用上一个数组的关键字发送多个子请求得到对应的datan，并在每个子请求的回调中对data1和datan进行对比，然后给data1添加一个字段key 在第一个请求的回调中把修">
-<meta name="twitter:image" content="http://yoursite.com/images/Vue中异步请求更新data导致数据变为非响应式的问题/lifecycle.png">
+<meta name="twitter:image" content="http://yoursite.com/images/Vue%E4%B8%AD%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%9B%B4%E6%96%B0data%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E5%8F%98%E4%B8%BA%E9%9D%9E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/lifecycle.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -44,32 +45,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -147,7 +156,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -180,7 +191,7 @@
     
     <div class="article-meta">
       
-	<a href="/2020/01/05/Vue中异步请求更新data导致数据变为非响应式的问题/" class="article-date">
+	<a href="/2020/01/05/Vue%E4%B8%AD%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%9B%B4%E6%96%B0data%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E5%8F%98%E4%B8%BA%E9%9D%9E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/" class="article-date">
 	  <time datetime="2020-01-05T04:22:40.000Z" itemprop="datePublished">2020-01-05</time>
 	</a>
 
@@ -208,7 +219,7 @@
 <h2 id="思路一：data转换为响应式的时间"><a href="#思路一：data转换为响应式的时间" class="headerlink" title="思路一：data转换为响应式的时间"></a>思路一：data转换为响应式的时间</h2><p>首先我从响应式这个角度去分析，Vue是在哪个生命周期函数内将data挂载到Vue实例中的(因该是在beforeCreate与created之间)，而我做这些操作是在mounted，所以此时data因该已经被挂载到了Vue实例中，后来我又在思考JS中存在变量提升，是不是Vue中也存在，即是否在mounted中存在譬如<code>this.xxx = yyy</code>这样的语句会被提升到其他语句之前执行，yyy的内存地址提前就会被写入到this.xxx的位置，然后在这个内存地址被赋值时就将其变为响应式，所以第一次data1被赋值为一个数组时他是响应式的，但是后面对这个内存地址的变量进行的操作是为数组内的对象进行赋值<code>this.data1[i].key = val</code>，这样的赋值是无法被Vue探测到的，所以其后添加的属性无法变为响应式。这样子似乎一切都说的通，但是关键是这种<strong>变量提升</strong>这个东西我之前从未在Vue中遇到过，我查阅资料也发现根本不存在这种机制。于是这个说法被PASS。</p>
 <p>不过这个过程中我也复习了一下生命周期函数和Vue中数组对象的处理：</p>
 <h3 id="Vue生命周期"><a href="#Vue生命周期" class="headerlink" title="Vue生命周期"></a>Vue生命周期</h3><p>引用官方的一张图：</p>
-<p><img src="\images\Vue中异步请求更新data导致数据变为非响应式的问题\lifecycle.png" style="zoom:50%;"></p>
+<p><img src="\images\Vue中异步请求更新data导致数据变为非响应式的问题\lifecycle.png" style="zoom:50%;" /></p>
 <p>值得注意的是：data，methods等都是在beforeCreated与created之间进行的。经常使用的mounted已经是在模板已经编译完成之后了。</p>
 <h3 id="Vue中对数组和对象的处理"><a href="#Vue中对数组和对象的处理" class="headerlink" title="Vue中对数组和对象的处理"></a>Vue中对数组和对象的处理</h3><p>对于动态更新DOM最基本的原理是定义一个变量的getter和setter，在其中触发更新DOM操作，对于数组，我们整个赋值，我们可以使用getter和setter监听，但是如果我们操作数组内部的元素，比如arr[1] = 0，这样的操作我们是无法监听到的，因此在Vue中，如果这样给data赋值，这个值并不会变为响应式，而是一个普通的值。具体有</p>
 <ol>
@@ -252,7 +263,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -317,7 +330,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2020/01/05/Vue中的组件传值/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -327,7 +340,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2020/01/04/2019年的我，21岁的人生/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/01/04/2019%E5%B9%B4%E7%9A%84%E6%88%91%EF%BC%8C21%E5%B2%81%E7%9A%84%E4%BA%BA%E7%94%9F/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">2019年的我，21岁的人生</div>
     </a>
@@ -435,8 +448,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -444,7 +462,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

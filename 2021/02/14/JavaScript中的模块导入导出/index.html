@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>javascript中的模块导入导出 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="JavaScriptAMDCMDCommonJSES Module">
+  <meta name="keywords" content="JavaScriptAMDCMDCommonJSES Module" />
   
   
   
   
   <meta name="description" content="模块的概念 （Modular design）　所谓的模块化设计，简单地说就是将产品的某些要素组合在一起，构成一个具有特定功能的子系统，将这个子系统作为通用性的模块与其他产品要素进行多种组合，构成新的系统，产生多种不同功能或相同功能、不同性能的系列产品。  这是在整个设计行业对模块化的定义。对于编程语言中的模块化设计，其基本思路就是将有相同功能的部分代码封装在一起，形成一个通用的，可复用的模块，使之">
-<meta name="keywords" content="JavaScript,AMD,CMD,CommonJS,ES Module">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript中的模块导入导出">
-<meta property="og:url" content="http://yoursite.com/2021/02/14/JavaScript中的模块导入导出/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/02/14/JavaScript%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="模块的概念 （Modular design）　所谓的模块化设计，简单地说就是将产品的某些要素组合在一起，构成一个具有特定功能的子系统，将这个子系统作为通用性的模块与其他产品要素进行多种组合，构成新的系统，产生多种不同功能或相同功能、不同性能的系列产品。  这是在整个设计行业对模块化的定义。对于编程语言中的模块化设计，其基本思路就是将有相同功能的部分代码封装在一起，形成一个通用的，可复用的模块，使之">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/JavaScript中的模块导入导出/ESModule兼容性.png">
-<meta property="og:updated_time" content="2021-03-09T14:02:07.383Z">
+<meta property="og:image" content="http://yoursite.com/images/JavaScript%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/ESModule%E5%85%BC%E5%AE%B9%E6%80%A7.png">
+<meta property="article:published_time" content="2021-02-14T10:47:09.000Z">
+<meta property="article:modified_time" content="2021-03-09T14:02:07.383Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="AMD">
+<meta property="article:tag" content="CMD">
+<meta property="article:tag" content="CommonJS">
+<meta property="article:tag" content="ES Module">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript中的模块导入导出">
-<meta name="twitter:description" content="模块的概念 （Modular design）　所谓的模块化设计，简单地说就是将产品的某些要素组合在一起，构成一个具有特定功能的子系统，将这个子系统作为通用性的模块与其他产品要素进行多种组合，构成新的系统，产生多种不同功能或相同功能、不同性能的系列产品。  这是在整个设计行业对模块化的定义。对于编程语言中的模块化设计，其基本思路就是将有相同功能的部分代码封装在一起，形成一个通用的，可复用的模块，使之">
-<meta name="twitter:image" content="http://yoursite.com/images/JavaScript中的模块导入导出/ESModule兼容性.png">
+<meta name="twitter:image" content="http://yoursite.com/images/JavaScript%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/ESModule%E5%85%BC%E5%AE%B9%E6%80%A7.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -44,32 +47,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -147,7 +158,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -180,7 +193,7 @@
     
     <div class="article-meta">
       
-	<a href="/2021/02/14/JavaScript中的模块导入导出/" class="article-date">
+	<a href="/2021/02/14/JavaScript%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/" class="article-date">
 	  <time datetime="2021-02-14T10:47:09.000Z" itemprop="datePublished">2021-02-14</time>
 	</a>
 
@@ -238,7 +251,7 @@
 <p><code>module2</code>又依赖<code>module3</code></p>
 <p><code>module4</code>又依赖<code>module3</code></p>
 <p>我们则必须按这个顺序加载脚本文件</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./module4'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./module3'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./module2'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./module1'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">	module1.mock()</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./module4'</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./module3'</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./module2'</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./module1'</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line">	module1.mock()</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h3 id="立即执行函数（IIFE）的衍生写法"><a href="#立即执行函数（IIFE）的衍生写法" class="headerlink" title="立即执行函数（IIFE）的衍生写法"></a>立即执行函数（IIFE）的衍生写法</h3><h4 id="放大模式"><a href="#放大模式" class="headerlink" title="放大模式"></a>放大模式</h4><h5 id="描述-3"><a href="#描述-3" class="headerlink" title="描述"></a>描述</h5><p>如果一个模块很大，必须分成几个部分，或者一个模块需要继承另一个模块，这时就有必要采用”放大模式”（augmentation）。</p>
@@ -412,7 +425,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -477,7 +492,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2021/02/22/设计模式1-单例模式/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F1-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -487,7 +502,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2021/02/13/Fetch方法的使用/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/13/Fetch%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Fetch方法的使用</div>
     </a>
@@ -595,8 +610,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -604,7 +624,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

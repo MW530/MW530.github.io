@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>全面理解javascript作用域与闭包 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="JavaScript作用域垃圾回收机制闭包">
+  <meta name="keywords" content="JavaScript作用域垃圾回收机制闭包" />
   
   
   
   
   <meta name="description" content="作用域pre：块语句块语句（或其他语言的复合语句）用于组合零个或多个语句。该块由一对大括号界定，可以是labelled： 块语句会生成一个块级作用域，生成块级作用域包含两种方法：  使用任意声明符号（’’, var,let,const）在函数中会生成一个块级作用域。  使用let,const在任何块语句中生成一个块级作用域。 注意：var在非函数的块语句中不会生成一个块级作用域。   介绍中都会使">
-<meta name="keywords" content="JavaScript,作用域,垃圾回收机制,闭包">
 <meta property="og:type" content="article">
 <meta property="og:title" content="全面理解JavaScript作用域与闭包">
-<meta property="og:url" content="http://yoursite.com/2021/01/31/全面理解JavaScript作用域与闭包/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="作用域pre：块语句块语句（或其他语言的复合语句）用于组合零个或多个语句。该块由一对大括号界定，可以是labelled： 块语句会生成一个块级作用域，生成块级作用域包含两种方法：  使用任意声明符号（’’, var,let,const）在函数中会生成一个块级作用域。  使用let,const在任何块语句中生成一个块级作用域。 注意：var在非函数的块语句中不会生成一个块级作用域。   介绍中都会使">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="d:/myblog/myblog/source/images/V8内存模型.png">
-<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/V8-2.png">
-<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/V8-3.png">
-<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/GCprocess1.webp">
-<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/GCprocess2.webp">
-<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/GCprocess3.webp">
-<meta property="og:image" content="http://yoursite.com/images/全面理解JavaScript作用域与闭包/GCprocess4.webp">
-<meta property="og:updated_time" content="2021-03-25T15:12:42.800Z">
+<meta property="og:image" content="http://yoursite.com/images/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/V8-2.png">
+<meta property="og:image" content="http://yoursite.com/images/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/V8-3.png">
+<meta property="og:image" content="http://yoursite.com/images/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/GCprocess1.webp">
+<meta property="og:image" content="http://yoursite.com/images/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/GCprocess2.webp">
+<meta property="og:image" content="http://yoursite.com/images/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/GCprocess3.webp">
+<meta property="og:image" content="http://yoursite.com/images/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/GCprocess4.webp">
+<meta property="article:published_time" content="2021-01-31T09:26:46.000Z">
+<meta property="article:modified_time" content="2021-03-25T15:12:42.800Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="作用域">
+<meta property="article:tag" content="垃圾回收机制">
+<meta property="article:tag" content="闭包">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="全面理解JavaScript作用域与闭包">
-<meta name="twitter:description" content="作用域pre：块语句块语句（或其他语言的复合语句）用于组合零个或多个语句。该块由一对大括号界定，可以是labelled： 块语句会生成一个块级作用域，生成块级作用域包含两种方法：  使用任意声明符号（’’, var,let,const）在函数中会生成一个块级作用域。  使用let,const在任何块语句中生成一个块级作用域。 注意：var在非函数的块语句中不会生成一个块级作用域。   介绍中都会使">
 <meta name="twitter:image" content="d:/myblog/myblog/source/images/V8内存模型.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -50,32 +52,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -153,7 +163,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -186,7 +198,7 @@
     
     <div class="article-meta">
       
-	<a href="/2021/01/31/全面理解JavaScript作用域与闭包/" class="article-date">
+	<a href="/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/" class="article-date">
 	  <time datetime="2021-01-31T09:26:46.000Z" itemprop="datePublished">2021-01-31</time>
 	</a>
 
@@ -342,7 +354,7 @@
 <li>引用变量：<code>Object，Array，Date，RegExp</code></li>
 </ol>
 <p>然后看一下V8的内存模型：</p>
-<p><img src="D:\myblog\myblog\source\images\V8内存模型.png" alt></p>
+<p><img src="D:\myblog\myblog\source\images\V8内存模型.png" alt=""></p>
 <h3 id="栈区"><a href="#栈区" class="headerlink" title="栈区"></a>栈区</h3><p>栈区用于存储变量的<strong>名称以及内存中的地址</strong>。该地址又指向堆区、常量区或函数定义区。</p>
 <p>例如：</p>
 <p>在我们定义一个变量时：</p>
@@ -478,7 +490,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -543,7 +557,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2021/02/04/Promise的实现/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -553,7 +567,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2021/01/27/bind-call-apply的用法及实现/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/01/27/bind-call-apply%E7%9A%84%E7%94%A8%E6%B3%95%E5%8F%8A%E5%AE%9E%E7%8E%B0/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">bind,call,apply的用法及实现</div>
     </a>
@@ -661,8 +675,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -670,7 +689,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

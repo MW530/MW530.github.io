@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>在esc服务器上搭建静态网站 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="escwebsite">
+  <meta name="keywords" content="escwebsite" />
   
   
   
   
   <meta name="description" content="开始前面在连接上服务器后，紧接着我想测试一下服务器的网站搭建，下面就把简单的教程贴出来。 1.首先要要在服务器管理页面对服务器进行配置（我最开始就是忘了配置服务器的端口，结果怎么都不对!!!）由于我们HTTP的对应端口是80，所以我们在安全组规则中添加对80端口的开放。">
-<meta name="keywords" content="esc,website">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在ESC服务器上搭建静态网站">
 <meta property="og:url" content="http://yoursite.com/2018/07/22/ecsAndWebsite/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="开始前面在连接上服务器后，紧接着我想测试一下服务器的网站搭建，下面就把简单的教程贴出来。 1.首先要要在服务器管理页面对服务器进行配置（我最开始就是忘了配置服务器的端口，结果怎么都不对!!!）由于我们HTTP的对应端口是80，所以我们在安全组规则中添加对80端口的开放。">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://s1.ax1x.com/2018/07/25/Ptydk4.md.png">
 <meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsJde.png">
 <meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsNid.png">
@@ -34,10 +32,12 @@
 <meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsYIH.png">
 <meta property="og:image" content="https://s1.ax1x.com/2018/07/25/PtsGZD.png">
 <meta property="og:image" content="https://s1.ax1x.com/2018/07/25/Ptsdzt.jpg">
-<meta property="og:updated_time" content="2018-07-25T14:12:41.473Z">
+<meta property="article:published_time" content="2018-07-22T14:14:41.000Z">
+<meta property="article:modified_time" content="2018-07-25T14:12:41.473Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="esc">
+<meta property="article:tag" content="website">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在ESC服务器上搭建静态网站">
-<meta name="twitter:description" content="开始前面在连接上服务器后，紧接着我想测试一下服务器的网站搭建，下面就把简单的教程贴出来。 1.首先要要在服务器管理页面对服务器进行配置（我最开始就是忘了配置服务器的端口，结果怎么都不对!!!）由于我们HTTP的对应端口是80，所以我们在安全组规则中添加对80端口的开放。">
 <meta name="twitter:image" content="https://s1.ax1x.com/2018/07/25/Ptydk4.md.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -58,32 +58,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -161,7 +169,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -266,7 +276,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -331,7 +343,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2018/07/25/《亮剑》精神/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/07/25/%E3%80%8A%E4%BA%AE%E5%89%91%E3%80%8B%E7%B2%BE%E7%A5%9E/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -449,8 +461,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -458,7 +475,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

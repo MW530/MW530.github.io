@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>vue源码1-从初始化到响应式原理 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Vue源码响应式原理">
+  <meta name="keywords" content="Vue源码响应式原理" />
   
   
   
   
-  <meta name="description" content="首先介绍后面要用到的几个类：  Observer类：用于将一个数据变为响应式（可被观测） Watcher类：一个依赖（一个指令对应一个依赖），一旦有一个指令用到了某个对象属性，那么就会新建一个Watcher作为订阅者。 Dep类：依赖管理器，一个对象属性对应一个Dep，其有一个内部属性subs用于存放依赖。  Vue初始化Vue原型是在src/instance/idnex.js中定义的： 1234">
-<meta name="keywords" content="Vue源码,响应式原理">
+  <meta name="description" content="首先介绍后面要用到的几个类：  Observer类：用于将一个数据变为响应式（可被观测） Watcher类：一个依赖（一个指令对应一个依赖），一旦有一个指令用到了某个对象属性，那么就会新建一个Watcher作为订阅者。 Dep类：依赖管理器，一个对象属性对应一个Dep，其有一个内部属性subs用于存放依赖。  Vue初始化Vue原型是在src&#x2F;instance&#x2F;idnex.js中定义的： 1234">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue源码1-从初始化到响应式原理">
-<meta property="og:url" content="http://yoursite.com/2020/01/08/Vue源码1-从初始化到响应式原理/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/01/08/Vue%E6%BA%90%E7%A0%811-%E4%BB%8E%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="首先介绍后面要用到的几个类：  Observer类：用于将一个数据变为响应式（可被观测） Watcher类：一个依赖（一个指令对应一个依赖），一旦有一个指令用到了某个对象属性，那么就会新建一个Watcher作为订阅者。 Dep类：依赖管理器，一个对象属性对应一个Dep，其有一个内部属性subs用于存放依赖。  Vue初始化Vue原型是在src/instance/idnex.js中定义的： 1234">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/Vue源码1-从初始化到响应式原理/image-20200108185122998.png">
-<meta property="og:updated_time" content="2020-01-08T15:37:47.093Z">
+<meta property="og:description" content="首先介绍后面要用到的几个类：  Observer类：用于将一个数据变为响应式（可被观测） Watcher类：一个依赖（一个指令对应一个依赖），一旦有一个指令用到了某个对象属性，那么就会新建一个Watcher作为订阅者。 Dep类：依赖管理器，一个对象属性对应一个Dep，其有一个内部属性subs用于存放依赖。  Vue初始化Vue原型是在src&#x2F;instance&#x2F;idnex.js中定义的： 1234">
+<meta property="og:image" content="http://yoursite.com/images/Vue%E6%BA%90%E7%A0%811-%E4%BB%8E%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/image-20200108185122998.png">
+<meta property="article:published_time" content="2020-01-08T14:09:52.000Z">
+<meta property="article:modified_time" content="2020-01-08T15:37:47.093Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Vue源码">
+<meta property="article:tag" content="响应式原理">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue源码1-从初始化到响应式原理">
-<meta name="twitter:description" content="首先介绍后面要用到的几个类：  Observer类：用于将一个数据变为响应式（可被观测） Watcher类：一个依赖（一个指令对应一个依赖），一旦有一个指令用到了某个对象属性，那么就会新建一个Watcher作为订阅者。 Dep类：依赖管理器，一个对象属性对应一个Dep，其有一个内部属性subs用于存放依赖。  Vue初始化Vue原型是在src/instance/idnex.js中定义的： 1234">
-<meta name="twitter:image" content="http://yoursite.com/images/Vue源码1-从初始化到响应式原理/image-20200108185122998.png">
+<meta name="twitter:image" content="http://yoursite.com/images/Vue%E6%BA%90%E7%A0%811-%E4%BB%8E%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/image-20200108185122998.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -44,32 +44,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -147,7 +155,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -180,12 +190,12 @@
     
     <div class="article-meta">
       
-	<a href="/2020/01/08/Vue源码1-从初始化到响应式原理/" class="article-date">
+	<a href="/2020/01/08/Vue%E6%BA%90%E7%A0%811-%E4%BB%8E%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%B0%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/" class="article-date">
 	  <time datetime="2020-01-08T14:09:52.000Z" itemprop="datePublished">2020-01-08</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Vue源码/">Vue源码</a>
+    <a class="article-category-link" href="/categories/Vue%E6%BA%90%E7%A0%81/">Vue源码</a>
 
       
 	<a class="article-views">
@@ -292,7 +302,7 @@
 <li>在<code>walk()</code>中，可以看到Vue遍历了对象的所有属性并对其调用了<code>defineReactive</code>方法</li>
 </ol>
 <p>我们再跟进<code>defineReactive</code>方法中（这个方法就差不多是核心了）：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  obj: Object,</span></span></span><br><span class="line"><span class="function"><span class="params">  key: string,</span></span></span><br><span class="line"><span class="function"><span class="params">  val: any,</span></span></span><br><span class="line"><span class="function"><span class="params">  customSetter?: ?Function,</span></span></span><br><span class="line"><span class="function"><span class="params">  shallow?: boolean</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">//为每一个属性建立一个依赖收集器</span></span><br><span class="line">  <span class="keyword">const</span> dep = <span class="keyword">new</span> Dep()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> property = <span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, key)</span><br><span class="line">  <span class="keyword">if</span> (property &amp;&amp; property.configurable === <span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// cater for pre-defined getter/setters</span></span><br><span class="line">  <span class="keyword">const</span> getter = property &amp;&amp; property.get</span><br><span class="line">  <span class="keyword">const</span> setter = property &amp;&amp; property.set</span><br><span class="line">  <span class="keyword">if</span> ((!getter || setter) &amp;&amp; <span class="built_in">arguments</span>.length === <span class="number">2</span>) &#123;</span><br><span class="line">    val = obj[key]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> childOb = !shallow &amp;&amp; observe(val)</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span> <span class="title">reactiveGetter</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.call(obj) : val</span><br><span class="line">      <span class="keyword">if</span> (Dep.target) &#123;</span><br><span class="line">        dep.depend()</span><br><span class="line">        <span class="keyword">if</span> (childOb) &#123;</span><br><span class="line">          childOb.dep.depend()</span><br><span class="line">          <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value)) &#123;</span><br><span class="line">            dependArray(value)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> value</span><br><span class="line">    &#125;,</span><br><span class="line">    set: <span class="function"><span class="keyword">function</span> <span class="title">reactiveSetter</span> (<span class="params">newVal</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.call(obj) : val</span><br><span class="line">      <span class="comment">/* eslint-disable no-self-compare */</span></span><br><span class="line">      <span class="keyword">if</span> (newVal === value || (newVal !== newVal &amp;&amp; value !== value)) &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">/* eslint-enable no-self-compare */</span></span><br><span class="line">      <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; customSetter) &#123;</span><br><span class="line">        customSetter()</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// #7981: for accessor properties without setter</span></span><br><span class="line">      <span class="keyword">if</span> (getter &amp;&amp; !setter) <span class="keyword">return</span></span><br><span class="line">      <span class="keyword">if</span> (setter) &#123;</span><br><span class="line">        setter.call(obj, newVal)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        val = newVal</span><br><span class="line">      &#125;</span><br><span class="line">      childOb = !shallow &amp;&amp; observe(newVal)</span><br><span class="line">      dep.notify() </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  obj: Object,</span></span></span><br><span class="line"><span class="function"><span class="params">  key: string,</span></span></span><br><span class="line"><span class="function"><span class="params">  val: any,</span></span></span><br><span class="line"><span class="function"><span class="params">  customSetter?: ?Function,</span></span></span><br><span class="line"><span class="function"><span class="params">  shallow?: boolean</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">//为每一个属性建立一个依赖收集器</span></span><br><span class="line">  <span class="keyword">const</span> dep = <span class="keyword">new</span> Dep()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> property = <span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, key)</span><br><span class="line">  <span class="keyword">if</span> (property &amp;&amp; property.configurable === <span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// cater for pre-defined getter/setters</span></span><br><span class="line">  <span class="keyword">const</span> getter = property &amp;&amp; property.get</span><br><span class="line">  <span class="keyword">const</span> setter = property &amp;&amp; property.set</span><br><span class="line">  <span class="keyword">if</span> ((!getter || setter) &amp;&amp; <span class="built_in">arguments</span>.length === <span class="number">2</span>) &#123;</span><br><span class="line">    val = obj[key]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> childOb = !shallow &amp;&amp; observe(val)</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">    <span class="keyword">get</span>: function reactiveGetter () &#123;</span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.call(obj) : val</span><br><span class="line">      <span class="keyword">if</span> (Dep.target) &#123;</span><br><span class="line">        dep.depend()</span><br><span class="line">        <span class="keyword">if</span> (childOb) &#123;</span><br><span class="line">          childOb.dep.depend()</span><br><span class="line">          <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value)) &#123;</span><br><span class="line">            dependArray(value)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> value</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">set</span>: function reactiveSetter (newVal) &#123;</span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.call(obj) : val</span><br><span class="line">      <span class="comment">/* eslint-disable no-self-compare */</span></span><br><span class="line">      <span class="keyword">if</span> (newVal === value || (newVal !== newVal &amp;&amp; value !== value)) &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">/* eslint-enable no-self-compare */</span></span><br><span class="line">      <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; customSetter) &#123;</span><br><span class="line">        customSetter()</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// #7981: for accessor properties without setter</span></span><br><span class="line">      <span class="keyword">if</span> (getter &amp;&amp; !setter) <span class="keyword">return</span></span><br><span class="line">      <span class="keyword">if</span> (setter) &#123;</span><br><span class="line">        setter.call(obj, newVal)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        val = newVal</span><br><span class="line">      &#125;</span><br><span class="line">      childOb = !shallow &amp;&amp; observe(newVal)</span><br><span class="line">      dep.notify() </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>还是分析一下他的执行流程：</p>
 <ol>
 <li>首先建立了一个Dep对象，即每一个属性都有一个依赖管理器用来收集用到这个属性的依赖，这一部分后面在讲。</li>
@@ -339,7 +349,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Watcher</span> </span>&#123;</span><br><span class="line">    <span class="comment">//初始化了很多属性</span></span><br><span class="line">    vm: Component;</span><br><span class="line">      expression: string;</span><br><span class="line">      cb: <span class="built_in">Function</span>;</span><br><span class="line">      id: number;</span><br><span class="line">      deep: boolean;</span><br><span class="line">      user: boolean;</span><br><span class="line">      lazy: boolean;</span><br><span class="line">      sync: boolean;</span><br><span class="line">      dirty: boolean;</span><br><span class="line">      active: boolean;</span><br><span class="line">      deps: <span class="built_in">Array</span>&lt;Dep&gt;;</span><br><span class="line">      newDeps: <span class="built_in">Array</span>&lt;Dep&gt;;</span><br><span class="line">      depIds: SimpleSet;</span><br><span class="line">      newDepIds: SimpleSet;</span><br><span class="line">      before: ?<span class="built_in">Function</span>;</span><br><span class="line">      getter: <span class="built_in">Function</span>;</span><br><span class="line">      value: any;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  addDep (dep: Dep) &#123;</span><br><span class="line">    <span class="keyword">const</span> id = dep.id</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.newDepIds.has(id)) &#123;</span><br><span class="line">      <span class="keyword">this</span>.newDepIds.add(id)</span><br><span class="line">      <span class="keyword">this</span>.newDeps.push(dep)</span><br><span class="line">      <span class="keyword">if</span> (!<span class="keyword">this</span>.depIds.has(id)) &#123;</span><br><span class="line">        <span class="comment">//调用depaddSub方法把这个指令（this）添加到这个dep中</span></span><br><span class="line">        dep.addSub(<span class="keyword">this</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到在addDep中，判断这个<code>Watcher</code>对应的新dep中是否含有这个传进来的Dep，如果没有就其push到新dep与新depIds中，然后判断原来的dep中是否含有这个watcher，如果没有，就push进来。</p>
 <p>这里的newDep与dep是为了灵活的动态更新视图，思考以下场景：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;span v-if=&quot;nameShow&quot;&gt;&#123;&#123;name&#125;&#125;&lt;/span&gt; </span><br><span class="line">        &lt;span v-if=&quot;ageShow&quot;&gt;&#123;&#123;age&#125;&#125;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">        &lt;input :value=&quot;name&quot;/&gt;</span><br><span class="line">        &lt;input :value=&quot;age&quot;/&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;button @click=&quot;nameShow = !nameShow&quot;&gt;切换name状态&lt;/button&gt;</span><br><span class="line">        &lt;button @click=&quot;ageShow = !ageShow&quot;&gt;age&lt;/button&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">    name:&quot;Register&quot;,</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      nameShow: true,</span><br><span class="line">      ageShow: true,</span><br><span class="line">      name:&quot;123&quot;,</span><br><span class="line">      age:&quot;111&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;span v-if&#x3D;&quot;nameShow&quot;&gt;&#123;&#123;name&#125;&#125;&lt;&#x2F;span&gt; </span><br><span class="line">        &lt;span v-if&#x3D;&quot;ageShow&quot;&gt;&#123;&#123;age&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line"></span><br><span class="line">        &lt;input :value&#x3D;&quot;name&quot;&#x2F;&gt;</span><br><span class="line">        &lt;input :value&#x3D;&quot;age&quot;&#x2F;&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;button @click&#x3D;&quot;nameShow &#x3D; !nameShow&quot;&gt;切换name状态&lt;&#x2F;button&gt;</span><br><span class="line">        &lt;button @click&#x3D;&quot;ageShow &#x3D; !ageShow&quot;&gt;age&lt;&#x2F;button&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">    name:&quot;Register&quot;,</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      nameShow: true,</span><br><span class="line">      ageShow: true,</span><br><span class="line">      name:&quot;123&quot;,</span><br><span class="line">      age:&quot;111&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 <p>当nameShow与ageShow都是true时，我们对表单机进行修改以修改name与age的值时，肯定会涉及到到依赖的分发。</p>
 <p>但是当我们点击button将nameShow或ageShow的值切换为false时，视图上已经不显示对应信息，则讲道理应该不会在对这个依赖进行通知。这个newDep的存在就是为了这里。</p>
 <p>至此，依赖收集的过程基本完成。下面看看如何进行依赖派发的：</p>
@@ -393,7 +403,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -458,7 +470,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2020/04/22/考研遇到了问题！！！/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/04/22/%E8%80%83%E7%A0%94%E9%81%87%E5%88%B0%E4%BA%86%E9%97%AE%E9%A2%98%EF%BC%81%EF%BC%81%EF%BC%81/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -468,7 +480,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2020/01/07/JavaScript中的与或运算/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/01/07/JavaScript%E4%B8%AD%E7%9A%84%E4%B8%8E%E6%88%96%E8%BF%90%E7%AE%97/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">JavaScript中的&amp;，&amp;&amp;，|，||</div>
     </a>
@@ -576,8 +588,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -585,7 +602,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

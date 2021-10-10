@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>node-js基本用法解析 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="node.js">
+  <meta name="keywords" content="node.js" />
   
   
   
   
   <meta name="description" content="前言 为什么会想到搞一下node呢，emmmm，主要是之前想收图片，每个人4张，一共几十个人，如果都通过qq发过来那简直市场噩梦（虽然我最后还是经历了这擦会给你噩梦），所以下定决心要搞一下后端的东西，PHP，ASP学习成本有点高，速成还是有点难，所以我想到了node.js这个神奇的东西，用js的语言来写后端的东西，nice哦。所以就有了这篇文章。">
-<meta name="keywords" content="node.js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="node-js基本用法解析">
-<meta property="og:url" content="http://yoursite.com/2018/09/22/node-js基本用法解析/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/09/22/node-js%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="前言 为什么会想到搞一下node呢，emmmm，主要是之前想收图片，每个人4张，一共几十个人，如果都通过qq发过来那简直市场噩梦（虽然我最后还是经历了这擦会给你噩梦），所以下定决心要搞一下后端的东西，PHP，ASP学习成本有点高，速成还是有点难，所以我想到了node.js这个神奇的东西，用js的语言来写后端的东西，nice哦。所以就有了这篇文章。">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://wx4.sinaimg.cn/mw690/0060lm7Tly1fvm3zfyeanj30ja0c1aa1.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2018/09/23/iucQaQ.md.jpg">
 <meta property="og:image" content="https://s1.ax1x.com/2018/09/23/iucG2q.jpg">
@@ -27,10 +25,11 @@
 <meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2014/06/ADF34B0E-6715-41EE-9A88-4BE067100868.jpg">
 <meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2014/06/nodepost.gif">
 <meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2015/09/nodejs-gif6.gif">
-<meta property="og:updated_time" content="2018-09-25T13:34:51.186Z">
+<meta property="article:published_time" content="2018-09-22T07:18:33.000Z">
+<meta property="article:modified_time" content="2018-09-25T13:34:51.186Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="node.js">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="node-js基本用法解析">
-<meta name="twitter:description" content="前言 为什么会想到搞一下node呢，emmmm，主要是之前想收图片，每个人4张，一共几十个人，如果都通过qq发过来那简直市场噩梦（虽然我最后还是经历了这擦会给你噩梦），所以下定决心要搞一下后端的东西，PHP，ASP学习成本有点高，速成还是有点难，所以我想到了node.js这个神奇的东西，用js的语言来写后端的东西，nice哦。所以就有了这篇文章。">
 <meta name="twitter:image" content="http://wx4.sinaimg.cn/mw690/0060lm7Tly1fvm3zfyeanj30ja0c1aa1.jpg">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -51,32 +50,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -154,7 +161,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -187,7 +196,7 @@
     
     <div class="article-meta">
       
-	<a href="/2018/09/22/node-js基本用法解析/" class="article-date">
+	<a href="/2018/09/22/node-js%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95%E8%A7%A3%E6%9E%90/" class="article-date">
 	  <time datetime="2018-09-22T07:18:33.000Z" itemprop="datePublished">2018-09-22</time>
 	</a>
 
@@ -659,7 +668,9 @@ var server=app.listen(3030,function(){
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -724,7 +735,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2018/10/19/JS代码段所放位置的区别/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/10/19/JS%E4%BB%A3%E7%A0%81%E6%AE%B5%E6%89%80%E6%94%BE%E4%BD%8D%E7%BD%AE%E7%9A%84%E5%8C%BA%E5%88%AB/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -734,7 +745,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2018/08/30/千万不要躺太久-三和大神的生活/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/08/30/%E5%8D%83%E4%B8%87%E4%B8%8D%E8%A6%81%E8%BA%BA%E5%A4%AA%E4%B9%85-%E4%B8%89%E5%92%8C%E5%A4%A7%E7%A5%9E%E7%9A%84%E7%94%9F%E6%B4%BB/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">千万不要躺太久-三和大神的生活</div>
     </a>
@@ -842,8 +853,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -851,7 +867,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

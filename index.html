@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>My Wonderland</title>
@@ -10,16 +10,14 @@
   
   
   <meta name="description" content="Something is going happen if you try to fight for it!">
-<meta name="keywords" content="Life">
 <meta property="og:type" content="website">
 <meta property="og:title" content="My Wonderland">
 <meta property="og:url" content="http://yoursite.com/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Something is going happen if you try to fight for it!">
-<meta property="og:locale" content="zh-Hans">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Life">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="My Wonderland">
-<meta name="twitter:description" content="Something is going happen if you try to fight for it!">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -39,30 +37,36 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/home.css">
-  
-
-  
-
+    <link rel="stylesheet" href="/css/home.css" >
   
 
   
-  
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body>
@@ -282,6 +286,114 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-基于java的脚本语言hair的开发思路3-执行"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/">基于java的脚本语言hair的开发思路3-执行</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/" class="article-date">
+	  <time datetime="2021-09-30T13:15:30.000Z" itemprop="datePublished">2021-09-30</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/hair/">hair</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          执行经过上面的操作，我们已经根据程序生成了一个抽象语法树。此时我们需要让程序达到其预期的结果。即需要我们翻译为Java可执行的代码。实际上执行的过程很简单，既然我们已经生成了抽象语法树。我们只需要将每个节点的结果得到，最后得到根节点的结果，即为该程序的结果。所以这实际上也是一个树的遍历工作，从左边的叶节点开始遍历。依次得到上层的非叶节点的值。
+针对不同的节点，我们的实现方法不同，但是我们都将其定义为eval方法，意为evaluate，即得到结果。
+下面简单介绍几种类型的节点的实现：
+实现基...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-基于java的脚本语言hair的开发思路2-语法分析"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/">基于java的脚本语言hair的开发思路2-语法分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" class="article-date">
+	  <time datetime="2021-09-26T07:42:25.000Z" itemprop="datePublished">2021-09-26</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/hair/">hair</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          语法分析在经过上一步的词法分析之后，我们已经将程序字符串分以上三种token。要想让程序运行起来，我们还必须将其构造为抽象语法树(Abstract Syntax Tree)。
+它是用来表示程序结构的树形结构。其中树的节点也分为不同的类型。
+具体的树节点类型后面介绍。
+在我们得到AST之后，想要得到结果，就很简单了：我们只需要自底而上活得每个树节点的对应的值。其根节点的值就是最终的程序结果。
+所以问题的关键是如何通过token队列来获得AST。这里我们首先引入BNF的概念。
+BNFBNF即巴...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-基于java的脚本语言hair的开发思路1-词法分析"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -290,7 +402,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/">基于java的脚本语言hair的开发思路1-词法分析</a>
+      <a class="article-title" href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/">基于java的脚本语言hair的开发思路1-词法分析</a>
     </h1>
   
 
@@ -298,7 +410,7 @@
     
     <div class="article-meta">
       
-	<a href="/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/" class="article-date">
+	<a href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" class="article-date">
 	  <time datetime="2021-09-21T07:23:07.000Z" itemprop="datePublished">2021-09-21</time>
 	</a>
 
@@ -316,7 +428,7 @@
 12345...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/21/基于java的脚本语言hair的开发思路1-词法分析/#more">Read More</a>
+          <a href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/#more">Read More</a>
         </p>
       
     </div>
@@ -343,7 +455,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/19/java的正则表达式/">java的正则表达式</a>
+      <a class="article-title" href="/2021/09/19/java%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">java的正则表达式</a>
     </h1>
   
 
@@ -351,7 +463,7 @@
     
     <div class="article-meta">
       
-	<a href="/2021/09/19/java的正则表达式/" class="article-date">
+	<a href="/2021/09/19/java%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="article-date">
 	  <time datetime="2021-09-19T01:00:40.000Z" itemprop="datePublished">2021-09-19</time>
 	</a>
 
@@ -368,7 +480,7 @@
 Matcher 类Matcher 对象是对输入字符串进行解释...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/19/java的正则表达式/#more">Read More</a>
+          <a href="/2021/09/19/java%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">Read More</a>
         </p>
       
     </div>
@@ -395,7 +507,7 @@ Matcher 类Matcher 对象是对输入字符串进行解释...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/04/Tensorflow2-0-data模块的使用/">Tensorflow2.0-data模块的使用</a>
+      <a class="article-title" href="/2021/09/04/Tensorflow2-0-data%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/">Tensorflow2.0-data模块的使用</a>
     </h1>
   
 
@@ -403,7 +515,7 @@ Matcher 类Matcher 对象是对输入字符串进行解释...
     
     <div class="article-meta">
       
-	<a href="/2021/09/04/Tensorflow2-0-data模块的使用/" class="article-date">
+	<a href="/2021/09/04/Tensorflow2-0-data%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
 	  <time datetime="2021-09-04T12:06:03.000Z" itemprop="datePublished">2021-09-04</time>
 	</a>
 
@@ -423,7 +535,7 @@ tfds.load：从本地或网络载入数据集，并生成tf.data.Dataset对象�
 1234567891011121314151617tf...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/04/Tensorflow2-0-data模块的使用/#more">Read More</a>
+          <a href="/2021/09/04/Tensorflow2-0-data%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
         </p>
       
     </div>
@@ -450,7 +562,7 @@ tfds.load：从本地或网络载入数据集，并生成tf.data.Dataset对象�
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/02/西瓜书总结3-线性模型/">西瓜书总结3-线性模型</a>
+      <a class="article-title" href="/2021/09/02/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%933-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/">西瓜书总结3-线性模型</a>
     </h1>
   
 
@@ -458,12 +570,12 @@ tfds.load：从本地或网络载入数据集，并生成tf.data.Dataset对象�
     
     <div class="article-meta">
       
-	<a href="/2021/09/02/西瓜书总结3-线性模型/" class="article-date">
+	<a href="/2021/09/02/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%933-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" class="article-date">
 	  <time datetime="2021-09-02T14:30:41.000Z" itemprop="datePublished">2021-09-02</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
 
       
     </div>
@@ -481,7 +593,7 @@ f(x) = wTx + b
 线性模型形式简单、易于构造，但却蕴含着机器学习中一些重要的思想。许多更为强...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/02/西瓜书总结3-线性模型/#more">Read More</a>
+          <a href="/2021/09/02/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%933-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/#more">Read More</a>
         </p>
       
     </div>
@@ -508,7 +620,7 @@ f(x) = wTx + b
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/08/30/西瓜书总结2-模型评估与选择/">西瓜书总结2-模型评估与选择</a>
+      <a class="article-title" href="/2021/08/30/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%932-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/">西瓜书总结2-模型评估与选择</a>
     </h1>
   
 
@@ -516,12 +628,12 @@ f(x) = wTx + b
     
     <div class="article-meta">
       
-	<a href="/2021/08/30/西瓜书总结2-模型评估与选择/" class="article-date">
+	<a href="/2021/08/30/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%932-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/" class="article-date">
 	  <time datetime="2021-08-30T11:27:49.000Z" itemprop="datePublished">2021-08-30</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
 
       
     </div>
@@ -538,7 +650,7 @@ f(x) = wTx + b
 其缺点在于少了一部...
         </p>
         <p class="article-more-link">
-          <a href="/2021/08/30/西瓜书总结2-模型评估与选择/#more">Read More</a>
+          <a href="/2021/08/30/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%932-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/#more">Read More</a>
         </p>
       
     </div>
@@ -565,7 +677,7 @@ f(x) = wTx + b
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/08/11/聚类的几种算法简述/">聚类的几种算法简述</a>
+      <a class="article-title" href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/">聚类的几种算法简述</a>
     </h1>
   
 
@@ -573,12 +685,12 @@ f(x) = wTx + b
     
     <div class="article-meta">
       
-	<a href="/2021/08/11/聚类的几种算法简述/" class="article-date">
+	<a href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/" class="article-date">
 	  <time datetime="2021-08-11T15:40:33.000Z" itemprop="datePublished">2021-08-11</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/聚类/">聚类</a>
+    <a class="article-category-link" href="/categories/%E8%81%9A%E7%B1%BB/">聚类</a>
 
       
     </div>
@@ -594,7 +706,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
 初始化簇的数目K...
         </p>
         <p class="article-more-link">
-          <a href="/2021/08/11/聚类的几种算法简述/#more">Read More</a>
+          <a href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/#more">Read More</a>
         </p>
       
     </div>
@@ -621,7 +733,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/07/13/机器学习1-决策树算法/">机器学习1-决策树算法</a>
+      <a class="article-title" href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/">机器学习1-决策树算法</a>
     </h1>
   
 
@@ -629,12 +741,12 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
     
     <div class="article-meta">
       
-	<a href="/2021/07/13/机器学习1-决策树算法/" class="article-date">
+	<a href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/" class="article-date">
 	  <time datetime="2021-07-13T08:03:13.000Z" itemprop="datePublished">2021-07-13</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
 
       
     </div>
@@ -653,7 +765,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
 根据公式：ent = (-item/count)*np.log2(item/count)  计算每个属性值的熵值 ， 其中item为该属性值的数据数...
         </p>
         <p class="article-more-link">
-          <a href="/2021/07/13/机器学习1-决策树算法/#more">Read More</a>
+          <a href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/#more">Read More</a>
         </p>
       
     </div>
@@ -680,7 +792,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/05/03/Node学习5-进程机制/">Node学习5-进程机制</a>
+      <a class="article-title" href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/">Node学习5-进程机制</a>
     </h1>
   
 
@@ -688,7 +800,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
     
     <div class="article-meta">
       
-	<a href="/2021/05/03/Node学习5-进程机制/" class="article-date">
+	<a href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/" class="article-date">
 	  <time datetime="2021-05-03T03:06:49.000Z" itemprop="datePublished">2021-05-03</time>
 	</a>
 
@@ -706,134 +818,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
 青铜时代：复制进程为了解决同步架构的并发问题，衍生出了复制多个进程以提高...
         </p>
         <p class="article-more-link">
-          <a href="/2021/05/03/Node学习5-进程机制/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-VSCODE-插件开发1"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/04/28/VSCODE-插件开发1/">VSCODE-插件开发1</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/04/28/VSCODE-插件开发1/" class="article-date">
-	  <time datetime="2021-04-28T12:23:38.000Z" itemprop="datePublished">2021-04-28</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/VS-CODE插件/">VS CODE插件</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          createTextEditorDecorationType(options: DecorationRenderOptions]): TextEditorDecorationType：创建一个新的装饰器。
-
-
-
-Parameter
-Description
-
-
-
-
-options: DecorationRenderOptions
-装饰类型渲染的选项
-
-
-Returns
-Description
-
-
-TextEditorDecorationType
-一个新的装饰器实体
-
-
-
-
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/04/28/VSCODE-插件开发1/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Node学习4-Buffer"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/04/28/Node学习4-Buffer/">Node学习4-Buffer</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/04/28/Node学习4-Buffer/" class="article-date">
-	  <time datetime="2021-04-28T01:31:30.000Z" itemprop="datePublished">2021-04-28</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          BufferBuffer 对象用于表示固定长度的字节序列。
-从V3.0开始，该对象就继承自Uint8Array（从V3.0版本加入的特性），且继承时带上了涵盖额外用例的方法。只要支持 Buffer 的地方，Node.js API 都可以接受普通的 Uint8Array
-模块结构Buffer是一个典型的JavaScript与C++结合的模块，它将性能部分用C++实现，将非性能相关的部分用JavaScript实现。
-
-之前说过，Buffer所占的内存不过是V8分配的，属于堆外内存。由于V8垃圾...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/04/28/Node学习4-Buffer/#more">Read More</a>
+          <a href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/#more">Read More</a>
         </p>
       
     </div>
@@ -856,7 +841,7 @@ TextEditorDecorationType
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -948,14 +933,22 @@ TextEditorDecorationType
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
+
+  
+<script src="/js/home.js"></script>
+
 
 
 

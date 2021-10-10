@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>设计模式2-策略模式 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="策略模式设计模式">
+  <meta name="keywords" content="设计模式策略模式" />
   
   
   
   
   <meta name="description" content="策略模式定义定义一系列的算法，把它们一个个封装起来，并且使他们可以相互替换。 主要解决在多种算法相似的情况下，使用 if…else 所带来的复杂和难以维护的问题。 奖金的例子很多公司的年终奖的是根据员工的工资基数和年底绩效情况来发放的。例如，绩效为S的员工年终奖有4倍工资，绩效为A的员工年终奖有3倍工资，绩效为B的员工年终奖有2倍工资。假如需要一段代码来计算对应员工的年终奖。 最基础写法我们直观想">
-<meta name="keywords" content="策略模式,设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式2-策略模式">
-<meta property="og:url" content="http://yoursite.com/2021/02/24/设计模式2-策略模式/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="策略模式定义定义一系列的算法，把它们一个个封装起来，并且使他们可以相互替换。 主要解决在多种算法相似的情况下，使用 if…else 所带来的复杂和难以维护的问题。 奖金的例子很多公司的年终奖的是根据员工的工资基数和年底绩效情况来发放的。例如，绩效为S的员工年终奖有4倍工资，绩效为A的员工年终奖有3倍工资，绩效为B的员工年终奖有2倍工资。假如需要一段代码来计算对应员工的年终奖。 最基础写法我们直观想">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-02-24T06:47:25.675Z">
+<meta property="article:published_time" content="2021-02-24T01:55:03.000Z">
+<meta property="article:modified_time" content="2021-02-24T06:47:25.675Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="设计模式">
+<meta property="article:tag" content="策略模式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式2-策略模式">
-<meta name="twitter:description" content="策略模式定义定义一系列的算法，把它们一个个封装起来，并且使他们可以相互替换。 主要解决在多种算法相似的情况下，使用 if…else 所带来的复杂和难以维护的问题。 奖金的例子很多公司的年终奖的是根据员工的工资基数和年底绩效情况来发放的。例如，绩效为S的员工年终奖有4倍工资，绩效为A的员工年终奖有3倍工资，绩效为B的员工年终奖有2倍工资。假如需要一段代码来计算对应员工的年终奖。 最基础写法我们直观想">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -42,32 +42,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -145,7 +153,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -178,12 +188,12 @@
     
     <div class="article-meta">
       
-	<a href="/2021/02/24/设计模式2-策略模式/" class="article-date">
+	<a href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" class="article-date">
 	  <time datetime="2021-02-24T01:55:03.000Z" itemprop="datePublished">2021-02-24</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
 
       
 	<a class="article-views">
@@ -230,7 +240,7 @@
 <li>密码长度不能少于6位</li>
 <li>手机号码必须符合格式</li>
 </ul>
-<h2 id="基本写法"><a href="#基本写法" class="headerlink" title="基本写法"></a>基本写法</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">'registerForm'</span>&gt;</span></span><br><span class="line">            请输入用户名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">name</span>=<span class="string">'userName'</span>/&gt;</span></span><br><span class="line">            请输入密码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">name</span>=<span class="string">'password'</span>/&gt;</span></span><br><span class="line">            请输入手机号：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">name</span>=<span class="string">'phoneNumber'</span>/&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">button</span>&gt;</span></span><br><span class="line">                提交</span><br><span class="line">            <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">        	<span class="keyword">let</span> registerForm = <span class="built_in">document</span>.getElementBuId(<span class="string">'registerForm'</span>)</span></span><br><span class="line"><span class="javascript">            registerForm.onsubmit = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">if</span>(registerForm.userName.value === <span class="string">''</span>)&#123;</span></span><br><span class="line"><span class="javascript">                    alter(<span class="string">'用户名不能为空'</span>)</span></span><br><span class="line"><span class="javascript">                    <span class="keyword">return</span> <span class="literal">false</span></span></span><br><span class="line"><span class="undefined">                &#125;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">if</span>(registerForm.password.valu.length &lt; <span class="number">6</span>)&#123;</span></span><br><span class="line"><span class="javascript">                    alter(<span class="string">'密码不能少于6位'</span>)</span></span><br><span class="line"><span class="javascript">                    <span class="keyword">return</span> <span class="literal">false</span></span></span><br><span class="line"><span class="undefined">                &#125;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">if</span>(!<span class="regexp">/(!1[3|5|8][0-9]&#123;9&#125;$)/</span>.test(registerForm.phoneNumber.value))&#123;</span></span><br><span class="line"><span class="javascript">                    alert(<span class="string">'手机号码格式不正确'</span>)</span></span><br><span class="line"><span class="javascript">                    <span class="keyword">return</span> <span class="literal">false</span></span></span><br><span class="line"><span class="undefined">                &#125;</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="基本写法"><a href="#基本写法" class="headerlink" title="基本写法"></a>基本写法</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">'registerForm'</span>&gt;</span></span><br><span class="line">            请输入用户名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">name</span>=<span class="string">'userName'</span>/&gt;</span></span><br><span class="line">            请输入密码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">name</span>=<span class="string">'password'</span>/&gt;</span></span><br><span class="line">            请输入手机号：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">name</span>=<span class="string">'phoneNumber'</span>/&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">button</span>&gt;</span></span><br><span class="line">                提交</span><br><span class="line">            <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        	<span class="keyword">let</span> registerForm = <span class="built_in">document</span>.getElementBuId(<span class="string">'registerForm'</span>)</span></span><br><span class="line"><span class="actionscript">            registerForm.onsubmit = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">if</span>(registerForm.userName.value === <span class="string">''</span>)&#123;</span></span><br><span class="line"><span class="actionscript">                    alter(<span class="string">'用户名不能为空'</span>)</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> <span class="literal">false</span></span></span><br><span class="line">                &#125;</span><br><span class="line">                if(registerForm.password.valu.length &lt; 6)&#123;</span><br><span class="line"><span class="actionscript">                    alter(<span class="string">'密码不能少于6位'</span>)</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> <span class="literal">false</span></span></span><br><span class="line">                &#125;</span><br><span class="line"><span class="javascript">                <span class="keyword">if</span>(!<span class="regexp">/(!1[3|5|8][0-9]&#123;9&#125;$)/</span>.test(registerForm.phoneNumber.value))&#123;</span></span><br><span class="line"><span class="actionscript">                    alert(<span class="string">'手机号码格式不正确'</span>)</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> <span class="literal">false</span></span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>这是最常见的编写方式，其缺点也与奖金计算的最初版本一样。</p>
 <ul>
 <li><code>registerForm.onsubmit</code>函数比较庞大，包含了很多<code>if...else</code>语句。</li>
@@ -258,7 +268,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -323,7 +335,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2021/02/27/设计模式3-代理模式/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -333,7 +345,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2021/02/22/设计模式1-单例模式/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F1-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">设计模式1-单例模式</div>
     </a>
@@ -441,8 +453,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -450,7 +467,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

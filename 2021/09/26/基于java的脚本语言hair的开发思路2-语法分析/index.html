@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>基于java的脚本语言hair的开发思路2-语法分析 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="hair脚本语言语法分析" />
+  
+  
+  
+  
+  <meta name="description" content="语法分析在经过上一步的词法分析之后，我们已经将程序字符串分以上三种token。要想让程序运行起来，我们还必须将其构造为抽象语法树(Abstract Syntax Tree)。 它是用来表示程序结构的树形结构。其中树的节点也分为不同的类型。 具体的树节点类型后面介绍。 在我们得到AST之后，想要得到结果，就很简单了：我们只需要自底而上活得每个树节点的对应的值。其根节点的值就是最终的程序结果。 所以问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于java的脚本语言hair的开发思路2-语法分析">
+<meta property="og:url" content="http://yoursite.com/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="语法分析在经过上一步的词法分析之后，我们已经将程序字符串分以上三种token。要想让程序运行起来，我们还必须将其构造为抽象语法树(Abstract Syntax Tree)。 它是用来表示程序结构的树形结构。其中树的节点也分为不同的类型。 具体的树节点类型后面介绍。 在我们得到AST之后，想要得到结果，就很简单了：我们只需要自底而上活得每个树节点的对应的值。其根节点的值就是最终的程序结果。 所以问">
+<meta property="og:image" content="d:/myblog/myblog/source/images/hair/Parser结构.png">
+<meta property="article:published_time" content="2021-09-26T07:42:25.000Z">
+<meta property="article:modified_time" content="2021-10-09T13:01:32.199Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="hair">
+<meta property="article:tag" content="脚本语言">
+<meta property="article:tag" content="语法分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="d:/myblog/myblog/source/images/hair/Parser结构.png">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-基于java的脚本语言hair的开发思路2-语法分析" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      基于java的脚本语言hair的开发思路2-语法分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" class="article-date">
+	  <time datetime="2021-09-26T07:42:25.000Z" itemprop="datePublished">2021-09-26</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/hair/">hair</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h1><p>在经过上一步的词法分析之后，我们已经将程序字符串分以上三种token。要想让程序运行起来，我们还必须将其构造为抽象语法树(Abstract Syntax Tree)。</p>
+<p>它是用来表示程序结构的树形结构。其中树的节点也分为不同的类型。</p>
+<p>具体的树节点类型后面介绍。</p>
+<p>在我们得到AST之后，想要得到结果，就很简单了：我们只需要自底而上活得每个树节点的对应的值。其根节点的值就是最终的程序结果。</p>
+<p>所以问题的关键是如何通过token队列来获得AST。这里我们首先引入BNF的概念。</p>
+<h2 id="BNF"><a href="#BNF" class="headerlink" title="BNF"></a>BNF</h2><p>BNF即<strong>巴科斯范式</strong>，其是一种描述语法的一种形式体系，是一种典型的元语言（相当于一种伪代码来描述语法规则）。其规则如下：</p>
+<ol>
+<li>字符本身： “xxx” - 表示xxx字符本身。如：”function”表示匹配function字符。</li>
+<li>[xxx]表示xxx模式出现0次或1次。</li>
+<li>{xxx}表示xxx模式至少出现0次。</li>
+<li>(xxx)表示括号内的模式为一个整体。</li>
+<li>xxx|yyy表示匹配xxx或yyy模式。</li>
+</ol>
+<p>后来BNF也做了很多扩展，我们这里仅使用以上5种模式。</p>
+<p>整个匹配过程中包含两个过程，即：</p>
+<ol>
+<li>创建匹配模式实例。</li>
+<li>使用该模式匹配token串。</li>
+</ol>
+<p>下面分别介绍：</p>
+<h2 id="创建匹配模式"><a href="#创建匹配模式" class="headerlink" title="创建匹配模式"></a>创建匹配模式</h2><p>对于一个匹配模式，就是一个Parser对象。其有两个成员变量：</p>
+<ol>
+<li>elements：用于存放模式匹配的子模式，即子树模式结构。</li>
+<li>factory：用于创建该模式对应的树节点。</li>
+</ol>
+<p>接下来我们看看具体的创建代码：</p>
+<p>其调用栈如下顺序：</p>
+<ol>
+<li>第一步：通过rule()最外层API创建模式，其有两个重载，分别对应是否传入匹配到的树节点类型。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Create an empty Parser without a parameter.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Parser <span class="title">rule</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> rule(<span class="keyword">null</span>); &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Create a Parser with a ASTree parameter, caution that this Parser is a single node with the parameter.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Parser <span class="title">rule</span><span class="params">(Class&lt;? extends ASTree&gt; clazz)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Parser(clazz);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Parser的构造方法，也有两个重载，其中第一个是用于构建模式树的根节点；而第二个适用于直接接受一个Parser并将其成员变量复制过来，其主要是用在<code>maybe</code>方法的实现中。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> List&lt;Element&gt; elements;</span><br><span class="line"><span class="keyword">protected</span> Factory factory;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * This constructor is used for first create Parser.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Parser</span><span class="params">(Class&lt;? extends ASTree&gt; clazz)</span> </span>&#123;</span><br><span class="line">    reset(clazz);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * This constructor is used for chain call.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="title">Parser</span><span class="params">(Parser p)</span> </span>&#123;</span><br><span class="line">    elements = p.elements;</span><br><span class="line">    factory = p.factory;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>接下来的reset方法其实就是初始化（或者重置）Parser的成员：elements和factory</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Reset the parser, elements and factory are all need to be reset. </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Parser <span class="title">reset</span><span class="params">(Class&lt;? extends ASTree&gt; clazz)</span> </span>&#123;</span><br><span class="line">    elements = <span class="keyword">new</span> ArrayList&lt;Element&gt;();</span><br><span class="line">    factory = Factory.getForASTList(clazz);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><p>然后就是Factory对象的<code>getForASTList</code>静态方法，这里的两个方法比较重要，主要是如何来构建一个factory。首先会从外部传来的<code>class</code>来构建一个<code>Factory</code>。我们后面再看<code>get</code>方法，首先来分析<code>f == null</code>时的情况。</p>
+<p>这里就直接通过new方法来构建一个新的factory，值得注意的是这里实现了本来是<code>make0</code>方法。</p>
+<p><strong>注意：</strong>这个方法是用在匹配token串，使用该方法创建对应的AST节点。</p>
+<p>这里的逻辑是：判断传入的<code>arg</code>的长度是等于1。如果等于1则返回其第一个元素。否则的话就利用<code>org</code>返回一个新的<code>ASTList</code>。</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">static</span> Factory <span class="title">getForASTList</span><span class="params">(Class&lt;? extends ASTree&gt; clazz)</span> </span>&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Get the class with the ASTree class transferred by user.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    Factory f = get(clazz, List<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * If user did not transferred the class,</span></span><br><span class="line"><span class="comment">     * we implement the make0 method and new a factory which make a normal ASTree object.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">if</span> (f == <span class="keyword">null</span>)</span><br><span class="line">        f = <span class="keyword">new</span> Factory() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">protected</span> ASTree <span class="title">make0</span><span class="params">(Object arg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                List&lt;ASTree&gt; results = (List&lt;ASTree&gt;)arg;</span><br><span class="line">                <span class="keyword">if</span> (results.size() == <span class="number">1</span>)</span><br><span class="line">                    <span class="keyword">return</span> results.get(<span class="number">0</span>);</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> ASTList(results);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    <span class="keyword">return</span> f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li><p>接下来我们来看<code>get</code>方法。这里主要是如何利用传入的<code>class</code>来构建这个<code>factory</code>。首先如果是没有传入class，则直接返回class。</p>
+<p>如果<code>class != null</code>时，则会有两种情况：</p>
+<ol>
+<li>首先判断这个class有没有<code>create</code>方法（<code>factoryName</code>为字符串<code>creatr</code>），如果有的话就获取这个方法，然后实现了<code>make0</code>方法。</li>
+<li>其次判断是否有构造器，如果有的话，<code>make0</code>方法就会直接利用该构造函数来新建一个该对象。</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">static</span> Factory <span class="title">get</span><span class="params">(Class&lt;? extends ASTree&gt; clazz,</span></span></span><br><span class="line"><span class="function"><span class="params">                             Class&lt;?&gt; argType)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * If user transferred no class, get method return null.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">    <span class="keyword">if</span> (clazz == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">    	<span class="comment">/**</span></span><br><span class="line"><span class="comment">    	 * Judge whether the class transferred by user has a "create" function.</span></span><br><span class="line"><span class="comment">    	 * If true, we just use the function to create the ASTree.</span></span><br><span class="line"><span class="comment">    	 */</span></span><br><span class="line">        <span class="keyword">final</span> Method m = clazz.getMethod(factoryName,</span><br><span class="line">                                         <span class="keyword">new</span> Class&lt;?&gt;[] &#123; argType &#125;);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Factory() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">protected</span> ASTree <span class="title">make0</span><span class="params">(Object arg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> (ASTree)m.invoke(<span class="keyword">null</span>, arg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * If the class has not a "create" function.</span></span><br><span class="line"><span class="comment">     * We judge whether the class has a constructor.</span></span><br><span class="line"><span class="comment">     * If true, we use the constructor to create the ASTree. </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> Constructor&lt;? extends ASTree&gt; c</span><br><span class="line">            = clazz.getConstructor(argType);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Factory() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">protected</span> ASTree <span class="title">make0</span><span class="params">(Object arg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> c.newInstance(arg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是<code>Parser</code>对象还有很对方法用来对应BNF的规则：</p>
+<ol>
+<li>number：用于向<code>Parser</code>的elements添加number型AToken（这里的AToken是在Parser中的内部类，属于模式AST类）。</li>
+<li>identifier：用于向<code>Parser</code>的elements添加identifier型AToken。</li>
+<li>string：用于向<code>Parser</code>的elements添加srting型AToken。</li>
+<li>sep：用于向<code>Parser</code>的elements添加用于间隔型AToken，在BNF中对应字符串本身。</li>
+<li>ast：用于向<code>Parser</code>的elements添加基本的树结构，常用于直接传递其他模式串作为子串。</li>
+<li>or：用于向<code>Parser</code>的elements添加分支结构的树结构，对应BNF的|。</li>
+<li>maybe：用于向<code>Parser</code>的elements添加可省略的模式。</li>
+<li>option：用于向<code>Parser</code>的elements添加可省略的模式，对应BNF的[]。</li>
+<li>repeat： 用于向<code>Parser</code>的elements添加可重复的模式，对应BNF的{}。</li>
+<li>expression：用于向<code>Parser</code>的elements添加以Express为树节点的模式。</li>
+</ol>
+<p>下面是一个简单的模式的创建：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Parser classNew = rule(NewStmnt.class).sep("new").identifier(reserved).sep("(").option(args).sep(")");</span><br></pre></td></tr></table></figure>
+<p>其主要是匹配新建对象时的语法，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Obj(<span class="number">111</span>, <span class="number">222</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到rule首先接受了一个<code>NewStmnt.class</code>参数，这就意味着，当这个模式匹配成功时，其创建的节点是<code>NewStmnt</code>类型的。</p>
+<p>然后<code>sep(&quot;new&quot;)</code>即匹配new这个字符。</p>
+<p><code>identifier(reserved)</code>即匹配保留字，即变量名等。</p>
+<p><code>option(args)</code>即表示匹配可以省略的arguments，这里的<code>args</code>也是在前面定义的一个模式，匹配诸如：<code>222,&quot;uuu&quot;</code>之类的参数模式。</p>
+<h2 id="匹配token串"><a href="#匹配token串" class="headerlink" title="匹配token串"></a>匹配token串</h2><p>在<code>Parser</code>中定义了诸多子类即模式节点，这些节点自己定义了<code>parser</code>方法用于解析对应的<code>token</code>是否匹配。</p>
+<p>我们上面构建语法规则实际上形成了一个树，其节点就是之前定义在<code>Parser</code>内部的各种子类。</p>
+<p>但其主要依然是一个递归的过程，首先会从队列中<code>peek</code>一个token（<code>peek</code>是不会让该token出队的），然后从匹配树的根部开始向下遍历，查找到其叶节点，然后匹配，如果通过则将调用其<code>factory</code>的<code>make</code>方法，来构建一个对应class的叶节点并且将其推入其<code>elements</code>中。</p>
+<p><img src="D:\myblog\myblog\source\images\hair\Parser结构.png" alt="Parser结构"></p>
+<p>这里给出了一部分的结构（定义类的结构），我们模拟一下其解析过程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Myclass</span></span>&#123;</span><br><span class="line">    a = <span class="number">1</span></span><br><span class="line">    constructor(param1)&#123;</span><br><span class="line">        a = param1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先我们会通过Lexer会生成一个queue：</p>
+<p>StrToken:”class”-&gt;IdToken:Myclass-&gt;StrToken:”a”-&gt;…</p>
+<ol>
+<li><p><code>peek</code>一个<code>token</code>，即第一个StrToken。</p>
+</li>
+<li><p>遍历树：从program-&gt;classDef-&gt;”class”，匹配成功。（若第一次没有匹配成功，将会在树上进行回溯）。</p>
+</li>
+<li>新建一个<code>ClassDef</code>对象的树节点。</li>
+<li>接下来再<code>peek</code>一个token，即IdToken:Myclass</li>
+<li>再从<code>classDef</code>的第二个节点开始匹配，发现也匹配成功。</li>
+<li>创建一个<code>Name</code>树节点并将其加入刚才<code>ClassDef</code>的<code>elements</code>中。</li>
+<li>后面也是如此，一次递归，失败就回溯；成功就继续匹配。</li>
+</ol>
+<p>下面附上目前版本定义的规则（包括类，数组）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> parser;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> parser.Parser.rule;</span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> parser.Parser.*;</span><br><span class="line"><span class="keyword">import</span> scanner.Lexer;</span><br><span class="line"><span class="keyword">import</span> token.Token;</span><br><span class="line"><span class="keyword">import</span> ast.*;</span><br><span class="line"><span class="keyword">import</span> entity.Function;</span><br><span class="line"><span class="keyword">import</span> exception.ParseException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BasicParser</span> </span>&#123;</span><br><span class="line">    HashSet&lt;String&gt; reserved = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line">    Operators operators = <span class="keyword">new</span> Operators();</span><br><span class="line">    Parser expr0 = rule();</span><br><span class="line">    Parser primary = rule(PrimaryExpr<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line">        .or(rule().sep("(").ast(expr0).sep(")"),</span><br><span class="line">            rule().number(NumberLiteral<span class="class">.<span class="keyword">class</span>),</span></span><br><span class="line"><span class="class">            <span class="title">rule</span>().<span class="title">identifier</span>(<span class="title">Name</span>.<span class="title">class</span>, <span class="title">reserved</span>),</span></span><br><span class="line"><span class="class">            <span class="title">rule</span>().<span class="title">string</span>(<span class="title">StringLiteral</span>.<span class="title">class</span>)</span></span><br><span class="line"><span class="class">        	)</span>;</span><br><span class="line">    Parser factor = rule().or(rule(NegativeExpr.class).sep("-").ast(primary),</span><br><span class="line">                              primary);                               </span><br><span class="line">    Parser expr = expr0.expression(BinaryExpr<span class="class">.<span class="keyword">class</span>, <span class="title">factor</span>, <span class="title">operators</span>)</span>;</span><br><span class="line"></span><br><span class="line">    Parser statement0 = rule();</span><br><span class="line">    Parser block = rule(BlockStmnt<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line">        .sep("&#123;").option(statement0)</span><br><span class="line">        .repeat(rule().sep(<span class="string">";"</span>, Token.EOL).option(statement0))</span><br><span class="line">        .sep(<span class="string">"&#125;"</span>);</span><br><span class="line">    Parser simple = rule(PrimaryExpr<span class="class">.<span class="keyword">class</span>).<span class="title">ast</span>(<span class="title">expr</span>)</span>;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Function Parser</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Parser param = rule().identifier(reserved);</span><br><span class="line">    Parser params = rule(ParameterList.class).ast(param).repeat(rule().sep(",").ast(param));</span><br><span class="line">    Parser paramList = rule().sep(<span class="string">"("</span>).maybe(params).sep(<span class="string">")"</span>);</span><br><span class="line">    Parser function = rule(FunctionStmnt.class).sep("function").identifier(reserved).ast(paramList).ast(block);</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * InnerFunction Parser</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Parser innerFunction = rule(InnerFunc.class).sep("func").ast(paramList).ast(block);</span><br><span class="line">    Parser args = rule(Arguments.class).ast(expr).repeat(rule().sep(",").ast(expr));</span><br><span class="line"><span class="comment">//    Parser postfix = rule().sep("(").maybe(args).sep(")");</span></span><br><span class="line">    Parser postfix = rule().or(rule(Dot.class).sep(".").identifier(reserved), </span><br><span class="line">    		rule().sep(<span class="string">"("</span>).ast(args).sep(<span class="string">")"</span>),</span><br><span class="line">    		rule(Squarebracket.class).sep("[").ast(expr).sep("]")</span><br><span class="line">    		);</span><br><span class="line">    Parser statement = statement0.or(</span><br><span class="line">            rule(IfStmnt.class).sep("if").sep("(").ast(expr).sep(")").ast(block).option(rule().sep("else").ast(block)),</span><br><span class="line">            rule(WhileStmnt.class).sep("while").sep("(").ast(expr).sep(")").ast(block),</span><br><span class="line">            simple);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * class Parser</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Parser constructor = rule(Construtor.class).sep("constructor").ast(paramList).ast(block);</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The order can not be changed. Or constructor maybe regard as simple parser.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Parser classEle = rule().or(constructor, function, simple);</span><br><span class="line">    Parser classBody = rule(ClassBody.class).sep("&#123;").option(classEle).</span><br><span class="line">    		repeat(rule().sep(<span class="string">";"</span>, Token.EOL).option(classEle)).sep(<span class="string">"&#125;"</span>);</span><br><span class="line">    Parser classDef = rule(ClassStmnt.class).sep("class").identifier(reserved).option(rule().sep("extends").identifier(reserved)).ast(classBody);</span><br><span class="line">    Parser classNew = rule(NewStmnt.class).sep("new").identifier(reserved).sep("(").option(args).sep(")");</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Array Parsers</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Parser arrayDef = rule(ArrayStmnt.class).sep("[").ast(expr).repeat(rule().sep(",").ast(expr)).sep("]");</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * final program Parser.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Parser program = rule().or(classDef, statement, rule(NullStmnt<span class="class">.<span class="keyword">class</span>))</span></span><br><span class="line">            .sep(";", Token.EOL);</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BasicParser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	reserved.add(<span class="string">")"</span>);</span><br><span class="line">        reserved.add(<span class="string">";"</span>);</span><br><span class="line">        reserved.add(<span class="string">"&#125;"</span>);</span><br><span class="line">        reserved.add(<span class="string">"]"</span>);</span><br><span class="line">        reserved.add(Token.EOL);</span><br><span class="line"></span><br><span class="line">        operators.add(<span class="string">"="</span>, <span class="number">1</span>, Operators.RIGHT);</span><br><span class="line">        operators.add(<span class="string">"=="</span>, <span class="number">2</span>, Operators.LEFT);</span><br><span class="line">        operators.add(<span class="string">"&gt;"</span>, <span class="number">2</span>, Operators.LEFT);</span><br><span class="line">        operators.add(<span class="string">"&lt;"</span>, <span class="number">2</span>, Operators.LEFT);</span><br><span class="line">        operators.add(<span class="string">"+"</span>, <span class="number">3</span>, Operators.LEFT);</span><br><span class="line">        operators.add(<span class="string">"-"</span>, <span class="number">3</span>, Operators.LEFT);</span><br><span class="line">        operators.add(<span class="string">"*"</span>, <span class="number">4</span>, Operators.LEFT);</span><br><span class="line">        operators.add(<span class="string">"/"</span>, <span class="number">4</span>, Operators.LEFT);</span><br><span class="line">        operators.add(<span class="string">"%"</span>, <span class="number">4</span>, Operators.LEFT);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * avoid cycle reference, so we repair some Parser here.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        primary.repeat(postfix);</span><br><span class="line">        primary.insertChoice(innerFunction);</span><br><span class="line">        primary.insertChoice(classNew);</span><br><span class="line">        primary.insertChoice(arrayDef);</span><br><span class="line">        simple.option(rule().sep(<span class="string">")"</span>).option(args).sep(<span class="string">")"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ASTree <span class="title">parse</span><span class="params">(Lexer lexer)</span> <span class="keyword">throws</span> ParseException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> program.parse(lexer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中<code>reserved</code>即为保留字符，不会被识别为标识符等。</p>
+<p><code>operators</code>即为操作符，主要用在<code>BinaryExpress</code>即二元表达式中。</p>
+<p><code>add</code>函数的参数第一个是操作符，第二个是优先级，第三个是左先计算还是右先计算。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/09/26/基于java的脚本语言hair的开发思路2-语法分析/" target="_blank" title="基于java的脚本语言hair的开发思路2-语法分析">http://yoursite.com/2021/09/26/基于java的脚本语言hair的开发思路2-语法分析/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          基于java的脚本语言hair的开发思路3-执行
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">基于java的脚本语言hair的开发思路1-词法分析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#语法分析"><span class="nav-number">1.</span> <span class="nav-text">语法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BNF"><span class="nav-number">1.1.</span> <span class="nav-text">BNF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建匹配模式"><span class="nav-number">1.2.</span> <span class="nav-text">创建匹配模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匹配token串"><span class="nav-number">1.3.</span> <span class="nav-text">匹配token串</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>node学习5-进程机制 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Node.js进程机制">
+  <meta name="keywords" content="Node.js进程机制" />
   
   
   
   
-  <meta name="description" content="服务端模型得变迁Web服务器的架构已经历了几次变迁。服务器处理客户端请求的并发量，就是每个里程碑的见证。 石器时代：同步最早的服务器，其执行模型是同步的，它的服务模式是一次只为一次请求服务，所有的请求都得按次序等待服务。这意味着除了当前的请求被处理外，其余请求都处于等待被处理的状态。其处理性能相当低下，假设每次响应服务耗时为N秒，则这类服务的QPS为1/N。 这种架构如今已基本被淘汰，只在一些无并">
-<meta name="keywords" content="Node.js,进程机制">
+  <meta name="description" content="服务端模型得变迁Web服务器的架构已经历了几次变迁。服务器处理客户端请求的并发量，就是每个里程碑的见证。 石器时代：同步最早的服务器，其执行模型是同步的，它的服务模式是一次只为一次请求服务，所有的请求都得按次序等待服务。这意味着除了当前的请求被处理外，其余请求都处于等待被处理的状态。其处理性能相当低下，假设每次响应服务耗时为N秒，则这类服务的QPS为1&#x2F;N。 这种架构如今已基本被淘汰，只在一些无并">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node学习5-进程机制">
-<meta property="og:url" content="http://yoursite.com/2021/05/03/Node学习5-进程机制/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="服务端模型得变迁Web服务器的架构已经历了几次变迁。服务器处理客户端请求的并发量，就是每个里程碑的见证。 石器时代：同步最早的服务器，其执行模型是同步的，它的服务模式是一次只为一次请求服务，所有的请求都得按次序等待服务。这意味着除了当前的请求被处理外，其余请求都处于等待被处理的状态。其处理性能相当低下，假设每次响应服务耗时为N秒，则这类服务的QPS为1/N。 这种架构如今已基本被淘汰，只在一些无并">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:description" content="服务端模型得变迁Web服务器的架构已经历了几次变迁。服务器处理客户端请求的并发量，就是每个里程碑的见证。 石器时代：同步最早的服务器，其执行模型是同步的，它的服务模式是一次只为一次请求服务，所有的请求都得按次序等待服务。这意味着除了当前的请求被处理外，其余请求都处于等待被处理的状态。其处理性能相当低下，假设每次响应服务耗时为N秒，则这类服务的QPS为1&#x2F;N。 这种架构如今已基本被淘汰，只在一些无并">
 <meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的进程/IPC.png">
 <meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的进程/分布式.png">
 <meta property="og:image" content="d:/myblog/myblog/source/images/Node-JS的进程/句柄发送还原.png">
-<meta property="og:updated_time" content="2021-05-23T05:56:09.775Z">
+<meta property="article:published_time" content="2021-05-03T03:06:49.000Z">
+<meta property="article:modified_time" content="2021-05-23T05:56:09.775Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="进程机制">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Node学习5-进程机制">
-<meta name="twitter:description" content="服务端模型得变迁Web服务器的架构已经历了几次变迁。服务器处理客户端请求的并发量，就是每个里程碑的见证。 石器时代：同步最早的服务器，其执行模型是同步的，它的服务模式是一次只为一次请求服务，所有的请求都得按次序等待服务。这意味着除了当前的请求被处理外，其余请求都处于等待被处理的状态。其处理性能相当低下，假设每次响应服务耗时为N秒，则这类服务的QPS为1/N。 这种架构如今已基本被淘汰，只在一些无并">
 <meta name="twitter:image" content="d:/myblog/myblog/source/images/Node-JS的进程/IPC.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -46,32 +46,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -149,7 +157,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -182,7 +192,7 @@
     
     <div class="article-meta">
       
-	<a href="/2021/05/03/Node学习5-进程机制/" class="article-date">
+	<a href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/" class="article-date">
 	  <time datetime="2021-05-03T03:06:49.000Z" itemprop="datePublished">2021-05-03</time>
 	</a>
 
@@ -341,7 +351,7 @@
 <tr>
 <td>close</td>
 <td>进程关闭</td>
-<td>1.  <code>code</code> 子进程自行退出时的退出码。<br>2. <code>signal</code>子进程被终止的信号。</td>
+<td>1.  <code>code</code> 子进程自行退出时的退出码。<br />2. <code>signal</code>子进程被终止的信号。</td>
 </tr>
 <tr>
 <td>disconnect</td>
@@ -350,18 +360,18 @@
 </tr>
 <tr>
 <td>error</td>
-<td>1. 无法衍生进程；<br> 2. 无法杀死进程；<br> 3. 向子进程发送消息失败。</td>
+<td>1. 无法衍生进程；<br /> 2. 无法杀死进程；<br /> 3. 向子进程发送消息失败。</td>
 <td><code>err</code> 错误</td>
 </tr>
 <tr>
 <td>exit</td>
 <td>当子进程结束后时会触发 <code>&#39;exit&#39;</code> 事件。</td>
-<td>1.   <code>code</code>子进程自行退出时的退出码。<br> 2. <code>signal</code> 子进程被终止的信号。</td>
+<td>1.   <code>code</code>子进程自行退出时的退出码。<br /> 2. <code>signal</code> 子进程被终止的信号。</td>
 </tr>
 <tr>
 <td>message</td>
 <td>当子进程使用 <code>process.send()</code>发送消息时会触发 <code>&#39;message&#39;</code> 事件。</td>
-<td>1.  <code>message</code>  一个已解析的 JSON 对象或原始值。<br> 2. <code>sendHandle</code>一个 <code>net.Socket</code>或 <a href="http://nodejs.cn/api/net.html#net_class_net_server" target="_blank" rel="noopener"><code>net.Server</code></a> 对象，或 <code>undefined</code>。</td>
+<td>1.  <code>message</code>  一个已解析的 JSON 对象或原始值。<br /> 2. <code>sendHandle</code>一个 <code>net.Socket</code>或 <a href="http://nodejs.cn/api/net.html#net_class_net_server" target="_blank" rel="noopener"><code>net.Server</code></a> 对象，或 <code>undefined</code>。</td>
 </tr>
 </tbody>
 </table>
@@ -444,14 +454,14 @@
 <p>其接受的参数为<code>cluster.settings</code>对象：</p>
 <ol>
 <li>execArgv &lt;string[]&gt; 传给 Node.js 可执行文件的字符串参数列表。默认值: process.execArgv。</li>
-<li>exec <string> 工作进程的文件路径。默认值: process.argv[1]。</string></li>
+<li>exec <string> 工作进程的文件路径。默认值: process.argv[1]。</li>
 <li>args &lt;string[]&gt; 传给工作进程的字符串参数。默认值: process.argv.slice(2)。</li>
-<li>cwd <string> 工作进程的当前工作目录。默认值: undefined（从父进程继承）。</string></li>
-<li>serialization <string> 指定用于在进程之间发送消息的序列化类型。可能的值为 ‘json’ 和 ‘advanced’。有关更多详细信息，请参见child_process 的高级序列化。默认值: false。</string></li>
-<li>silent <boolean> 是否需要发送输出到父进程的 stdio。默认值: false。</boolean></li>
-<li>stdio <array> 配置衍生的进程的 stdio。 由于 cluster 模块运行依赖于 IPC，这个配置必须包含 ‘ipc’。如果提供了这个选项，则覆盖 silent。</array></li>
-<li>uid <number> 设置进程的用户标识符。参见 setuid(2)。</number></li>
-<li>gid <number> 设置进程的群组标识符。参见 setgid(2)。<br>inspectPort <number> | <function> 设置工作进程的检查端口。这可以是一个数字、或不带参数并返回数字的函数。默认情况下，每个工作进程都有自己的端口，从主进程的 process.debugPort 开始递增。<br>windowsHide <boolean> 隐藏衍生的进程的控制台窗口（通常在 Windows 系统上会创建）。默认值: false。</boolean></function></number></number></li>
+<li>cwd <string> 工作进程的当前工作目录。默认值: undefined（从父进程继承）。</li>
+<li>serialization <string> 指定用于在进程之间发送消息的序列化类型。可能的值为 ‘json’ 和 ‘advanced’。有关更多详细信息，请参见child_process 的高级序列化。默认值: false。</li>
+<li>silent <boolean> 是否需要发送输出到父进程的 stdio。默认值: false。</li>
+<li>stdio <Array> 配置衍生的进程的 stdio。 由于 cluster 模块运行依赖于 IPC，这个配置必须包含 ‘ipc’。如果提供了这个选项，则覆盖 silent。</li>
+<li>uid <number> 设置进程的用户标识符。参见 setuid(2)。</li>
+<li>gid <number> 设置进程的群组标识符。参见 setgid(2)。<br>inspectPort <number> | <Function> 设置工作进程的检查端口。这可以是一个数字、或不带参数并返回数字的函数。默认情况下，每个工作进程都有自己的端口，从主进程的 process.debugPort 开始递增。<br>windowsHide <boolean> 隐藏衍生的进程的控制台窗口（通常在 Windows 系统上会创建）。默认值: false。</li>
 </ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span>  cluster = <span class="built_in">require</span>(<span class="string">'cluster'</span>)</span><br><span class="line"></span><br><span class="line">cluster.setupMaster(&#123;</span><br><span class="line">    exec: <span class="string">'worker.js'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> cpus = <span class="built_in">require</span>(<span class="string">'os'</span>).cpus()</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; cpus.length; i++)&#123;</span><br><span class="line">    cluster.fork()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>同样，cluster模块提供了一些事件监听：</p>
@@ -472,7 +482,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -537,7 +549,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2021/07/13/机器学习1-决策树算法/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -547,7 +559,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2021/04/28/VSCODE-插件开发1/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/04/28/VSCODE-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">VSCODE-插件开发1</div>
     </a>
@@ -655,8 +667,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -664,7 +681,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

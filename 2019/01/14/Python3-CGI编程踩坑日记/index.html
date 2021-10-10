@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>python3_cgi编程踩坑日记 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="PythonCGI">
+  <meta name="keywords" content="PythonCGI" />
   
   
   
   
   <meta name="description" content="Hard-start这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。">
-<meta name="keywords" content="Python,CGI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python3_CGI编程踩坑日记">
-<meta property="og:url" content="http://yoursite.com/2019/01/14/Python3-CGI编程踩坑日记/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/01/14/Python3-CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Hard-start这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/1.png">
-<meta property="og:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/1.png">
-<meta property="og:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/3.png">
-<meta property="og:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/4.png">
-<meta property="og:updated_time" content="2019-01-14T14:02:46.626Z">
+<meta property="og:image" content="http://yoursite.com/images/Python_CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/1.png">
+<meta property="og:image" content="http://yoursite.com/images/Python_CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/1.png">
+<meta property="og:image" content="http://yoursite.com/images/Python_CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/3.png">
+<meta property="og:image" content="http://yoursite.com/images/Python_CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/4.png">
+<meta property="article:published_time" content="2019-01-14T12:25:07.000Z">
+<meta property="article:modified_time" content="2019-01-14T14:02:46.626Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="CGI">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python3_CGI编程踩坑日记">
-<meta name="twitter:description" content="Hard-start这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。">
-<meta name="twitter:image" content="http://yoursite.com/images/Python_CGI编程踩坑日记/1.png">
+<meta name="twitter:image" content="http://yoursite.com/images/Python_CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/1.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -47,32 +47,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -150,7 +158,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -183,7 +193,7 @@
     
     <div class="article-meta">
       
-	<a href="/2019/01/14/Python3-CGI编程踩坑日记/" class="article-date">
+	<a href="/2019/01/14/Python3-CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/" class="article-date">
 	  <time datetime="2019-01-14T12:25:07.000Z" itemprop="datePublished">2019-01-14</time>
 	</a>
 
@@ -389,7 +399,9 @@ else:
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -454,7 +466,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2019/01/28/JSP中的表单编码问题/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/01/28/JSP%E4%B8%AD%E7%9A%84%E8%A1%A8%E5%8D%95%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -464,7 +476,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2019/01/13/欢迎2019-假如我年少有为/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/01/13/%E6%AC%A2%E8%BF%8E2019-%E5%81%87%E5%A6%82%E6%88%91%E5%B9%B4%E5%B0%91%E6%9C%89%E4%B8%BA/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">欢迎2019-假如我年少有为</div>
     </a>
@@ -572,8 +584,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -581,7 +598,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>node节点的操作 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="HTMLDOMNode">
+  <meta name="keywords" content="HTMLDOMNode" />
   
   
   
   
   <meta name="description" content="DOM操作Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象；比如, 继承同一组方法，或者用同样的方式测试。 这里我们不谈其属性，只关注Node节点的操作。 Node.appendChild()Node.appendChild(aChild)方法将一个节点附加到指定父节点的子节点列表的末尾处。 值得注意的是：  该方法只接受一个参">
-<meta name="keywords" content="HTML,DOM,Node">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node节点的操作">
-<meta property="og:url" content="http://yoursite.com/2021/03/22/Node节点的操作/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/03/22/Node%E8%8A%82%E7%82%B9%E7%9A%84%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="DOM操作Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象；比如, 继承同一组方法，或者用同样的方式测试。 这里我们不谈其属性，只关注Node节点的操作。 Node.appendChild()Node.appendChild(aChild)方法将一个节点附加到指定父节点的子节点列表的末尾处。 值得注意的是：  该方法只接受一个参">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/Node/appendChild.png">
 <meta property="og:image" content="http://yoursite.com/images/Node/append.png">
 <meta property="og:image" content="http://yoursite.com/images/Node/insertBefore.png">
@@ -27,10 +25,13 @@
 <meta property="og:image" content="http://yoursite.com/images/Node/contains.png">
 <meta property="og:image" content="http://yoursite.com/images/Node/innerHTML.png">
 <meta property="og:image" content="http://yoursite.com/images/Node/textContent.png">
-<meta property="og:updated_time" content="2021-03-23T12:34:17.660Z">
+<meta property="article:published_time" content="2021-03-22T07:41:53.000Z">
+<meta property="article:modified_time" content="2021-03-23T12:34:17.660Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="DOM">
+<meta property="article:tag" content="Node">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Node节点的操作">
-<meta name="twitter:description" content="DOM操作Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象；比如, 继承同一组方法，或者用同样的方式测试。 这里我们不谈其属性，只关注Node节点的操作。 Node.appendChild()Node.appendChild(aChild)方法将一个节点附加到指定父节点的子节点列表的末尾处。 值得注意的是：  该方法只接受一个参">
 <meta name="twitter:image" content="http://yoursite.com/images/Node/appendChild.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -51,32 +52,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -154,7 +163,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -187,7 +198,7 @@
     
     <div class="article-meta">
       
-	<a href="/2021/03/22/Node节点的操作/" class="article-date">
+	<a href="/2021/03/22/Node%E8%8A%82%E7%82%B9%E7%9A%84%E6%93%8D%E4%BD%9C/" class="article-date">
 	  <time datetime="2021-03-22T07:41:53.000Z" itemprop="datePublished">2021-03-22</time>
 	</a>
 
@@ -305,7 +316,7 @@
 </ul>
 <h1 id="附加"><a href="#附加" class="headerlink" title="附加"></a>附加</h1><p>可以使用<code>element</code>标签的<code>innerHTML</code>与<code>innerText</code>属性。以及<code>insertAdjacentHTML</code>方法来修改元素内部的值。</p>
 <h2 id="element-innerHTML"><a href="#element-innerHTML" class="headerlink" title="element.innerHTML"></a><code>element.innerHTML</code></h2><p><strong><code>Element.innerHTML</code></strong> 属性设置或获取HTML语法表示的元素的后代。</p>
-<p>注意：如果一个 <div>, <span>, 或 <noembed> 节点有一个文本子节点，该节点包含字符 (&amp;), (&lt;),  或(&gt;), innerHTML 将这些字符分别返回为&amp;, &lt; 和 &gt; 。使用Node.textContent  可获取一个这些文本节点内容的正确副本。</noembed></span></div></p>
+<p>注意：如果一个 <div>, <span>, 或 <noembed> 节点有一个文本子节点，该节点包含字符 (&amp;), (&lt;),  或(&gt;), innerHTML 将这些字符分别返回为&amp;, &lt; 和 &gt; 。使用Node.textContent  可获取一个这些文本节点内容的正确副本。</p>
 <h3 id="语法-6"><a href="#语法-6" class="headerlink" title="语法"></a>语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> content = element.innerHTML;</span><br><span class="line">element.innerHTML = htmlString;</span><br></pre></td></tr></table></figure>
 <p><code>DOMString</code>包含元素后代的HTML序列。设置元素的 <code>innerHTML</code> 将会删除所有该元素的后代并以上面给出的 htmlString 替代。</p>
 <p>注意：</p>
@@ -349,7 +360,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -414,7 +427,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2021/04/21/设计模式6-命令模式与组合模式/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/04/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F6-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F%E4%B8%8E%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -424,7 +437,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2021/03/11/HTTP缓存/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/03/11/HTTP%E7%BC%93%E5%AD%98/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">HTTP缓存</div>
     </a>
@@ -532,8 +545,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -541,7 +559,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

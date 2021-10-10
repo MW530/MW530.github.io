@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>css3过渡与动画 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="CSS3过渡动画">
+  <meta name="keywords" content="CSS3过渡动画" />
   
   
   
   
   <meta name="description" content="CSS3-过渡 CSS3中，我们为了添加某种效果可以从一种样式转变到另一个的时候，无需使用Flash动画或JavaScript。 使用transition属性，CSS3会自动为属性的变化来添加过渡样式。这个属性一般可以用在:hoevr :active等伪元素切换。 transition也是一个复合属性： 1234tag&amp;#123;    transition:transition-property">
-<meta name="keywords" content="CSS3,过渡,动画">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS3过渡与动画">
-<meta property="og:url" content="http://yoursite.com/2019/11/18/CSS3过渡与动画/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/11/18/CSS3%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="CSS3-过渡 CSS3中，我们为了添加某种效果可以从一种样式转变到另一个的时候，无需使用Flash动画或JavaScript。 使用transition属性，CSS3会自动为属性的变化来添加过渡样式。这个属性一般可以用在:hoevr :active等伪元素切换。 transition也是一个复合属性： 1234tag&amp;#123;    transition:transition-property">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-19T01:23:21.050Z">
+<meta property="article:published_time" content="2019-11-18T13:13:17.000Z">
+<meta property="article:modified_time" content="2019-11-19T01:23:21.050Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="CSS3">
+<meta property="article:tag" content="过渡">
+<meta property="article:tag" content="动画">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSS3过渡与动画">
-<meta name="twitter:description" content="CSS3-过渡 CSS3中，我们为了添加某种效果可以从一种样式转变到另一个的时候，无需使用Flash动画或JavaScript。 使用transition属性，CSS3会自动为属性的变化来添加过渡样式。这个属性一般可以用在:hoevr :active等伪元素切换。 transition也是一个复合属性： 1234tag&amp;#123;    transition:transition-property">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -42,32 +43,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -145,7 +154,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -178,7 +189,7 @@
     
     <div class="article-meta">
       
-	<a href="/2019/11/18/CSS3过渡与动画/" class="article-date">
+	<a href="/2019/11/18/CSS3%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB/" class="article-date">
 	  <time datetime="2019-11-18T13:13:17.000Z" itemprop="datePublished">2019-11-18</time>
 	</a>
 
@@ -296,14 +307,14 @@
 </tr>
 <tr>
 <td>steps()</td>
-<td>步进函数将过渡时间分成大小相等的时间时隔来运行<br>没有过度效果，而是一帧一帧的变化，integer等于几就分成几帧，阶跃函数</td>
+<td>步进函数将过渡时间分成大小相等的时间时隔来运行<br/>没有过度效果，而是一帧一帧的变化，integer等于几就分成几帧，阶跃函数</td>
 </tr>
 </tbody>
 </table>
 <h2 id="steps-函数"><a href="#steps-函数" class="headerlink" title="steps()函数"></a>steps()函数</h2><p><code>steps(&lt;integer&gt;[,start| end]?)</code></p>
-<p> <integer>:用于指定间隔个数（该值只能是正整数） 第二个参数可选，默认是end,表示开始值保持一次，若参数为start，表示开始值不保持 </integer></p>
+<p> <integer>:用于指定间隔个数（该值只能是正整数） 第二个参数可选，默认是end,表示开始值保持一次，若参数为start，表示开始值不保持 </p>
 <p><code>end</code>:用于指定在step中间隔数少于该有的变化次数时，因该丢弃前面的部分还是后面的部分。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">即每个关键帧都分成两次变化完成，则一共有七次变化。</span><br><span class="line">七帧      一共变化七次，  div本身没有颜色，所以最终的背景无色。但是，只变化七次，有七种颜色，加上无色，一种八种状态，所以需要丢弃一种状态</span><br><span class="line"></span><br><span class="line">start   橙、黄、灰、蓝、深灰蓝、绿、无色         </span><br><span class="line">原理：去掉第一帧的效果，</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">end    红、橙、黄、灰、蓝、深灰蓝、无色</span><br><span class="line">原理：去掉最后一帧的效果</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">即每个关键帧都分成两次变化完成，则一共有七次变化。</span><br><span class="line">七帧      一共变化七次，  div本身没有颜色，所以最终的背景无色。但是，只变化七次，有七种颜色，加上无色，一种八种状态，所以需要丢弃一种状态</span><br><span class="line"></span><br><span class="line">start   橙、黄、灰、蓝、深灰蓝、绿、无色         </span><br><span class="line">原理：去掉第一帧的效果，</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">end</span>    红、橙、黄、灰、蓝、深灰蓝、无色</span><br><span class="line">原理：去掉最后一帧的效果</span><br></pre></td></tr></table></figure>
 <h2 id="cubic-bezier-n-n-n-n"><a href="#cubic-bezier-n-n-n-n" class="headerlink" title="cubic-bezier(n,n,n,n)"></a>cubic-bezier(<em>n</em>,<em>n</em>,<em>n</em>,<em>n</em>)</h2><p>贝塞尔曲线函数的四个值，具体原理后面研究一下再写一篇博客。</p>
 <h2 id="transition-delay"><a href="#transition-delay" class="headerlink" title="transition-delay"></a>transition-delay</h2><p> CSS的<strong>transition-delay</strong>属性规定了在过渡效果开始作用之前需要等待的时间。 </p>
 <p> 值以秒（s）或毫秒（ms）为单位，表明动画过渡效果将在何时开始。取值为正时会延迟一段时间来响应过渡效果；取值为负时会导致过渡立即开始。 </p>
@@ -329,7 +340,7 @@
 <li></li>
 </ol>
 <p>如果某一个关键帧出现了重复的定义，且重复的关键帧中的css属性值不同，以最后一次定义的属性为准。例如：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">keyframes</span> identifier &#123;</span><br><span class="line">  0% &#123; <span class="attribute">top</span>: <span class="number">0</span>; <span class="attribute">left</span>: <span class="number">0px</span>&#125;</span><br><span class="line">  50% &#123; <span class="attribute">top</span>: <span class="number">30px</span>; <span class="attribute">left</span>: <span class="number">20px</span>; &#125;</span><br><span class="line">  50% &#123; <span class="attribute">top</span>: <span class="number">10px</span>; &#125;</span><br><span class="line">  100% &#123; <span class="attribute">top</span>: <span class="number">0</span>; <span class="attribute">left</span>: <span class="number">30px</span>;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> identifier &#123;</span><br><span class="line">  0% &#123; <span class="attribute">top</span>: <span class="number">0</span>; <span class="attribute">left</span>: <span class="number">0px</span>&#125;</span><br><span class="line">  50% &#123; <span class="attribute">top</span>: <span class="number">30px</span>; <span class="attribute">left</span>: <span class="number">20px</span>; &#125;</span><br><span class="line">  50% &#123; <span class="attribute">top</span>: <span class="number">10px</span>; &#125;</span><br><span class="line">  100% &#123; <span class="attribute">top</span>: <span class="number">0</span>; <span class="attribute">left</span>: <span class="number">30px</span>;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面这个例子中，<code>50%</code> 关键帧中设置的属性<code>top: 10px</code>是有效的，但是其他的属性会被忽略</p>
 <ol start="5">
 <li>关键帧中出现的 !important 关键词将会被忽略</li>
@@ -342,7 +353,7 @@
 <p>}</p>
 <p>其中阶段名可以<strong>百分比</strong>或者<strong>from/to</strong></p>
 <p>example:</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">keyframes</span> mykeyframes</span><br><span class="line">&#123;</span><br><span class="line">0%   &#123;<span class="attribute">background</span>:red;&#125;</span><br><span class="line">25%  &#123;<span class="attribute">background</span>:yellow;&#125;</span><br><span class="line">50%  &#123;<span class="attribute">background</span>:blue;&#125;</span><br><span class="line">100% &#123;<span class="attribute">background</span>:green;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> mykeyframes</span><br><span class="line">&#123;</span><br><span class="line">0%   &#123;<span class="attribute">background</span>:red;&#125;</span><br><span class="line">25%  &#123;<span class="attribute">background</span>:yellow;&#125;</span><br><span class="line">50%  &#123;<span class="attribute">background</span>:blue;&#125;</span><br><span class="line">100% &#123;<span class="attribute">background</span>:green;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样就新建了一个动画关键帧，现在我们就需要使用<code>animation</code>将其添加到对应的元素上。</p>
 
       
@@ -351,7 +362,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -416,7 +429,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2019/11/20/CSS伪类与伪元素/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/11/20/CSS%E4%BC%AA%E7%B1%BB%E4%B8%8E%E4%BC%AA%E5%85%83%E7%B4%A0/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -426,7 +439,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2019/11/17/函数的防抖与节流以及一些重要的函数模式/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/11/17/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E7%9A%84%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">函数的防抖与节流以及一些重要的函数模式</div>
     </a>
@@ -534,8 +547,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -543,7 +561,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

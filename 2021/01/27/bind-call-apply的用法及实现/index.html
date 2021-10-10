@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>bind,call,apply的用法及实现 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="JavaScriptbindcallapply">
+  <meta name="keywords" content="JavaScriptbindcallapply" />
   
   
   
   
   <meta name="description" content="bindbind() 方法创建一个新的函数，在 bind() 被调用时，这个新函数的 this 被指定为 bind() 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。 参数thisArg 调用绑定函数时作为 this 参数传递给目标函数的值。   如果使用new运算符构造绑定函数，则忽略该值。 当使用 bind 在 setTimeout 中创建一个函数（作为回调提供）时，作为 this">
-<meta name="keywords" content="JavaScript,bind,call,apply">
 <meta property="og:type" content="article">
 <meta property="og:title" content="bind,call,apply的用法及实现">
-<meta property="og:url" content="http://yoursite.com/2021/01/27/bind-call-apply的用法及实现/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/01/27/bind-call-apply%E7%9A%84%E7%94%A8%E6%B3%95%E5%8F%8A%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="bindbind() 方法创建一个新的函数，在 bind() 被调用时，这个新函数的 this 被指定为 bind() 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。 参数thisArg 调用绑定函数时作为 this 参数传递给目标函数的值。   如果使用new运算符构造绑定函数，则忽略该值。 当使用 bind 在 setTimeout 中创建一个函数（作为回调提供）时，作为 this">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/bind-call-apply/bind.png">
 <meta property="og:image" content="http://yoursite.com/images/bind-call-apply/call.png">
 <meta property="og:image" content="http://yoursite.com/images/bind-call-apply/apply.png">
-<meta property="og:updated_time" content="2021-01-29T01:35:08.920Z">
+<meta property="article:published_time" content="2021-01-27T09:57:04.000Z">
+<meta property="article:modified_time" content="2021-01-29T01:35:08.920Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="bind">
+<meta property="article:tag" content="call">
+<meta property="article:tag" content="apply">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bind,call,apply的用法及实现">
-<meta name="twitter:description" content="bindbind() 方法创建一个新的函数，在 bind() 被调用时，这个新函数的 this 被指定为 bind() 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。 参数thisArg 调用绑定函数时作为 this 参数传递给目标函数的值。   如果使用new运算符构造绑定函数，则忽略该值。 当使用 bind 在 setTimeout 中创建一个函数（作为回调提供）时，作为 this">
 <meta name="twitter:image" content="http://yoursite.com/images/bind-call-apply/bind.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -46,32 +48,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -149,7 +159,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -182,7 +194,7 @@
     
     <div class="article-meta">
       
-	<a href="/2021/01/27/bind-call-apply的用法及实现/" class="article-date">
+	<a href="/2021/01/27/bind-call-apply%E7%9A%84%E7%94%A8%E6%B3%95%E5%8F%8A%E5%AE%9E%E7%8E%B0/" class="article-date">
 	  <time datetime="2021-01-27T09:57:04.000Z" itemprop="datePublished">2021-01-27</time>
 	</a>
 
@@ -286,7 +298,9 @@
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -351,7 +365,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2021/01/31/全面理解JavaScript作用域与闭包/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -361,7 +375,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2021/01/26/JavaScript中数组与对象的遍历方法/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/01/26/JavaScript%E4%B8%AD%E6%95%B0%E7%BB%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">JavaScript中数组与对象的遍历方法</div>
     </a>
@@ -469,8 +483,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -478,7 +497,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

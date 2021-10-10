@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>对于js中localstorage的理解 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="JavaScriptlocalStorage">
+  <meta name="keywords" content="JavaScriptlocalStorage" />
   
   
   
   
   <meta name="description" content="前言最近在开发博客的过程中，遇到了数据储存的问题，由于我服务器中还未安装sql，加上我对数据库的操作还不是很熟悉，所以先把数据放入了localStorage中，所以我就具体了解了一下这个本地数据库。 正文前端的存储数据的三种方式前端一般数据存储的方式有三种：  cookies sessionStorage localStorage">
-<meta name="keywords" content="JavaScript,localStorage">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对于JS中localStorage的理解">
-<meta property="og:url" content="http://yoursite.com/2018/08/20/对于JS中localStorage的理解/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/%E5%AF%B9%E4%BA%8EJS%E4%B8%ADlocalStorage%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="前言最近在开发博客的过程中，遇到了数据储存的问题，由于我服务器中还未安装sql，加上我对数据库的操作还不是很熟悉，所以先把数据放入了localStorage中，所以我就具体了解了一下这个本地数据库。 正文前端的存储数据的三种方式前端一般数据存储的方式有三种：  cookies sessionStorage localStorage">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-20T08:36:46.437Z">
+<meta property="article:published_time" content="2018-08-20T07:13:20.000Z">
+<meta property="article:modified_time" content="2018-08-20T08:36:46.437Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="localStorage">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对于JS中localStorage的理解">
-<meta name="twitter:description" content="前言最近在开发博客的过程中，遇到了数据储存的问题，由于我服务器中还未安装sql，加上我对数据库的操作还不是很熟悉，所以先把数据放入了localStorage中，所以我就具体了解了一下这个本地数据库。 正文前端的存储数据的三种方式前端一般数据存储的方式有三种：  cookies sessionStorage localStorage">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -42,32 +42,40 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
   
-  
-    <link rel="stylesheet" href="/css/vdonate.css">
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
-</head>
-</html>
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -145,7 +153,9 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
+
 
 </div></li>
             </div>
@@ -178,7 +188,7 @@
     
     <div class="article-meta">
       
-	<a href="/2018/08/20/对于JS中localStorage的理解/" class="article-date">
+	<a href="/2018/08/20/%E5%AF%B9%E4%BA%8EJS%E4%B8%ADlocalStorage%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
 	  <time datetime="2018-08-20T07:13:20.000Z" itemprop="datePublished">2018-08-20</time>
 	</a>
 
@@ -265,7 +275,9 @@ typeof(person.maritalStstus)//boolean
       
         <div id="donation_div"></div>
 
+
 <script src="/js/vdonate.js"></script>
+
 <script>
 var a = new Donate({
   title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
@@ -330,7 +342,7 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2018/08/20/利用SS（Shadowsocks）快速搭建一个vpn/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/08/20/%E5%88%A9%E7%94%A8SS%EF%BC%88Shadowsocks%EF%BC%89%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAvpn/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -340,7 +352,7 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2018/08/13/Apicloud不同页面传值/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/08/13/Apicloud%E4%B8%8D%E5%90%8C%E9%A1%B5%E9%9D%A2%E4%BC%A0%E5%80%BC/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Apicloud不同页面传值</div>
     </a>
@@ -448,8 +460,13 @@ var a = new Donate({
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
@@ -457,7 +474,10 @@ var a = new Donate({
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 

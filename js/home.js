@@ -19,7 +19,7 @@ function scrollHandler(e) {
 }
 
 document.addEventListener('keydown', (e) => {
-	console.log(e)
+	// console.log(e)
 	if(e.ctrlKey && e.key === 'q'){
 		const searchBut = document.getElementsByClassName('search-form-submit')[0]
 		searchBut.click()

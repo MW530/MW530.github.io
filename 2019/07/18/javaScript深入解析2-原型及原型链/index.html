@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="关于原型(prototype)原型可以说是JavaScript设计中最特殊，也可以说是最精髓的设计，他遍布整个JavaScript对象。几乎也是整个JavaScript技术的核心，只有熟悉了原型，才能充分理解JavaScript中的类与委托机制了。">
 <meta property="article:published_time" content="2019-07-18T12:05:44.000Z">
-<meta property="article:modified_time" content="2019-07-18T12:08:04.548Z">
+<meta property="article:modified_time" content="2021-10-11T12:47:22.365Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="javaScript">
 <meta property="article:tag" content="原型链">
@@ -215,36 +215,25 @@
 <h1 id="how"><a href="#how" class="headerlink" title="how"></a>how</h1><p>我们了解了什么是原型，为什么会存在原型之后，就要知道我们该如何使用它了。</p>
 <h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>我们来看一下创建对象的几种方法。</p>
 <ol>
-<li>var obj = {num : 0}</li>
-<li>var obj = new Object({num : 0}) 或者var obj = Object({num : 0})</li>
-<li>var construt = function(){this.num = 0} =&gt; var obj = new construct()</li>
-<li>var obj0 = {num : 0} =&gt; var obj1 = Object.create(obj0)</li>
+<li><code>let obj = {num : 0}</code></li>
+<li><code>let obj = new Object({num : 0}) 或者var obj = Object({num : 0})</code></li>
+<li><code>let construt = function(){this.num = 0} =&gt; let obj = new construct()</code></li>
+<li><code>let obj0 = {num : 0} =&gt; let obj1 = Object.create(obj0)</code></li>
 </ol>
 <p>这几种方法创建的对象有所不同，我们还是来解析一下：</p>
-<p>1,2：字面量方法，创建的是一个普通对象，其[[Prototype]]指向Object(所有原型链的最终节点)。</p>
+<p>1,2：字面量方法，创建的是一个普通对象，其[[Prototype]]指向<code>Object.prototype</code>（大部分对象的原型链最后都指向它）。</p>
 <p>3：new操作符：</p>
 <p>当我们看到new操作符，一定会想到类，但是JavaScript中的new操作符与传统OOP语言中的new完全不同，JavaScript中的new只是将函数当成一个构造函数来调用。如同上一篇中所说，JavaScript中所有的函数都一样，不存在本质的构造函数，只有被new调用的函数就是构造函数。我们在回顾一下new操作符的执行过程：</p>
-<pre><code>function C(name){
-    this.name = name;
-}
-
-var obj = new C(&apos;mw&apos;);
-
-console.log(obj);
-//C {name:&apos;mw&apos;}
-//此时obj的__proto__指向的是C.prototype
-</code></pre><ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> C(<span class="string">'mw'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj);</span><br><span class="line"><span class="comment">//C &#123;name:'mw'&#125;</span></span><br><span class="line"><span class="comment">//此时obj的__proto__指向的是C.prototype</span></span><br></pre></td></tr></table></figure>
+<ol>
 <li>创建一个新的对象</li>
 <li>将新对象的[[prototype]]设为C.prototype</li>
 <li>将新对象设为函数调用的this</li>
-<li>如果函数没有返回其他对象，则new操作符调用的函数会自动返回这个新对象</li>
+<li>如果函数没有返回其他对象，则new操作符调用的函数会自动返回这个新对象，否则则会直接返回函数内的对象</li>
 </ol>
 <p>4: 使用Object.creat()函数来创建对象，实际上是创建了一个新对象，然后将其[[Prototype]]设置为对应对象，如果不加参数，则[[Prototype]]为Object对象。</p>
-<pre><code>var a = {num : 0};
-var b = Object.create(a);
-console.log(b.__proto__);
-//{num:0,__proto__:Object}
-</code></pre><h2 id="属性获取，设置与屏蔽"><a href="#属性获取，设置与屏蔽" class="headerlink" title="属性获取，设置与屏蔽"></a>属性获取，设置与屏蔽</h2><p>当我们有了一个对象，我们可能会对他们做一些操作，比如，[[get]],[[set]],或者seal,freeze等等操作。那么这个过程又是什么样的呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;<span class="attr">num</span> : <span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> b = <span class="built_in">Object</span>.create(a);</span><br><span class="line"><span class="built_in">console</span>.log(b.__proto__);</span><br><span class="line"><span class="comment">//&#123;num:0,__proto__:Object&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="属性获取，设置与屏蔽"><a href="#属性获取，设置与屏蔽" class="headerlink" title="属性获取，设置与屏蔽"></a>属性获取，设置与屏蔽</h2><p>当我们有了一个对象，我们可能会对他们做一些操作，比如，[[get]],[[set]],或者seal,freeze等等操作。那么这个过程又是什么样的呢？</p>
 <p>我们提前需要了解的是：每一个对象的每一个属性都是具有<strong>属性描述</strong>：</p>
 <h3 id="数据属性"><a href="#数据属性" class="headerlink" title="数据属性"></a>数据属性</h3><ul>
 <li>configurable：表示该属性能否通过delete操作符删除从而重新定义。默认为true。</li>
@@ -260,30 +249,22 @@ console.log(b.__proto__);
 </ul>
 <p>值得注意的是：</p>
 <ol>
-<li>官方来说，只能通过Reflect.defineProperty(obj,proName,proValue)，但是Firefox在最开始指定了<strong>defineGetter</strong>，<strong>defineSetter</strong>，后期Chrome，Opera，Safari也实现了该方法。</li>
+<li>官方来说，只能通过Reflect.defineProperty(obj,proName,proValue)，但是Firefox在最开始指定了__defineGetter__，__defineSetter__，后期Chrome，Opera，Safari也实现了该方法。</li>
 <li>在defineProperty()中get,set不能与writable，value，同时设置。</li>
 <li>在ES6中，将Object中的很多方法(包括defineProperty…)都放到了Reflect对象中，虽然Object任然包含该方法，但建议使用Reflect对象。</li>
 </ol>
 <h3 id="属性获取与屏蔽"><a href="#属性获取与屏蔽" class="headerlink" title="属性获取与屏蔽"></a>属性获取与屏蔽</h3><p>思考一下下面的代码：</p>
-<pre><code>var obj = {num : 0};
-var str = obj.toString();
-console.log(str);
-//&quot;[object Object]&quot;
-</code></pre><p>首先我们需要思考的是，我们并没有在obj上定义toString方法，为什么我们能够调用，并且得到一个结果(虽然并不那么漂亮)，我想你肯定猜到了，那是因为obj的原型对象Object拥有这个方法。<strong>所以，我们在或得一个对象的值时，是从链的底端开始查找，顺着原型链，一直查到顶端，如果不存在，返回undefined或者error。如果存在，则返回这个值。</strong>也就是说，我们能够在一个对象中查找到值，并不代表该对象含有该值，很有可能是该对象的原型链上的某个原型对象含有该值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;<span class="attr">num</span> : <span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> str = obj.toString();</span><br><span class="line"><span class="built_in">console</span>.log(str);</span><br><span class="line"><span class="comment">//"[object Object]"</span></span><br></pre></td></tr></table></figure>
+<p>首先我们需要思考的是，我们并没有在obj上定义toString方法，为什么我们能够调用，并且得到一个结果(虽然并不那么漂亮)，我想你肯定猜到了，那是因为obj的原型对象Object拥有这个方法。<strong>所以，我们在或得一个对象的值时，是从链的底端开始查找，顺着原型链，一直查到顶端，如果不存在，返回undefined或者error。如果存在，则返回这个值。</strong>也就是说，我们能够在一个对象中查找到值，并不代表该对象含有该值，很有可能是该对象的原型链上的某个原型对象含有该值。</p>
 <p>思考下面的代码：</p>
-<pre><code>var a = {getString:function(){return &apos;from a&apos;}};
-var b = Object.create(a);
-b.getString = function(){return &apos;from b&apos;};
-
-console.log(b.getString());
-</code></pre><p>结果是什么呢？hava a try!</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;<span class="attr">getString</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="string">'from a'</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">let</span> b = <span class="built_in">Object</span>.create(a);</span><br><span class="line">b.getString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="string">'from b'</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(b.getString());</span><br></pre></td></tr></table></figure>
+<p>结果是什么呢？hava a try!</p>
 <p>没错，结果是’from b’</p>
 <p>这就是我们所说的<strong>属性屏蔽</strong>，<strong>这一切的根源在于：我们是从链底查到链顶的，所以下层的同名属性会优先被获取，一旦引擎获取到该属性，则遍历结束，不会再向下查找。</strong></p>
 <h3 id="属性设置与屏蔽"><a href="#属性设置与屏蔽" class="headerlink" title="属性设置与屏蔽"></a>属性设置与屏蔽</h3><p>当我们为一个对象的键赋值时，会发生三种情况：</p>
 <p>eg：</p>
-<pre><code>var obj = {};
-obj.name = &apos;value&apos;
-</code></pre><ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">obj.name = <span class="string">'value'</span></span><br></pre></td></tr></table></figure>
+<ol>
 <li>如果在[[Prototype]]链上存在名为name的普通数据访问值，并且被标记为可写(<strong>writale:true</strong>)(默认即为true)，那就会直接在<strong>obj</strong>上添加一个名为name的新属性，它就是<strong>屏蔽属性</strong>。</li>
 <li>如果在[[Prototype]]链上存在名为name的普通数据访问值，但是该属性被标记为只读，(<strong>writable:false</strong>)，那么<strong>无法修改已有属性或者在obj上创建屏蔽属性</strong>。如果在严格模式下，会抛出一个错误；否则会忽略该语句。<strong>总之，不会发生屏蔽</strong>。</li>
 <li>如果在[[Prototype]]链上存在name并且它是一个setter。那就一定会调用这个setter。name不会被添加到obj上，也不会重新定义setter。</li>
@@ -291,29 +272,32 @@ obj.name = &apos;value&apos;
 <p>屏蔽的发生也许不像我们通常认为，还要联系对象属性的描述符来确定！我们需要记住。</p>
 <h4 id="隐式屏蔽"><a href="#隐式屏蔽" class="headerlink" title="隐式屏蔽"></a>隐式屏蔽</h4><p>正如类型转换一样，同样存在<strong>隐式屏蔽</strong>，只要操作对象的属性，都有可能发生隐式屏蔽。</p>
 <p>比如：</p>
-<pre><code>var obj0 = {num:0};
-var obj1 = Object.create(obj0);
-obj1.num++ //这里发生了隐式屏蔽！！！
-</code></pre><p><strong>只要是[[set]]，都有可能发生隐式屏蔽</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj0 = &#123;<span class="attr">num</span>:<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> obj1 = <span class="built_in">Object</span>.create(obj0);</span><br><span class="line">obj1.num++ <span class="comment">//这里发生了隐式屏蔽！！！</span></span><br></pre></td></tr></table></figure>
+<p><strong>只要是[[set]]，都有可能发生隐式屏蔽</strong></p>
 <h2 id="修改-Prototype"><a href="#修改-Prototype" class="headerlink" title="修改[[Prototype]]"></a>修改[[Prototype]]</h2><ol>
 <li><p>Object.create()，该方法是最适用的方法。即在创建时就设置其prototype。</p>
-<p> var obj0 = {num:0};<br> var obj1 = Object.create(obj0);<br> //将obj0设置为obj1的prototype</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj0 = &#123;<span class="attr">num</span>:<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> obj1 = <span class="built_in">Object</span>.create(obj0);</span><br><span class="line"><span class="comment">//将obj0设置为obj1的prototype</span></span><br></pre></td></tr></table></figure>
 </li>
+</ol>
+<ol start="2">
 <li><p>Object.setPrototypeOf()，该方法是ES6新增的方法。</p>
-<p> var obj0 = {num:0};<br> var obj1 = Object.create(obj0);<br> Object.setPrototypeOf(obj0,obj1);<br> //把obj1设置为obj0的protoype</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj0 = &#123;<span class="attr">num</span>:<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> obj1 = <span class="built_in">Object</span>.create(obj0);</span><br><span class="line"><span class="built_in">Object</span>.setPrototypeOf(obj0,obj1);</span><br><span class="line"><span class="comment">//把obj1设置为obj0的protoype</span></span><br></pre></td></tr></table></figure>
 </li>
+</ol>
+<ol start="3">
 <li><p>构造函数方法</p>
-<p> var F = function(){this.a = 123};<br> var obj = {};<br> obj.prototype = new F();</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">this</span>.a = <span class="number">123</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">obj.prototype = <span class="keyword">new</span> F();</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>回顾一下上面new操作符，就能想明白。</p>
 <h2 id="检测原型链"><a href="#检测原型链" class="headerlink" title="检测原型链"></a>检测原型链</h2><p>我们又该如何检测对象的原型连上存在哪些原型对象呢？</p>
 <ol>
 <li><p>instance操作符</p>
-<p> var obj = {};<br> console.log(obj instance Object);<br> true</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(obj instance <span class="built_in">Object</span>);</span><br><span class="line"><span class="literal">true</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>__proto__属性，如上所说，大多数浏览器实现了__proto__(在ES6中加入了标准)，在兜底情况时，可以使用这种方法检测。</p>
-</li>
+</ol>
+<ol start="2">
+<li><code>__proto__</code>属性，如上所说，大多数浏览器实现了<code>__proto__</code>(在ES6中加入了标准)，在兜底情况时，可以使用这种方法检测。</li>
 </ol>
 <h1 id="Last"><a href="#Last" class="headerlink" title="Last"></a>Last</h1><p>理解清楚原型链，我们才能清楚理解后面的委托，“类”等等。所以这一部分是基础。</p>
 

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>vue首屏优化全解析 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Vue优化首屏优化" />
+  
+  
+  
+  
+  <meta name="description" content="Vue首屏优化全解析打开GZIP直接打包称为xxx.gz文件在前端打包过程中即生成gz文件可以减少部署服务器的打包过程，可以减少服务器的性能压力，提高响应时间。 使用webpack插件CompressionWebpackPlugin来实现gzip打包。 在vue项目根目录新建webpack.config.js来增加webpack配置。 下面是一个基本配置，具体详细见其文档。 12345678910">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue首屏优化全解析">
+<meta property="og:url" content="http://yoursite.com/2021/10/16/Vue%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E5%85%A8%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="Vue首屏优化全解析打开GZIP直接打包称为xxx.gz文件在前端打包过程中即生成gz文件可以减少部署服务器的打包过程，可以减少服务器的性能压力，提高响应时间。 使用webpack插件CompressionWebpackPlugin来实现gzip打包。 在vue项目根目录新建webpack.config.js来增加webpack配置。 下面是一个基本配置，具体详细见其文档。 12345678910">
+<meta property="article:published_time" content="2021-10-16T07:00:24.000Z">
+<meta property="article:modified_time" content="2021-10-16T07:02:13.358Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="优化">
+<meta property="article:tag" content="首屏优化">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Vue首屏优化全解析" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Vue首屏优化全解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/10/16/Vue%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E5%85%A8%E8%A7%A3%E6%9E%90/" class="article-date">
+	  <time datetime="2021-10-16T07:00:24.000Z" itemprop="datePublished">2021-10-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Vue首屏优化全解析"><a href="#Vue首屏优化全解析" class="headerlink" title="Vue首屏优化全解析"></a>Vue首屏优化全解析</h1><h2 id="打开GZIP"><a href="#打开GZIP" class="headerlink" title="打开GZIP"></a>打开GZIP</h2><h3 id="直接打包称为xxx-gz文件"><a href="#直接打包称为xxx-gz文件" class="headerlink" title="直接打包称为xxx.gz文件"></a>直接打包称为xxx.gz文件</h3><p>在前端打包过程中即生成gz文件可以减少部署服务器的打包过程，可以减少服务器的性能压力，提高响应时间。</p>
+<p>使用webpack插件<a href="https://webpack.docschina.org/plugins/compression-webpack-plugin/" target="_blank" rel="noopener">CompressionWebpackPlugin</a>来实现gzip打包。</p>
+<p>在vue项目根目录新建<code>webpack.config.js</code>来增加webpack配置。</p>
+<p>下面是一个基本配置，具体详细见其文档。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> CompressionPlugin = <span class="built_in">require</span>(<span class="string">"compression-webpack-plugin"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> config = &#123;</span><br><span class="line">    plugins: []</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.export = <span class="function">(<span class="params">env, argv</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(env.mode === <span class="string">'production'</span>)&#123;</span><br><span class="line">        <span class="keyword">let</span> comress = <span class="keyword">new</span> CompressionPlugin(&#123;</span><br><span class="line">        <span class="comment">//检测并压缩js和css文件</span></span><br><span class="line">        test: <span class="regexp">/\.(js|css|svg)$/</span>,</span><br><span class="line">        <span class="comment">//默认即为gzip，可以不写</span></span><br><span class="line">        algorithm: <span class="string">'gzip'</span>,</span><br><span class="line">        <span class="comment">//压缩选项，可以在node文档中找到所有选项</span></span><br><span class="line">        compressionOptions: &#123;</span><br><span class="line">            level: <span class="number">1</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//最小压缩体积，单位bytes，默认0</span></span><br><span class="line">        threshold: <span class="number">1600</span>,</span><br><span class="line">        <span class="comment">//最小压缩效率，ration = 压缩后体积/压缩前体积，只有效率小于这个值的时候才进行压缩，否则不压缩。默认0.8。传1则全部压缩。</span></span><br><span class="line">        minRatio: <span class="number">0.5</span>,</span><br><span class="line">        <span class="comment">//输出的文件名字，默认即为'[path][base].gz'，其他参数见文档</span></span><br><span class="line">        filename: <span class="string">'[path][base].gz'</span>,</span><br><span class="line">        <span class="comment">//是否删除源文件,默认false</span></span><br><span class="line">        deleteOriginalAssets: <span class="literal">true</span></span><br><span class="line">    &#125;)</span><br><span class="line">       config.plugins.push(compress)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> config</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中压缩选项[compressionOptions]可以在<a href="https://nodejs.org/api/zlib.html#zlib_class_options" target="_blank" rel="noopener">这里</a>查看。</p>
+<p>注意这里有一个生产和开发两个环境来确定是否注入插件。</p>
+<p>我们可以通过<code>Vue.config.productionTip = false /true</code>来改变当前环境。</p>
+<h3 id="打开部署服务器gzip"><a href="#打开部署服务器gzip" class="headerlink" title="打开部署服务器gzip"></a>打开部署服务器gzip</h3><p>一般我们使用nginx来部署前端项目。所以我们这里仅仅介绍nginx的配置。</p>
+<p>由于我们之前已经配置了直接打包为gz，此时服务器就不需要再进行压缩，直接传递给浏览器即可。此时我们再nginx的config配置文件中加入对应的配置项即可。</p>
+<p>再<a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html" target="_blank" rel="noopener">nginx官方文档</a>中，关于gzip多个API：</p>
+<p>常用的有以下几个：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Syntax:</th>
+<th>`<strong>gzip</strong> on</th>
+<th>off;`</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">默认</td>
+<td><code>gzip off;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">父级节点</td>
+<td><code>http</code>, <code>server</code>, <code>location</code>, <code>if in location</code></td>
+</tr>
+<tr>
+<td style="text-align:left">介绍</td>
+<td>是否打开gzip</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Syntax:</th>
+<th><code>**gzip_comp_level** *level*;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">默认</td>
+<td><code>gzip_comp_level 1;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">父级节点</td>
+<td><code>http</code>, <code>server</code>, <code>location</code></td>
+</tr>
+<tr>
+<td style="text-align:left">介绍</td>
+<td>压缩等级</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Syntax:</th>
+<th><code>**gzip_min_length** *length*;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">默认</td>
+<td><code>gzip_min_length 20;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">父级节点</td>
+<td><code>http</code>, <code>server</code>, <code>location</code></td>
+</tr>
+<tr>
+<td style="text-align:left">介绍</td>
+<td>文件被压缩的临界大小</td>
+</tr>
+</tbody>
+</table>
+<p>这些API若直接属于http节点内，则所有的sever都会生效，而置于对应的server节点的话就只有对应的server会生效，示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">	gzip            on;</span><br><span class="line">    gzip_min_length 1000;</span><br><span class="line">    #gzip_proxied    expired no-cache no-store private auth;</span><br><span class="line">    #gzip_types      text&#x2F;plain application&#x2F;xml;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上我们再服务器放置的文件都是经过压缩的gz文件，所以我们只需要打开<code>gzip on</code>就行了。</p>
+<h2 id="通过SplitChunks实现手动分包，公共包共享"><a href="#通过SplitChunks实现手动分包，公共包共享" class="headerlink" title="通过SplitChunks实现手动分包，公共包共享"></a>通过SplitChunks实现手动分包，公共包共享</h2><p>在<code>webpack</code>中，官方增加了<code>optimization.splitChunks</code>来手动进行分包。<br>其默认有一定的规则（只影响异步<code>chunks</code>）：</p>
+<ul>
+<li>新的 chunk 可以被共享，或者模块来自于 <code>node_modules</code> 文件夹</li>
+<li>新的 chunk 体积大于 20kb（在进行 min+gz 之前的体积）</li>
+<li>当按需加载 chunks 时，并行请求的最大数量小于或等于 30</li>
+<li>当加载初始化页面时，并发请求的最大数量小于或等于 30</li>
+</ul>
+<p>对应的默认配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      chunks: <span class="string">'async'</span>,</span><br><span class="line">      minSize: <span class="number">20000</span>,</span><br><span class="line">      minRemainingSize: <span class="number">0</span>,</span><br><span class="line">      minChunks: <span class="number">1</span>,</span><br><span class="line">      maxAsyncRequests: <span class="number">30</span>,</span><br><span class="line">      maxInitialRequests: <span class="number">30</span>,</span><br><span class="line">      enforceSizeThreshold: <span class="number">50000</span>,</span><br><span class="line">      cacheGroups: &#123;</span><br><span class="line">        defaultVendors: &#123;</span><br><span class="line">          test: <span class="regexp">/[\\/]node_modules[\\/]/</span>,</span><br><span class="line">          priority: <span class="number">-10</span>,</span><br><span class="line">          reuseExistingChunk: <span class="literal">true</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="keyword">default</span>: &#123;</span><br><span class="line">          minChunks: <span class="number">2</span>,</span><br><span class="line">          priority: <span class="number">-20</span>,</span><br><span class="line">          reuseExistingChunk: <span class="literal">true</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这里需要了解几个重要的API，其他的参见<a href="https://webpack.docschina.org/plugins/split-chunks-plugin/" target="_blank" rel="noopener">webpack官方文档</a>。</p>
+<ol>
+<li><code>splitChunks.chunks</code>：哪些chunks被执行拆分规则。默认：<code>async</code>。<ol>
+<li><code>all</code>：所有的chunks都会被执行拆分。</li>
+<li><code>async</code>：只有异步chunks才会被执行拆分。</li>
+<li><code>initial</code>：只有入口chunks才会被执行拆分。</li>
+</ol>
+</li>
+<li><code>splitChunks.maxAsyncRequests</code>：按需加载时的最大并行请求数。默认：<code>30</code>。</li>
+<li><code>splitChunks.maxInitialRequests</code>：入口点的最大并行请求数。默认：<code>30</code>。</li>
+<li><code>splitChunks.minChunks</code>：拆分前必须共享模块的最小 chunks 数，即一个被共享的模块想要被拆分，那么他被引用的次数至少为<code>minChunks</code>。默认：<code>1</code>。</li>
+<li><code>splitChunks.minSize</code>：生成 chunk 的最小体积（以 bytes 为单位）。默认：20000即2.5KB。</li>
+<li><code>splitChunks.maxSize</code>：告诉 webpack <strong>尝试</strong>将大于 <code>maxSize</code> 个字节的 chunk 分割成较小的部分。</li>
+<li><code>splitChunks.maxAsyncSize</code>：<code>maxAsyncSize</code> 和 <code>maxSize</code> 的区别在于 <code>maxAsyncSize</code> 仅会影响按需加载 chunk。</li>
+<li><code>splitChunks.maxInitialSize</code>：<code>maxInitialSize</code> 和 <code>maxSize</code> 的区别在于 <code>maxInitialSize</code> 仅会影响初始加载 chunks。</li>
+<li><code>splitChunks.name</code>：拆分 chunk 的名称。设为 <code>false</code> 将保持 chunk 的相同名称，因此不会不必要地更改名称。这是生产环境下构建的建议值。</li>
+<li><code>splitChunks.minRemainingSize</code>：确保拆分后剩余的最小 chunk 体积超过限制来避免大小为零的模块。其仅在剩余单个 chunk 时生效。</li>
+</ol>
+<p><code>maxSize</code> 只是一个提示，当模块大于 <code>maxSize</code> 或者拆分不符合 <code>minSize</code> 时可能会被违反。</p>
+<h3 id="splitChunks-cacheGroups"><a href="#splitChunks-cacheGroups" class="headerlink" title="splitChunks.cacheGroups"></a>splitChunks.cacheGroups</h3><p>缓存组可以手动设置chunks的匹配规则。缓存组可以继承和/或覆盖来自 <code>splitChunks.*</code> 的任何选项。但是 <code>test</code>、<code>priority</code> 和 <code>reuseExistingChunk</code> 只能在缓存组级别上进行配置。</p>
+<ol>
+<li><p><code>splitChunks.cacheGroups.{cacheGroup}.priority</code>：一个模块可以属于多个缓存组。优化将优先考虑具有更高 <code>priority</code>（优先级）的缓存组。默认组的优先级为负，以允许自定义组获得更高的优先级（自定义组的默认值为 <code>0</code>）。默认：-20。</p>
+</li>
+<li><p><code>splitChunks.cacheGroups.{cacheGroup}.reuseExistingChunk</code>：如果当前 chunk 包含已从主 bundle 中拆分出的模块，则它将被重用，而不是生成新的模块。这可能会影响 chunk 的结果文件名。默认：true。</p>
+</li>
+<li><p><code>splitChunks.cacheGroups.{cacheGroup}.test</code>：这个API可以接受一个函数，字符串以及正则表达式。一般可以使用正则表达式来确定规定文件夹或文件。也可以传入一个函数。<code>function (module, { chunkGraph, moduleGraph }) =&gt; boolean RegExp string</code>。省略它会选择所有模块。它可以匹配绝对模块资源路径或 chunk 名称。匹配 chunk 名称时，将选择 chunk 中的所有模块。</p>
+</li>
+<li><p><code>splitChunks.cacheGroups.{cacheGroup}.filename</code>：输出的文件名字。可以使用以下的占位符。</p>
+<p>| 模板       | 描述                                                         |<br>| :——— | :———————————————————– |<br>| [file]     | filename 和路径，不含 query 或 fragment                      |<br>| [query]    | 带前缀 <code>?</code> 的 query                                          |<br>| [fragment] | 带前缀 <code>#</code> 的 fragment                                       |<br>| [base]     | 只有 filename（包含扩展名），不含 path                       |<br>| [filebase] | 同上，但已弃用                                               |<br>| [path]     | 只有 path，不含 filename                                     |<br>| [name]     | 只有 filename，不含扩展名或 path                             |<br>| [ext]      | 带前缀 <code>.</code> 的扩展名（对 <a href="https://webpack.docschina.org/configuration/output/#outputfilename" target="_blank" rel="noopener">output.filename</a> 不可用） |</p>
+</li>
+</ol>
+<p>也可以传入函数<code>string function (pathData, assetInfo) =&gt; string</code></p>
+<ol start="5">
+<li><code>splitChunks.cacheGroups.{cacheGroup}.enforce</code>：告诉 webpack 忽略 <a href="https://webpack.docschina.org/plugins/split-chunks-plugin/#splitchunksminsize" target="_blank" rel="noopener"><code>splitChunks.minSize</code></a>、<a href="https://webpack.docschina.org/plugins/split-chunks-plugin/#splitchunksminchunks" target="_blank" rel="noopener"><code>splitChunks.minChunks</code></a>、<a href="https://webpack.docschina.org/plugins/split-chunks-plugin/#splitchunksmaxasyncrequests" target="_blank" rel="noopener"><code>splitChunks.maxAsyncRequests</code></a> 和 <a href="https://webpack.docschina.org/plugins/split-chunks-plugin/#splitchunksmaxinitialrequests" target="_blank" rel="noopener"><code>splitChunks.maxInitialRequests</code></a> 选项，并始终为此缓存组创建 chunk。（注意，这里说的是外部的<code>minSize</code>等，而缓存组内部的<code>minSize</code>是不会被忽略的，还是会被拆分。）</li>
+</ol>
+<p>下面贴一个拆分<code>element-plus</code>的拆分示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里是elementplus的推荐的按需引用</span></span><br><span class="line"><span class="keyword">const</span> Components = <span class="built_in">require</span>(<span class="string">'unplugin-vue-components/webpack'</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; ElementPlusResolver &#125; = <span class="built_in">require</span>(<span class="string">'unplugin-vue-components/resolvers'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  configureWebpack: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      Components(&#123;</span><br><span class="line">        resolvers: [ElementPlusResolver()],</span><br><span class="line">      &#125;),</span><br><span class="line">    ],</span><br><span class="line">    optimization: &#123;</span><br><span class="line">      splitChunks:&#123;</span><br><span class="line">        chunks: <span class="string">"all"</span>,</span><br><span class="line">        maxSize: <span class="number">30000</span>,</span><br><span class="line">        minSize: <span class="number">20000</span>,</span><br><span class="line">        cacheGroups: &#123;</span><br><span class="line">          <span class="comment">// vendors: &#123;</span></span><br><span class="line">          <span class="comment">//   name: "chunk-vendors",</span></span><br><span class="line">          <span class="comment">//   test: /[\\/]node_modules[\\/]/,</span></span><br><span class="line">          <span class="comment">//   chunks: "initial",</span></span><br><span class="line">          <span class="comment">//   priority: 2,</span></span><br><span class="line">          <span class="comment">//   reuseExistingChunk: true,</span></span><br><span class="line">          <span class="comment">//   enforce: true</span></span><br><span class="line">          <span class="comment">// &#125;,</span></span><br><span class="line">          elementUI: &#123;</span><br><span class="line">            name: <span class="string">"chunk-elementplus"</span>,</span><br><span class="line">             <span class="comment">//最大12KB</span></span><br><span class="line">            maxSize: <span class="number">10000</span>,</span><br><span class="line">            minSize: <span class="number">1000</span>,</span><br><span class="line">             <span class="comment">//正则表达式来获取node_modules/element-plus/ 下的模块</span></span><br><span class="line">            test: <span class="regexp">/[\\/]node_modules[\\/]element-plus[\\/]/</span>,</span><br><span class="line">             <span class="comment">//所有的chunks都被拆分，异步或同步</span></span><br><span class="line">            chunks: <span class="string">"all"</span>,</span><br><span class="line">            priority: <span class="number">3</span>,</span><br><span class="line">            reuseExistingChunk: <span class="literal">true</span>,</span><br><span class="line">             <span class="comment">//这里会忽略外部的minSize等，但内部的minSize仍然会被遵守</span></span><br><span class="line">            enforce: <span class="literal">true</span></span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意<code>cacheGroups</code>在组件是按需加载时，也是可以进行chunks拆分的。这是极好的，可以的按需加载的组件分包对优化十分友好。</p>
+<h2 id="路由懒加载"><a href="#路由懒加载" class="headerlink" title="路由懒加载"></a>路由懒加载</h2><p>当某一个组件十分大且不是常用组件的时候，使用路由按需加载就是一个不错的方法。</p>
+<p>并且vue-router提供很友好的API来让我们进行路由懒加载。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "group-foo" */</span> <span class="string">'./Foo.vue'</span>)</span><br><span class="line"><span class="keyword">const</span> Bar = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "group-foo" */</span> <span class="string">'./Bar.vue'</span>)</span><br><span class="line"><span class="keyword">const</span> Baz = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: "group-foo" */</span> <span class="string">'./Baz.vue'</span>)</span><br></pre></td></tr></table></figure>
+<p>通过上述方式，被动态引入(使用<code>import()</code>函数动态导入)的组件将会被单独打包为一个chunk。</p>
+<p>且我们可以通过注释自定义chunk的名称。</p>
+<p>另外也可以使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Foo = <span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">  <span class="built_in">Promise</span>.resolve(&#123;</span><br><span class="line">    <span class="comment">/* 组件定义对象 */</span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<p>来定义路由懒加载。</p>
+<p>值得注意的是：<code>import()</code>动态引入也可以用在平时的组件导入。并且这个动态引入的组件也会被分包。按需加载。</p>
+<h2 id="组件按需引入"><a href="#组件按需引入" class="headerlink" title="组件按需引入"></a>组件按需引入</h2><p>实际上我们平时的应用中，自己的代码不会很大，占体积大的一般都是一些第三方组件，比如UI组件，图表组件等。但是这些组件中并不是所有的组件我们都会用到。特别是图表类组件。这个时候使用按需引入十分关键。</p>
+<p>一般来说按需引入即为我们手动在使用对用组件的父组件中引入和声明组件。比如<code>Element-ui</code>中。但是在一些新的UI组件，特别是Vue3出来之后，很多组件有了更加智能化的按需导入，我们不用全局导入，只需要使用和配置webpack插件，插件即可自动完成组件的引入，十分方便，比如下列的<code>element-plus</code>的示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//安装插件</span><br><span class="line">npm install unplugin-vue-components</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> Components = <span class="built_in">require</span>(<span class="string">'unplugin-vue-components/webpack'</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; ElementPlusResolver &#125; = <span class="built_in">require</span>(<span class="string">'unplugin-vue-components/resolvers'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  plugins: [</span><br><span class="line">    Components(&#123;</span><br><span class="line">      resolvers: [ElementPlusResolver()],</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意上述是<code>webpack.config.js</code>，使用vue时，需要配置到<code>vue.config.js</code>中。具体见<a href="https://cli.vuejs.org/zh/guide/webpack.html" target="_blank" rel="noopener">webpack 相关</a>。</p>
+<h2 id="静态资源手动压缩，使用CDN"><a href="#静态资源手动压缩，使用CDN" class="headerlink" title="静态资源手动压缩，使用CDN"></a>静态资源手动压缩，使用CDN</h2><p>CDN的全称是Content Delivery Network，即<a href="https://baike.baidu.com/item/内容分发网络/4034265" target="_blank" rel="noopener">内容分发网络</a>。CDN是构建在现有网络基础之上的智能虚拟网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。</p>
+<p>我们可以将自己的静态资源上传到CDN中，在用户进行请求的时候，CDN会根据其位置选择合适的服务器进行资源传送。以获得更好网络性能。</p>
+<p>值得注意的是，某些比较大库也可以用CDN引入，不仅可以减少服务器网络压力。还可以保证其稳定性。比如一些公共的CDN站点，比如<a href="https://www.bootcdn.cn/" target="_blank" rel="noopener">bootCDN</a>。</p>
+<ol>
+<li><p>在HTML文件中引入<code>script</code>标签。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"icon"</span> <span class="attr">href</span>=<span class="string">"&lt;%= BASE_URL %&gt;favicon.ico"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 关键，引入对应的标签 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://unpkg.com/vue@next"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">htmlWebpackPlugin.options.title</span> %&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">noscript</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">strong</span>&gt;</span>We're sorry but <span class="tag">&lt;<span class="name">%=</span> <span class="attr">htmlWebpackPlugin.options.title</span> %&gt;</span> doesn't work properly without JavaScript enabled. Please enable it to continue.<span class="tag">&lt;/<span class="name">strong</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- built files will be auto injected --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置<code>webpack</code>的<code>externals</code>，下面是<code>vue.config.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">//其他参数</span></span><br><span class="line">  configureWebpack: &#123;</span><br><span class="line">    externals: &#123;</span><br><span class="line">      <span class="string">'vue'</span>: <span class="string">'Vue'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">    <span class="comment">//其他参数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>值得注意有两点：</p>
+<ol>
+<li>库的引入要直接从库中引入，而不是从路径中引入（一般安装进node_modules都是从库中引入，所以只是注意一下）。即：</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">"vue"</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><code>packge.json</code><strong>中的版本应该与html中引入的一致，否则会发生错误。</strong></li>
+</ol>
+</li>
+</ol>
+<p>经测试，Vue使用外部CDN，vender体积在gzip下的62.79 KiB下降到37.84KiB。优化明显！</p>
+<p>国内各大云平台都有CDN服务，比如阿里云，腾讯云等。下面简单演示将vue.js替换为CDN。</p>
+<h2 id="使用ES6模块替代Node模块，帮助webpack进行tree-shake"><a href="#使用ES6模块替代Node模块，帮助webpack进行tree-shake" class="headerlink" title="使用ES6模块替代Node模块，帮助webpack进行tree-shake"></a>使用ES6模块替代Node模块，帮助webpack进行tree-shake</h2><p>因为webpack的Tree-shake是基于ES6的静态结构。所谓静态结构。即不能动态的根据代码条件来导入。</p>
+<p>即只能</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> a <span class="keyword">from</span> <span class="string">'mw'</span></span><br></pre></td></tr></table></figure>
+<p>而不能</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Error syntax</span></span><br><span class="line"><span class="keyword">import</span> &#123;a&#125; <span class="keyword">from</span> <span class="string">'mw'</span></span><br><span class="line"><span class="keyword">if</span>(a)&#123;</span><br><span class="line">    <span class="keyword">import</span>(xxx)</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">import</span>(yyy)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不能动态引入即可以在词法分析阶段就可以确定模块之间的引入关系。进而就可以通过直接去掉没被引用的模块。</p>
+<p>所以我们可以尽量使用ES6的模块，并且我们可以在<code>ackage.json</code>中配置<code>sideEffects</code>属性来帮助webpack确定哪些模块是纯的ES6模块，可以直接进行<code>Tree-shake</code>。</p>
+<h2 id="关闭source-map"><a href="#关闭source-map" class="headerlink" title="关闭source-map"></a>关闭source-map</h2><p>由于打包生成打代码都是经过压缩的，但是在产生错误的时候就会不好调试，此时就诞生了<code>source-map</code>。在源代码产生错误或者信息的时候，我们通过source-map查找到未压缩的源代码的位置。</p>
+<p>但是在生产环境中，我们不想把源代码暴露给用户，并且source-map由于没有压缩，体积一般偏大。所以我们一般可以在生产环境中将其关闭。</p>
+<p>vue可以这样关闭：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vue.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    productionSourceMap: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="删除冗余代码"><a href="#删除冗余代码" class="headerlink" title="删除冗余代码"></a>删除冗余代码</h2><p>webpack原生的压缩工具minimizer功能有限，我们想要极致的压缩合并配置可以使用<code>UglifyJS</code>，而<code>UglifyJS</code>内核是 <a href="https://github.com/mishoo/UglifyJS2" target="_blank" rel="noopener">uglify-js</a>。</p>
+<p>其包含很多配置，详细地址<a href="https://github.com/mishoo/UglifyJS#compress-options" target="_blank" rel="noopener">Compress options</a>，下面简单给出一些用的比较多的：</p>
+<ul>
+<li><code>drop_console</code> (default: <code>false</code>) — Pass <code>true</code> to discard calls to <code>console.*</code> functions. If you wish to drop a specific function call such as <code>console.info</code> and/or retain side effects from function arguments after dropping the function call then use <code>pure_funcs</code> instead.</li>
+<li><code>drop_debugger</code> (default: <code>true</code>) — remove <code>debugger;</code> statements</li>
+<li><code>booleans</code> (default: <code>true</code>) — various optimizations for boolean context, for example <code>!!a ? b : c → a ? b : c</code></li>
+</ul>
+<p>前两个默认是关闭的，打开之后就可以在代码中去掉<code>console</code>和<code>debugger</code>。</p>
+<p>下面是一个简单的示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    configureWebpack : &#123;</span><br><span class="line">        optimization: &#123;</span><br><span class="line">          minimizer: [</span><br><span class="line">              <span class="keyword">new</span> UglifyJsPlugin(&#123;</span><br><span class="line">                test: <span class="regexp">/\.js(\?.*)?$/i</span>,</span><br><span class="line">                parallel: <span class="literal">true</span>,</span><br><span class="line">                uglifyOptions: &#123;</span><br><span class="line">                    compress: &#123;</span><br><span class="line">                        drop_console: <span class="literal">true</span>,</span><br><span class="line">                        drop_debugger: <span class="literal">true</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;),</span><br><span class="line">        ],</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ssr或者Prerendering"><a href="#ssr或者Prerendering" class="headerlink" title="ssr或者Prerendering"></a>ssr或者Prerendering</h2><p>如果仅仅是首页优化，那么使用<a href="https://github.com/chrisvfritz/prerender-spa-plugin" target="_blank" rel="noopener">prerendering</a>更好。因为相较于ssr，不需要服务器承担html文件的编译。prerendering即是把对应的路由先生成<code>html</code>。</p>
+<p>prerendering一个简单的示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vue.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"><span class="keyword">const</span> PrerenderSPAPlugin = <span class="built_in">require</span>(<span class="string">'prerender-spa-plugin'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  configureWebpack = &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">new</span> PrerenderSPAPlugin(&#123;</span><br><span class="line">      <span class="comment">// Required - The path to the webpack-outputted app to prerender.</span></span><br><span class="line">      staticDir: path.join(__dirname, <span class="string">'dist'</span>),</span><br><span class="line">      <span class="comment">// Required - Routes to render.</span></span><br><span class="line">      routes: [ <span class="string">'/'</span>, <span class="string">'/about'</span>, <span class="string">'/some/deep/nested/route'</span> ],</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/10/16/Vue首屏优化全解析/" target="_blank" title="Vue首屏优化全解析">http://yoursite.com/2021/10/16/Vue首屏优化全解析/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">基于java的脚本语言hair的开发思路3-执行</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue首屏优化全解析"><span class="nav-number">1.</span> <span class="nav-text">Vue首屏优化全解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#打开GZIP"><span class="nav-number">1.1.</span> <span class="nav-text">打开GZIP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接打包称为xxx-gz文件"><span class="nav-number">1.1.1.</span> <span class="nav-text">直接打包称为xxx.gz文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打开部署服务器gzip"><span class="nav-number">1.1.2.</span> <span class="nav-text">打开部署服务器gzip</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过SplitChunks实现手动分包，公共包共享"><span class="nav-number">1.2.</span> <span class="nav-text">通过SplitChunks实现手动分包，公共包共享</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#splitChunks-cacheGroups"><span class="nav-number">1.2.1.</span> <span class="nav-text">splitChunks.cacheGroups</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由懒加载"><span class="nav-number">1.3.</span> <span class="nav-text">路由懒加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件按需引入"><span class="nav-number">1.4.</span> <span class="nav-text">组件按需引入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态资源手动压缩，使用CDN"><span class="nav-number">1.5.</span> <span class="nav-text">静态资源手动压缩，使用CDN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用ES6模块替代Node模块，帮助webpack进行tree-shake"><span class="nav-number">1.6.</span> <span class="nav-text">使用ES6模块替代Node模块，帮助webpack进行tree-shake</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭source-map"><span class="nav-number">1.7.</span> <span class="nav-text">关闭source-map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除冗余代码"><span class="nav-number">1.8.</span> <span class="nav-text">删除冗余代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ssr或者Prerendering"><span class="nav-number">1.9.</span> <span class="nav-text">ssr或者Prerendering</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

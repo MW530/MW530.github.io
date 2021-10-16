@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="伪类？伪元素？之前一度认为伪类就是一组选择器，伪元素是不在DOM树的中的一些元素。但是当我看完MDN上的所有伪类与伪元素之后，才发现伪类与伪元素同属于CSS选择器的范畴，而伪元素其特殊之处在于伪元素可以选择的是一些不在DOM树中的元素，比如::selection用于选中用户用鼠标勾选的字符串；当然也可以选择在DOM树中的元素，比如::first-line用于选中元素的第一行，在特殊一点说，伪元素多">
 <meta property="article:published_time" content="2019-11-20T14:54:39.000Z">
-<meta property="article:modified_time" content="2019-11-21T07:06:34.306Z">
+<meta property="article:modified_time" content="2021-10-16T12:49:22.486Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="CSS">
 <meta property="article:tag" content="伪元素">
@@ -207,7 +207,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="伪类？伪元素？"><a href="#伪类？伪元素？" class="headerlink" title="伪类？伪元素？"></a>伪类？伪元素？</h1><p>之前一度认为伪类就是一组选择器，伪元素是不在DOM树的中的一些元素。但是当我看完MDN上的所有伪类与伪元素之后，才发现<strong>伪类与伪元素同属于CSS选择器的范畴</strong>，而伪元素其特殊之处在于伪元素可以选择的是一些不在DOM树中的元素，比如<code>::selection</code>用于选中用户用鼠标勾选的字符串；当然也可以选择在DOM树中的元素，比如<code>::first-line</code>用于选中元素的第一行，在特殊一点说，伪元素多用于选择一些特殊的东西，而伪类用于元素级别的选择，比如<code>:nth:child</code>用于选择某元素的第n个</p>
-<p>由上面可以看出基本看做：<strong>元素级别的选择器用伪类，元素内的选择器与特殊选择器用伪元素</strong></p>
+<p>伪类是选择器的一种，它用于选择处于特定状态的元素，比如当它们是这一类型的第一个元素时，或者是当鼠标指针悬浮在元素上面的时候。它们表现得会像是你向你的文档的某个部分应用了一个类一样，帮你在你的标记文本中减少多余的类，让你的代码更灵活、更易于维护。</p>
+<p>伪元素以类似方式表现，不过表现得是像你往标记文本中加入全新的HTML元素一样，而不是向现有的元素上应用类。伪元素开头为双冒号<code>::</code>。</p>
 <p> <strong>实际上最好的方法就是记住伪类与伪元素主要有哪些、特别是伪元素并不多。</strong></p>
 <h2 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h2><h3 id="状态伪类"><a href="#状态伪类" class="headerlink" title="状态伪类"></a>状态伪类</h3><table>
 <thead>
@@ -261,63 +262,63 @@
 <tbody>
 <tr>
 <td>:first-child</td>
-<td>:first-child</td>
-<td>选择p元素的第一个子元素</td>
+<td>p:first-child</td>
+<td>匹配一组兄弟元素中的第一个元素。（如果这个元素是p，就被匹配，否则不会被匹配。）</td>
 </tr>
 <tr>
 <td>:first-of-type</td>
 <td>p:first-of-type</td>
-<td>选择每个父元素是p元素的第一个p子元素</td>
+<td>匹配一组兄弟元素中其类型的第一个元素。（即使第一个不是p，也会一次向下检索，直到找到这个p。）</td>
 </tr>
 <tr>
 <td>:last-child</td>
 <td>p:last-child</td>
-<td>选择所有p元素的最后一个子元素</td>
+<td>匹配一组兄弟元素中的最后一个元素。（如果这个元素是p，就被匹配，否则不会被匹配。）</td>
 </tr>
 <tr>
 <td>:last-of-type</td>
 <td>p:last-of-type</td>
-<td>选择每个p元素是其母元素的最后一个p元素</td>
+<td>匹配一组兄弟元素中其类型的最后一个元素。（即使最后一个不是p，也会一次向上检索，直到找到这个p。）</td>
 </tr>
 <tr>
 <td>:not(selector)</td>
-<td>:not§</td>
-<td>选择所有p以外的元素</td>
+<td>:not(p)</td>
+<td>选择所有p以外的元素（不支持伪类嵌套）</td>
 </tr>
 <tr>
 <td>:nth-child(n)</td>
-<td>p:nth-child(2)</td>
-<td>选择所有p元素的第二个子元素</td>
+<td>li:nth-child(2n+1)</td>
+<td>首先找到所有当前元素的兄弟元素，然后按照位置先后顺序从1开始排序，选择的结果为CSS伪类:nth-child括号中表达式（an+b）匹配到的元素集合（n=0，1，2，3…）。<br />样例中即匹配所有奇数项的标签（注意所有的兄弟标签都会被算进去，即使不是li标签）</td>
 </tr>
 <tr>
 <td>:nth-last-child(n)</td>
 <td>p:nth-last-child(2)</td>
-<td>选择所有p元素倒数的第二个子元素</td>
-</tr>
-<tr>
-<td>:nth-last-of-type(n)</td>
-<td>p:nth-last-of-type(2)</td>
-<td>选择所有p元素倒数的第二个为p的子元素</td>
+<td>匹配一列兄弟元素，从后往前倒数。兄弟元素按照an+b形式的式子进行匹配（比如2n+1匹配按照顺序来的最后一个元素，然后往前两个，再往前两个，诸如此类。从后往前数的所有奇数个）。（与上面相同，只是从后往前数）</td>
 </tr>
 <tr>
 <td>:nth-of-type(n)</td>
 <td>p:nth-of-type(2)</td>
-<td>选择所有p元素第二个为p的子元素</td>
+<td>匹配某种类型的一列兄弟元素（比如，<code>&lt;p&gt;</code>元素）——兄弟元素按照an+b形式的式子进行匹配（比如2n+1匹配元素1、3、5、7等。即所有的奇数个）。</td>
+</tr>
+<tr>
+<td>:nth-last-of-type(n)</td>
+<td>p:nth-last-of-type(2n+1)</td>
+<td>匹配某种类型的一列兄弟元素（比如，<code>&lt;p&gt;</code>元素）——兄弟元素按照an+b形式的式子进行从后向前匹配（比如2n+1匹配元素1、3、5、7等。即所有的奇数个）。<br />（与前面的类似，只是方向是从后往前数）<br />样例意思是匹配所有父元素下，是奇数位置的p元素。</td>
 </tr>
 <tr>
 <td>:only-of-type</td>
 <td>p:only-of-type</td>
-<td>选择所有仅有一个子元素为p的元素</td>
+<td>匹配兄弟元素中某类型仅有的元素。<br />样例即为选择一个p元素，其兄弟元素都不是p元素。</td>
 </tr>
 <tr>
 <td>:only-child</td>
 <td>p:only-child</td>
-<td>选择所有仅有一个子元素的p元素</td>
+<td>匹配没有兄弟元素的元素。</td>
 </tr>
 <tr>
 <td>:target</td>
 <td>#news:target</td>
-<td>选择当前活动#news元素(点击URL包含锚的名字)</td>
+<td>匹配当前URL目标的元素（含锚点）。</td>
 </tr>
 </tbody>
 </table>
@@ -333,12 +334,12 @@
 <tr>
 <td>:disabled</td>
 <td>input:disabled</td>
-<td>选择所有禁用的表单元素</td>
+<td>选择所有被禁用的元素。</td>
 </tr>
 <tr>
 <td>:enabled</td>
 <td>input:enabled</td>
-<td>选择没有设置 disabled 属性的表单元素</td>
+<td>选择所有被启用的（enabled）元素。</td>
 </tr>
 <tr>
 <td>:required</td>
@@ -405,6 +406,11 @@
 <td>-</td>
 <td>匹配处于 style 作用域下的元素。当 style 没有设置 scope 属性时，style 内的样式会对整个 html 起作用。(试验阶段)</td>
 </tr>
+<tr>
+<td>:root</td>
+<td>:root</td>
+<td>匹配文档树的根元素。</td>
+</tr>
 </tbody>
 </table>
 <h2 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h2><h3 id="单双冒号"><a href="#单双冒号" class="headerlink" title="单双冒号"></a>单双冒号</h3><table>
@@ -429,12 +435,12 @@
 <tr>
 <td>::first-letter/:first-letter</td>
 <td>匹配元素中文本的首字母。</td>
-<td>被修饰的首字母不在文档树中。</td>
+<td>匹配元素的第一个字母。</td>
 </tr>
 <tr>
 <td>::first-line/:first-line</td>
 <td>匹配元素中第一行的文本。</td>
-<td>这个伪元素只能用在块元素中，不能用在内联元素中。</td>
+<td>匹配包含此伪元素的元素的第一行。</td>
 </tr>
 </tbody>
 </table>

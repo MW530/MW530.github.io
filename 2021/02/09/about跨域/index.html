@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://yoursite.com/images/%E8%B7%A8%E5%9F%9F/HTTP%E5%A4%B4%E9%83%A8%E5%AD%97%E6%AE%B5.png">
 <meta property="og:image" content="http://yoursite.com/images/%E8%B7%A8%E5%9F%9F/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%B5%81%E7%A8%8B.png">
 <meta property="article:published_time" content="2021-02-09T14:29:31.000Z">
-<meta property="article:modified_time" content="2021-03-25T15:02:01.331Z">
+<meta property="article:modified_time" content="2021-10-16T08:06:00.438Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="跨域">
 <meta property="article:tag" content="通信">
@@ -234,7 +234,7 @@
 </ul>
 <p>这其中任何一项不同，皆被视为非同源。会受到同源策略的限制。具体的<code>url</code>的格式：</p>
 <p><img src="\images\跨域\域名结构.png" alt="域名结构"></p>
-<p>注意：上面的url仅写到了影响跨域的4部分，其中还有：</p>
+<p>注意：上面写的仅仅是url中影响影响跨域的4部分，url还有一下的部分：</p>
 <ul>
 <li>虚拟目录部分</li>
 <li>文件名部分</li>
@@ -249,11 +249,12 @@
 <li>DOM 节点</li>
 <li>AJAX 请求</li>
 </ol>
-<p>但是下面的3个请求是允许跨域请求资源的：</p>
+<p>但是下面的4个请求是允许跨域请求资源的：</p>
 <ul>
 <li><code>&lt;img src=XXX&gt;</code></li>
+<li><code>&lt;video src=XXX&gt;</code></li>
 <li><code>&lt;link href=XXX&gt;</code></li>
-<li><code>&lt;script src=XXX&gt;</code>                                                                                                                                                                                                                    </li>
+<li><code>&lt;script src=XXX&gt;</code>                       </li>
 </ul>
 <h1 id="客户端和服务端通信"><a href="#客户端和服务端通信" class="headerlink" title="客户端和服务端通信"></a>客户端和服务端通信</h1><h2 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a><code>jsonp</code></h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><code>jsonp（JSON with Padding）</code>本身是一种<code>hack</code>的方法来实现跨域，其利用的原理有两个：</p>
 <ol>
@@ -268,18 +269,18 @@
 <li><p>安全性不高，易遭受攻击</p>
 </li>
 </ul>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="client端"><a href="#client端" class="headerlink" title="client端"></a>client端</h4><h5 id="原生JavaScript实现"><a href="#原生JavaScript实现" class="headerlink" title="原生JavaScript实现"></a>原生JavaScript实现</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="keyword">let</span> jp = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>)</span><br><span class="line">	script.type= <span class="string">'text/javascript'</span></span><br><span class="line">	jp.src = <span class="string">'http://www.jsonp.com:8080/login?user = admin &amp; callback = login'</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">login</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//拿到服务端结果</span></span><br><span class="line">    &#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="client端"><a href="#client端" class="headerlink" title="client端"></a>client端</h4><h5 id="原生JavaScript实现"><a href="#原生JavaScript实现" class="headerlink" title="原生JavaScript实现"></a>原生JavaScript实现</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">login</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//拿到服务端结果</span></span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">//发送JSONP请求</span></span><br><span class="line">    <span class="keyword">let</span> jp = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>)</span><br><span class="line">	script.type= <span class="string">'text/javascript'</span></span><br><span class="line">	jp.src = <span class="string">'http://www.jsonp.com:8080/login?user = admin &amp; callback = login'</span></span><br><span class="line">	<span class="built_in">document</span>.body.appendChild(script)</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
 <p>可以看到<code>jsonp</code>中的<code>src</code>其实并不是一个脚本地址，而是一个请求地址。</p>
 <h5 id="JQuery实现"><a href="#JQuery实现" class="headerlink" title="JQuery实现"></a><code>JQuery</code>实现</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ajax(&#123;</span><br><span class="line">    url: <span class="string">'http://www.jsonp.com:8080/login'</span>,</span><br><span class="line">    type: <span class="keyword">get</span>,</span><br><span class="line">    dataType: 'jsonp',</span><br><span class="line">    jsonCallback: 'login',</span><br><span class="line">    data: &#123;</span><br><span class="line">        user: <span class="string">'admin'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">login</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//拿到结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="axios实现"><a href="#axios实现" class="headerlink" title="axios实现"></a>axios实现</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span></span><br><span class="line">axios.jsonp(<span class="string">'http://www.jsonp.com:8080/login'</span>, &#123;</span><br><span class="line">    params: &#123;&#125;,</span><br><span class="line">    jsonp: <span class="string">'login'</span></span><br><span class="line">&#125;).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//拿到数据</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="axios实现"><a href="#axios实现" class="headerlink" title="axios实现"></a>axios实现</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$.getJSON(<span class="string">"https://www.runoob.com/try/ajax/jsonp.php?jsoncallback=?"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//data    </span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <h4 id="server端"><a href="#server端" class="headerlink" title="server端"></a>server端</h4><p>返回数据：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">login(&#123;<span class="string">'status'</span>: <span class="literal">true</span>, <span class="string">'user'</span>: <span class="string">'admin'</span>&#125;)</span><br></pre></td></tr></table></figure>
-<h2 id="CORS方案"><a href="#CORS方案" class="headerlink" title="CORS方案"></a><code>CORS</code>方案</h2><p><code>CORS（Cross-origin resource sharing）</code>，即跨域资源共享。它由一系列传输的<a href="https://developer.mozilla.org/en-US/docs/Glossary/Header" target="_blank" rel="noopener">HTTP头</a>组成，这些HTTP头决定浏览器是否阻止前端 JavaScript 代码获取跨域请求的响应。</p>
+<h2 id="CORS方案"><a href="#CORS方案" class="headerlink" title="CORS方案"></a><code>CORS</code>方案</h2><p><code>CORS（Cross-origin resource sharing）</code>，即跨域资源共享。它由一系列传输的HTTP头组成，这些HTTP头决定浏览器是否阻止前端 JavaScript 代码获取跨域请求的响应。</p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy" target="_blank" rel="noopener">同源安全策略</a> 默认阻止“跨域”获取资源，即网页发送的跨域请求根本不会达到服务器即被浏览器拦截，服务器没有决定的权限。但是 <code>CORS</code> 给了web服务器这样的权限，即服务器可以选择，允许跨域请求访问到它们的资源。</p>
 <p><code>CORS</code>将不同的请求分为简单请求与复杂请求，根据请求的不同，<code>CORS</code>会进行不同的操作。</p>
-<p>对于简单请求，<code>CORS</code>会先发送一个<code>OPTIONS</code>预请求。具体在后面复杂请求时进行。</p>
+<p>对于复杂请求，<code>CORS</code>会先发送一个<code>OPTIONS</code>预请求。具体再后面复杂请求时进行。</p>
 <p>首先我们区分一下简单请求与复杂请求：</p>
-<h3 id="简单请求"><a href="#简单请求" class="headerlink" title="简单请求"></a>简单请求</h3><p>简单请求必须满足三个条件：</p>
+<h3 id="简单请求"><a href="#简单请求" class="headerlink" title="简单请求"></a>简单请求</h3><p>简单请求必须满足几个条件：</p>
 <ul>
 <li><p>使用的方法以下类型：</p>
 <ul>
@@ -303,8 +304,8 @@
 <li><p><code>Content-Type</code>的值仅限于以下三种：</p>
 <ul>
 <li><code>text/plain</code></li>
-<li><code>multipart/form-data</code></li>
-<li><code>application/x-www-form-urlencoded</code></li>
+<li><code>multipart/form-data</code>-默认表单提交模式，实际上再body部分还是<code>xxx=xxx&amp;yyy=yyy</code>得形式进行传递。</li>
+<li><code>application/x-www-form-urlencoded</code>-当表单需要文件上传的时候的类型。</li>
 </ul>
 </li>
 <li><p>请求中的任意<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequestUpload" target="_blank" rel="noopener"><code>XMLHttpRequestUpload</code></a> 对象均没有注册任何事件监听器；<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequestUpload" target="_blank" rel="noopener"><code>XMLHttpRequestUpload</code></a> 对象可以使用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/upload" target="_blank" rel="noopener"><code>XMLHttpRequest.upload</code></a> 属性访问。</p>
@@ -328,7 +329,7 @@
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">OPTIONS</span> <span class="string">/resources/post-here/</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: bar.other</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1b3pre) Gecko/20081130 Minefield/3.1b3pre</span><br><span class="line"><span class="attribute">Accept</span>: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Language</span>: en-us,en;q=0.5</span><br><span class="line"><span class="attribute">Accept-Encoding</span>: gzip,deflate</span><br><span class="line"><span class="attribute">Accept-Charset</span>: ISO-8859-1,utf-8;q=0.7,*;q=0.7</span><br><span class="line"><span class="attribute">Connection</span>: keep-alive</span><br><span class="line"><span class="attribute">Origin</span>: http://foo.example</span><br><span class="line"><span class="attribute">Access-Control-Request-Method</span>: POST</span><br><span class="line"><span class="attribute">Access-Control-Request-Headers</span>: X-PINGOTHER, Content-Type</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Date</span>: Mon, 01 Dec 2008 01:15:39 GMT</span><br><span class="line"><span class="attribute">Server</span>: Apache/2.0.61 (Unix)</span><br><span class="line"><span class="attribute">Access-Control-Allow-Origin</span>: http://foo.example</span><br><span class="line"><span class="attribute">Access-Control-Allow-Methods</span>: POST, GET, OPTIONS</span><br><span class="line"><span class="attribute">Access-Control-Allow-Headers</span>: X-PINGOTHER, Content-Type</span><br><span class="line"><span class="attribute">Access-Control-Max-Age</span>: 86400</span><br><span class="line"><span class="attribute">Vary</span>: Accept-Encoding, Origin</span><br><span class="line"><span class="attribute">Content-Encoding</span>: gzip</span><br><span class="line"><span class="attribute">Content-Length</span>: 0</span><br><span class="line"><span class="attribute">Keep-Alive</span>: timeout=2, max=100</span><br><span class="line"><span class="attribute">Connection</span>: Keep-Alive</span><br><span class="line"><span class="attribute">Content-Type</span>: text/plain</span><br></pre></td></tr></table></figure>
 <p>在请求头部中：最重要的几个字段为：</p>
 <ul>
-<li><code>Origin: http://foo.example</code>：表示请求的来源为<code>http://foo.example</code>，使服务端进行鉴别是否够允许该请求来源s。</li>
+<li><code>Origin: http://foo.example</code>：表示请求的来源为<code>http://foo.example</code>，使服务端进行鉴别是否够允许该请求来源。</li>
 <li><code>Access-Control-Request-Method: POST</code>：表示正式请求的方法为<code>POST</code></li>
 <li><code>Access-Control-Request-Headers: X-PINGOTHER, Content-Type</code>：表示正式请求将携带两个自定义请求头部字段：<code>X-PINGOTHER</code>，<code>Content-Type</code>，服务器据此决定，该实际请求是否被允许。</li>
 </ul>
@@ -358,7 +359,9 @@
 </ul>
 <p>下面简单列举一下<code>CORS</code>中常用的HTTP头部字段</p>
 <p><img src="\images\跨域\HTTP头部字段.png" alt="HTTP头部字段"></p>
-<h2 id="中间件代理"><a href="#中间件代理" class="headerlink" title="中间件代理"></a>中间件代理</h2><h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>中间件代理服务器即利用一个中间服务器转发实际服务器的请求，由于中间件服务器不需要遵循同源策略，即可以从后端服务器请求数据。实际上代理的主要作用并不是应对跨域。而是如其名，代理后端真实服务器，比如在分布式设计中，一个代理服务器可以代理后端多台真实服务器，做到具体业务和底层逻辑解耦。</p>
+<p>总结来说这两种方法，简单请求由于规范了一些属性，所以只需要验证<code>origin</code>。</p>
+<p>而复杂请求给了开发者更多可自定义项，则需要服务端进行更多的验证，包括来源，请求方式，请求头字段等。</p>
+<h2 id="中间件代理"><a href="#中间件代理" class="headerlink" title="中间件代理"></a>中间件代理</h2><h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>中间件代理服务器即利用一个中间服务器转发实际服务器的请求，由于中间件服务器与实际服务器之间不需要遵循同源策略，即可以从实际服务器请求数据。实际上代理的主要作用并不是应对跨域。而是如其名，代理后端真实服务器，比如在分布式设计中，一个代理服务器可以代理后端多台真实服务器，做到具体业务和底层逻辑解耦。</p>
 <p>实际上这种方式下，代理服务器仍然需要进行跨域配置，但是免去了后端真实服务器的跨域配置。具体流程如下：</p>
 <p><img src="\images\跨域\中间件流程.png" alt="中间件流程"></p>
 <h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><p>在node中，一般使用<code>express</code>做为<code>server</code>容器，其中的<code>express-http-proxy</code>可以直接用来转发请求，作为一个中间件代理</p>

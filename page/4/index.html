@@ -327,6 +327,76 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Promise的实现"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/">Promise的实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="article-date">
+	  <time datetime="2021-02-04T05:03:48.000Z" itemprop="datePublished">2021-02-04</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          前面已经写过一篇文章来理解Promise及其使用方法，这里尝试来模拟Promise。
+要求根据Promise/A+原理，有以下几个点需要遵守：
+
+Promise有一个Promise States，其有三种状态：
+
+pending：初始状态，可以转化为fulfilled，rejected。
+fulfilled：
+需要一个value作为结果。
+不能转化为其他状态。
+
+
+rejected：
+需要一个reason作为一个原因。
+不能转化为其他状态。
+
+
+
+
+必须要一个then方法，接受两个参数
+
+...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-全面理解JavaScript作用域与闭包"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -819,60 +889,6 @@ button
         </p>
         <p class="article-more-link">
           <a href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-TypeScript特点1"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/01/09/TypeScript%E7%89%B9%E7%82%B91/">TypeScript特点1</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/01/09/TypeScript%E7%89%B9%E7%82%B91/" class="article-date">
-	  <time datetime="2021-01-09T07:18:36.000Z" itemprop="datePublished">2021-01-09</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/TypeScript/">TypeScript</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          基础类型VoidTS中增加了void类型，用于表示没有任何类型，一般也是用于一个函数没有返回值，但是与其他语言不同的是，TS允许一个变量直接声明为Void型（虽然这没什么用）。
-1let unusable: void = undefined;
-void型变量只能被赋值undefined,null
-Null 和 Undefined这里的null与undefined与JS中基本一致，其是所有类型的子类，即所有的变量都可被赋值为null与undifined。
-Nevernever表示那些永远不存...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/01/09/TypeScript%E7%89%B9%E7%82%B91/#more">Read More</a>
         </p>
       
     </div>

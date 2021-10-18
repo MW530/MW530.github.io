@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>float最全最根本解析 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="float浮动" />
+  
+  
+  
+  
+  <meta name="description" content="前置知识要想真正得用好浮动，以及清除浮动。必须首先要理解几个概念作为前置知识。 Normal flow （正常流）这个名词在国内一般被翻译为文档流，这个被很多人吐槽，就不再说了。 这个正常流就是我们HTML初始的流模型。也就是整个文档内，如果你不添加其他属性（浮动和绝对定位）那么整个文档就属于正常流。 格式化上下文（formatting context）一个格式化上下文（下文称FC）就是一系列相关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="float最全最根本解析">
+<meta property="og:url" content="http://yoursite.com/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="前置知识要想真正得用好浮动，以及清除浮动。必须首先要理解几个概念作为前置知识。 Normal flow （正常流）这个名词在国内一般被翻译为文档流，这个被很多人吐槽，就不再说了。 这个正常流就是我们HTML初始的流模型。也就是整个文档内，如果你不添加其他属性（浮动和绝对定位）那么整个文档就属于正常流。 格式化上下文（formatting context）一个格式化上下文（下文称FC）就是一系列相关">
+<meta property="article:published_time" content="2021-10-16T12:55:21.000Z">
+<meta property="article:modified_time" content="2021-10-16T16:23:11.762Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="float">
+<meta property="article:tag" content="浮动">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-float最全最根本解析" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      float最全最根本解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/" class="article-date">
+	  <time datetime="2021-10-16T12:55:21.000Z" itemprop="datePublished">2021-10-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/CSS/">CSS</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><p>要想真正得用好浮动，以及清除浮动。必须首先要理解几个概念作为前置知识。</p>
+<h2 id="Normal-flow-（正常流）"><a href="#Normal-flow-（正常流）" class="headerlink" title="Normal flow （正常流）"></a>Normal flow （正常流）</h2><p>这个名词在国内一般被翻译为文档流，这个被很多人吐槽，就不再说了。</p>
+<p>这个正常流就是我们HTML初始的流模型。也就是整个文档内，如果你不添加其他属性（浮动和绝对定位）那么整个文档就属于正常流。</p>
+<h2 id="格式化上下文（formatting-context）"><a href="#格式化上下文（formatting-context）" class="headerlink" title="格式化上下文（formatting context）"></a>格式化上下文（formatting context）</h2><p>一个格式化上下文（下文称FC）就是一系列相关的元素排布的环境。不同的FC有不同的排布规则。</p>
+<p>正常流中的一个盒子模型，都必然<strong>属于</strong>一个格式化上下文（formatting context）（并不是每个元素都会建立一个FC，注意属于二字）。而格式化上下文又分为以下5种：</p>
+<ul>
+<li>BFC(block formatting context)</li>
+<li>IFC(inline formatting context)</li>
+<li>RFC(ruby formatting context) - 未被实现</li>
+<li>FFC(flex formatting context)</li>
+<li>GFC(grid formatting context)</li>
+</ul>
+<p>值得注意的是：</p>
+<ol>
+<li><p>但是一些FC之间可以产生互动或共存，比如一个IFC可能位于一个BFC元素的内部。</p>
+</li>
+<li><p>FC建立的类型取决于<code>inner-display</code>。</p>
+<p>这里又需要介绍一下<code>inner-display</code>的概念。</p>
+<h4 id="display属性"><a href="#display属性" class="headerlink" title="display属性"></a>display属性</h4><p>实际上我们常使用的<code>display</code>属性，包括两个概念，<code>inner display type</code>和<code>outer display type</code></p>
+<h5 id="inner-display-type"><a href="#inner-display-type" class="headerlink" title="inner display type"></a><code>inner display type</code></h5><p>内部展示类型即会决定这个元素产生的FC的类型，由此会决定其后代元素如何进行排布。</p>
+<h5 id="outer-display-type"><a href="#outer-display-type" class="headerlink" title="outer display type"></a><code>outer display type</code></h5><p>外部展示类型决定了他自己如何在流布局中进行排布。</p>
+<p>注意：文字没有display 属性。</p>
+</li>
+</ol>
+<p>下面是W3C规定的所有display属性，但是一些并没有实现：</p>
+<table class="data" id="display-value-summary"><br>    <thead><br>     <tr><br>      <th>Short <a class="property" data-link-type="propdesc" href="#propdef-display" id="ref-for-propdef-display①⑥">display</a><br>      </th><th>Full <a class="property" data-link-type="propdesc" href="#propdef-display" id="ref-for-propdef-display①⑦">display</a><br>      </th><th>Generated box<br>    </th></tr></thead><tbody title="Box Suppression Display Types"><br>     <tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-none" id="ref-for-valdef-display-none③">none</a><br>      </td><td>—<br>      </td><td>subtree omitted from <a data-link-type="dfn" href="#box-tree" id="ref-for-box-tree⑦">box tree</a><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-contents" id="ref-for-valdef-display-contents①">contents</a><br>      </td><td>—<br>      </td><td>element replaced by contents in <a data-link-type="dfn" href="#box-tree" id="ref-for-box-tree⑧">box tree</a><br>    </td></tr></tbody><tbody title="Flow Layout Display Types"><br>     <tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-block" id="ref-for-valdef-display-block">block</a><br>      </td><td><span class="css">block flow</span><br>      </td><td><a data-link-type="dfn" href="#block-level" id="ref-for-block-level">block-level</a> <a data-link-type="dfn" href="#block-container" id="ref-for-block-container">block container</a> <abbr title="also known as">aka</abbr> <a data-link-type="dfn" href="#block-box" id="ref-for-block-box①">block box</a><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-flow-root" id="ref-for-valdef-display-flow-root">flow-root</a><br>      </td><td><span class="css">block flow-root</span><br>      </td><td><a data-link-type="dfn" href="#block-level" id="ref-for-block-level①">block-level</a> <a data-link-type="dfn" href="#block-container" id="ref-for-block-container①">block container</a> that establishes a new <a data-link-type="dfn" href="#block-formatting-context" id="ref-for-block-formatting-context">block formatting context</a> (<a data-link-type="dfn" href="#bfc" id="ref-for-bfc">BFC</a>)<br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-inline" id="ref-for-valdef-display-inline">inline</a><br>      </td><td><span class="css">inline flow</span><br>      </td><td><a data-link-type="dfn" href="#inline-box" id="ref-for-inline-box①">inline box</a><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-inline-block" id="ref-for-valdef-display-inline-block">inline-block</a><br>      </td><td><span class="css">inline flow-root</span><br>      </td><td><a data-link-type="dfn" href="#inline-level" id="ref-for-inline-level">inline-level</a> <a data-link-type="dfn" href="#block-container" id="ref-for-block-container②">block container</a> <abbr title="also known as">aka</abbr> <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" data-lt="inline block | inline block box" id="inline-block">inline block</dfn><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-run-in" id="ref-for-valdef-display-run-in①">run-in</a><br>      </td><td><span class="css">run-in flow</span><br>      </td><td><a data-link-type="dfn" href="#run-in" id="ref-for-run-in">run-in box</a> (<a data-link-type="dfn" href="#inline-box" id="ref-for-inline-box②">inline box</a> with special box-tree-munging rules)<br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-list-item" id="ref-for-valdef-display-list-item②">list-item</a><br>      </td><td><span class="css">block flow list-item</span><br>      </td><td><a data-link-type="dfn" href="#block-box" id="ref-for-block-box②">block box</a> with additional <a href="https://www.w3.org/TR/CSS2/generate.html#lists" target="_blank" rel="noopener">marker box</a><br>     </td></tr><tr><br>      <td><span class="css">inline list-item</span><br>      </td><td><span class="css">inline flow list-item</span><br>      </td><td><a data-link-type="dfn" href="#inline-box" id="ref-for-inline-box③">inline box</a> with additional <a href="https://www.w3.org/TR/CSS2/generate.html#lists" target="_blank" rel="noopener">marker box</a><br>    </td></tr></tbody><tbody title="Formatting Context Root Display Types"><br>     <tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-flex" id="ref-for-valdef-display-flex">flex</a><br>      </td><td><span class="css">block flex</span><br>      </td><td><a data-link-type="dfn" href="#block-level" id="ref-for-block-level②">block-level</a> <a data-link-type="dfn" href="https://www.w3.org/TR/css-flexbox-1/#flex-container" target="_blank" rel="noopener" id="ref-for-flex-container">flex container</a><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-inline-flex" id="ref-for-valdef-display-inline-flex">inline-flex</a><br>      </td><td><span class="css">inline flex</span><br>      </td><td><a data-link-type="dfn" href="#inline-level" id="ref-for-inline-level①">inline-level</a> <a data-link-type="dfn" href="https://www.w3.org/TR/css-flexbox-1/#flex-container" target="_blank" rel="noopener" id="ref-for-flex-container①">flex container</a><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-grid" id="ref-for-valdef-display-grid">grid</a><br>      </td><td><span class="css">block grid</span><br>      </td><td><a data-link-type="dfn" href="#block-level" id="ref-for-block-level③">block-level</a> <a data-link-type="dfn" href="https://www.w3.org/TR/css-grid-2/#grid-container" target="_blank" rel="noopener" id="ref-for-grid-container">grid container</a><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-inline-grid" id="ref-for-valdef-display-inline-grid">inline-grid</a><br>      </td><td><span class="css">inline grid</span><br>      </td><td><a data-link-type="dfn" href="#inline-level" id="ref-for-inline-level②">inline-level</a> <a data-link-type="dfn" href="https://www.w3.org/TR/css-grid-2/#grid-container" target="_blank" rel="noopener" id="ref-for-grid-container①">grid container</a><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-ruby" id="ref-for-valdef-display-ruby">ruby</a><br>      </td><td><span class="css">inline ruby</span><br>      </td><td><a data-link-type="dfn" href="#inline-level" id="ref-for-inline-level③">inline-level</a> <a data-link-type="dfn" href="https://www.w3.org/TR/css-ruby-1/#ruby-container" target="_blank" rel="noopener" id="ref-for-ruby-container">ruby container</a><br>     </td></tr><tr><br>      <td><span class="css">block ruby</span><br>      </td><td><span class="css">block ruby</span><br>      </td><td><a data-link-type="dfn" href="#block-box" id="ref-for-block-box③">block box</a> containing <a data-link-type="dfn" href="https://www.w3.org/TR/css-ruby-1/#ruby-container" target="_blank" rel="noopener" id="ref-for-ruby-container①">ruby container</a><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-table" id="ref-for-valdef-display-table">table</a><br>      </td><td><span class="css">block table</span><br>      </td><td><a data-link-type="dfn" href="#block-level" id="ref-for-block-level④">block-level</a> <a data-link-type="dfn" href="https://www.w3.org/TR/css-tables-3/#table-wrapper-box" target="_blank" rel="noopener" id="ref-for-table-wrapper-box①">table wrapper box</a> containing <a data-link-type="dfn" href="https://www.w3.org/TR/css-tables-3/#table-grid-box" target="_blank" rel="noopener" id="ref-for-table-grid-box①">table grid box</a><br>     </td></tr><tr><br>      <td><a class="css" data-link-type="maybe" href="#valdef-display-inline-table" id="ref-for-valdef-display-inline-table">inline-table</a><br>      </td><td><span class="css">inline table</span><br>      </td><td><a data-link-type="dfn" href="#inline-level" id="ref-for-inline-level④">inline-level</a> <a data-link-type="dfn" href="https://www.w3.org/TR/css-tables-3/#table-wrapper-box" target="_blank" rel="noopener" id="ref-for-table-wrapper-box②">table wrapper box</a> containing <a data-link-type="dfn" href="https://www.w3.org/TR/css-tables-3/#table-grid-box" target="_blank" rel="noopener" id="ref-for-table-grid-box②">table grid box</a><br>    </td></tr></tbody><tbody title="Layout-internal display types"><br>     <tr><br>      <td><a class="production css" data-link-type="type" href="#typedef-display-internal" id="ref-for-typedef-display-internal②" title="Expands to: ruby-base | ruby-base-container | ruby-text | ruby-text-container | table-caption | table-cell | table-column | table-column-group | table-footer-group | table-header-group | table-row | table-row-group">&lt;display-internal&gt;</a> types<br>      </td><td>—<br>      </td><td><a href="#layout-specific-display">layout-specific internal box</a><br>   </td></tr></tbody></table>
+
+<p>并且其分类如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;display-outside&gt;  = block | inline | run-in</span><br><span class="line">&lt;display-inside&gt;   = flow | flow-root | table | flex | grid | ruby</span><br><span class="line">&lt;display-listitem&gt; = &lt;display-outside&gt;? &amp;&amp; [ flow | flow-root ]? &amp;&amp; list-item</span><br><span class="line">&lt;display-internal&gt; = table-row-group | table-header-group |</span><br><span class="line">                     table-footer-group | table-row | table-cell |</span><br><span class="line">                     table-column-group | table-column | table-caption |</span><br><span class="line">                     ruby-base | ruby-text | ruby-base-container |</span><br><span class="line">                     ruby-text-container</span><br><span class="line">&lt;display-box&gt;      = contents | none</span><br><span class="line">&lt;display-legacy&gt;   = inline-block | inline-table | inline-flex | inline-grid</span><br></pre></td></tr></table></figure>
+<p>根据<code>inner display type</code>再回影响FC的产生原则，\&lt;display-outside>与 \&lt;display-box>  肯定不能影响规则。则剩下的几种，其内部的实现又各不相同。</p>
+<p>首先\&lt;display-inside>必定可以产生FC。</p>
+<p>而其他的几种，比如 <code>table-row</code>等由于内部的实现不同，不一定能够产生FC。</p>
+<p>根据文档，可以归纳为：</p>
+<ul>
+<li>产生BFC<ol>
+<li>flow-chrome未实现</li>
+<li>flow-root</li>
+<li>table</li>
+<li>table-caption</li>
+<li>table-row-group</li>
+<li>table-header-group</li>
+<li>table-footer-group</li>
+<li>table-row</li>
+<li>table-cell</li>
+</ol>
+</li>
+<li>产生RFC<ol>
+<li>ruby</li>
+</ol>
+</li>
+<li>产生FFC<ol>
+<li>flex</li>
+</ol>
+</li>
+<li>产生GFC<ol>
+<li>grid</li>
+</ol>
+</li>
+<li>产生RFC<ol>
+<li>ruby（原ruby标签是用来注释的）</li>
+</ol>
+</li>
+</ul>
+<h3 id="BFC-block-formatting-context"><a href="#BFC-block-formatting-context" class="headerlink" title="BFC(block formatting context)"></a>BFC(block formatting context)</h3>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/10/16/float最全最根本解析/" target="_blank" title="float最全最根本解析">http://yoursite.com/2021/10/16/float最全最根本解析/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/16/Vue%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E5%85%A8%E8%A7%A3%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Vue首屏优化全解析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前置知识"><span class="nav-number">1.</span> <span class="nav-text">前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Normal-flow-（正常流）"><span class="nav-number">1.1.</span> <span class="nav-text">Normal flow （正常流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式化上下文（formatting-context）"><span class="nav-number">1.2.</span> <span class="nav-text">格式化上下文（formatting context）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#display属性"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">display属性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#inner-display-type"><span class="nav-number">1.2.0.1.1.</span> <span class="nav-text">inner display type</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#outer-display-type"><span class="nav-number">1.2.0.1.2.</span> <span class="nav-text">outer display type</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BFC-block-formatting-context"><span class="nav-number">1.2.1.</span> <span class="nav-text">BFC(block formatting context)</span></a></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

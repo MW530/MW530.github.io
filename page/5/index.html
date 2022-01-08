@@ -327,6 +327,73 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Vue插件开发2-事件对象e与视窗api详解"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/">Vue插件开发2-事件对象e与视窗api详解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/" class="article-date">
+	  <time datetime="2021-01-13T03:57:39.000Z" itemprop="datePublished">2021-01-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue%E6%8F%92%E4%BB%B6/">Vue插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          事件参数
+首先Vue没有对事件对象做修改，所以在Vue中的事件对象仍然与原生一样。
+其对象属性具体又分为4类：
+鼠标 / 键盘属性
+
+
+属性
+描述
+
+
+
+
+altKey
+返回当事件被触发时，”ALT” 是否被按下。
+
+
+button
+返回当事件被触发时，哪个鼠标按钮被点击。一个数字，表示鼠标事件发生时按下的鼠标按钮。可能的值：0：鼠标左键1：车轮按钮或中间按钮（如果有）2：鼠标右键注意： Internet Explorer 8和更早版本具有不同的返回值：1：鼠标左键2：鼠标右键4：车轮按钮...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Vue插件开发1-插件原理即应用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -801,58 +868,6 @@ Vue初始化Vue原型是在src/instance/idnex.js中定义的：
         </p>
         <p class="article-more-link">
           <a href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E6%8F%92%E6%A7%BD%E4%B8%8Ekeep-alive/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue中的组件传值"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/">Vue中的组件传值</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/" class="article-date">
-	  <time datetime="2020-01-05T10:05:01.000Z" itemprop="datePublished">2020-01-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          父 =&gt; 子父组件向子组件传值比较简单，直接使用v-bind:key = val 
-1234&#x2F;&#x2F;父组件&lt;template&gt;	&lt;child :name &#x3D; &quot;&#39;tom&#39;&quot; :age&#x3D;&quot;&#39;12&#39;&quot; &#x2F;&gt;&lt;&#x2F;template&gt;
-12345678910&#x2F;&#x2F;子组件&lt;template&gt;	&lt;di...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/#more">Read More</a>
         </p>
       
     </div>

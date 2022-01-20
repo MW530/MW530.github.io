@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java核心技术-i-6-接口、lambda表达式与内部类 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaJava核心技术接口、lambda表达式与内部类" />
+  
+  
+  
+  
+  <meta name="description" content="接口接口的概念接口不是类，而是希望符合这个接口的类的一组需求。接口不能实例化。 注意：  接口中方法会默认指定为public abstract。 接口中的方法可以有实现，需加default关键字，使其作为该方法的默认实现（jdk1.8）。 接口中有静态方法和方法体（jdk1.8）。 接口中允许将方法定义为 private，使得某些复用的代码不会把方法暴露出去。（jdk1.9）。 接口中的变量会被默">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java核心技术-I-6-接口、lambda表达式与内部类">
+<meta property="og:url" content="http://yoursite.com/2022/01/20/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-6-%E6%8E%A5%E5%8F%A3%E3%80%81lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%86%85%E9%83%A8%E7%B1%BB/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="接口接口的概念接口不是类，而是希望符合这个接口的类的一组需求。接口不能实例化。 注意：  接口中方法会默认指定为public abstract。 接口中的方法可以有实现，需加default关键字，使其作为该方法的默认实现（jdk1.8）。 接口中有静态方法和方法体（jdk1.8）。 接口中允许将方法定义为 private，使得某些复用的代码不会把方法暴露出去。（jdk1.9）。 接口中的变量会被默">
+<meta property="article:published_time" content="2022-01-20T02:33:47.000Z">
+<meta property="article:modified_time" content="2022-01-20T08:26:37.882Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Java核心技术">
+<meta property="article:tag" content="接口、lambda表达式与内部类">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-java核心技术-I-6-接口、lambda表达式与内部类" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      java核心技术-I-6-接口、lambda表达式与内部类
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/01/20/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-6-%E6%8E%A5%E5%8F%A3%E3%80%81lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%86%85%E9%83%A8%E7%B1%BB/" class="article-date">
+	  <time datetime="2022-01-20T02:33:47.000Z" itemprop="datePublished">2022-01-20</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="接口的概念"><a href="#接口的概念" class="headerlink" title="接口的概念"></a>接口的概念</h2><p>接口不是类，而是希望符合这个接口的类的一组需求。接口不能实例化。</p>
+<p>注意：</p>
+<ol>
+<li>接口中方法会默认指定为<code>public abstract</code>。</li>
+<li>接口中的方法可以有实现，需加<code>default</code>关键字，使其作为该方法的默认实现（jdk1.8）。</li>
+<li>接口中有静态方法和方法体（jdk1.8）。</li>
+<li>接口中允许将方法定义为 private，使得某些复用的代码不会把方法暴露出去。（jdk1.9）。</li>
+<li>接口中的变量会被默认指定为<code>public static final</code>。（且只能为<code>public</code>，<code>private</code>会报错）。</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Minterface</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> mm = <span class="number">123</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">description</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">id</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">name</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">phone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="接口的属性"><a href="#接口的属性" class="headerlink" title="接口的属性"></a>接口的属性</h2><ol>
+<li><p>尽管不能构造接口的对象，确能声明接口的变量。且接口的变量必须引用实现了这个接口的类对象。（这也是实现解耦的关键）</p>
+</li>
+<li><p>接口也允许扩展，通过<code>extends</code>关键词来实现扩展（其中的静态变量也会被继承）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">A</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一个类可以实现多个接口（而一个类只能继承一个超类）。</p>
+</li>
+</ol>
+<h2 id="接口与抽象类"><a href="#接口与抽象类" class="headerlink" title="接口与抽象类"></a>接口与抽象类</h2><ol>
+<li>抽象类中的成员变量可以是各种类型的，而接口中的成员变量只能是 <strong>public static final</strong> 类型的。</li>
+<li>接口中不能含有静态代码块以及静态方法(用 static 修饰的方法)，而抽象类是可以有静态代码块和静态方法。</li>
+<li><strong>一个类只能继承一个抽象类，而一个类却可以实现多个接口。</strong></li>
+</ol>
+<p>在一些编程语言中允许一个类继承多个类，如C++，这个特性被称为多继承（multiple inheritance）。Java的设计者选择了不支持多继承，其主要原因是多继承会让语言变得非常复杂，或者效率会降低。</p>
+<h2 id="默认方法冲突"><a href="#默认方法冲突" class="headerlink" title="默认方法冲突"></a>默认方法冲突</h2><h3 id="接口与超类的冲突"><a href="#接口与超类的冲突" class="headerlink" title="接口与超类的冲突"></a>接口与超类的冲突</h3><p>当接口中的默认方法与超类中的方法冲突时，按<strong>超类优先</strong>的规则来调用方法，即同名的接口中的方法都会被忽略。（注意，只有方法名和参数都相同才会被认为是同一个方法，即函数名和参数类型二者被称为<strong>方法签名</strong>）</p>
+<h3 id="接口冲突"><a href="#接口冲突" class="headerlink" title="接口冲突"></a>接口冲突</h3><p>当两个接口都实现了<code>getName</code>方法，则编译器会报错，并且要求开发者自己决定选择哪个方法。</p>
+<p>可以用以下方式来二选一方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">implements</span> <span class="title">Inter1</span>, <span class="title">Inter2</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Inter1.<span class="keyword">super</span>.getName();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="lambda表达式"><a href="#lambda表达式" class="headerlink" title="lambda表达式"></a>lambda表达式</h1><p>lambda表达式时一个可传递的代码块，可以执行多次或一次。</p>
+<p>（实际上我觉得这是面向对象的函数式编程的补充，比如回调场景要传递一个函数，这时候在Java中，就必须新建一个对象，内部包含一个函数。这明显是浪费的。不如直接传递一个函数，这也是lambda表达式出现的原因吧）</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(String i, String j) -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> i.length - j.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意点如下：</p>
+<ol>
+<li><p>把这些代码放在{}中，并包含显式的return 语句。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(String first, String second) -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> first.length() - second-length();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>即使lambda表达式没有参数，也必须要写括号。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">() -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果可以推导出一个lambda表达式的参数类型，则可以忽略其类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Comparator&lt;String&gt; comp = (first, second) -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> first.length() - second.length();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果该方法只有一个参数，而且这个参数的类型可以推导出，那么可以省略小括号。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActionListener listen = event -&gt; System.out.print(event);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>无需指定lambda表达式的返回类型。lambda表达式的返回值类型总是由上下文推到得出。</p>
+</li>
+<li><p>当lambda表达式只包含一条语句且其就是返回值，则可以不用加<code>return</code>和花括号，直接写该句即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Comparator&lt;String&gt; comp = (first, second) -&gt; first.length - seconde.length;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h2><p>函数式接口(Functional Interface)就是一个有且仅有一个抽象方法，但是可以有多个非抽象方法的接口。</p>
+<p>Java中有很多封装代码的接口，如<code>ActionListener</code>或<code>Comparator</code>。lambda表达式与这些接口兼容。 </p>
+<p>对于需要这些接口的位置，提供一个lambda表达式即可达到同等的效果。</p>
+<p>如，（<code>Arrays.sort</code>方法第二个参数需要一个<code>Comparator</code>实例，而<code>Comparator</code>就是一个函数式接口）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(words, (first, second) -&gt; first.length() - second.length());</span><br></pre></td></tr></table></figure>
+<p>在底层，<code>Arrays.sort</code>方法会接受实现了<code>Comparator&lt;String&gt;</code>的某个类的对象。在这个对象上调用<code>compare</code>方法会执行这个lambda表达式的体。</p>
+<p>实际上，对lambda表达式所能做的也只是转换为函数式接口。</p>
+<h2 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h2><p>有时需要直接调用一个定义好的函数作为lambda表达式体。可以通过以下格式</p>
+<ol>
+<li><code>object.instanceMethod</code>：等价于向方法中传递参数的lambda表达式。</li>
+<li><code>Class.instanceMethod</code>：第一个参数会成为方法的隐式参数，如，<code>String::comparaToIgnoreCase</code>等同于<code>(x, y) -&gt;  x.comparaToIgnoreCase(y)</code>。</li>
+<li><code>Class.staticMethod</code>：所有参数都传递到静态方法，如：<code>Math::pow</code>等价于<code>(x, y) -&gt; Math.pow(x, y)</code>。</li>
+</ol>
+<p>来作为该方法的引用。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> time = <span class="keyword">new</span> Time(<span class="number">1000</span>, event -&gt; System.out::println)</span><br></pre></td></tr></table></figure>
+<p>同样的，方法引用也不是一个对象。不过，为一个类型为函数式接口的变量赋值时会生成一个对应的对象。</p>
+<p><strong>注意：</strong></p>
+<ol>
+<li>只有当lambda表达式的体只有调用一个方法而不做其他操作时，才能把lambda表达式重写为方法引用。</li>
+<li>也可以在方法引用中使用this参数。如<code>this::equals</code>等同于<code>x-&gt;this.equals(x)</code>。</li>
+<li>也可以使用super表达式来引用super中的方法，，如<code>super.equals</code>。</li>
+</ol>
+<h2 id="构造器引用"><a href="#构造器引用" class="headerlink" title="构造器引用"></a>构造器引用</h2><p>构造器引用与方法引用很类似，只不过方法名为<code>new</code>。如，<code>Person::new</code>是<code>Person</code>构造器的一个引用。具体选择哪一个引用取决上下文。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;String&gt; names = ...;</span><br><span class="line">Stream&lt;Person&gt; stream = names.stream().map(Person::<span class="keyword">new</span>);</span><br><span class="line">List&lt;Person&gt; people = stream.collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<p>Java有一个限制，无法构造泛型类型T的数组。数组构造器引用对于克服这个限制很有用。如：<code>new T[n]</code>会产生错误，因为这会改为<code>new Object[n]</code>。</p>
+<p>但是我们可以使用<code>Stream.roArray()</code>来获得一个数组，如果不传参，则默认返回<code>Object[]</code>。</p>
+<p>但是可以如果传入对象的构造器引用，则可以获得对应的数组。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person[] people = stream.toArray(Person[]::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h2><p>在lambda表达式中，可以引用lambda表达式外部的变量。从而形成闭包（enclosure）。但是其由如下特点：</p>
+<ol>
+<li>引用的外部变量只能读取，不能改变。</li>
+<li>在lambda表达式中引用的变量，在外部也不能别改变。</li>
+</ol>
+<p>简而言之，lambda表达式中捕获的变量必须实际上最终变量（effective final）。即这个变量初始化之后就不会再为它赋新值。</p>
+<p>其还有如下特点：</p>
+<ol>
+<li>lambda表达式中声明的变量名不能为外部已经声明的变量名。</li>
+<li>lambda表达式中的this，指向创建这个表达式的方法的this参数。</li>
+</ol>
+<p>java.util.function 它包含了很多类，用来支持 Java的 函数式编程，该包中的部分函数式接口有：</p>
+<table><br>    <tr><br>        <td>序号</td><br>        <td>接口 &amp; 描述</td><br>    </tr><br>    <tr><br>        <td>1</td><br>        <td>BiConsumer&lt;T,U&gt;<br>代表了一个接受两个输入参数的操作，并且不返回任何结果<br></td><br>    </tr><br>    <tr><br>        <td>2</td><br>        <td>BiFunction&lt;T,U,R&gt;<br>代表了一个接受两个输入参数的方法，并且返回一个结果<br></td><br>    </tr><br>    <tr><br>        <td>3</td><br>        <td>BinaryOperator&lt;T&gt;<br>代表了一个作用于于两个同类型操作符的操作，并且返回了操作符同类型的结果<br></td><br>    </tr><br>    <tr><br>        <td>4</td><br>        <td>BiPredicate&lt;T,U&gt;<br>代表了一个两个参数的boolean值方法<br></td><br>    </tr><br>    <tr><br>        <td>5</td><br>        <td>BooleanSupplier<br>代表了boolean值结果的提供方<br></td><br>    </tr><br>    <tr><br>        <td>6</td><br>        <td>Consumer&lt;T&gt;<br>代表了接受一个输入参数并且无返回的操作<br></td><br>    </tr><br>    <tr><br>        <td>7</td><br>        <td>DoubleBinaryOperator<br>代表了作用于两个double值操作符的操作，并且返回了一个double值的结果。<br></td><br>    </tr><br>    <tr><br>        <td>8</td><br>        <td>DoubleConsumer<br>代表一个接受double值参数的操作，并且不返回结果。<br></td><br>    </tr><br>    <tr><br>        <td>9</td><br>        <td>DoubleFunction&lt;R&gt;<br>代表接受一个double值参数的方法，并且返回结果<br>        </td><br>    </tr><br></table>
+
+
+
+<h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><p>内部类（inner class）是定义再另一个类中的类。其存在原因主要有以下：</p>
+<ol>
+<li>内部类可以对同一个包中的其他类隐藏。</li>
+<li>内部类的方法可以访问这个类的作用域中的数据，包括原本私有的数据。</li>
+</ol>
+<p>内部类原来是用来简洁的实现回调，但现在lambda表达式是更好的选择。</p>
+<h2 id="内部类的特殊语法规则"><a href="#内部类的特殊语法规则" class="headerlink" title="内部类的特殊语法规则"></a>内部类的特殊语法规则</h2><p>我们可以通过<code>OuterClass.this</code>的语法来引用外部对象。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;</span><br><span class="line">        pirvate String name;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span> Outer.<span class="keyword">this</span>.id;			<span class="comment">//这样引用外部类</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Inner <span class="title">getInner</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Inner();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Outer o = <span class="keyword">new</span> Outer();</span><br><span class="line">Outer.Inner i = o.getInner();				<span class="comment">//这样引用内部类</span></span><br><span class="line">i.getId();							<span class="comment">//null</span></span><br></pre></td></tr></table></figure>
+<p>同样的，可以像上面代码中的<code>Outer.Inner</code>来从外部引用内部类。</p>
+<h2 id="内部类的底层"><a href="#内部类的底层" class="headerlink" title="内部类的底层"></a>内部类的底层</h2><p>内部类实际上是编译器的工作，而不是虚拟机的工作。所以实际上编译器会把内部类转换为常规的类文件，用$分隔外部类名与内部类名，而虚拟机并不知晓。</p>
+<p>例如，<code>Outer$Inner</code>表示器内部类。</p>
+<p>实际上在内部类中，会生成一个<code>this$0</code>来表示外部引用。</p>
+<p>而既然在虚拟机中内部类被分为两个类，又是如何做到访问外部类的私有成员呢。</p>
+<p>其原因在于，编译器向外围类中添加了静态方法<code>access$0</code>之类的方法。它将返回作为参数传递的那个对象的字段。（具体名字取决于编译器。）</p>
+<p>此时在内部类中调用外部的成员时。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(id)</span><br></pre></td></tr></table></figure>
+<p>会被翻译为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Outer.access$<span class="number">0</span>(outer))</span><br></pre></td></tr></table></figure>
+<h2 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h2><p>局部内部类是指在一个方法中局部的定义这个类。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">BiSUM</span></span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> newA, <span class="keyword">int</span> newB)</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span> newA + newB;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    BiSUM bs = <span class="keyword">new</span> BiSUM();</span><br><span class="line">    <span class="keyword">return</span> bs.sum(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ol>
+<li>局部类时不能由访问符（即<code>public</code>和<code>private</code>）</li>
+<li>局部类的作用域仅限于在声明这个类的块中。</li>
+<li>局部类可以做到完全隐藏，除了方法，连兄弟内部类都不知道。</li>
+</ol>
+<p>局部内部类不仅可以访问外部类的字段，还可以访问方法的局部变量。但是，于lambda表达式类似，这些局部变量必须使事实最终变量。即，他们一旦赋值就绝不会改变。</p>
+<p>同样的，编译器会在内部类中定义引用的局部变量的复制。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    String name = <span class="string">"123"</span>;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">BiSUM</span></span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> newA, <span class="keyword">int</span> newB)</span></span>&#123;</span><br><span class="line">            System.out.print(name);</span><br><span class="line">            <span class="keyword">return</span> newA + newB;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    BiSUM bs = <span class="keyword">new</span> BiSUM();</span><br><span class="line">    <span class="keyword">return</span> bs.sum(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>会被翻译为如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Outer$Inner&#123;</span><br><span class="line">    <span class="keyword">final</span> Outer <span class="keyword">this</span>$<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">final</span> val$name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h2><p>使用局部内部类时，通常还可以省略类名。这样的类被称为内部匿名类。</p>
+<p>语法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> SuperType(construction parameters)&#123;</span><br><span class="line">    inner <span class="class"><span class="keyword">class</span> <span class="title">method</span> <span class="title">and</span> <span class="title">data</span></span></span><br><span class="line"><span class="class">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>superType可以时接口，如<code>ActionListener</code>，这样就是扩展这个接口。</p>
+<p>也可以是类，如果是这样，内部类就要扩展这个类。</p>
+<p>由于匿名内部类没有名字，所以也没有构造器。如果需要初始化，则可以加一个对象初始化块：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="keyword">new</span> Person(<span class="string">"Tim"</span>)&#123;</span><br><span class="line">    &#123;initialization&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h2><p>有时候，使用内部类只是为了把一个类隐藏在另外一个类的内部，并<strong>不需要内部类有外围类对象的一个引用</strong>。为此，可以将内部类声明为static，这样就不会生成那个引用。</p>
+<p>注意：</p>
+<ol>
+<li>并且只有内部类可以声明为static。</li>
+<li>于常规类不同，静态内部类可以有静态字段和方法。</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Draw</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span>  <span class="title">Pair</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> x;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> y;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Pair</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.x = x;</span><br><span class="line">            <span class="keyword">this</span>.y = y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Pair <span class="title">getPair</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Pair(x, y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Draw.Euclidean euclidean = Math.getPair(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>这种形式其实更像是类的命名空间，相当于一个类的集合。</p>
+<h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/01/20/java核心技术-I-6-接口、lambda表达式与内部类/" target="_blank" title="java核心技术-I-6-接口、lambda表达式与内部类">http://yoursite.com/2022/01/20/java核心技术-I-6-接口、lambda表达式与内部类/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/01/19/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-5-%E7%BB%A7%E6%89%BF/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java核心技术-I-5-继承</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#接口"><span class="nav-number">1.</span> <span class="nav-text">接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#接口的概念"><span class="nav-number">1.1.</span> <span class="nav-text">接口的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口的属性"><span class="nav-number">1.2.</span> <span class="nav-text">接口的属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口与抽象类"><span class="nav-number">1.3.</span> <span class="nav-text">接口与抽象类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认方法冲突"><span class="nav-number">1.4.</span> <span class="nav-text">默认方法冲突</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口与超类的冲突"><span class="nav-number">1.4.1.</span> <span class="nav-text">接口与超类的冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口冲突"><span class="nav-number">1.4.2.</span> <span class="nav-text">接口冲突</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lambda表达式"><span class="nav-number">2.</span> <span class="nav-text">lambda表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">2.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数式接口"><span class="nav-number">2.2.</span> <span class="nav-text">函数式接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法引用"><span class="nav-number">2.3.</span> <span class="nav-text">方法引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造器引用"><span class="nav-number">2.4.</span> <span class="nav-text">构造器引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量作用域"><span class="nav-number">2.5.</span> <span class="nav-text">变量作用域</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内部类"><span class="nav-number">3.</span> <span class="nav-text">内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#内部类的特殊语法规则"><span class="nav-number">3.1.</span> <span class="nav-text">内部类的特殊语法规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内部类的底层"><span class="nav-number">3.2.</span> <span class="nav-text">内部类的底层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局部内部类"><span class="nav-number">3.3.</span> <span class="nav-text">局部内部类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匿名内部类"><span class="nav-number">3.4.</span> <span class="nav-text">匿名内部类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态内部类"><span class="nav-number">3.5.</span> <span class="nav-text">静态内部类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代理"><span class="nav-number">4.</span> <span class="nav-text">代理</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

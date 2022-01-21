@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java核心技术-i-7-异常、断言和日志 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaJava核心技术异常、断言和日志" />
+  
+  
+  
+  
+  <meta name="description" content="异常分类在Java程序设计语言中，所有异常对象都是派生于Throwable类的一个类示例。  继承关系图如下： ![错误类继承]images\java核心技术\错误类继承.jpg) 可以看到Throwable异常被分为两大类：  Error：表示Java运行时系统的内部错误和资源耗尽错误。 Exception：程序运行的异常，一般我们能操作的都是这种错误。  RuntimeException 一般">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java核心技术-I-7-异常、断言和日志">
+<meta property="og:url" content="http://yoursite.com/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="异常分类在Java程序设计语言中，所有异常对象都是派生于Throwable类的一个类示例。  继承关系图如下： ![错误类继承]images\java核心技术\错误类继承.jpg) 可以看到Throwable异常被分为两大类：  Error：表示Java运行时系统的内部错误和资源耗尽错误。 Exception：程序运行的异常，一般我们能操作的都是这种错误。  RuntimeException 一般">
+<meta property="article:published_time" content="2022-01-21T03:36:02.000Z">
+<meta property="article:modified_time" content="2022-01-21T10:38:30.878Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Java核心技术">
+<meta property="article:tag" content="异常、断言和日志">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-java核心技术-I-7-异常、断言和日志" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      java核心技术-I-7-异常、断言和日志
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/" class="article-date">
+	  <time datetime="2022-01-21T03:36:02.000Z" itemprop="datePublished">2022-01-21</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="异常分类"><a href="#异常分类" class="headerlink" title="异常分类"></a>异常分类</h1><p>在Java程序设计语言中，所有异常对象都是派生于<code>Throwable</code>类的一个类示例。 </p>
+<p>继承关系图如下：</p>
+<p>![错误类继承]images\java核心技术\错误类继承.jpg)</p>
+<p>可以看到Throwable异常被分为两大类：</p>
+<ul>
+<li><code>Error</code>：表示Java运行时系统的内部错误和资源耗尽错误。</li>
+<li><code>Exception</code>：程序运行的异常，一般我们能操作的都是这种错误。</li>
+</ul>
+<p><code>RuntimeException</code> 一般是编程错误导致的。</p>
+<p>派生于<code>RuntimeException</code>的异常包括以下问题：</p>
+<ul>
+<li>错误的强制转换</li>
+<li>数组访问越界</li>
+<li>访问null指针</li>
+</ul>
+<p><code>IOException</code>的异常包括以下问题：</p>
+<ul>
+<li>试图超越文件末尾继续读取数据</li>
+<li>试图打开一个不存在的文件</li>
+<li>试图根据给定的字符串查找Class对象，而这个字符串表示的类并不存在</li>
+</ul>
+<blockquote>
+<p>如果出现<code>RuntimeException</code>，那么就一定是你的问题。</p>
+</blockquote>
+<p>所以这句话有一定的根据（当然错误也可能出现在你引用的库中）</p>
+<p>Java语言规范将派生于<code>Error</code>类或<code>RuntimeException</code>类的所有异常称为<code>非检查型（unchecked）</code>异常，所有其他的异常称为<code>检查型（check）</code>异常。</p>
+<h2 id="抛出异常"><a href="#抛出异常" class="headerlink" title="抛出异常"></a>抛出异常</h2><p>可以通过<code>throw</code>关键字来抛出异常。</p>
+<p>Java在库中定义了很多错误类型，我们可以通过查阅文档来获得相应的错误类型。（当然我们也可以定义自己的错误类型）</p>
+<p>示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">///do something</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> EOFExcepiton();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="创建异常类"><a href="#创建异常类" class="headerlink" title="创建异常类"></a>创建异常类</h2><p>我们可以通过继承<code>Exception</code>类或者其子类来创建单独的异常类。</p>
+<p>基本示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyException</span> <span class="keyword">extends</span> <span class="title">Exception</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Throwable</code>类中定义了很多成员，其中主要有<code>message:String</code>和<code>cause:Throwable</code>。而<code>Exception</code>也根据其提供了4个构造方法。</p>
+<ul>
+<li>无参构造器</li>
+<li>只含<code>message</code>的构造器</li>
+<li>只含<code>cause</code>的构造器</li>
+<li>包含<code>message</code>和<code>cause</code>的构造器</li>
+</ul>
+<p>所以我们也可以这样定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test.mw.ExceptionTest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyException</span> <span class="keyword">extends</span> <span class="title">Exception</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyException</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyException</span><span class="params">(String message, Throwable cause)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(message, cause);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyException</span><span class="params">(String message)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(message);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyException</span><span class="params">(Throwable cause)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(cause);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="捕获异常"><a href="#捕获异常" class="headerlink" title="捕获异常"></a>捕获异常</h2><p>如果发生了某个异常，但没有任何地方捕获这个异常，程序就会停止，并且惠子啊控制面板上打印一个消息：包括这个异常的信息和调用堆栈。</p>
+<h3 id="捕获异常-1"><a href="#捕获异常-1" class="headerlink" title="捕获异常"></a>捕获异常</h3><p>可以通过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="comment">// normal code</span></span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">    <span class="comment">// code for handling the exception</span></span><br><span class="line">&#125;finaly&#123;</span><br><span class="line">    <span class="comment">// code need to be execeuted anyway</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来捕获异常，其含义如下：</p>
+<ol>
+<li>如果normal code发生错误，则错误后的代码都不会被执行。</li>
+<li>将错误传递到catch块中进行处理</li>
+<li>finally中的代码无论如何都会执行（normal code发生错误或不发生错误都会执行）</li>
+</ol>
+<p>如果normal code中可能发生的错误不只一个。我们可以通过以下两种方式来进行处理：</p>
+<ul>
+<li>添加多个catch块来分别处理</li>
+<li>使用<code>catch(Exception1 | Exception2 | Exception3 e)</code>的格式来捕获多个错误。</li>
+<li>使用<code>catch(Exception e)</code>来通过多态来捕获所有可能的异常。（这里即使发生错误，也会在控制台打印出具体的类名，而不是<code>Exception</code>）。</li>
+</ul>
+<h4 id="再次抛出异常"><a href="#再次抛出异常" class="headerlink" title="再次抛出异常"></a>再次抛出异常</h4><p>一般来说，我们可以再次抛出异常。而在最外围来捕获所有的异常。其有两种形式：</p>
+<ul>
+<li><p>在<code>catch</code>中捕获到后再次抛出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">    <span class="keyword">throw</span> e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接在方法上抛出错误。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> String <span class="title">save</span><span class="params">()</span>  <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="try…with-Resource语句"><a href="#try…with-Resource语句" class="headerlink" title="try…with-Resource语句"></a>try…with-Resource语句</h3><p>有时我们需要在try语句中打开一些资源，并且最后必须关闭，我们通常会使用<code>finally</code>语句来实现。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    source.open();</span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">    <span class="comment">///handle</span></span><br><span class="line">&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    source.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Java7之后，可以用<code>try...with-Resource</code>语句来关闭资源，前提是这个资源实现了<code>AutoCloseable</code>接口。格式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>(Resource res = ...)&#123;</span><br><span class="line">    <span class="comment">//res is include in the scope</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在try语句退出之后，会自动调用<code>res.close()</code>。</p>
+<p>也可以指定多个资源：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>(Resource res1 = <span class="keyword">new</span> Resource();</span><br><span class="line">    Resource res2 = <span class="keyword">new</span> Resource();</span><br><span class="line">   )&#123;</span><br><span class="line">    <span class="comment">//res1 and res2 is include in the scope</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用异常的技巧"><a href="#使用异常的技巧" class="headerlink" title="使用异常的技巧"></a>使用异常的技巧</h2><ol>
+<li>异常处理不能代替简单的判断：即能用<code>if</code>判断是否出现异常的，就不直接用异常。</li>
+<li>不要过分的细化异常。</li>
+<li>不要只捕获<code>Exception</code>或者<code>Throwable</code>，因为这对代码阅读并不友好，无法直接判断可能出现的错误。</li>
+<li>不要对异常进行静默处理。即<code>catch</code>必须做点什么，而不是仅捕获，什么都不做。</li>
+<li>并不一定要捕获所有异常，有时候抛出到外层是更好的选择（可以在外层做统一处理）。</li>
+</ol>
+<h1 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h1><p>有时候我们需要在测试期间加入一些判断，如果条件不成立，则退出程序。但是在正式版本中，将会删除这部分代码，这是很麻烦的。</p>
+<p>所以引入了断言机制，其格式如下：</p>
+<ol>
+<li><code>assert conditon;</code>：如果condition为false，则退出程序，并抛出<code>AssertionError</code>。</li>
+<li><code>assert condition : expresssion</code>：如果condition为false，则退出程序，并抛出<code>AssertionError</code>，并且信息为expression。</li>
+</ol>
+<h3 id="启用断言"><a href="#启用断言" class="headerlink" title="启用断言"></a>启用断言</h3><p>断言默认是被禁用的。。</p>
+<p>启用断言需要加上vm关键字：<code>-ea</code>或者<code>-enableassertions</code>。</p>
+<p>也可以使用<code>-desableassertions</code>或<code>-da</code>来禁止断言。</p>
+<p>idea或eclipse中可以在环境参数中配置。</p>
+<p>启用或禁用断言是类加载器的功能。断言被禁用时，类加载器会去除断言代码，因此不会降低陈旭运行时的代码。</p>
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><p>在Java程序中，我们经常需要打印中间信息。</p>
+<p>我们通常使用<code>System.out.print</code>来进行打印。</p>
+<p>但是其具有很多缺点。相较于直接输出，日志API有以下 优点：</p>
+<ul>
+<li>日志分级。并且可以分级打印特定日志级别下的信息。</li>
+<li>可以很简单的禁止日志记录。</li>
+<li>可以将日志信息打印到控制台或保存在文件中。</li>
+<li>可以对所有日志进行过滤。</li>
+<li>可以单独的格式化日志信息。</li>
+<li>可以单独的配置日志设置。</li>
+</ul>
+<p>Java从1.5开始，在<code>java.util</code>下增加了<code>Logger</code>类。但是这个类已经很少有人使用。使用<code>Log4j</code>的更多，所以这里不详细介绍。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/01/21/java核心技术-I-7-异常、断言和日志/" target="_blank" title="java核心技术-I-7-异常、断言和日志">http://yoursite.com/2022/01/21/java核心技术-I-7-异常、断言和日志/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/01/20/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-6-%E6%8E%A5%E5%8F%A3%E3%80%81lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%86%85%E9%83%A8%E7%B1%BB/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">java核心技术-I-6-接口、lambda表达式与内部类</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#异常分类"><span class="nav-number">1.</span> <span class="nav-text">异常分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抛出异常"><span class="nav-number">1.1.</span> <span class="nav-text">抛出异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建异常类"><span class="nav-number">1.2.</span> <span class="nav-text">创建异常类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#捕获异常"><span class="nav-number">1.3.</span> <span class="nav-text">捕获异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#捕获异常-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">捕获异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#再次抛出异常"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">再次抛出异常</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#try…with-Resource语句"><span class="nav-number">1.3.2.</span> <span class="nav-text">try…with-Resource语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用异常的技巧"><span class="nav-number">1.4.</span> <span class="nav-text">使用异常的技巧</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#断言"><span class="nav-number">2.</span> <span class="nav-text">断言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启用断言"><span class="nav-number">2.0.1.</span> <span class="nav-text">启用断言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志"><span class="nav-number">3.</span> <span class="nav-text">日志</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

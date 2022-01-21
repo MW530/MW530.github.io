@@ -327,6 +327,67 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-java核心技术-I-7-异常、断言和日志"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/">java核心技术-I-7-异常、断言和日志</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/" class="article-date">
+	  <time datetime="2022-01-21T03:36:02.000Z" itemprop="datePublished">2022-01-21</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          异常分类在Java程序设计语言中，所有异常对象都是派生于Throwable类的一个类示例。 
+继承关系图如下：
+![错误类继承]images\java核心技术\错误类继承.jpg)
+可以看到Throwable异常被分为两大类：
+
+Error：表示Java运行时系统的内部错误和资源耗尽错误。
+Exception：程序运行的异常，一般我们能操作的都是这种错误。
+
+RuntimeException 一般是编程错误导致的。
+派生于RuntimeException的异常包括以下问题：
+
+错误的强制转...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-java核心技术-I-6-接口、lambda表达式与内部类"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -812,59 +873,6 @@ BNFBNF即巴...
         </p>
         <p class="article-more-link">
           <a href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-基于java的脚本语言hair的开发思路1-词法分析"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/">基于java的脚本语言hair的开发思路1-词法分析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" class="article-date">
-	  <time datetime="2021-09-21T07:23:07.000Z" itemprop="datePublished">2021-09-21</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/hair/">hair</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          申明：本脚本语言前面的开发思路基本是《两周自制脚本语言》中Stone语言的模型，后期将逐渐分离，添加更多特征。这本书作为入门读物确实不错，但是其设计规范还是有待商榷，一是没有给出一个确定的项目架构、二是部分的结构的成分不够规范（比如token的定义，运算优先级的处理等）。
-词法分析一个程序片段被编译器解析的时候是一个很长的字符串。我们的目标是通过一定的手段分析将这个字符串分开来。
-而这个被分割后的子字符串我们一般称为Token，Token有很多类型。在V8中定义的部分代码如下：
-12345...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/#more">Read More</a>
         </p>
       
     </div>

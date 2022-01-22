@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="泛型简介泛型实际上就是类型参数。即事先不确定参数类型，而在调用时传入对应参数类型才确定其类型。 在泛型出现之前，一般是使用多态来实现，即使用Object来接受所有参数，确定就是接收到参数后需要强转。 定义泛型类泛型类（generic type）就是一个或多个类型变量的类。 例如： 1234567891011121314151617181920212223242526272829303132pack">
 <meta property="article:published_time" content="2022-01-21T10:43:21.000Z">
-<meta property="article:modified_time" content="2022-01-22T16:48:46.761Z">
+<meta property="article:modified_time" content="2022-01-22T16:52:31.628Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Java核心技术">
@@ -435,6 +435,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直接开启一个线程</span></span><br><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"线程开启！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<p>这里有一篇关于这种写法的 <a href="https://blog.csdn.net/weixin_39570751/article/details/121253167?spm=1001.2101.3001.6650.2&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ELandingCtr%7EHighlightScore-2.queryctrv2&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ELandingCtr%7EHighlightScore-2.queryctrv2&amp;utm_relevant_index=3" target="_blank" rel="noopener">文章</a>，其内容大致是正确的，但是有些表述不太准确。供参考。</p>
 
       
     </div>

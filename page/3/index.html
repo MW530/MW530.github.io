@@ -327,6 +327,65 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-机器学习1-决策树算法"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/">机器学习1-决策树算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/" class="article-date">
+	  <time datetime="2021-07-13T08:03:13.000Z" itemprop="datePublished">2021-07-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          算法回忆总述首先决策树算法的一个核心思想是通过一些方法将数据递归的划分为一个树状结构。其算法流程大致如下：
+
+读取数据
+注意CSV是文本格式，读取时是r；Excel是二进制文件，读取时是rb
+
+
+根据标准计算最优属性，一般选择香农熵，其流程如下：
+递归每一个属性，计算该属性的总熵值，总熵值为每个值得熵得和
+先统计该属性得所有不重复值的数据条数
+根据公式：ent = (-item/count)*np.log2(item/count)  计算每个属性值的熵值 ， 其中item为该属性值的数据数...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Node学习5-进程机制"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -814,62 +873,6 @@ http缓存都是从第二次请求开始的。第一次请求资源时，服务�
         </p>
         <p class="article-more-link">
           <a href="/2021/03/11/HTTP%E7%BC%93%E5%AD%98/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-经典1-在浏览器地址栏输入URL后回车，背后所经历的步骤"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/03/05/%E7%BB%8F%E5%85%B81-%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E6%A0%8F%E8%BE%93%E5%85%A5URL%E5%90%8E%E5%9B%9E%E8%BD%A6%EF%BC%8C%E8%83%8C%E5%90%8E%E6%89%80%E7%BB%8F%E5%8E%86%E7%9A%84%E6%AD%A5%E9%AA%A4/">经典1-在浏览器地址栏输入URL后回车，背后所经历的步骤</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/03/05/%E7%BB%8F%E5%85%B81-%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E6%A0%8F%E8%BE%93%E5%85%A5URL%E5%90%8E%E5%9B%9E%E8%BD%A6%EF%BC%8C%E8%83%8C%E5%90%8E%E6%89%80%E7%BB%8F%E5%8E%86%E7%9A%84%E6%AD%A5%E9%AA%A4/" class="article-date">
-	  <time datetime="2021-03-05T02:17:36.000Z" itemprop="datePublished">2021-03-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98/">经典面试题</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          在浏览器地址栏输入URL后回车，背后所经历的步骤浏览器层面0、URL解析现在几乎所有浏览器都实现了地址栏快捷搜索的功能，所以这里需要判断用户输入的到底是关键词还是地址，然后进行不同的操作。
-关键字使用浏览器内置的搜索引擎地址与关键词来拼接得到最终的URL。
-URL对URL进行补全，编码转换等工作。
-例如：用户在输入URL时，一般都不会携带协议与端口。当用户输入baidu.com的时候，浏览器会将其补全为：
-https://baidu.com:80。
-chrome默认是补全https协议
-其...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/03/05/%E7%BB%8F%E5%85%B81-%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E6%A0%8F%E8%BE%93%E5%85%A5URL%E5%90%8E%E5%9B%9E%E8%BD%A6%EF%BC%8C%E8%83%8C%E5%90%8E%E6%89%80%E7%BB%8F%E5%8E%86%E7%9A%84%E6%AD%A5%E9%AA%A4/#more">Read More</a>
         </p>
       
     </div>

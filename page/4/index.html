@@ -327,6 +327,58 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-HTTP缓存"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/03/11/HTTP%E7%BC%93%E5%AD%98/">HTTP缓存</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/03/11/HTTP%E7%BC%93%E5%AD%98/" class="article-date">
+	  <time datetime="2021-03-11T02:52:31.000Z" itemprop="datePublished">2021-03-11</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          http缓存概念http缓存指的是: 当客户端向服务器请求资源时，会先抵达浏览器缓存，如果浏览器有“要请求资源”的副本，就可以直接从浏览器缓存中提取而不是从原始服务器中提取这个资源（是否使用缓存还需其他策略进行验证）。
+常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力，所以后续说的请求缓存都是指GET请求。
+http缓存都是从第二次请求开始的。第一次请求资源时，服务器返回资源，并在respone header头中回传资源的缓存参数；第二次请求时，浏览器判断这些请...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/03/11/HTTP%E7%BC%93%E5%AD%98/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-经典1-在浏览器地址栏输入URL后回车，背后所经历的步骤"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -800,64 +852,6 @@ Promise&lt;Response&gt; fetch(inp...
         </p>
         <p class="article-more-link">
           <a href="/2021/02/09/about%E8%B7%A8%E5%9F%9F/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-JavaScript宏任务，微任务与Event-loop"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/">JavaScript宏任务，微任务与Event-loop</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/" class="article-date">
-	  <time datetime="2021-02-09T10:47:09.000Z" itemprop="datePublished">2021-02-09</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JavaScrit/">JavaScrit</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          浏览器进程（chrome）chrome中有5个主要进程：
-
-浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。
-UI Thread：负责浏览器按钮、地址栏。
-storage Thread：负责文件访问。
-
-
-渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。
-Main Thread ：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样式计算 -&gt; 构建布局树 -&gt; ...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/#more">Read More</a>
         </p>
       
     </div>

@@ -327,6 +327,64 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-JavaScript宏任务，微任务与Event-loop"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/">JavaScript宏任务，微任务与Event-loop</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/" class="article-date">
+	  <time datetime="2021-02-09T10:47:09.000Z" itemprop="datePublished">2021-02-09</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScrit/">JavaScrit</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          浏览器进程（chrome）chrome中有5个主要进程：
+
+浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。
+UI Thread：负责浏览器按钮、地址栏。
+storage Thread：负责文件访问。
+
+
+渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。
+Main Thread ：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样式计算 -&gt; 构建布局树 -&gt; ...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Promise的实现"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -837,58 +895,6 @@ button
         </p>
         <p class="article-more-link">
           <a href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8D%B3%E5%BA%94%E7%94%A8/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-TypeScript特点2"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/">TypeScript特点2</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/" class="article-date">
-	  <time datetime="2021-01-10T06:40:17.000Z" itemprop="datePublished">2021-01-10</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/TypeScript/">TypeScript</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          类型兼容性TS中的类型兼容性是基于结构子类型的。结构类型是一种只使用其成员来描述类型的方式。 与Java不同，Java的强制转换是基于继承的，只有有继承关系的对象才可以进行转换。
-即只要对象中的成员有包含关系，则可以进行类型转换。如，
-1234567891011interface Named &#123;    name: string;&#125;class Person &#123;    name: string;&#125;let p: Named;// OK, because o...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/#more">Read More</a>
         </p>
       
     </div>

@@ -327,6 +327,62 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-聚类的几种算法简述"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/">聚类的几种算法简述</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/" class="article-date">
+	  <time datetime="2021-08-11T15:40:33.000Z" itemprop="datePublished">2021-08-11</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E8%81%9A%E7%B1%BB/">聚类</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          聚类聚类是无监督学习中应用最广泛的算法。聚类会将数据集中的样本划分为若干个不同的子集，每个子集称为一个簇。
+原型聚类原型聚类假设聚类结构能通过一组原型刻画。通常情况下，该类算法先对原型进行初始化，然后对原型进行迭代更新求解。
+k均值算法（k-means）该算法的目的是最小化每个簇中每个样本到对应原型的距离。
+但是直接求解的话会是一个NP难问题，较难求解，因此我们仍然采用迭代更新的贪心算法来求解可能的最近似解。值得注意的是，这样并不一定能求得最优解。
+其算法大致思想如下：
+
+初始化簇的数目K...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-机器学习1-决策树算法"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -821,58 +877,6 @@ Node.appendChild()Node.appendChild(aChild)方法将一个节点附加到指定�
         </p>
         <p class="article-more-link">
           <a href="/2021/03/22/Node%E8%8A%82%E7%82%B9%E7%9A%84%E6%93%8D%E4%BD%9C/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-HTTP缓存"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/03/11/HTTP%E7%BC%93%E5%AD%98/">HTTP缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/03/11/HTTP%E7%BC%93%E5%AD%98/" class="article-date">
-	  <time datetime="2021-03-11T02:52:31.000Z" itemprop="datePublished">2021-03-11</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          http缓存概念http缓存指的是: 当客户端向服务器请求资源时，会先抵达浏览器缓存，如果浏览器有“要请求资源”的副本，就可以直接从浏览器缓存中提取而不是从原始服务器中提取这个资源（是否使用缓存还需其他策略进行验证）。
-常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力，所以后续说的请求缓存都是指GET请求。
-http缓存都是从第二次请求开始的。第一次请求资源时，服务器返回资源，并在respone header头中回传资源的缓存参数；第二次请求时，浏览器判断这些请...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/03/11/HTTP%E7%BC%93%E5%AD%98/#more">Read More</a>
         </p>
       
     </div>

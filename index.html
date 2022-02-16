@@ -327,6 +327,61 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-java核心技术-II-6-日期和时间API"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/">java核心技术-II-6-日期和时间API</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/" class="article-date">
+	  <time datetime="2022-02-16T04:21:08.000Z" itemprop="datePublished">2022-02-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          简介Java1.0有一个Date类，事后证明其太过简单了，当Java1.1引入Calendar之后，Date类中的大部分方法就被其弃用了。但是Calendar的API还是有缺陷，它的实例是可以修改的，并且它没有处理诸如闰秒这样的问题。 第三次在Java SE 8中引入了java.timeAPI，它修正了过去的错误。并且应该会服役相当长一段时间。
+时间线Java的Date和Time API规范要求Java使用的时间尺度为：
+
+每天86400秒。
+每天正午与官方时间精确匹配。
+在其他时间点上，...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-java核心技术-II-1-Java8的流库"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -814,68 +869,6 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
         </p>
         <p class="article-more-link">
           <a href="/2022/01/08/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-4-%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-I-3-Java的基本程序设计结构"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/05/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-3-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84/">Java核心技术-I-3-Java的基本程序设计结构</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/01/05/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-3-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84/" class="article-date">
-	  <time datetime="2022-01-05T12:42:15.000Z" itemprop="datePublished">2022-01-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          注释注释分为3类：
-
-单行注释：//其后的部分被视为注释。
-1Sysout.out.print("context") //annotation
-
-多行注释：/* xxx */内的xxx被视为注释，可以包含多行。
-12345/*	annotation1	annotation2	annotation3*/
-
-文档注释型：这种注释以/**开始，以*/结束，这种注释可以用来自动生成文档。
-12345/**	annotation1	annotation2	annotation3*/
-
-
-数据类型Ja...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/01/05/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-3-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84/#more">Read More</a>
         </p>
       
     </div>

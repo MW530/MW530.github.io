@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java核心技术-ii-8-脚本、编译和注解处理 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaJava核心技术脚本、编译和注解处理" />
+  
+  
+  
+  
+  <meta name="description" content="Java平台的脚本机制Java平台的脚本API可以使之运行诸如JavaScript和Groovy这样的脚本语言代码。 脚本语言是一种在运行时解释程序文本，从而避免了编译、链接等步骤。其具有以下优势：  便于快速变更，鼓励不断实验。 可以修改运行着的程序的行为。 支持程序用户的定制化。  获取脚本引擎脚本引擎是一个可以执行特定语言编写的脚本的类库。当虚拟机启动的时候，它会发现可以用的脚本引擎。为了枚">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java核心技术-II-8-脚本、编译和注解处理">
+<meta property="og:url" content="http://yoursite.com/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="Java平台的脚本机制Java平台的脚本API可以使之运行诸如JavaScript和Groovy这样的脚本语言代码。 脚本语言是一种在运行时解释程序文本，从而避免了编译、链接等步骤。其具有以下优势：  便于快速变更，鼓励不断实验。 可以修改运行着的程序的行为。 支持程序用户的定制化。  获取脚本引擎脚本引擎是一个可以执行特定语言编写的脚本的类库。当虚拟机启动的时候，它会发现可以用的脚本引擎。为了枚">
+<meta property="article:published_time" content="2022-02-17T05:16:48.000Z">
+<meta property="article:modified_time" content="2022-02-17T16:09:40.376Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Java核心技术">
+<meta property="article:tag" content="脚本、编译和注解处理">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-java核心技术-II-8-脚本、编译和注解处理" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      java核心技术-II-8-脚本、编译和注解处理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/" class="article-date">
+	  <time datetime="2022-02-17T05:16:48.000Z" itemprop="datePublished">2022-02-17</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Java平台的脚本机制"><a href="#Java平台的脚本机制" class="headerlink" title="Java平台的脚本机制"></a>Java平台的脚本机制</h1><p>Java平台的脚本API可以使之运行诸如JavaScript和Groovy这样的脚本语言代码。</p>
+<p>脚本语言是一种在运行时解释程序文本，从而避免了编译、链接等步骤。其具有以下优势：</p>
+<ul>
+<li>便于快速变更，鼓励不断实验。</li>
+<li>可以修改运行着的程序的行为。</li>
+<li>支持程序用户的定制化。</li>
+</ul>
+<h2 id="获取脚本引擎"><a href="#获取脚本引擎" class="headerlink" title="获取脚本引擎"></a>获取脚本引擎</h2><p>脚本引擎是一个可以执行特定语言编写的脚本的类库。当虚拟机启动的时候，它会发现可以用的脚本引擎。为了枚举这些引擎，需要构造一个<code>ScriptEngineManager</code>，并调用<code>getEngineFactories</code>方法。可以向每个引擎工厂询问它们所支持的引擎名、MIME类型和文件扩展名。</p>
+<p>下表显示对应的典型值的表格。</p>
+<table>
+<thead>
+<tr>
+<th>引擎</th>
+<th>名字</th>
+<th>MIME类型</th>
+<th>文件扩展</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Nashorm</code>（包含在JDK中，从jdk6开始，jdk11开始标记将要移除，jdk17已移除）</td>
+<td><code>narsh，Nashorn，js，JS，JavaScript，javascript，ECMAScript，ecmascript</code></td>
+<td><code>application/javascript, application/ecmascript, text/javascript, text/ecmascript</code></td>
+<td><code>js</code></td>
+</tr>
+<tr>
+<td><code>Groovy</code></td>
+<td><code>groovy</code></td>
+<td>无</td>
+<td>groovy</td>
+</tr>
+<tr>
+<td><code>Renjin</code></td>
+<td><code>Renjin</code></td>
+<td><code>text/x-R</code></td>
+<td><code>R, r, S, s</code></td>
+</tr>
+</tbody>
+</table>
+<p>通常，你可以所需要的引擎，因此可以直接通过名字、<code>MIME</code>类型或文件扩展来请求它。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ScriptEngineManager manager = <span class="keyword">new</span> ScriptEngineManager();</span><br><span class="line">ScriptEngine engine = manager.getEngineByName(<span class="string">"nashron"</span>);</span><br></pre></td></tr></table></figure>
+<p>Java8引入了<code>Nashorn</code>，这是由<code>Oracle</code>开发的一个<code>JavaScript</code>解释器。可以通过在类路径中提供必要的JAR文件来添加更多语言的支持。</p>
+<h2 id="脚本计算和绑定"><a href="#脚本计算和绑定" class="headerlink" title="脚本计算和绑定"></a>脚本计算和绑定</h2><h2 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h2><p>可以分别从字符串或者文件中执行脚本。</p>
+<h3 id="从字符串执行脚本"><a href="#从字符串执行脚本" class="headerlink" title="从字符串执行脚本"></a>从字符串执行脚本</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object result = engine.eval(scriptString);</span><br></pre></td></tr></table></figure>
+<h3 id="从文件执行脚本"><a href="#从文件执行脚本" class="headerlink" title="从文件执行脚本"></a>从文件执行脚本</h3><p>首先要从文件中获得一个<code>Reader</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object result = engine.eval(reader);</span><br></pre></td></tr></table></figure>
+<h3 id="上下文"><a href="#上下文" class="headerlink" title="上下文"></a>上下文</h3><p>值得的注意的是，大部分引擎的上下文都是同一个。即多次执行是在同一个上下文中进行的，所以其变量也会被共享。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">engine.eval(<span class="string">"n = 1728"</span>);</span><br><span class="line">Object result = engien.eval(<span class="string">"n + 1"</span>);		<span class="comment">//1729</span></span><br></pre></td></tr></table></figure>
+<h3 id="与上下文变量交换"><a href="#与上下文变量交换" class="headerlink" title="与上下文变量交换"></a>与上下文变量交换</h3><h4 id="添加变量"><a href="#添加变量" class="headerlink" title="添加变量"></a>添加变量</h4><p>不光可以使用脚本语法申明变量，也可以通过Java的API来为其添加变量。</p>
+<p>如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">engine.pus(<span class="string">"k"</span>, <span class="number">1728</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="取变量"><a href="#取变量" class="headerlink" title="取变量"></a>取变量</h4><p>可以从脚本上下文取变量</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object result = engine.get(<span class="string">"k"</span>);</span><br></pre></td></tr></table></figure>
+<p>注意：如果需要自定义作用域，可以自定义一个实现了<code>ScriptContext</code>接口，并管理一个作用域集合。每个作用域都是由一个整数标识的，而且数字越小应该越先被搜索到。（标准库提供了<code>SimpleScriptConext</code>类，但是它只能持有全局作用域和引擎作用域）</p>
+<h2 id="重定向输入和输出"><a href="#重定向输入和输出" class="headerlink" title="重定向输入和输出"></a>重定向输入和输出</h2><p>可以通过调用脚本上下文的<code>setReader</code>和<code>setWriter</code>方法来重定向脚本的标准输入和输出。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> writer = <span class="keyword">new</span> StringWriter();</span><br><span class="line">engine.getContext().setWriter(<span class="keyword">new</span> PrintWriter(writer, <span class="keyword">true</span>));</span><br></pre></td></tr></table></figure>
+<p>在上例中，JavaScript的<code>console.log</code>产生的输出都将被发送到<code>writer</code>。</p>
+<p><code>Nashorn</code>引擎没有标准输入源的概念，因此调用<code>setReader</code>没有任何效果。</p>
+<h2 id="调用脚本的函数和方法"><a href="#调用脚本的函数和方法" class="headerlink" title="调用脚本的函数和方法"></a>调用脚本的函数和方法</h2><p>有两个方法用于触发脚本语言的方法。</p>
+<ul>
+<li><code>invokeFunction</code>：面向函数式编程。</li>
+<li><code>invokeMethod</code>：面向对象编程，可以调用某个对象上的方法。</li>
+</ul>
+<p>如：</p>
+<p>例1：<code>invokeFcuntion</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">engine.eval(<span class="string">"function greet(how, whom)&#123;return how + ', ' + whom + '!'&#125;"</span>);</span><br><span class="line">Invocable res = ((Invocable)engine).invokeFunction(<span class="string">"greet"</span>, <span class="string">"hello"</span>, <span class="string">"world"</span>);</span><br></pre></td></tr></table></figure>
+<p>例2：<code>invokeMethod</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">engine.eval(<span class="string">"function Greeter(how)&#123;this.how = how&#125;"</span>);</span><br><span class="line">engine.eval(<span class="string">"Greeter.prototype.welcome = function(whom)&#123;return this.how + ', ' + whom + '!'&#125;"</span>);</span><br><span class="line">Object yo = engine.eval(<span class="string">"new Greeter('Yo')"</span>);</span><br><span class="line">res = ((Invocable) engine).invokeMethod(yo, <span class="string">"welcome"</span>, <span class="string">"world"</span>);</span><br></pre></td></tr></table></figure>
+<p> 并且还可以用脚本引擎来实现Java的接口，然后调用其方法。</p>
+<p>如下接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Greeter</span></span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">welcome</span><span class="params">(String whom)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">engine.eval(<span class="string">"function welcome(whom)&#123;return 'Hello, ' + whom + '!'&#125;"</span>);</span><br><span class="line">Greeter g = ((Invocable)engine).getInterface(Greeter<span class="class">.<span class="keyword">class</span>)</span>; </span><br><span class="line">Object res = g.welcome(<span class="string">"world"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="编译脚本"><a href="#编译脚本" class="headerlink" title="编译脚本"></a>编译脚本</h2><p>某些脚本引擎处于对执行效率的考虑，可以将脚本代码编译为某种中间格式。这些引擎实现了<code>Compilable</code>接口。</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reder = <span class="keyword">new</span> FileReader(<span class="string">"script.js"</span>);</span><br><span class="line">CompiledScript  script = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span>(engine implements Compilable)&#123;</span><br><span class="line">    script = ((Compilable)engine).compile(reader);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一旦该脚本被编译，就可以执行它。例如下面的代码展示了如果可以编译就执行编译后的结果，否则执行原始脚本：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(script != <span class="keyword">null</span>)&#123;</span><br><span class="line">    script.eval();</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    engine.eval(reder);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="编译器API"><a href="#编译器API" class="headerlink" title="编译器API"></a>编译器API</h1><p>可以在Java代码中编译Java代码。</p>
+<h2 id="调用编译器"><a href="#调用编译器" class="headerlink" title="调用编译器"></a>调用编译器</h2><p>调用编译器API非常简单，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JavaScompiler compiler = ToolProvider.getSystemJavaCompiler();</span><br><span class="line">OutputStream outStream = ...;</span><br><span class="line">OutputStream errStream = ...;</span><br><span class="line"><span class="keyword">int</span> result = compiler.run(<span class="keyword">null</span>, outStream, errStream, <span class="string">"-sourcepath"</span>, <span class="string">"src"</span>, <span class="string">"Test.java"</span>);</span><br></pre></td></tr></table></figure>
+<p>返回值为0则表示成功。</p>
+<h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><p>Java 注解（Annotation）又称 Java 标注，是 JDK5.0 引入的一种<strong>注释机制</strong>。<br>Java 语言中的类、方法、变量、参数和包等都可以被标注。和 Javadoc 不同，Java 标注可以通过反射获取标注内容。在编译器生成类文件时，标注可以被嵌入到字节码中。Java 虚拟机可以保留标注内容，在运行时可以获取到标注内容 。 当然它也支持自定义 Java 标注。</p>
+<h2 id="使用注解"><a href="#使用注解" class="headerlink" title="使用注解"></a>使用注解</h2><p> 在Java中，注解是当作修饰符来使用的。他被置于被备注项之前，中间没有分号（修饰符就是诸如<code>public</code>和<code>static</code>之类的关键词）。每个注解的名称前面都加上了@符号。这有点类似于Javadoc注释出现在<code>/**...*/</code>之间定界符的内部，而注解是代码的一部分。</p>
+<p>注解可以定位包含元素的形式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span>(timeout = <span class="number">1000</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testMethod</span><span class="params">()</span></span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>这些元素可以被读取这些注解的工具去处理。</p>
+<h2 id="注解语法"><a href="#注解语法" class="headerlink" title="注解语法"></a>注解语法</h2><h3 id="注解接口-注解定义"><a href="#注解接口-注解定义" class="headerlink" title="注解接口-注解定义"></a>注解接口-注解定义</h3><p>注解是由注解接口来定义的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">modifiers <span class="meta">@interface</span> AnnotationName&#123;</span><br><span class="line">    elementDeclatarion1;</span><br><span class="line">    elementDeclatarion2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每个元素申明都具有下面的形式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">type <span class="title">elementName</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>或者附带默认值：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">type <span class="title">elementName</span><span class="params">()</span> <span class="keyword">default</span> value</span>;</span><br></pre></td></tr></table></figure>
+<p>例如，下面的注解具有两个元素：<code>assignedTo</code>和<code>severity</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> BugReport&#123;</span><br><span class="line">    <span class="function">String <span class="title">assignedTo</span><span class="params">()</span> <span class="keyword">default</span> "[none]"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">severity</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有的注解接口都隐式的扩展自<code>java.lang.annotation.Annotation</code>接口。这个接口是一个常规接口，不是一个注解接口。</p>
+<p>不必要为注解接口提供实现类。</p>
+<p>注解元素的类型为下列之一“</p>
+<ul>
+<li>基本类型（<code>int</code>、<code>short</code>、<code>long</code>、<code>byte</code>、<code>char</code>、<code>double</code>、<code>float</code>或者<code>boolean</code>）。</li>
+<li><code>String</code>。</li>
+<li><code>Class</code>（具有一个可选的类型参数，如<code>Class&lt;? extends MyClass&gt;</code>）。</li>
+<li><code>enum</code>类型。</li>
+<li>由前面提到的类型构成的数组。</li>
+</ul>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> BugReport&#123;</span><br><span class="line">    <span class="keyword">enum</span> Status &#123;UNCONFIRMED, CONFIMED, FIXED, NOTABUG&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">showStopper</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line">    String assignedTo <span class="keyword">default</span> <span class="string">"[none]"</span>;</span><br><span class="line">    <span class="function">Status <span class="title">status</span><span class="params">()</span> <span class="keyword">default</span> Status.UNCONFIRMED</span>;</span><br><span class="line">    String[] reportedBy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定义注解位置"><a href="#定义注解位置" class="headerlink" title="定义注解位置"></a>定义注解位置</h3><p>注解可以出现在很多地方，这些地方可以分为两类：声明和类型用法声明注解可以出现在下列声明处：</p>
+<ul>
+<li>包</li>
+<li>类（包括<code>enum</code>）</li>
+<li>接口（包括注解接口）</li>
+<li>方法</li>
+<li>构造器</li>
+<li>实例域（包含num常量）</li>
+<li>局部变量</li>
+<li>参数变量</li>
+<li>类型参数</li>
+</ul>
+<p>对于类和接口，需要将注解放置在class和interface关键词的前面：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>对于变量，需要将其放置在类型的前面：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) List&lt;User&gt; user = ...;</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(@Param(<span class="string">"id"</span>)</span> String userId</span>;)</span><br></pre></td></tr></table></figure>
+<p>泛型类或方法中的类型参数可以像下面这样被注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cache</span>&lt;@<span class="title">Immutable</span> <span class="title">V</span>&gt;</span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>包是在文件<code>packge-info.java</code>中注解的，该文件中只包含注解先导的包语句，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">	Packge-level javadoc</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@GPL</span>(version = <span class="string">"3"</span>)</span><br><span class="line"><span class="keyword">package</span> priv.xxx.xxx;</span><br><span class="line"><span class="keyword">import</span> org.gun.GPL;</span><br></pre></td></tr></table></figure>
+<h3 id="注解使用"><a href="#注解使用" class="headerlink" title="注解使用"></a>注解使用</h3><p>每个注解都具有下面的格式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@annotationName</span>(elementName1 = value1, elementName2 = value2)</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@BugReported</span>(assignedTo=<span class="string">"Harry"</span>, severity=<span class="string">"10"</span>)</span><br></pre></td></tr></table></figure>
+<p>参数元素的顺序无关紧要。</p>
+<p>如果某个值没有指定，就是用默认值。如<code>@BugReported(severity=&quot;10&quot;)</code>中<code>assignedTo</code>元素默认值为<code>&quot;[none]&quot;</code>。</p>
+<p>注意：默认值并不是和注解存储在一起的。相反地，它们是动态计算而来得到。例如，如果将<code>assignedTo</code>的默认值改为<code>[]</code>，那么不仅后面声明的为<code>[]</code>，之前申明的也为<code>[]</code>了。</p>
+<p>注解有两种特殊形式：</p>
+<ul>
+<li><code>@annotation</code>：（标记注解）表示所有元素都用默认参数。</li>
+<li><code>@annotation(value)</code>：（单值注解）如果一个元素名字为<code>value</code>，那么可以直接在括号中进行赋值。</li>
+</ul>
+<p>还有两点值得注意：</p>
+<ol>
+<li><p>数组的赋值：对于数组的赋值可以采用以下格式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@BugReported</span>(..., repotedBy=&#123;<span class="string">"Harry"</span>, <span class="string">"Carl"</span>&#125;)			<span class="comment">//多值数组</span></span><br><span class="line"><span class="meta">@BugReported</span>(..., repotedBy=<span class="string">"Harry"</span>)					<span class="comment">//单值数组</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注解的嵌套</p>
+<p>由于一个注解元素可以是另一个注解，那么可以创建出任意复杂的注解，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@BugReported</span>(ref=<span class="meta">@Reference</span>(id=<span class="string">"213213"</span>), ...)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="标准注解"><a href="#标准注解" class="headerlink" title="标准注解"></a>标准注解</h2><p>Java SE在<code>java.lang</code>、<code>java.lang.annotation</code>和<code>javax.annotation</code>包中定义了大量的注解接口。其中四个是元注解，用于描述注解接口的行为属性，其他的三个是规则接口，可以用它们来注解你的源代码中的项。</p>
+<table><br><tbody><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle"><strong><span style="font-size: 16px">注 解 接 口</span></strong></td><br><td style="width: 200px" align="center" valign="middle"><strong><span style="font-size: 16px">应 用 场 景</span></strong></td><br><td style="width: 350px" align="center" valign="middle"><strong><span style="font-size: 16px">目 的</span></strong></td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle">Deprecated</td><br><td style="width: 200px" align="left" valign="middle">全部</td><br><td style="width: 350px">将项标记为过时的</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle">SuppressWarnings</td><br><td style="width: 200px" align="left" valign="middle">除了包和注解之外的所有情况</td><br><td style="width: 350px">阻止某个给定类型的警告信息</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle">Override</td><br><td style="width: 200px" align="left" valign="middle">方法</td><br><td style="width: 350px">检查该方法是否覆盖了某一个超类方法</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle">PostConstruct</td><br><td style="width: 200px" rowspan="2" align="left" valign="middle">方法</td><br><td style="width: 350px">被标记的方法应该在构造之后立即被调用</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle">PreDestroy</td><br><td style="width: 350px">被标记的方法应该在移除之前立即被调用</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle">Resource</td><br><td style="width: 200px" align="left" valign="middle">类、接口、方法、域</td><br><td style="width: 350px"><br><p>在类或者接口上：标记为在其他地方要用到的资源</p><br><p>在方法或者域上 ：为 “注入” &nbsp;而标记</p><br></td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle">Resources</td><br><td style="width: 200px" align="left" valign="middle">类、接口</td><br><td style="width: 350px">一个资源组</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle">Grenerated</td><br><td style="width: 200px" align="left" valign="middle">全部</td><br><td style="width: 350px">&nbsp;</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle"><span style="color: rgba(255, 0, 0, 1)">Target</span></td><br><td style="width: 200px" align="left" valign="middle">注解</td><br><td style="width: 350px">指明可以应用这个注解的那些项</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle"><span style="color: rgba(255, 0, 0, 1)">Retention</span></td><br><td style="width: 200px" align="left" valign="middle">注解</td><br><td style="width: 350px">指明这个注解可以保留多久</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle"><span style="color: rgba(255, 0, 0, 1)">Documented</span></td><br><td style="width: 200px" align="left" valign="middle">注解</td><br><td style="width: 350px">指明这个注解应该包含在注解项的文档中</td><br></tr><br><tr><br><td style="width: 200px; height: 30px" align="center" valign="middle"><span style="color: rgba(255, 0, 0, 1)">Inherited</span></td><br><td style="width: 200px" align="left" valign="middle">注解</td><br><td style="width: 350px">指明当这个注解应用于一个类的时候，能够在被他的子类继承</td><br></tr><br></tbody><br></table>
+
+<h2 id="用于编译的注解"><a href="#用于编译的注解" class="headerlink" title="用于编译的注解"></a>用于编译的注解</h2><ul>
+<li><code>@Deprecated</code>注解可以被添加到任何不再鼓励使用的项上。这个注解与<code>JavaDoc</code>的<code>@deprecated</code>效果相同。</li>
+<li><code>@SuppressWarning</code>注解会告知编译器阻止特定类型的警告信息。</li>
+<li><code>@Override</code>用于方法上，编译器会检查具有这种注解的方式是否真的覆盖了一个来自超类的方法。</li>
+<li><code>@Generated</code>注解的目的是共提供代码生成的工具来使用。任何生成的源代码都可以被注解，从而与程序员提供的代码区分开。例如，代码编辑器可以隐藏生成的代码，或者代码生成器可以移除生成代码的旧版本。</li>
+</ul>
+<h2 id="用于管理资源注解"><a href="#用于管理资源注解" class="headerlink" title="用于管理资源注解"></a>用于管理资源注解</h2><ul>
+<li><code>@PostConstruct</code>和<code>@PreDestroy</code>注解用于控制对象生命周期的环境中。</li>
+<li><code>@Resource</code>注解用于资源的注入。</li>
+</ul>
+<h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><p><code>@Target</code> 表示该注解用于什么地方，可能的值在枚举类 <code>ElemenetType</code> 中，包括：</p>
+<ul>
+<li><code>ElemenetType.CONSTRUCTOR</code>—————————–构造器声明 </li>
+<li><code>ElemenetType.FIELD</code> ———————————-域声明（包括 enum 实例） </li>
+<li><code>ElemenetType.LOCAL_VARIABLE</code>————————- 局部变量声明 </li>
+<li><code>ElemenetType.METHOD</code> ———————————方法声明 </li>
+<li><code>ElemenetType.PACKAGE</code> ——————————–包声明 </li>
+<li><code>ElemenetType.PARAMETER</code> ——————————参数声明 </li>
+<li><code>ElemenetType.TYPE</code>  ———————————– 类，接口（包括注解类型）或enum声明  </li>
+</ul>
+<p><code>@Retention</code> 表示在什么级别保存该注解信息。可选的参数值在枚举类型 <code>RetentionPolicy</code> 中，包括：</p>
+<ul>
+<li><code>RetentionPolicy.SOURCE</code>————-注解将被编译器丢弃 </li>
+<li><code>RetentionPolicy.CLASS</code> ————-注解在class文件中可用，但会被VM丢弃 </li>
+<li><code>RetentionPolicy.RUNTIME</code> ———VM将在运行期也保留注释，因此可以通过反射机制读取注解的信息。</li>
+</ul>
+<p><code>@Documented</code> 将此注解包含在 <code>javadoc</code> 中 ，它代表着此注解会被<code>javadoc</code>工具提取成文档。在doc文档中的内容会因为此注解的信息内容不同而不同。相当与@see,@param 等。</p>
+<p><code>@Inherited</code> 允许子类继承父类中的注解。即如果一个类具有继承注解，那么它的子类都自动具有同样的注解。</p>
+<h2 id="获取注解信息"><a href="#获取注解信息" class="headerlink" title="获取注解信息"></a>获取注解信息</h2><p>在定义和使用注解后，我们需要考虑如何去读取传入注解的信息。</p>
+<p>一般来说，我们使用反射来获取注解列表和注解中的信息。</p>
+<p>但是要注意，要使用反射来获取注解，则必须将注解标记为<code>RetentionPolicy.RUNTIME</code>，这样其生命周期才会到达虚拟机可到达位置，即：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Annotaiaon1 &#123;</span><br><span class="line">	<span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们可以通过以下API获取注解：</p>
+<ol>
+<li><p><code>Annotation[] getAnnotations()</code></p>
+</li>
+<li><p><code>Annotation getAnnotation(Class&lt;A&gt; annotationClass)</code></p>
+</li>
+<li><p><code>Annotation getDeclaredAnnotation(Class&lt;A&gt; annotationClass)</code></p>
+</li>
+<li><p><code>Annotation getDeclaredAnnotationsByType(Class&lt;A&gt;)</code></p>
+</li>
+<li><p><code>Annotation[] getDeclaredAnnotations()</code></p>
+</li>
+</ol>
+<p>通过这些API我们可以获得<code>Annotation</code>对象。注意这里赋值就直接赋值给我们自定义的注解类型了。在此之前，我们可以通过以下API来判断是否存在对应的注解：</p>
+<ul>
+<li><code>public boolean isAnnotationPresent(Class&lt;? extends Annotation&gt; annotationClass)</code></li>
+</ul>
+<p>如果存在，则使用上面的2来获取对应的注解，然后通过注解定义的域来获取传入的值。</p>
+<p>例如：</p>
+<p><code>Annotation1.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Annotaiaon1 &#123;</span><br><span class="line">	<span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Dog.java</code>-使用注解的类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Annotaiaon</span>1(<span class="string">"123"</span>)</span><br><span class="line"><span class="meta">@Annotation</span>2(<span class="string">"000"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> Integer idInteger;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Class dog = Class.forName(<span class="string">"mw.Dog"</span>);</span><br><span class="line"><span class="keyword">if</span>(dog.isAnnotationPresent(Annotaiaon1<span class="class">.<span class="keyword">class</span>)) </span>&#123;</span><br><span class="line">    Annotaiaon1 anno = (Annotaiaon1) dog.getAnnotation(Annotaiaon1<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    String value = anno.value();</span><br><span class="line">    System.out.println(<span class="string">"存在annotation1注解，value= "</span> + value);</span><br><span class="line">&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">"不存在annotation1注解"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/02/17/java核心技术-II-8-脚本、编译和注解处理/" target="_blank" title="java核心技术-II-8-脚本、编译和注解处理">http://yoursite.com/2022/02/17/java核心技术-II-8-脚本、编译和注解处理/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">java核心技术-II-6-日期和时间API</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java平台的脚本机制"><span class="nav-number">1.</span> <span class="nav-text">Java平台的脚本机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取脚本引擎"><span class="nav-number">1.1.</span> <span class="nav-text">获取脚本引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脚本计算和绑定"><span class="nav-number">1.2.</span> <span class="nav-text">脚本计算和绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行脚本"><span class="nav-number">1.3.</span> <span class="nav-text">执行脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从字符串执行脚本"><span class="nav-number">1.3.1.</span> <span class="nav-text">从字符串执行脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从文件执行脚本"><span class="nav-number">1.3.2.</span> <span class="nav-text">从文件执行脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上下文"><span class="nav-number">1.3.3.</span> <span class="nav-text">上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与上下文变量交换"><span class="nav-number">1.3.4.</span> <span class="nav-text">与上下文变量交换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加变量"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">添加变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取变量"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">取变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向输入和输出"><span class="nav-number">1.4.</span> <span class="nav-text">重定向输入和输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用脚本的函数和方法"><span class="nav-number">1.5.</span> <span class="nav-text">调用脚本的函数和方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译脚本"><span class="nav-number">1.6.</span> <span class="nav-text">编译脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译器API"><span class="nav-number">2.</span> <span class="nav-text">编译器API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#调用编译器"><span class="nav-number">2.1.</span> <span class="nav-text">调用编译器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注解"><span class="nav-number">3.</span> <span class="nav-text">注解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用注解"><span class="nav-number">3.1.</span> <span class="nav-text">使用注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注解语法"><span class="nav-number">3.2.</span> <span class="nav-text">注解语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注解接口-注解定义"><span class="nav-number">3.2.1.</span> <span class="nav-text">注解接口-注解定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义注解位置"><span class="nav-number">3.2.2.</span> <span class="nav-text">定义注解位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注解使用"><span class="nav-number">3.2.3.</span> <span class="nav-text">注解使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准注解"><span class="nav-number">3.3.</span> <span class="nav-text">标准注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用于编译的注解"><span class="nav-number">3.4.</span> <span class="nav-text">用于编译的注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用于管理资源注解"><span class="nav-number">3.5.</span> <span class="nav-text">用于管理资源注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元注解"><span class="nav-number">3.6.</span> <span class="nav-text">元注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取注解信息"><span class="nav-number">3.7.</span> <span class="nav-text">获取注解信息</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

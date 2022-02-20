@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql必知必会1-12 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="数据库MySQL" />
+  
+  
+  
+  
+  <meta name="description" content="数据库基础主键主键每一行都应该可以唯一标识自己的一列。没有主键，更新或删除表中特定行很困难，因为没有安全的方法保证只涉及相关的行。 表中的任意行都可以作为主键，只要它满足以下条件：  任意两行不具有相同的主键值。 每个行都必须具有一个主键（主键不允许为NULL）。  主键通常是定义在表的一个列中，但并不是只能一列，也可以多个列一起使用作为主键。当使用多列作为主键时，上述条件必须应用到构成主键的所有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL必知必会1-12">
+<meta property="og:url" content="http://yoursite.com/2022/02/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-12/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="数据库基础主键主键每一行都应该可以唯一标识自己的一列。没有主键，更新或删除表中特定行很困难，因为没有安全的方法保证只涉及相关的行。 表中的任意行都可以作为主键，只要它满足以下条件：  任意两行不具有相同的主键值。 每个行都必须具有一个主键（主键不允许为NULL）。  主键通常是定义在表的一个列中，但并不是只能一列，也可以多个列一起使用作为主键。当使用多列作为主键时，上述条件必须应用到构成主键的所有">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/WHERE子句操作符.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-字符类.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-转义字符.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-量词.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-定位符.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-算术操作符.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-文本处理函数1.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-文本处理函数2.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-常用日期和时间处理函数.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-数值处理函数.jpg">
+<meta property="og:image" content="e:/myblog/source/images/MySQL必知必会/正则表达式-聚集函数.jpg">
+<meta property="article:published_time" content="2022-02-20T05:38:59.000Z">
+<meta property="article:modified_time" content="2022-02-20T12:29:22.460Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="e:/myblog/source/images/MySQL必知必会/WHERE子句操作符.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-MySQL必知必会1-12" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      MySQL必知必会1-12
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-12/" class="article-date">
+	  <time datetime="2022-02-20T05:38:59.000Z" itemprop="datePublished">2022-02-20</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="数据库基础"><a href="#数据库基础" class="headerlink" title="数据库基础"></a>数据库基础</h1><h2 id="主键"><a href="#主键" class="headerlink" title="主键"></a>主键</h2><p>主键每一行都应该可以唯一标识自己的一列。没有主键，更新或删除表中特定行很困难，因为没有安全的方法保证只涉及相关的行。</p>
+<p>表中的任意行都可以作为主键，只要它满足以下条件：</p>
+<ul>
+<li>任意两行不具有相同的主键值。</li>
+<li>每个行都必须具有一个主键（主键不允许为NULL）。</li>
+</ul>
+<p>主键通常是定义在表的一个列中，但并不是只能一列，也可以多个列一起使用作为主键。当使用多列作为主键时，上述条件必须应用到构成主键的所有列，所有列值的组合必须时唯一的（但单个列的值可以不唯一）。</p>
+<p>主键的好习惯：</p>
+<ul>
+<li>不更新主键列中的值。</li>
+<li>不重用主键列中的值。</li>
+<li>不再主键列中使用可能会更改的值。</li>
+</ul>
+<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><p>MySQL是一种DBMS，即它是一种数据库软件。</p>
+<h2 id="数据库分类"><a href="#数据库分类" class="headerlink" title="数据库分类"></a>数据库分类</h2><p>DBMS可分为两类：</p>
+<ul>
+<li>基于共享文件系统的DBMS</li>
+<li>基于客户机-服务器的DBMS<ul>
+<li>客户机是与用户打交道的软件。</li>
+<li>服务器部分是负责所有数据访问和处理的一个软件。</li>
+</ul>
+</li>
+</ul>
+<h1 id="数据库命令"><a href="#数据库命令" class="headerlink" title="数据库命令"></a>数据库命令</h1><h2 id="USE命令"><a href="#USE命令" class="headerlink" title="USE命令"></a>USE命令</h2><p>USE可以用于选择数据库。</p>
+<p>例如选择数据库<code>HRDB</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> HRDB;</span><br></pre></td></tr></table></figure>
+<h2 id="SHOW命令"><a href="#SHOW命令" class="headerlink" title="SHOW命令"></a>SHOW命令</h2><p>SHOW命令可以用来展示数据，例如表、服务器状态，用户等。</p>
+<p>例如：</p>
+<ol>
+<li><p>展示表-<code>applicant2022</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> applicant2022;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>展示服务器状态</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">STATUS</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>展示创建的数据库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">DATABASE</span>;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="检索数据"><a href="#检索数据" class="headerlink" title="检索数据"></a>检索数据</h1><p><code>SELECT from</code> 语句可以用来检索数据。</p>
+<p>其基本结构为</p>
+<p><code>SELECT col1, col2, ..., coln from table</code></p>
+<p>例如：</p>
+<ol>
+<li><p>从表<code>products</code>中选择一列<code>prod_name</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name <span class="keyword">FROM</span> products;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从表<code>products</code>中选择两列<code>prod_name, prod_price</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name, prod_price <span class="keyword">from</span> products;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="从表products中检索所有的列"><a href="#从表products中检索所有的列" class="headerlink" title="从表products中检索所有的列"></a>从表<code>products</code>中检索所有的列</h2><p>可以通过通配符*来匹配所有列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> products</span><br></pre></td></tr></table></figure>
+<h2 id="检索不同的列"><a href="#检索不同的列" class="headerlink" title="检索不同的列"></a>检索不同的列</h2><p>上面返回数据的列是包含重复元素的。而可以使用<code>DISTINCT</code>关键词来去掉列中的重复值。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> vend_id <span class="keyword">FROM</span> products;</span><br></pre></td></tr></table></figure>
+<p>注意：<code>DISTINCT</code>关键词会应用于所有列而不仅前置它的列。例如<code>SELECT vend_id, prod_price from products</code>，除非两个列都不同，否则所有的列都将被检索出来。</p>
+<h2 id="限制结果"><a href="#限制结果" class="headerlink" title="限制结果"></a>限制结果</h2><p><code>SEELCT</code>语句返回匹配的所有行，而<code>LIMIT</code>关键词可以指定返回的行数。</p>
+<p>例如：从<code>products</code>中选择<code>products</code>的前5行。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name <span class="keyword">FROM</span> products <span class="keyword">LIMIT</span> <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+<p>也可以指定返回行数的位置。其格式有以下两种：</p>
+<ul>
+<li><code>LIMIT start, count</code>:包含start，第一列为0。</li>
+<li><code>LIMIT start OFFSET count</code>:与上面代码意义一样。</li>
+</ul>
+<p>例如：从<code>products</code>中选择<code>products</code>的从第3列开始的前5行。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name <span class="keyword">FROM</span> products <span class="keyword">LIMIT</span> <span class="number">3</span>, <span class="number">5</span>;</span><br><span class="line"><span class="keyword">SELECT</span> prod_name <span class="keyword">FROM</span> products <span class="keyword">LIMIT</span> <span class="number">3</span> <span class="keyword">OFFSET</span> <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="使用完全限定的表明"><a href="#使用完全限定的表明" class="headerlink" title="使用完全限定的表明"></a>使用完全限定的表明</h2><p>所谓的完全限定名，对于字段来说就是<code>表名+列名</code>，而对于表名来说就是<code>数据库+表名</code>。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> products.prod_name <span class="keyword">FROM</span> HRDB.products;</span><br></pre></td></tr></table></figure>
+<h1 id="排序检索数据"><a href="#排序检索数据" class="headerlink" title="排序检索数据"></a>排序检索数据</h1><p>可以使用<code>ORDER BY</code>子句，来对筛选出的数据进行排序。</p>
+<h2 id="单例排序"><a href="#单例排序" class="headerlink" title="单例排序"></a>单例排序</h2><p>简单按照一列排序。</p>
+<p>例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name <span class="keyword">FROM</span> products <span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
+<h2 id="多列排序"><a href="#多列排序" class="headerlink" title="多列排序"></a>多列排序</h2><p>有时需要按照多列排序，即第一列相同，则按照第二列来排序。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_price, prod_name <span class="keyword">FROM</span> products <span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_price, prod_name;</span><br></pre></td></tr></table></figure>
+<h2 id="指定排序方向"><a href="#指定排序方向" class="headerlink" title="指定排序方向"></a>指定排序方向</h2><p>默认排序的方向为升序（关键词为<code>ASC</code>），而可以使用<code>DESC</code>来指定为降序。</p>
+<p>例如：</p>
+<ol>
+<li><p>升序</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_price, prod_name <span class="keyword">FROM</span> products <span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_price;</span><br><span class="line"><span class="keyword">SELECT</span> prod_id, prod_price, prod_name <span class="keyword">FROM</span> products <span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_price <span class="keyword">ASC</span>;		//前后等价</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>降序</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id, prod_price, prod_name <span class="keyword">FROM</span> products <span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_price <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h1><p><code>WHERE</code>语句可以用来指定过滤的条件。<code>WHERE</code>后接条件相等，不等，大于或小于等。</p>
+<h2 id="普通筛选"><a href="#普通筛选" class="headerlink" title="普通筛选"></a>普通筛选</h2><p>从<code>products</code>表中选出<code>prod_price</code>等于2.5的列。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name, prod_price <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> prod_price = <span class="number">2.50</span>;</span><br></pre></td></tr></table></figure>
+<p>注意：在同hi使用<code>ORDER BY</code>语句和<code>WHERE</code>时，应该让<code>ORDER BY</code>语句位于<code>WHERE</code>之后。</p>
+<p>下面是<code>WHERE</code>子句操作符</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a><img src="E:\myblog\source\images\MySQL必知必会\WHERE子句操作符.jpg" alt="WHERE子句操作符"></h3><h3 id="检查单个值"><a href="#检查单个值" class="headerlink" title="检查单个值"></a>检查单个值</h3><p>可以使用=来检查单个值：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name, prod_price <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> prod_name = <span class="string">'fuses'</span>;</span><br></pre></td></tr></table></figure>
+<p>注意MySQL来执行匹配的时默认不区分大小写。</p>
+<h3 id="不匹配检查"><a href="#不匹配检查" class="headerlink" title="不匹配检查"></a>不匹配检查</h3><p>可以使用&lt;&gt;来进行不等于匹配。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> vend_id, prod_name <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> vend_id &lt;&gt; <span class="number">1003</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="范围检查"><a href="#范围检查" class="headerlink" title="范围检查"></a>范围检查</h3><p>为了检查某个列的范围可以用<code>BETWEEN</code>关键词。</p>
+<p>例如检索价格在5-10美元之间的商品：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name, prod_price <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> prod_price <span class="keyword">BETWEEN</span> <span class="number">5</span> <span class="keyword">AND</span> <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<p>注意：两个值必须用AND关键词分隔。 <code>BETWEEN</code>匹配范围内的所有的值，包括开始值和结束值。</p>
+<h3 id="空值判断"><a href="#空值判断" class="headerlink" title="空值判断"></a>空值判断</h3><p>对于NULL的判断，有一个特殊的子句-<code>IS NULL</code>。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> prod_price <span class="keyword">IS</span> <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="数据过滤"><a href="#数据过滤" class="headerlink" title="数据过滤"></a>数据过滤</h1><h2 id="组合WHERE子句"><a href="#组合WHERE子句" class="headerlink" title="组合WHERE子句"></a>组合<code>WHERE</code>子句</h2><p>MySQL允许给出多个<code>WHERE</code>子句。这些子句有两种组合方式：</p>
+<ul>
+<li>AND关键词：并，都要满足，优先级最高。</li>
+<li>OR关键词：或，只满足一个即可。</li>
+</ul>
+<h2 id="AND子句"><a href="#AND子句" class="headerlink" title="AND子句"></a>AND子句</h2><p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id,prod_price,prod_name <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> vend_id = <span class="number">1003</span> <span class="keyword">AND</span> prod_price &lt;= <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<p>该语句表示，既要<code>vend_id</code>等于1003，又要<code>prod_price</code>小于等于10.</p>
+<h2 id="OR子句"><a href="#OR子句" class="headerlink" title="OR子句"></a>OR子句</h2><p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id,prod_price,prod_name <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> vend_id = <span class="number">1003</span> <span class="keyword">OR</span> prod_price &lt;= <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="计算次序"><a href="#计算次序" class="headerlink" title="计算次序"></a>计算次序</h2><p><code>WHERE</code>可以包含任意数目的AND和OR操作符。并允许两者以任意的顺序结合来进行组合为更加复杂的过滤句子。但是注意AND有更高的优先级。如果想要改变，则需要括号<code>()</code>。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name，prod_price <span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> vend_id = <span class="number">1002</span> <span class="keyword">OR</span> vend_id = <span class="number">1003</span> <span class="keyword">AND</span> prod_price &gt;= <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<p>所实际的顺序是先计算后面的<code>AND</code>，再计算前面的<code>OR</code>。</p>
+<p>如果要改变顺序，可以通过一下格式：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name，prod_price <span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> (vend_id = <span class="number">1002</span> <span class="keyword">OR</span> vend_id = <span class="number">1003</span>) <span class="keyword">AND</span> prod_price &gt;= <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="IN操作符"><a href="#IN操作符" class="headerlink" title="IN操作符"></a>IN操作符</h2><p>圆括号在<code>WHERE</code>子句中还有另一种用法。IN操作符用来指定条件范围，范围中的每个条件都可以进行匹配。IN合法值为由逗号分隔的多个值。</p>
+<p>例如：取<code>vend_id</code>的值在<code>1002</code>,<code>1003</code>,<code>1004</code>中的任意一个：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name，prod_price <span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">WHERE</span> vend_id <span class="keyword">IN</span> (<span class="number">1002</span>,<span class="number">1003</span>,<span class="number">1004</span>) <span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
+<p>使用IN操作符的优点为：</p>
+<ul>
+<li>在使用长的合法选项清单时，IN操作符的语法更清楚且更直观。</li>
+<li>在使用IN时，计算的次序更容易管理。</li>
+<li>IN操作符一般比OR操作符清单执行更快。</li>
+<li>IN操作符的最大优点是可以包含其他SELECT语句，使得能够动态地建立<code>WHERE</code>语句。</li>
+</ul>
+<h2 id="NOT操作符"><a href="#NOT操作符" class="headerlink" title="NOT操作符"></a>NOT操作符</h2><p><code>WHERE</code>子句中地<code>NOT</code>操作符有且只有一个功能，那就是否定它之后所跟地任意条件。</p>
+<p>例如<code>vend_id</code>不在<code>1002,1003,1004</code>之中：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_name，prod_priceFROM products</span><br><span class="line"><span class="keyword">WHERE</span> vend_id <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="number">1002</span>,<span class="number">1003</span>,<span class="number">1004</span>)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<p>MySQL中地NOT支持对IN、BETWEEN和EXISTS子句进行取反。</p>
+<h1 id="用通配符进行过滤"><a href="#用通配符进行过滤" class="headerlink" title="用通配符进行过滤"></a>用通配符进行过滤</h1><h2 id="LIKE操作符"><a href="#LIKE操作符" class="headerlink" title="LIKE操作符"></a>LIKE操作符</h2><p>LIKE操作符用于与后面的搜索模式组合进行过滤。</p>
+<h2 id="百分号（-）通配符"><a href="#百分号（-）通配符" class="headerlink" title="百分号（%）通配符"></a>百分号（%）通配符</h2><p>%表示任何字符出现任意次数（0-∞）。</p>
+<p>例如：匹配<code>prod_name</code>为以<code>jet</code>开头地所有内容：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id，prod_nameFROM products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'jet%'</span>;</span><br></pre></td></tr></table></figure>
+<p>注意：根据MySQL地配置方式，搜索可以是区分大小写的。如果区分大小写<code>jet%</code>与<code>Jetpack 1000</code>将不匹配。</p>
+<p>注意通配符可以出现在字段的任意位置，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id，prod_nameFROM products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'%anvil%'</span>;</span><br></pre></td></tr></table></figure>
+<p>表示任意内容，只要包含<code>anvil</code>就可以匹配到。如<code>1anvil</code>、<code>anval1q、</code>qanval0`。</p>
+<h2 id="下划线（-）通配符"><a href="#下划线（-）通配符" class="headerlink" title="下划线（_）通配符"></a>下划线（_）通配符</h2><p>另一个通配符（_）只匹配<strong>单个字符</strong>。</p>
+<p>如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id，prod_nameFROM products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name <span class="keyword">LIKE</span> <span class="string">'_ ton anvi7'</span>;</span><br></pre></td></tr></table></figure>
+<p>只匹配第一开头包含一个单词，后面为<code>ton anvi7</code>的单词。如<code>1 ton anvi7</code>，<code>q ton anvi7</code>等。</p>
+<h2 id="使用通配符的技巧"><a href="#使用通配符的技巧" class="headerlink" title="使用通配符的技巧"></a>使用通配符的技巧</h2><p>使用通配符应当记住以下技巧：</p>
+<ul>
+<li>不要过度使用通配符。其它操作符能够达到相同效果的目的，应该使用其他操作符。</li>
+<li>在确定需要使用通配符时，除非绝对必要，否则不要把它们放在搜索模式的开始处。因为这会使检索速度慢很多。</li>
+</ul>
+<h1 id="用正则表达式进行搜索"><a href="#用正则表达式进行搜索" class="headerlink" title="用正则表达式进行搜索"></a>用正则表达式进行搜索</h1><p>由于前面的通配符能实现的通配模式有限，所以引入了正则表达式来进行匹配。</p>
+<p>其基本语句是<code>REGEXP</code>关键词。其后接的字符串即为正则表达式。</p>
+<p>例如表示name为1000的列：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> table1 <span class="keyword">WHERE</span> <span class="keyword">name</span> REGEXP <span class="string">'1000'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="进行OR匹配"><a href="#进行OR匹配" class="headerlink" title="进行OR匹配"></a>进行OR匹配</h2><p>可以通过<code>|</code>来间隔两个串，并且匹配这来给你个串中的一个。</p>
+<p>例如：匹配<code>prod_name</code>为1000或2000：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_nameFROM products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'1000 | 2000'</span><span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
+<p>可以给出两个以上的OR条件，用于匹配多个可能的情况。</p>
+<h2 id="匹配多字符中的一个"><a href="#匹配多字符中的一个" class="headerlink" title="匹配多字符中的一个"></a>匹配多字符中的一个</h2><p>可以通过<code>[xyz]</code>来匹配z, y, z中的任意一个字母。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_nameFROM products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[123] Ton'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
+<p>匹配<code>1tom</code>、<code>2tom</code>或者<code>3tom</code>。</p>
+<h2 id="匹配范围"><a href="#匹配范围" class="headerlink" title="匹配范围"></a>匹配范围</h2><p>可以结合<code>[]</code>和<code>-</code>来表示范围。如，<code>[a-z]</code>来匹配a到z的任意一个字母；[1-10]来匹配1到10的任意一个数字。</p>
+<p>例如：匹配<code>1 Ton</code>到<code>5 Ton</code>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_nameFROM products</span><br><span class="line"><span class="keyword">WHERE</span> prod_name REGEXP <span class="string">'[1-5] Ton'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name ;</span><br></pre></td></tr></table></figure>
+<p>而为了方便，MySQL定义了特定范围的串。具体如下表：</p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-字符类.jpg" alt="正则表达式-字符类"></p>
+<h2 id="匹配特殊字符"><a href="#匹配特殊字符" class="headerlink" title="匹配特殊字符"></a>匹配特殊字符</h2><p>对于MySQL定义的正则表达式特殊字符，如<code>%, _</code>等，可以通过转义来进行。</p>
+<p>如：<code>\\.</code>匹配<code>.</code>，<code>\\%</code>匹配<code>%</code>。具体如下表。</p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-转义字符.jpg" alt="正则表达式-转义字符"></p>
+<h2 id="匹配出现次数"><a href="#匹配出现次数" class="headerlink" title="匹配出现次数"></a>匹配出现次数</h2><p>有时候需要匹配的模式出现多次，则需要量词。两次直接跟在模式的后面。如<code>a{5}</code>匹配<code>aaaaa</code>，a出现5次。而所有的两次如下：</p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-量词.jpg" alt="正则表达式-量词"></p>
+<p>例如：匹配id为一个或多个1的值：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> table1 <span class="keyword">WHERE</span> <span class="keyword">id</span> REGEX <span class="string">'1+'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="定位符"><a href="#定位符" class="headerlink" title="定位符"></a>定位符</h2><p>没有定位词时，正则表达式总是匹配所有的内容，而通过定位符可以匹配开头或者结尾。具体所有的定位符如下：</p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-定位符.jpg" alt="正则表达式-定位符"></p>
+<p>例如匹配数字开头的<code>id</code>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> table1 <span class="keyword">WHERE</span> <span class="keyword">id</span> REGEX <span class="string">'^[0-9]'</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="创建计算字段"><a href="#创建计算字段" class="headerlink" title="创建计算字段"></a>创建计算字段</h1><p>计算字段可以重新组合、计算原有表中的数据。</p>
+<h2 id="拼接字段"><a href="#拼接字段" class="headerlink" title="拼接字段"></a>拼接字段</h2><p>利用<code>Concat(..args)</code>函数可以用来拼接字段。这其中参数不仅可以是表中字段，也可以是自定义字符，其间用逗号<code>,</code>分割。</p>
+<p>例如：其中有表的字段<code>vend_name</code>、<code>vend_country</code>，也有<code>(</code>、<code>)</code>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">Concat</span>(vend_name，<span class="string">' ( '</span>, vend_country，<span class="string">')'</span>)<span class="keyword">FROM</span> vendors</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> vend_name ;</span><br></pre></td></tr></table></figure>
+<h2 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h2><p>刚才创建的新字段实际上是没有名字的，而需要给他给一个名字，即别名（不止新字段可以指定别名，存在于表中的字段也可以指定别名）。其采用关键字<code>AS</code>来指定。</p>
+<p>如：给新字段指定了别名<code>vend_title</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">Concat</span>(<span class="keyword">RTrim</span>(vend_name)，<span class="string">'('</span>，<span class="keyword">RTrim</span>(vend_country)，<span class="string">')'</span>) <span class="keyword">AS</span> vend_title</span><br><span class="line"><span class="keyword">FROM</span> vendors</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> vend_name;</span><br></pre></td></tr></table></figure>
+<h2 id="执行算术计算"><a href="#执行算术计算" class="headerlink" title="执行算术计算"></a>执行算术计算</h2><p>不仅可以用<code>Concat(...)</code>来拼接字段，还可以使用算数运算符来获得新的数字字段。</p>
+<p>例如：利用乘法计算新字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> prod_id，</span><br><span class="line">quantity,item_price，</span><br><span class="line">quantity*item_price <span class="keyword">As</span> expanded_price</span><br><span class="line"><span class="keyword">FROM</span> orderitems</span><br><span class="line"><span class="keyword">WHERE</span> order_num = <span class="number">20005</span>;</span><br></pre></td></tr></table></figure>
+<p>下面是具体所有的操作符：</p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-算术操作符.jpg" alt="正则表达式-算术操作符"></p>
+<h1 id="使用数据处理函数"><a href="#使用数据处理函数" class="headerlink" title="使用数据处理函数"></a>使用数据处理函数</h1><p>MySQL包含了很多处理函数。</p>
+<h2 id="文本处理函数"><a href="#文本处理函数" class="headerlink" title="文本处理函数"></a>文本处理函数</h2><p>字符处理函数包含以下：</p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-文本处理函数1.jpg" alt="正则表达式-文本处理函数1"></p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-文本处理函数2.jpg" alt="正则表达式-文本处理函数2"></p>
+<p>其中<code>Soundex()</code>是读音类似的一个处理函数。这个一般是用于英语。</p>
+<h2 id="日期和时间处理函数"><a href="#日期和时间处理函数" class="headerlink" title="日期和时间处理函数"></a>日期和时间处理函数</h2><p>对于日期和时间，MySQL也内置了一些函数。所有的函数如下：</p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-常用日期和时间处理函数.jpg" alt="正则表达式-常用日期和时间处理函数"></p>
+<p><strong>值得注意的是：无论什么时候指定一个日期，不管插入或更新表值还是用<code>WHERE</code>语句进行过滤，日期必须为格式<code>yyyy-mm-dd</code>。</strong></p>
+<p>因此，基本的日期比较简单：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> cust_id，order_numFROM orders</span><br><span class="line"><span class="keyword">WHERE</span> order_date = <span class="string">'2005-09-01'</span>;</span><br></pre></td></tr></table></figure>
+<p>利用<code>Datr()</code>函数可以创建一个日期时间的日期部分。如一个值<code>dt</code>在表中为一个<code>DateTime</code>类型，假设其为<code>2022-02-02 08:08:08</code>。则<code>Date(dt)</code>就为<code>2022-02-02</code></p>
+<p>而日期之间可以用<code>BETWEEN AND</code>来筛选确定日期范围内的列。</p>
+<p>如：筛选生日在<code>2001年2月1日</code>到<code>2002年2月4日</code>之间的列：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> table1 <span class="keyword">WHERE</span> birthday <span class="keyword">BETWEEN</span> <span class="string">'2001-2-1'</span> <span class="keyword">AND</span> <span class="string">'2002-2-4'</span></span><br></pre></td></tr></table></figure>
+<h2 id="数字处理函数"><a href="#数字处理函数" class="headerlink" title="数字处理函数"></a>数字处理函数</h2><p>下面是所有的处理函数：</p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-数值处理函数.jpg" alt="正则表达式-数值处理函数"></p>
+<h1 id="汇总数据"><a href="#汇总数据" class="headerlink" title="汇总数据"></a>汇总数据</h1><p>又是仅仅需要获得数据的一些汇总，而并不是数据本身，如数量等。</p>
+<p>MySQL也涉及相关的函数，具体如下：</p>
+<p><img src="E:\myblog\source\images\MySQL必知必会\正则表达式-聚集函数.jpg" alt="正则表达式-聚集函数"></p>
+<h2 id="汇聚不同值"><a href="#汇聚不同值" class="headerlink" title="汇聚不同值"></a>汇聚不同值</h2><p>对于所有的聚集函数，可以指定两个参数来表示计算的值：</p>
+<ul>
+<li><code>ALL</code>（默认）：所有的值都将被计算。</li>
+<li><code>DISTINCT</code>：只计算不同的值。</li>
+</ul>
+<p>例如：表示统计不同<code>name</code>的所有列：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">name</span>) <span class="keyword">FROM</span> table1;</span><br></pre></td></tr></table></figure>
+<h2 id="多个汇集函数"><a href="#多个汇集函数" class="headerlink" title="多个汇集函数"></a>多个汇集函数</h2><p>汇集函数就可以多个同时使用。</p>
+<p>如：同时使用了4个汇聚函数：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> num_items,</span><br><span class="line"><span class="keyword">MIN</span>(prod_price) <span class="keyword">As</span> price_min,<span class="keyword">MAX</span>(prod_price) <span class="keyword">AS</span> price_max,<span class="keyword">AVG</span>(prod_price) <span class="keyword">As</span> price_avg</span><br><span class="line"><span class="keyword">FROM</span> products;</span><br></pre></td></tr></table></figure>
+<h1 id="组合汇聚函数"><a href="#组合汇聚函数" class="headerlink" title="组合汇聚函数"></a>组合汇聚函数</h1><p>还可以嵌套组合汇聚函数：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">AVG</span>(<span class="keyword">COUNT</span>(car1), <span class="keyword">COUNT</span>(car2), <span class="keyword">COUNT</span>(car3), <span class="keyword">COUNT</span>(car4)) <span class="keyword">FROM</span> sales;</span><br></pre></td></tr></table></figure>
+<p>汇聚函数可以嵌套组合，如上，先统计每种车类型的数量，然后统计其平均数（虽然一般不会这些设计表，只是示例用法）。</p>
+<p>使用别名可以更清晰一些。</p>
+<p>如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(car1) <span class="keyword">AS</span> c1, <span class="keyword">COUNT</span>(car2) <span class="keyword">AS</span> c2, <span class="keyword">COUNT</span>(car3) <span class="keyword">AS</span> c3, <span class="keyword">COUNT</span>(car4) <span class="keyword">AS</span> c4, <span class="keyword">AVG</span>(c1, c2, c3, c4) <span class="keyword">AS</span> carAvg <span class="keyword">FROM</span> sales;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/02/20/MySQL必知必会1-12/" target="_blank" title="MySQL必知必会1-12">http://yoursite.com/2022/02/20/MySQL必知必会1-12/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">java核心技术-II-9-Java平台模块系统</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库基础"><span class="nav-number">1.</span> <span class="nav-text">数据库基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主键"><span class="nav-number">1.1.</span> <span class="nav-text">主键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL"><span class="nav-number">1.2.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库分类"><span class="nav-number">1.3.</span> <span class="nav-text">数据库分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库命令"><span class="nav-number">2.</span> <span class="nav-text">数据库命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#USE命令"><span class="nav-number">2.1.</span> <span class="nav-text">USE命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SHOW命令"><span class="nav-number">2.2.</span> <span class="nav-text">SHOW命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#检索数据"><span class="nav-number">3.</span> <span class="nav-text">检索数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从表products中检索所有的列"><span class="nav-number">3.1.</span> <span class="nav-text">从表products中检索所有的列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检索不同的列"><span class="nav-number">3.2.</span> <span class="nav-text">检索不同的列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制结果"><span class="nav-number">3.3.</span> <span class="nav-text">限制结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用完全限定的表明"><span class="nav-number">3.4.</span> <span class="nav-text">使用完全限定的表明</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#排序检索数据"><span class="nav-number">4.</span> <span class="nav-text">排序检索数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单例排序"><span class="nav-number">4.1.</span> <span class="nav-text">单例排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多列排序"><span class="nav-number">4.2.</span> <span class="nav-text">多列排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指定排序方向"><span class="nav-number">4.3.</span> <span class="nav-text">指定排序方向</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过滤数据"><span class="nav-number">5.</span> <span class="nav-text">过滤数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#普通筛选"><span class="nav-number">5.1.</span> <span class="nav-text">普通筛选</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">5.1.1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查单个值"><span class="nav-number">5.1.2.</span> <span class="nav-text">检查单个值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不匹配检查"><span class="nav-number">5.1.3.</span> <span class="nav-text">不匹配检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#范围检查"><span class="nav-number">5.1.4.</span> <span class="nav-text">范围检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空值判断"><span class="nav-number">5.1.5.</span> <span class="nav-text">空值判断</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据过滤"><span class="nav-number">6.</span> <span class="nav-text">数据过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#组合WHERE子句"><span class="nav-number">6.1.</span> <span class="nav-text">组合WHERE子句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AND子句"><span class="nav-number">6.2.</span> <span class="nav-text">AND子句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OR子句"><span class="nav-number">6.3.</span> <span class="nav-text">OR子句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算次序"><span class="nav-number">6.4.</span> <span class="nav-text">计算次序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IN操作符"><span class="nav-number">6.5.</span> <span class="nav-text">IN操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NOT操作符"><span class="nav-number">6.6.</span> <span class="nav-text">NOT操作符</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用通配符进行过滤"><span class="nav-number">7.</span> <span class="nav-text">用通配符进行过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LIKE操作符"><span class="nav-number">7.1.</span> <span class="nav-text">LIKE操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#百分号（-）通配符"><span class="nav-number">7.2.</span> <span class="nav-text">百分号（%）通配符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下划线（-）通配符"><span class="nav-number">7.3.</span> <span class="nav-text">下划线（_）通配符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用通配符的技巧"><span class="nav-number">7.4.</span> <span class="nav-text">使用通配符的技巧</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用正则表达式进行搜索"><span class="nav-number">8.</span> <span class="nav-text">用正则表达式进行搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#进行OR匹配"><span class="nav-number">8.1.</span> <span class="nav-text">进行OR匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匹配多字符中的一个"><span class="nav-number">8.2.</span> <span class="nav-text">匹配多字符中的一个</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匹配范围"><span class="nav-number">8.3.</span> <span class="nav-text">匹配范围</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匹配特殊字符"><span class="nav-number">8.4.</span> <span class="nav-text">匹配特殊字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匹配出现次数"><span class="nav-number">8.5.</span> <span class="nav-text">匹配出现次数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定位符"><span class="nav-number">8.6.</span> <span class="nav-text">定位符</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建计算字段"><span class="nav-number">9.</span> <span class="nav-text">创建计算字段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#拼接字段"><span class="nav-number">9.1.</span> <span class="nav-text">拼接字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#别名"><span class="nav-number">9.2.</span> <span class="nav-text">别名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行算术计算"><span class="nav-number">9.3.</span> <span class="nav-text">执行算术计算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用数据处理函数"><span class="nav-number">10.</span> <span class="nav-text">使用数据处理函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文本处理函数"><span class="nav-number">10.1.</span> <span class="nav-text">文本处理函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日期和时间处理函数"><span class="nav-number">10.2.</span> <span class="nav-text">日期和时间处理函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字处理函数"><span class="nav-number">10.3.</span> <span class="nav-text">数字处理函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#汇总数据"><span class="nav-number">11.</span> <span class="nav-text">汇总数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#汇聚不同值"><span class="nav-number">11.1.</span> <span class="nav-text">汇聚不同值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多个汇集函数"><span class="nav-number">11.2.</span> <span class="nav-text">多个汇集函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#组合汇聚函数"><span class="nav-number">12.</span> <span class="nav-text">组合汇聚函数</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

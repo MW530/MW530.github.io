@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql必知必会19-21-数据和表的操作 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="数据库MySQL数据和表的操作" />
+  
+  
+  
+  
+  <meta name="description" content="数据插入INSET可以用来插入数据，其可以用以下几种方式使用：  插入完整的行； 插入行的一部分； 插入多行； 插入某些查询的结果。   插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。  插入完整的行可以直接按照表中的字段顺序来使用INSERT插入数据。 例如表Customers的结果为：    id name location birthday h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL必知必会19-21-数据和表的操作">
+<meta property="og:url" content="http://yoursite.com/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="数据插入INSET可以用来插入数据，其可以用以下几种方式使用：  插入完整的行； 插入行的一部分； 插入多行； 插入某些查询的结果。   插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。  插入完整的行可以直接按照表中的字段顺序来使用INSERT插入数据。 例如表Customers的结果为：    id name location birthday h">
+<meta property="article:published_time" content="2022-02-23T07:28:43.000Z">
+<meta property="article:modified_time" content="2022-02-23T08:57:28.736Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="数据和表的操作">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-MySQL必知必会19-21-数据和表的操作" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      MySQL必知必会19-21-数据和表的操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" class="article-date">
+	  <time datetime="2022-02-23T07:28:43.000Z" itemprop="datePublished">2022-02-23</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="数据插入"><a href="#数据插入" class="headerlink" title="数据插入"></a>数据插入</h1><p><code>INSET</code>可以用来插入数据，其可以用以下几种方式使用：</p>
+<ul>
+<li>插入完整的行；</li>
+<li>插入行的一部分；</li>
+<li>插入多行；</li>
+<li>插入某些查询的结果。</li>
+</ul>
+<blockquote>
+<p>插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。</p>
+</blockquote>
+<h2 id="插入完整的行"><a href="#插入完整的行" class="headerlink" title="插入完整的行"></a>插入完整的行</h2><p>可以直接按照表中的字段顺序来使用<code>INSERT</code>插入数据。</p>
+<p>例如表<code>Customers</code>的结果为：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>location</th>
+<th>birthday</th>
+<th>hobby</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>则可以通过下面的方式来插入数据：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Customers <span class="keyword">VALUES</span>(<span class="literal">NULL</span>, <span class="string">'mw'</span>, <span class="string">'China'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'hike'</span>);</span><br></pre></td></tr></table></figure>
+<p>但这种方式并不安全，因为其依赖于表中字段的顺序。还可以按照给出的字段顺序来插入数据：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Customers(<span class="keyword">id</span>, <span class="keyword">name</span>, location, birthday, hobby) <span class="keyword">VALUES</span>(<span class="literal">NULL</span>, <span class="string">'mw'</span>, <span class="string">'China'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'hike'</span>);</span><br></pre></td></tr></table></figure>
+<p>此例子完成与前一个<code>INSERT</code>语句完全相同的工作，但在表名后 的括号里明确地给出了列名。则其后<code>VALUES</code>中的数据就是与前面给出的顺序相同。</p>
+<p>因为提供了列名，<code>VALUES</code>必须以其指定的次序匹配指定的列名，不 一定按各个列出现在实际表中的次序。其优点是，即使表的结构改变， 此<code>INSERT</code>语句仍然能正确工作。</p>
+<blockquote>
+<p>总是使用列的列表 一般不要使用没有明确给出列的列表的 INSERT语句。使用列的列表能使SQL代码继续发挥作用，即使<br>表结构发生了变化。</p>
+</blockquote>
+<p>省略列：如果表的定义允许，则可以在INSERT操作中省略某 些列。省略的列必须满足以下某个条件。 </p>
+<ul>
+<li>该列定义为允许<code>NULL</code>值（无值或空值）。 </li>
+<li>在表定义中给出默认值。这表示如果不给出值，将使用默<br>认值。</li>
+</ul>
+<p>如果数据检索是最重要的（通常是这样），则你可以通过在 <code>INSERT</code>和<code>INTO</code>之间添加关键字<code>LOW_PRIORITY</code>，指示MySQL 降低<code>INSERT</code>语句的优先级，如下所示：<br>顺便说一下，这也适用于下一章介绍的<code>UPDATE</code>和<code>DELETE</code>语句。</p>
+<h2 id="插入多行"><a href="#插入多行" class="headerlink" title="插入多行"></a>插入多行</h2><p><code>INSERT</code>也支持一条语句插入多条数据。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Customers(<span class="keyword">id</span>, <span class="keyword">name</span>, location, birthday, hobby) <span class="keyword">VALUES</span></span><br><span class="line">(<span class="literal">NULL</span>, <span class="string">'mw'</span>, <span class="string">'China'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'hike'</span>),</span><br><span class="line">(<span class="literal">NULL</span>, <span class="string">'tom'</span>, <span class="string">'America'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'basketball'</span>),</span><br><span class="line">(<span class="literal">NULL</span>, <span class="string">'jimmy'</span>, <span class="string">'France'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'drink'</span>);</span><br></pre></td></tr></table></figure>
+<p>其中单条INSERT语句有多组值，每组值用一对圆括号括起来， 用逗号分隔。</p>
+<p>提高<code>INSERT</code>的性能 此技术可以提高数据库处理的性能，因 为MySQL用单条INSERT语句处理多个插入比使用多条<code>INSERT</code>语句快。</p>
+<h2 id="插入检索的数据"><a href="#插入检索的数据" class="headerlink" title="插入检索的数据"></a>插入检索的数据</h2><p><code>INSERT</code>一般用来给表插入一个指定列值的行。但是，<code>INSERT</code>还存在 另一种形式，可以利用它将一条<code>SELECT</code>语句的结果插入表中。这就是所 谓的<code>INSERT SELECT</code>，顾名思义，它是由一条<code>INSERT</code>语句和一条<code>SELECT</code>语句组成的。</p>
+<p>假如你想从另一表中合并客户列表到你的customers表。不需要每次 读取一行，然后再将它用INSERT插入，可以如下进行：</p>
+<p>例如，将<code>Customers</code>中的数据插入到新的<code>CustomersNew</code>表中。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> CustomersNew(<span class="keyword">id</span>, <span class="keyword">name</span>, location, birthday, hobby)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span>, <span class="keyword">name</span>, location, birthday, hobby</span><br><span class="line"><span class="keyword">FROM</span> customers;</span><br></pre></td></tr></table></figure>
+<p>这个例子使用<code>INSERT SELECT</code>从中将<code>customers</code>所有数据导入 <code>CustomersNew</code>。</p>
+<p>这条语句将插入多少行有赖于<code>customers</code>表中有多少行。</p>
+<p>这个例子导入了cust_id（假设你能够确保cust_id的值不重复）。你 也可以简单地省略这列（从INSERT和SELECT中），这样MySQL就会生成新值。</p>
+<blockquote>
+<p>INSERT SELECT中的列名：为简单起见，这个例子在INSERT和 SELECT语句中使用了相同的列名。但是，不一定要求列名匹配。 事实上，MySQL甚至不关心SELECT返回的列名。它使用的是 列的位置，因此SELECT中的第一列（不管其列名）将用来填充 表列中指定的第一个列，第二列将用来填充表列中指定的第二 个列，如此等等。这对于从使用不同列名的表中导入数据是非<br>常有用的。</p>
+</blockquote>
+<p><code>INSERT SELECT</code>中<code>SELECT</code>语句可包含<code>WHERE</code>子句以过滤插入的数据。</p>
+<h1 id="更新和删除数据"><a href="#更新和删除数据" class="headerlink" title="更新和删除数据"></a>更新和删除数据</h1><p>为了更新数据，需要使用<code>UPDATE</code>语句，可以采用两种方式使用<code>UPDATE</code>：</p>
+<ul>
+<li>更新表中特定行。</li>
+<li>更新表中的所有的行。</li>
+<li>确定要更新行的过滤条件。</li>
+</ul>
+<h3 id="更新单列"><a href="#更新单列" class="headerlink" title="更新单列"></a>更新单列</h3><p>例如：客户10005现在有了电子邮件地址，因此他的记录 需要更新，语句如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> customers <span class="keyword">SET</span> cust_email = <span class="string">'elmer@fudd.com'</span> <span class="keyword">WHERE</span> cust_id = <span class="number">10005</span>;</span><br></pre></td></tr></table></figure>
+<p><code>UPDATE</code>语句总是以要更新的表的名字开始。在此例子中，要更新的 表的名字为customers。SET命令用来将新值赋给被更新的列。如这里所示，<code>SET</code>子句设置<code>cust_email</code>列为指定的值。</p>
+<p><code>UPDATE</code>语句以<code>WHERE</code>子句结束，它告诉MySQL更新哪一行。没有 <code>WHERE</code>子句，MySQL将会用这个电子邮件地址更新customers表中所有行，这不是我们所希望的。</p>
+<h3 id="更新多列"><a href="#更新多列" class="headerlink" title="更新多列"></a>更新多列</h3><p>更新多列时，需要在<code>SET</code>放置多个更新项，用逗号隔开。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> customers <span class="keyword">SET</span> cust_name = <span class="string">'The  Fudds'</span>, cust_email = <span class="string">'elmer@fudd.com'</span> <span class="keyword">WHERE</span> cust_id = <span class="number">10005</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>IGNORE</code>关键字：如果用<code>UPDATE</code>语句更新多行，并且在更新这些 行中的一行或多行时出一个现错误，则整个<code>UPDATE</code>操作被取消 （错误发生前更新的所有行被恢复到它们原来的值）。为即使是发生错误，也继续进行更新可使用IGNORE关键字，如下所示：<code>UPDATE IGNORE customers…</code>。</p>
+</blockquote>
+<h3 id="删除某个值"><a href="#删除某个值" class="headerlink" title="删除某个值"></a>删除某个值</h3><p>为了删除某一列的的值，可以设置它为NULL（假定表设定为允许NULL）。</p>
+<p>如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> customers <span class="keyword">SET</span> cust_email = <span class="literal">NULL</span> <span class="keyword">WHERE</span> cust_id = <span class="number">10005</span>;</span><br></pre></td></tr></table></figure>
+<p>其中NULL用来去除<code>cust_email</code>列中的值。</p>
+<h2 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h2><p>可以通过<code>DELETE</code>关键值来删除数据。其有两种方式：</p>
+<ul>
+<li>从表中删除特定的行。</li>
+<li>从表中删除所有的行。</li>
+</ul>
+<p>例如：</p>
+<p>1：删除特定行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> customers <span class="keyword">WHERE</span> cust_id = <span class="number">10006</span>;</span><br></pre></td></tr></table></figure>
+<p>DELETE FROM要求指定从中删除数据的表名。 WHERE子句过滤要删除的行。在这个例子中，只删除客户10006。</p>
+<p>2：删除所有的行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> customers;</span><br></pre></td></tr></table></figure>
+<p>即去掉<code>WHERE</code>限制条件。就会删除表中的所有数据。</p>
+<blockquote>
+<p>更快的删除：如果想从表中删除所有行，不要使用DELETE。 可使用TRUNCATE TABLE语句，它完成相同的工作，但速度更 快（TRUNCATE实际是删除原来的表并重新创建一个表，而不<br>是逐行删除表中的数据）。</p>
+</blockquote>
+<h2 id="更新和删除指导"><a href="#更新和删除指导" class="headerlink" title="更新和删除指导"></a>更新和删除指导</h2><ul>
+<li>除非确实打算更新和删除每一行，否则绝对不要使用不带WHERE 子句的UPDATE或DELETE语句。</li>
+<li>保证每个表都有主键，尽可能 像WHERE子句那样使用它。</li>
+<li>在对UPDATE或DELETE语句使用WHERE子句前，应该先用SELECT进 行测试，保证它过滤的是正确的记录，以防编写的WHERE子句不正确。</li>
+<li>使用强制实施引用完整性的数据库。</li>
+</ul>
+<h1 id="创建和操纵表"><a href="#创建和操纵表" class="headerlink" title="创建和操纵表"></a>创建和操纵表</h1><p>这里仅讨论通过MySQL命令来创建和操作表，如果使用GUI工具会更加简单。</p>
+<h2 id="表的创建"><a href="#表的创建" class="headerlink" title="表的创建"></a>表的创建</h2><p>为利用CREATE TABLE创建表，必须给出下列信息： </p>
+<ul>
+<li>新表的名字，在关键字<code>CREATE TABLE</code>之后给出；</li>
+<li>表列的名字和定义，用逗号分隔。</li>
+</ul>
+<p>CREATE TABLE语句也可能会包括其他关键字或选项，但至少要包括表的 名字和列的细节。</p>
+<h3 id="表创建基础"><a href="#表创建基础" class="headerlink" title="表创建基础"></a>表创建基础</h3><p>例如，创建<code>customers</code>表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> customers</span><br><span class="line">(</span><br><span class="line">cust_id <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">cust_name <span class="built_in">char</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">cust_address <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_city <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_state <span class="built_in">char</span>(<span class="number">5</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_zip <span class="built_in">char</span>(<span class="number">10</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_country <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_contact <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_emai1 <span class="built_in">char</span>(<span class="number">255</span>) <span class="literal">NULL</span>,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (cust_id)</span><br><span class="line">) <span class="keyword">ENGINE</span>-<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
+<p>从上面的例子中可以看到，表名紧跟在<code>CREATE TABLE</code>关键字后 面。实际的表定义（所有列）括在圆括号之中。各列之间用逗号分隔。这个表由9列组成。每列的定义以列名（它在表中必须是唯一的）开始，后跟列的数据类型。表的主键可以在创建表时用 <code>PRIMARY KEY</code>关键字指定。这里，列cust_id指定作为主键列。整条语句由右圆括号后的分号结束。</p>
+<blockquote>
+<p>处理现有的表 在创建新表时，指定的表名必须不存在，否则 将出错。如果要防止意外覆盖已有的表，SQL要求首先手工删 除该表，然后再重建它，而不是简单地用创建表语句覆盖它。</p>
+</blockquote>
+<h3 id="使用NULL值"><a href="#使用NULL值" class="headerlink" title="使用NULL值"></a>使用NULL值</h3><p>允许NULL的字段，则允许在插入或更新的时候空缺其值或者赋予NULL值。</p>
+<p>MySQL可以在指定字段时指定<code>NULL</code>或<code>NOT NULL</code>来确定允许空缺或不允许空缺。</p>
+<h3 id="使用AUTO-INCREMENT"><a href="#使用AUTO-INCREMENT" class="headerlink" title="使用AUTO_INCREMENT"></a>使用AUTO_INCREMENT</h3><p>被<code>AUTO_INCREMENT</code>标记得的字段会在数据增加的时候自动增加（一般将其赋NULL，让其自增）。但是其有以下规范：</p>
+<ul>
+<li><p>`AUTO_INCREMENT·是数据列的一种属性，只适用于整数类型数据列。</p>
+</li>
+<li><p>设置<code>AUTO_INCREMENT</code>属性的数据列应该是一个正数序列，所以应该把该数据列声明为UNSIGNED，这样序列的编号个可增加一倍。</p>
+</li>
+<li><p><code>AUTO_INCREMENT</code>数据列必须有唯一索引，以避免序号重复(即是主键或者主键的一部分)。</p>
+</li>
+<li><p><code>AUTO_INCREMENT</code>数据列必须具备<code>NOT NULL</code>属性。</p>
+</li>
+<li><p><code>AUTO_INCREMENT</code>数据列序号的最大值受该列的数据类型约束，如<code>TINYINT</code>数据列的最大编号是127,如加上<code>UNSIGNED</code>，则最大为255。一旦达到上限，<code>AUTO_INCREMENT</code>就会失效。</p>
+</li>
+<li><p>当进行全表删除时，MySQL <code>AUTO_INCREMENT</code>会从1重新开始编号。全表删除的意思是发出以下两条语句时：</p>
+<p><code>delete from table_name;</code>或者<code>truncate table table_name</code>。</p>
+</li>
+</ul>
+<h3 id="指定默认值"><a href="#指定默认值" class="headerlink" title="指定默认值"></a>指定默认值</h3><p>如果在插入行时没有给出值，MySQL允许指定此时使用的默认值。</p>
+<p>其通过<code>DEFAULT</code>关键字来指定。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line">(</span><br><span class="line">    order_numint <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    order_item <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">    prod_idchar(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    quantity intNOT <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">1</span>,</span><br><span class="line">    item _price decima1(<span class="number">8</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    PRIMARY <span class="keyword">KEY</span> (order_num，order_item)</span><br><span class="line">)<span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
+<p>quantity列包含订单中每项物品的数 量。在此例子中，给该列的描述添加文本<code>DEFAULT 1</code>指示MySQL，在未<br>给出数量的情况下使用数量1。</p>
+<h3 id="引擎类型"><a href="#引擎类型" class="headerlink" title="引擎类型"></a>引擎类型</h3><p>MySQL有一个具体管理和处理数据的内部引擎。 在你使用CREATE TABLE语句时，该引擎具体创建表，而在你使用<code>SELECT</code> 语句或进行其他数据库处理时，该引擎在内部处理你的请求。多数时候，此引擎都隐藏在DBMS内，不需要过多关注它。</p>
+<p>但MySQL与其他DBMS不一样，它具有多种引擎。它打包多个引擎， 这些引擎都隐藏在MySQL服务器内，全都能执行<code>CREATE TABLE</code>和<code>SELECT</code>等命令。</p>
+<p>当然，你完全可以忽略这些数据库引擎。如果省略<code>ENGINE=</code>语句，则 使用默认引擎。多数SQL语句都会默认使用它。但并 不是所有语句都默认使用它，这就是为什么<code>ENGINE=</code>语句很重要的原因。</p>
+<p>下面是几个引擎：</p>
+<ul>
+<li>InnoDB是一个可靠的事务处理引擎（参见第26章），它不支持全文 本搜索；</li>
+<li>MEMORY在功能等同于MyISAM，但由于数据存储在内存（不是磁盘） 中，速度很快（特别适合于临时表）；</li>
+<li>MyISAM是一个性能极高的引擎，它支持全文本搜索（参见第18章）， 但不支持事务处理。</li>
+</ul>
+<h2 id="更新表"><a href="#更新表" class="headerlink" title="更新表"></a>更新表</h2><p>为更新表定义，可使用ALTER TABLE语句。<strong>但是，理想状态下，当表 中存储数据以后，该表就不应该再被更新。</strong>在表的设计过程中需要花费大量时间来考虑，以便后期不对该表进行大的改动。</p>
+<p>为了使用ALTER TABLE更改表结构，必须给出下面的信息：</p>
+<ul>
+<li>在ALTER TABLE之后给出要更改的表名（该表必须存在，否则将 出错）；</li>
+<li>所做更改的列表。</li>
+</ul>
+<p>例如:</p>
+<p>1：给表添加一个字段：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> vendors <span class="keyword">ADD</span> vend_phone <span class="built_in">CHAR</span>(<span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+<p>2：删除表的一个字段：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="keyword">DROP</span> <span class="keyword">COLUMN</span> vend_phone;</span><br></pre></td></tr></table></figure>
+<p>3：定义外键：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_orderitems_orders</span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (order_num) <span class="keyword">REFERENCES</span> orders (order_num);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_orderitems_products <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (prod_id)<span class="keyword">REFERENCES</span> products (prod_id);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> orders</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_orders_customers <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (cust_id)<span class="keyword">REFERENCES</span> customers (cust_id);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> products</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_products_vendors</span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (vend_id)<span class="keyword">REFERENCES</span> vendors (vend_id);</span><br></pre></td></tr></table></figure>
+<p>这里，由于要更改4个不同的表，使用了4条ALTER TABLE语句。为了 对单个表进行多个更改，可以使用单条ALTER TABLE语句，每个更改用逗号分隔。</p>
+<h2 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h2><p>使用<code>DROP</code>关键字来删除整个表。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> customers;</span><br></pre></td></tr></table></figure>
+<p>这条语句删除customers表（假设它存在）。<strong>删除表没有确认， 也不能撤销，执行这条语句将永久删除该表。</strong></p>
+<h2 id="重命名表"><a href="#重命名表" class="headerlink" title="重命名表"></a>重命名表</h2><p>使用<code>RENAME TABLE</code>关键字来对表进行重命名。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RENAME</span> <span class="keyword">TABLE</span> customers <span class="keyword">TO</span> customersNew;</span><br></pre></td></tr></table></figure>
+<p>还可以对表进行批量重命名：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RENAME</span> <span class="keyword">TABLE</span> backup_customers <span class="keyword">To</span> customers,</span><br><span class="line">			backup_vendors <span class="keyword">To</span> vendors,</span><br><span class="line">			backup_products <span class="keyword">TO</span> products;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/02/23/MySQL必知必会19-21-数据和表的操作/" target="_blank" title="MySQL必知必会19-21-数据和表的操作">http://yoursite.com/2022/02/23/MySQL必知必会19-21-数据和表的操作/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL必知必会13-18-高级检索知识</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据插入"><span class="nav-number">1.</span> <span class="nav-text">数据插入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入完整的行"><span class="nav-number">1.1.</span> <span class="nav-text">插入完整的行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入多行"><span class="nav-number">1.2.</span> <span class="nav-text">插入多行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入检索的数据"><span class="nav-number">1.3.</span> <span class="nav-text">插入检索的数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更新和删除数据"><span class="nav-number">2.</span> <span class="nav-text">更新和删除数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新单列"><span class="nav-number">2.0.1.</span> <span class="nav-text">更新单列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新多列"><span class="nav-number">2.0.2.</span> <span class="nav-text">更新多列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除某个值"><span class="nav-number">2.0.3.</span> <span class="nav-text">删除某个值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除数据"><span class="nav-number">2.1.</span> <span class="nav-text">删除数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新和删除指导"><span class="nav-number">2.2.</span> <span class="nav-text">更新和删除指导</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建和操纵表"><span class="nav-number">3.</span> <span class="nav-text">创建和操纵表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#表的创建"><span class="nav-number">3.1.</span> <span class="nav-text">表的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#表创建基础"><span class="nav-number">3.1.1.</span> <span class="nav-text">表创建基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用NULL值"><span class="nav-number">3.1.2.</span> <span class="nav-text">使用NULL值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用AUTO-INCREMENT"><span class="nav-number">3.1.3.</span> <span class="nav-text">使用AUTO_INCREMENT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定默认值"><span class="nav-number">3.1.4.</span> <span class="nav-text">指定默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引擎类型"><span class="nav-number">3.1.5.</span> <span class="nav-text">引擎类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新表"><span class="nav-number">3.2.</span> <span class="nav-text">更新表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除表"><span class="nav-number">3.3.</span> <span class="nav-text">删除表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重命名表"><span class="nav-number">3.4.</span> <span class="nav-text">重命名表</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

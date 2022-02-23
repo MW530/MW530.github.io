@@ -327,6 +327,57 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-NodeJS学习3-内存控制"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/04/27/NodeJS%E5%AD%A6%E4%B9%A03-%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/">NodeJS学习3-内存控制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/27/NodeJS%E5%AD%A6%E4%B9%A03-%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/" class="article-date">
+	  <time datetime="2021-04-27T01:13:46.000Z" itemprop="datePublished">2021-04-27</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          V8的内存分配在一般的后端开发语言中，在基本的内存使用上没有什么限制，然而在Node中通过JavaScript使用内存时就会发现只能使用部分内存（64位系统下约为1.4GB，32位系统下约为0.7GB），在这样的限制下，将会导致Node无法直接操作大内存对象。比如无法将一个2GB的文件读入内存中进行字符串分析处理，即使物理内存大于2GB，这样在单个Node进程的情况下，计算机的内存资源无法得到充足的使用。
+造成这个问题的主要原因在于Node基于V8构建，所以在Node中使用的JavaScr...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/04/27/NodeJS%E5%AD%A6%E4%B9%A03-%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-NodeJS学习2-异步的原理和应用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -804,60 +855,6 @@ chrome默认是补全https协议
         </p>
         <p class="article-more-link">
           <a href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-设计模式2-策略模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">设计模式2-策略模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-02-24T01:55:03.000Z" itemprop="datePublished">2021-02-24</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          策略模式定义定义一系列的算法，把它们一个个封装起来，并且使他们可以相互替换。
-主要解决在多种算法相似的情况下，使用 if…else 所带来的复杂和难以维护的问题。
-奖金的例子很多公司的年终奖的是根据员工的工资基数和年底绩效情况来发放的。例如，绩效为S的员工年终奖有4倍工资，绩效为A的员工年终奖有3倍工资，绩效为B的员工年终奖有2倍工资。假如需要一段代码来计算对应员工的年终奖。
-最基础写法我们直观想到的就是用if...else或者switch...case的方法来写。如下
-123456789...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/#more">Read More</a>
         </p>
       
     </div>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>git基本操作 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="git基本操作" />
+  
+  
+  
+  
+  <meta name="description" content="获得和创建项目init该命令用于创建一个空的仓库或者初始化一个已经存在的仓库。 其会创建一个.git文件夹，其内部会创建以下子文件：  objects refs&#x2F;heads refs&#x2F;tags  选项： -q；--quite：只打印错误和警告信息；其他的输出都不会被输出。 --bare：创建一个空仓库，如果GIT_DIR环境变量没有设置，就其将当前工作目录设置。 --template&#x3D;&lt;te">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git基本操作">
+<meta property="og:url" content="http://yoursite.com/2022/02/24/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="获得和创建项目init该命令用于创建一个空的仓库或者初始化一个已经存在的仓库。 其会创建一个.git文件夹，其内部会创建以下子文件：  objects refs&#x2F;heads refs&#x2F;tags  选项： -q；--quite：只打印错误和警告信息；其他的输出都不会被输出。 --bare：创建一个空仓库，如果GIT_DIR环境变量没有设置，就其将当前工作目录设置。 --template&#x3D;&lt;te">
+<meta property="article:published_time" content="2022-02-24T09:07:32.000Z">
+<meta property="article:modified_time" content="2022-02-25T15:46:44.037Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="基本操作">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-git基本操作" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      git基本操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/24/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="article-date">
+	  <time datetime="2022-02-24T09:07:32.000Z" itemprop="datePublished">2022-02-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/git/">git</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="获得和创建项目"><a href="#获得和创建项目" class="headerlink" title="获得和创建项目"></a>获得和创建项目</h1><h2 id="init"><a href="#init" class="headerlink" title="init"></a><code>init</code></h2><p>该命令用于创建一个空的仓库或者初始化一个已经存在的仓库。</p>
+<p>其会创建一个<code>.git</code>文件夹，其内部会创建以下子文件：</p>
+<ul>
+<li><code>objects</code></li>
+<li><code>refs/heads</code></li>
+<li><code>refs/tags</code></li>
+</ul>
+<h3 id="选项："><a href="#选项：" class="headerlink" title="选项："></a>选项：</h3><ul>
+<li><code>-q；--quite</code>：只打印错误和警告信息；其他的输出都不会被输出。</li>
+<li><code>--bare</code>：创建一个空仓库，如果<code>GIT_DIR</code>环境变量没有设置，就其将当前工作目录设置。</li>
+<li><code>--template=&lt;template-directory&gt;</code>：指定模板被使用的目录。</li>
+<li><code>-b &lt;branch-name&gt;;--initial-branch=&lt;branch-name&gt;</code>：为新创建的仓库的初始化分支指定指定的名字。（如果没有指定，目前即为<code>master</code>，后期可能会改变。</li>
+</ul>
+<h3 id="通常用法："><a href="#通常用法：" class="headerlink" title="通常用法："></a>通常用法：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<h2 id="clone"><a href="#clone" class="headerlink" title="clone"></a>clone</h2><p>克隆一个仓库到一个新的目录。</p>
+<p>将一个存储库克隆到一个新创建的目录中，为克隆存储库中的每个分支创建远程跟踪分支(使用git branch——remotes可见)，并创建并签出一个从克隆存储库的当前活动分支分离出来的初始分支。</p>
+<p>在克隆之后，没有参数的<code>git fetch</code>命令将会更新所有的远程分支。没有参数的<code>git pull</code>将会额外将远程仓库的<code>master</code>分支合并到当前本地的<code>master</code>分支。</p>
+<p>这个默认配置是通过创建对下面的远程分支头的引用来实现的，<code>refs/remotes/origin</code>和初始化<code>remote.origin.url</code>和<code>remote.origin.fetch</code>。</p>
+<h3 id="选项：-1"><a href="#选项：-1" class="headerlink" title="选项："></a>选项：</h3><ul>
+<li><code>-l; --local</code>：当要被克隆的仓库是一个本地机器，这个标志绕过了正常的“Git感知”传输机制，通过复制objects和refs目录下的HEAD和所有东西来克隆存储库。将创建<code>.git/objects/</code>目录下的文件硬链接，以尽可能节省空间。</li>
+<li><code>--no-hardlinks</code>：强制克隆过程从本地文件系统的存储库中复制<code>.git/objects</code>目录下的文件，而不是使用硬链接。</li>
+<li><code>-q;--quiet</code>：静默地运作。进度不会报告给标准错误流。</li>
+<li><code>--progress</code>：默认状态，除非使用了<code>-q</code>。即所有的状态报告都会被打印出来。</li>
+<li><code>-o &lt;name&gt;; --origin &lt;name&gt;</code>：使用自定义的\&lt;name>名字作为远程仓库名字，而不是<code>origin</code>。本质是重写了配置文件中的<code>clone.defaultRemoteName</code>项。</li>
+<li><code>-b &lt;name&gt;; --branch &lt;name&gt;</code>：并不是从远程克隆仓库的<code>HEAD</code>所指向的分支来创建新的本地分支的<code>HEAD</code>，而是从\&lt;name>分支的<code>HEAD</code>来创建。</li>
+<li><code>--depth &lt;depth&gt;</code>：创建一个浅克隆，其历史截断为指定的提交数量。<code>--single-branch</code>和<code>--no-single-branch</code>可以用来获取是否是仓库的所有分支。</li>
+<li><code>--shallow-since=&lt;date&gt;</code>：在指定的时间之后创建具有历史记录的浅拷贝。</li>
+<li><code>--shallow-exclude=&lt;revision&gt;</code>：创建一个具有历史记录的浅克隆，排除从指定的远程分支或标记可到达的提交。此选项可指定多次。</li>
+<li><code>&lt;repository&gt;</code>：要克隆的仓库地址，如：<code>git://git.host.xz/</code></li>
+<li><code>&lt;directory&gt;</code>：要克隆到的新目录的位置。</li>
+</ul>
+<h3 id="通常用法：-1"><a href="#通常用法：-1" class="headerlink" title="通常用法："></a>通常用法：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://git.host.xz/</span><br></pre></td></tr></table></figure>
+<h1 id="基本快照"><a href="#基本快照" class="headerlink" title="基本快照"></a>基本快照</h1><h2 id="add"><a href="#add" class="headerlink" title="add"></a>add</h2><p>add命令用于使用在工作树中找到的当前内容来更新索引，其为下一次提交（<code>commit</code>）准备阶段性的内容。通常将现有路径的当前内容作为一个整体添加，但通过一些选项，它也可以用于添加只应用了部分工作树文件更改的内容，或者删除工作树中不再存在的路径。</p>
+<p><code>git status</code>命令可用于获取一个摘要，其中哪些文件有更改，将在下次提交时暂存。</p>
+<p>默认情况下，<code>git add</code>命令不会添加被忽略的文件。如果在命令行中显式地指定了任何被忽略的文件，<code>git add</code>将失败，并显示一列被忽略的文件。<code>git add</code>命令可以使用<code>-f (force)</code>选项添加被忽略的文件。</p>
+<h3 id="选项：-2"><a href="#选项：-2" class="headerlink" title="选项："></a>选项：</h3><ul>
+<li><code>&lt;pathspec&gt;…</code>：要添加的文件。其规则很简单，主要是通配符<code>*</code>和<code>?</code>可以匹配目录分隔符。例如：<code>Documentation/*.jpg</code>将匹配<code>Documentation</code>子树中的所有<code>.jpg</code>文件，包括<code>Documentation/chapter_1/figure_1.jpg</code>。</li>
+<li><code>-f</code>：允许添加被忽略的文件。</li>
+</ul>
+<h3 id="通常用法：-2"><a href="#通常用法：-2" class="headerlink" title="通常用法："></a>通常用法：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+<p>用来将所有以改变的文件都更新索引。</p>
+<h2 id="status"><a href="#status" class="headerlink" title="status"></a>status</h2><p>该命令展示当前索引文件和当前HEAD提交的不同，工作树与索引文件存在差异的路径，以及工作树中未被Git跟踪的路径。</p>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li><code>-s</code>：以短格式化来给出输出。</li>
+<li><code>-l</code>：以长格式来给出输出。</li>
+<li><code>-b; --branch</code>：给出分支和追踪信息（可以以短格式）。</li>
+<li><code>-v</code>：除了已更改的文件的名称外，还显示要提交的暂存文本的更改。</li>
+<li><code>--ignored [=&lt;mode&gt;]</code>：也显示被忽略的文件。<code>mode</code>参数用于指定对被忽略文件的处理。它是可选的:默认<code>traditional</code>。</li>
+</ul>
+<h3 id="通常用法"><a href="#通常用法" class="headerlink" title="通常用法"></a>通常用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+<p>查看当前的文件状态。</p>
+<h2 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h2><p>该命令用于显示工作树和索引树之间的更改、索引和树之间的更改、两棵树之间的更改、合并导致的更改、两个blob对象之间的更改或磁盘上两个文件之间的更改。</p>
+<h3 id="git-diff-lt-options-gt-lt-path-gt-…"><a href="#git-diff-lt-options-gt-lt-path-gt-…" class="headerlink" title="git diff [&lt;options&gt;] [--] [&lt;path&gt;…]"></a><code>git diff [&lt;options&gt;] [--] [&lt;path&gt;…]</code></h3><p>用于查看相对于索引(下一次提交的暂存区域)所做的更改。您可以通过使用<code>git-add</code>来逐步执行这些更改。</p>
+<h3 id="git-diff-lt-options-gt-no-index-lt-path-gt-lt-path-gt"><a href="#git-diff-lt-options-gt-no-index-lt-path-gt-lt-path-gt" class="headerlink" title="git diff [&lt;options&gt;] --no-index [--] &lt;path&gt; &lt;path&gt;"></a><code>git diff [&lt;options&gt;] --no-index [--] &lt;path&gt; &lt;path&gt;</code></h3><p>用于比较给定的文件系统上的两条路径。当运行命令在一个Git控制的工作树并且至少其中一个路径指向Git工作目录时，可以省略<code>--no-index</code>。</p>
+<h3 id="git-diff-lt-options-gt-cached-merge-base-lt-commit-gt-lt-path-gt-…"><a href="#git-diff-lt-options-gt-cached-merge-base-lt-commit-gt-lt-path-gt-…" class="headerlink" title="git diff [&lt;options&gt;] --cached [--merge-base] [&lt;commit&gt;] [--] [&lt;path&gt;…]"></a><code>git diff [&lt;options&gt;] --cached [--merge-base] [&lt;commit&gt;] [--] [&lt;path&gt;…]</code></h3><p>用于查看下一个提交相对于其他一次\&lt;commit>的更改。如果不给出\&lt;commit>，则默认是HEAD位置。如果没有HEAD并且\&lt;commit>也没有给出，则显示了所有的<code>staged</code>变化。<code>--staged</code>与<code>--cached</code>一样。</p>
+<p>如果使用<code>--merge-base</code>来替换<code>&lt;commit&gt;</code>，则使用使用<code>&lt;commit&gt;</code>和HEAD得合并基点（merge base）来和<code>path</code>进行比较。而不是直接用<code>&lt;commmit&gt;</code>比较。</p>
+<h3 id="git-diff-lt-options-gt-merge-base-lt-commit-gt-lt-commit-gt-lt-path-gt-…"><a href="#git-diff-lt-options-gt-merge-base-lt-commit-gt-lt-commit-gt-lt-path-gt-…" class="headerlink" title="git diff [&lt;options&gt;] [--merge-base] &lt;commit&gt; &lt;commit&gt; [--] [&lt;path&gt;…]"></a><code>git diff [&lt;options&gt;] [--merge-base] &lt;commit&gt; &lt;commit&gt; [--] [&lt;path&gt;…]</code></h3><p>用来查看任意两个<code>commit</code>之间的改变。</p>
+<p>如果给出了<code>--merge-base</code>选项，就是用两个<code>commit</code>的合并基点（merge base）作为前测，与后面的<code>commit</code>进行对比。</p>
+<h3 id="git-diff-lt-options-gt-lt-commit-gt-lt-commit-gt-…-lt-commit-gt-lt-path-gt-…"><a href="#git-diff-lt-options-gt-lt-commit-gt-lt-commit-gt-…-lt-commit-gt-lt-path-gt-…" class="headerlink" title="git diff [&lt;options&gt;] &lt;commit&gt; &lt;commit&gt;… &lt;commit&gt; [--] [&lt;path&gt;…]"></a><code>git diff [&lt;options&gt;] &lt;commit&gt; &lt;commit&gt;… &lt;commit&gt; [--] [&lt;path&gt;…]</code></h3><p>用于查看合并提交的结果。列出的第一个<code>&lt;commit&gt;</code>必须是merge本身;剩下的两个或更多的提交应该是它的父节点。生成所需修订集的一种方便的方法是使用<code>^@</code>后缀。</p>
+<h2 id="commit"><a href="#commit" class="headerlink" title="commit"></a>commit</h2><p>创建一个新的提交（commit），包含索引的当前内容和描述更改的给定日志消息。新的提交是HEAD的直接子节点，通常是当前分支的顶端，并且该分支被更新为指向它(除非没有分支与工作树相关联，在这种情况下，如<code>git-checkout</code>中所述，HEAD被“分离”)。</p>
+<p>要提交的内容可以通过以下几种方式指定:</p>
+<ul>
+<li>通过使用<code>git-add</code>，在使用commit命令之前，递增地“添加”对索引的更改。</li>
+<li>在使用commit命令之前，使用<code>git-rm</code>从工作树和索引中删除文件。</li>
+<li>通过列出文件作为提交命令的参数(没有<code>--interactive</code>或<code>--patch switch</code>)，在这种情况下，提交将忽略索引中的更改，而是记录列出文件的当前内容(这必须是Git已经知道的);</li>
+<li><strong>通过使用<code>-a</code>参数和commit命令自动“添加”所有已知文件(即所有已经在索引中列出的文件)的更改，并自动“rm”索引中已经从工作树中删除的文件，然后执行实际的提交;</strong>-可以省略add步骤（如果全部提交）。</li>
+<li>通过使用<code>--interactive</code>或<code>--patch</code>开关和<code>commit</code>命令来逐个决定除了索引中的内容之外，哪些文件或块应该作为提交的一部分，然后再完成操作。</li>
+</ul>
+<h3 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h3><ul>
+<li><strong><code>-a;--all</code></strong>：告诉命令自动处理已经被修改和删除的文件（<strong>也相当于自动add</strong>），<strong>但是没有告诉Git的新文件不受影响。</strong></li>
+<li><code>-p;--patch</code>：使用交互式补丁选择接口来选择要提交的更改。</li>
+<li><code>-C &lt;commit&gt;; --reuse-message=&lt;commit&gt;</code>：获取一个现有的提交对象，并在创建提交时重用日志消息和作者信息(包括时间戳)。</li>
+<li><code>-c &lt;commit&gt;; --reedit-message=&lt;commit&gt;</code>：与<code>-C</code>类似，但使用<code>-C</code>会调用编辑器，以便用户可以进一步编辑提交消息。</li>
+<li><code>--reset-author</code>：当与<code>-C/ -c/--amend</code>选项一起使用时，或者在发生冲突的选择之后提交时，声明结果提交的作者现在属于提交者。这也会更新作者的时间戳。</li>
+<li><code>--short</code>：使用短格式来输出。</li>
+<li><code>--long</code>：使用长格式来输出。</li>
+<li><code>--branch</code>：显示分支和跟踪信息。</li>
+<li><code>-F &lt;file&gt;; --file=&lt;file&gt;</code>：从给定的文件中获取提交消息。</li>
+<li><code>--author=&lt;author&gt;</code>：覆盖全局得提交作者。</li>
+<li><code>--date=&lt;date&gt;</code>：覆盖提交中使用的作者日期。</li>
+<li><code>-m &lt;msg&gt;; --message &lt;msg&gt;</code>：使用给定的<code>&lt;msg&gt;</code>作为提交消息。如果给出了多个-m选项，它们的值将连接成单独的段落。注意：<code>-m</code>与<code>-c</code>、<code>-c</code>、<code>-F</code>互斥。</li>
+<li><code>-s; --signoff; --no-signoff</code>：在提交日志消息的末尾添加一个由提交者签名的拖尾。终止的意义取决于你所提交的项目。例如，它可以证明提交者有权在项目许可下提交作品，或者同意一些贡献者的代表，例如开发者原产地证书。参考您正在参与的项目的文档或领导，以理解在该项目中如何使用结束。</li>
+<li><strong><code>--allow-empty</code></strong>：允许提交与上一次<code>commit</code>完全相同的文件内容，其他信息都可以修改，如<code>&lt;msg&gt;</code>。</li>
+<li><strong><code>--allow-empty-message</code></strong>：允许提交一次不包含<code>&lt;msg&gt;</code>的<code>commit</code>。</li>
+<li><code>-e; --edit</code>：打开编辑器（系统设定的默认文本编辑器）来修改来自<code>-F</code>或者<code>-m</code>的消息。</li>
+<li><code>--no-edit</code>：默认，直接提交来自<code>-F</code>或者<code>-m</code>的消息。</li>
+<li><code>--amend</code>：直接替换上一次<code>commit</code>记录（慎重），上一次的<code>commit</code>信息都没了。</li>
+</ul>
+<h2 id="note"><a href="#note" class="headerlink" title="note"></a>note</h2><p>添加、删除或读取附加到对象的注释，而不接触对象本身。默认情况下，注释被保存到<code>refs/notes/commits</code>中并从<code>refs/notes/commits</code>中读取，但是这个默认值可以被覆盖。请参阅下面的选项、配置和环境部分。如果这个ref不存在，它将在第一次需要存储笔记时被静默创建。</p>
+<p>注释的典型用法是补充提交消息，而不更改提交本身。可以通过<code>git log</code>显示注释和原始的提交消息。为了区分这些注释和存储在提交对象中的消息，注释像消息一样被缩进，在一个未缩进的行<code>notes (&lt;refname&gt;):</code>(或<code>notes:</code>对于<code>refs/notes/commits</code>)之后。</p>
+<p><code>Notes</code>也可以通过使用<code>--Notes</code>选项添加到使用<code>git format-patch</code>准备的补丁中。这样的注释作为补丁注释添加在三个破折号分隔线之后。</p>
+<h3 id="子命令"><a href="#子命令" class="headerlink" title="子命令"></a>子命令</h3><ul>
+<li><code>list</code>：列出给定对象的notes对象。如果没有给出对象，则显示所有注释对象及其注释对象的列表(格式为<code>&lt;注释对象&gt; &lt;注释对象&gt;</code>)。<strong>如果没有给出子命令，这是默认的子命令</strong>。</li>
+<li><code>add</code>：为给定对象添加<code>notes</code>(默认为HEAD)。如果对象已经有注释则中止(使用<code>-f</code>覆盖现有的注释)。但是，如果您是交互式地使用add(使用编辑器提供注释内容)，那么现有的注释将在编辑器中打开而不是终止(就像编辑子命令)。</li>
+<li><code>copy</code>：复制第一个对象的<code>notes</code>到第二个对象（默认是HEAD）。如果第二个对象已经有note或者第一个对象没有note，则终止。</li>
+<li><code>append</code>：向一个已经存在note的对象追加note（默认HEAD）。如果不存在就创建一个note。</li>
+<li><code>edit</code>：编辑给定对象的<code>notes</code>（默认HEAD）。</li>
+<li><code>show</code>：展示给定对象的notes（默认HEAD）。</li>
+<li><code>merge</code>：合并给定的note引用到当前的note引用。这将尝试将给定<code>notes ref</code>(称为<code>remote</code>)所做的更改合并到当前<code>notes ref</code>(称为<code>local</code>)，因为<code>merge-base</code>(如果有的话)。</li>
+<li><code>remove</code>：移除给定对象的notes（默认HEAD）。当从命令行给出零个或一个对象时，这相当于向编辑子命令指定一个空的注释消息。</li>
+<li><code>get-ref</code>：打印当前的notes引用。这提供了一个简单的方法来检索当前的notes引用(可用于merger子命令)。</li>
+</ul>
+<h3 id="选项-1"><a href="#选项-1" class="headerlink" title="选项"></a>选项</h3><ul>
+<li><code>-f; --force</code>：当向已经有notes的对象添加注释时，覆盖现有的notes(而不是中止)。</li>
+<li><code>-m &lt;msg&gt;; --message=&lt;msg&gt;</code>：使用给定的注释消息(而不是<code>prompting</code>)。如果给出了多个<code>-m</code>选项，它们的值将连接成单独的段落。以#开头的行和段落之间除了一行以外的空行将被删除。</li>
+<li><code>-F &lt;file&gt;; --file=&lt;file&gt;</code>：从给定的文件中获取笔记消息。以#开头的行和段落之间除了一行以外的空行将被删除。</li>
+<li><code>-C &lt;object&gt;; --reedit-message=&lt;object&gt;</code>：将给定的<code>blob</code>对象(例如，另一个注释)作为注释消息。(使用<code>git notes copy &lt;object&gt;</code>代替在对象之间复制notes。)</li>
+<li><code>-c &lt;object&gt;; --reedit-message=&lt;object&gt;</code>：与<code>-C</code>类似，但使用<code>-C</code>会调用编辑器，以便用户可以进一步编辑注释消息。</li>
+<li><code>--allow-empty</code>：允许存储一个空的笔记对象。默认的行为是自动删除空注释。</li>
+<li><code>--commit</code>：完成正在进行的git注释合并。被合并后会自动更新并提交。</li>
+</ul>
+<h2 id="restore"><a href="#restore" class="headerlink" title="restore"></a>restore</h2><p>这里现列举出以下三个命令的区别：</p>
+<ul>
+<li><code>reset</code></li>
+<li><code>restore</code></li>
+<li><code>revert</code></li>
+</ul>
+<p>主要区别有</p>
+<ul>
+<li><code>git-revert</code>是关于进行一个<strong>新</strong>提交（commit）来恢复其他提交所做的更改。</li>
+<li><code>git-restore</code>是关于从索引或其他提交中<strong>恢复工作树中的文件</strong>。这个命令不会更新你的分支。该命令还可以用于从另一个提交恢复索引中的文件。</li>
+<li><code>git-reset</code>是关于更新你的分支，移动提示，以便添加或删除分支提交。该操作将更改提交历史记录。</li>
+</ul>
+<p>该命令可以从一个还原源中来还原指定工作树中的特定目录或文件。如果一个路径被跟踪，但是在恢复源中不存在，那么它将被删除以匹配源。</p>
+<p>该命令还可以用于：</p>
+<ul>
+<li><p><code>--staged</code>恢复索引中的内容，（即撤销上一次add操作）。</p>
+</li>
+<li><p><code>--staged --worktree</code>恢复工作树和索引（即撤销add操作并恢复文件内容）。</p>
+</li>
+</ul>
+<p>默认情况下，如果给出<code>--staged</code>，则从HEAD恢复内容，否则从索引恢复内容。使用<code>--source</code>从不同的提交恢复。</p>
+<h3 id="选项-2"><a href="#选项-2" class="headerlink" title="选项"></a>选项</h3><ul>
+<li><code>-s &lt;tree&gt;; --source=&lt;tree&gt;</code>：使用给定树中的内容恢复工作树文件。通常通过命名提交、分支或与之关联的标记来指定源树。如果没有指定，则从HEAD中恢复，否则从从给出的索引恢复。</li>
+<li><code>-p; --patch</code>：交互式地根据恢复源和恢复位置之间的差异选择块。</li>
+<li><code>-W; --worktree;; -S; --staged</code>：指定恢复位置。如果没有指定任何选项，默认情况下将恢复工作树。指定<code>--staging</code>只会恢复索引。两个都指定则索引和文件都会被恢复。</li>
+<li><code>-q: --quiet</code>：静默，压制反馈信息。</li>
+<li><code>--progress</code>：默认信息，将会报告所有信息。</li>
+<li><code>-m; --merge</code>：当从索引中恢复工作树中的文件时，在未合并的路径中重新创建冲突的合并。</li>
+<li><code>--overlay; --no-overlay</code>：在<code>overlay</code>模式下，该命令在恢复时永远不会删除文件。在<code>no-overlay</code>模式下，不出现在<code>--source</code>树中的跟踪文件将被删除，以使它们完全匹配<code>&lt;tree&gt;</code>。默认为无覆盖模式。</li>
+</ul>
+<h2 id="reset"><a href="#reset" class="headerlink" title="reset"></a><code>reset</code></h2><p>该命令用于重置当前的HEAD到指定的状态。</p>
+<p>其有以下使用格式：</p>
+<h3 id="git-reset-q-lt-tree-ish-gt-lt-pathspec-gt-…；git-reset-q-pathspec-from-file-lt-file-gt-pathspec-file-nul-lt-tree-ish-gt"><a href="#git-reset-q-lt-tree-ish-gt-lt-pathspec-gt-…；git-reset-q-pathspec-from-file-lt-file-gt-pathspec-file-nul-lt-tree-ish-gt" class="headerlink" title="git reset [-q] [&lt;tree-ish&gt;] [--] &lt;pathspec&gt;…；git reset [-q] [--pathspec-from-file=&lt;file&gt; [--pathspec-file-nul]] [&lt;tree-ish&gt;]"></a><code>git reset [-q] [&lt;tree-ish&gt;] [--] &lt;pathspec&gt;…</code>；<code>git reset [-q] [--pathspec-from-file=&lt;file&gt; [--pathspec-file-nul]] [&lt;tree-ish&gt;]</code></h3><p>这两种格式将重置所有匹配<code>&lt;pathspec&gt;</code>的目录索引到他们在<code>&lt;tree-ish&gt;</code>的状态。(它不影响工作树或当前分支。)</p>
+<p>这就意味着<code>git reset &lt;pathspec&gt;</code>与<code>git add &lt;pathspec&gt;</code>是完全相反的操作。并且这条命令也是和<code>git restore [--source=&lt;tree-ish&gt;] --staged &lt;pathspec&gt;...</code>是相等的。</p>
+<p>运行<code>git reset &lt;pathspec&gt;</code>命令更新索引项后，可以使用<code>git-restore</code>命令查看工作树索引的内容。或者，使用<code>git-restore</code>并使用<code>--source</code>指定提交，您可以将提交中的路径内容一次性复制到索引和工作树中。</p>
+<h3 id="git-reset-patch-p-lt-tree-ish-gt-lt-pathspec-gt-…"><a href="#git-reset-patch-p-lt-tree-ish-gt-lt-pathspec-gt-…" class="headerlink" title="git reset (--patch | -p) [&lt;tree-ish&gt;] [--] [&lt;pathspec&gt;…]"></a><code>git reset (--patch | -p) [&lt;tree-ish&gt;] [--] [&lt;pathspec&gt;…]</code></h3><p>交互式地选择索引和&lt;树状&gt;之间的差异的块(默认为HEAD)。所选的块以相反的方式应用于索引。</p>
+<p>这意味着，<code>git reset -p</code>是与<code>git add -p</code>相反的，也就是说，你可以使用它来选择性地重置大块数据。</p>
+<h3 id="git-reset-lt-mode-gt-lt-commit-gt"><a href="#git-reset-lt-mode-gt-lt-commit-gt" class="headerlink" title="git reset [&lt;mode&gt;] [&lt;commit&gt;]"></a><code>git reset [&lt;mode&gt;] [&lt;commit&gt;]</code></h3><p>这种格式将当前分支的HEAD重置为<code>&lt;head&gt;</code>并且可能更新索引（将其重置为<code>&lt;commit&gt;</code>的状态）和工作树。其工作模式依赖于<code>&lt;mode&gt;</code>参数。默认为<code>--mixed</code>。所有模式如下：</p>
+<ul>
+<li><code>--soft</code>：完全不碰索引文件或工作树(但将头部重置为<code>&lt;commit&gt;</code>，就像所有模式那样)。这使得所有你更改的文件都是<code>Changes to be committed</code>，就像git状态显示的那样。</li>
+<li><code>--mixed</code>：重置索引，但不重置工作树(即，更改的文件保留，但不标记为提交（<code>commit</code>）)，并报告未更新的内容。这是默认操作。如果指定了<code>-N</code>，删除的路径将被标记为意图添加。</li>
+<li><code>--hard</code>：重置索引和工作树。自<code>&lt;commit&gt;</code>以来对工作树中跟踪文件的任何更改都将被丢弃。任何在恢复阶段没有被追踪，而当前阶段跟踪的文件或目录被简单地删除（<strong>慎用</strong>）。</li>
+<li><code>--merge</code>：重置索引并更新工作树中与<code>&lt;commit&gt;</code>和HEAD<strong>不同的文件</strong>，<strong>但保留索引和工作树中与之不同的文件(即有更改但未添加（add）的文件)。如果一个文件在<code>&lt;commit&gt;</code>和索引之间不一致，则会中止重置。</strong>换句话说，<code>--merge</code>的作用类似于<code>git read-tree -u -m &lt;commit&gt;</code>，但它会将未合并的索引项带向前。</li>
+<li><code>keep</code>：重置工作树中<code>&lt;commit&gt;</code>和HEAD之间不一致的索引项，并更新文件。如果一个文件在<code>&lt;commit&gt;</code>和HEAD之间有不同的本地更改，reset将被中止。</li>
+<li><code>--[no-]recurse-submodules</code>：当工作树被更新时，使用<code>--recursive -submodules</code>也会根据父项目中记录的提交，递归地重置所有活动子模块的工作树，并在提交时将子模块的HEAD设置为分离。</li>
+</ul>
+<h3 id="选项-3"><a href="#选项-3" class="headerlink" title="选项"></a>选项</h3><ul>
+<li><code>-q; --quiet;; --no-quiet</code>：静默/不静默（默认）。</li>
+</ul>
+<h2 id="rm"><a href="#rm" class="headerlink" title="rm"></a><code>rm</code></h2><p>从索引中删除匹配<code>pathspec</code>的文件，或者从工作树和索引中删除。<code>git rm</code>不会从你的工作目录中删除文件。被删除的文件必须与分支的顶端相同，并且不能在索引中显示对其内容的更新，尽管可以使用<code>-f</code>选项重写默认行为。当给出<code>--cached</code>时，暂存的内容必须匹配分支的尖端或磁盘上的文件，从而允许仅从索引中删除文件。当使用 <code>sparse-checkouts</code> 模式时，<code>git rm</code>将只删除稀疏签出模式中的路径。</p>
+<p>选项：</p>
+<ul>
+<li><code>&lt;pathspec&gt;…</code>：要被移除的文件。可以指定前置目录名(例如，<code>dir</code>用于删除<code>dir/file1</code>和<code>dir/file2</code>)来删除目录中的所有文件，并递归地删除所有子目录，但这需要显式地指定-r选项。该命令只删除<code>git</code>已知的路径。（也可以使用通配符*来移除）</li>
+<li><code>-f; --force</code>：强制性的移除（当被删除的文件不与分支的顶端相同时也可以被移除）（慎用）。</li>
+<li><code>-n; --dry-run</code>：不要实际删除任何文件。相反，只需显示它们是否存在于索引中，否则将被命令删除。</li>
+<li><code>-r</code>：当给出前导目录名时，允许递归删除。</li>
+<li><code>--cached</code>：此选项把文件从暂存区域移除，但仍然希望保留在当前工作目录中，换句话说，仅是从跟踪清单中删除</li>
+<li><code>--ignore-unmatch</code>：即使没有匹配的文件，也将以零状态退出。</li>
+</ul>
+<h2 id="mv"><a href="#mv" class="headerlink" title="mv"></a><code>mv</code></h2><p>移动或重命名一个文件、目录或符号链接。</p>
+<p>格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git mv [-v] [-f] [-n] [-k] &lt;<span class="built_in">source</span>&gt; &lt;destination&gt;</span><br><span class="line">git mv [-v] [-f] [-n] [-k] &lt;<span class="built_in">source</span>&gt; ... &lt;destination directory&gt;</span><br></pre></td></tr></table></figure>
+<p>在第一种形式中，它将<code>&lt;source&gt;</code>重命名为<code>&lt;destination&gt;</code>，它必须存在并且是一个文件、符号链接或目录。</p>
+<p>在第二种形式中，最后一个参数必须是一个已存在的目录;给定的源代码将被移动到这个目录中。</p>
+<p>索引在成功完成后更新，但更改仍然必须提交。</p>
+<h3 id="选项-4"><a href="#选项-4" class="headerlink" title="选项"></a>选项</h3><ul>
+<li><code>f; --force</code>：强制重命名或移动文件，即使目标存在。</li>
+<li><code>-k</code>：跳过移动或重命名操作，这将可能导致错误情况。当源文件既不存在也不受git控制时，或者除非指定<code>-f</code>，否则它将覆盖现有文件时，就会发生错误。</li>
+<li><code>-v; --verbose</code>：在移动文件时报告文件的名称。</li>
+</ul>
+<p>### </p>
+<h1 id="分支与合并"><a href="#分支与合并" class="headerlink" title="分支与合并"></a>分支与合并</h1><h1 id="分享和更新项目"><a href="#分享和更新项目" class="headerlink" title="分享和更新项目"></a>分享和更新项目</h1><h1 id="检查和比较"><a href="#检查和比较" class="headerlink" title="检查和比较"></a>检查和比较</h1>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/02/24/git基本操作/" target="_blank" title="git基本操作">http://yoursite.com/2022/02/24/git基本操作/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL必知必会22-30-MySQL高级特征</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#获得和创建项目"><span class="nav-number">1.</span> <span class="nav-text">获得和创建项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#init"><span class="nav-number">1.1.</span> <span class="nav-text">init</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项："><span class="nav-number">1.1.1.</span> <span class="nav-text">选项：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法："><span class="nav-number">1.1.2.</span> <span class="nav-text">通常用法：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#clone"><span class="nav-number">1.2.</span> <span class="nav-text">clone</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项：-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">选项：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法：-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">通常用法：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本快照"><span class="nav-number">2.</span> <span class="nav-text">基本快照</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#add"><span class="nav-number">2.1.</span> <span class="nav-text">add</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项：-2"><span class="nav-number">2.1.1.</span> <span class="nav-text">选项：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法：-2"><span class="nav-number">2.1.2.</span> <span class="nav-text">通常用法：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#status"><span class="nav-number">2.2.</span> <span class="nav-text">status</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数"><span class="nav-number">2.2.1.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法"><span class="nav-number">2.2.2.</span> <span class="nav-text">通常用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#diff"><span class="nav-number">2.3.</span> <span class="nav-text">diff</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-lt-path-gt-…"><span class="nav-number">2.3.1.</span> <span class="nav-text">git diff [&lt;options&gt;] [--] [&lt;path&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-no-index-lt-path-gt-lt-path-gt"><span class="nav-number">2.3.2.</span> <span class="nav-text">git diff [&lt;options&gt;] --no-index [--] &lt;path&gt; &lt;path&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-cached-merge-base-lt-commit-gt-lt-path-gt-…"><span class="nav-number">2.3.3.</span> <span class="nav-text">git diff [&lt;options&gt;] --cached [--merge-base] [&lt;commit&gt;] [--] [&lt;path&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-merge-base-lt-commit-gt-lt-commit-gt-lt-path-gt-…"><span class="nav-number">2.3.4.</span> <span class="nav-text">git diff [&lt;options&gt;] [--merge-base] &lt;commit&gt; &lt;commit&gt; [--] [&lt;path&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-lt-commit-gt-lt-commit-gt-…-lt-commit-gt-lt-path-gt-…"><span class="nav-number">2.3.5.</span> <span class="nav-text">git diff [&lt;options&gt;] &lt;commit&gt; &lt;commit&gt;… &lt;commit&gt; [--] [&lt;path&gt;…]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#commit"><span class="nav-number">2.4.</span> <span class="nav-text">commit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项"><span class="nav-number">2.4.1.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">2.5.</span> <span class="nav-text">note</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#子命令"><span class="nav-number">2.5.1.</span> <span class="nav-text">子命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-1"><span class="nav-number">2.5.2.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#restore"><span class="nav-number">2.6.</span> <span class="nav-text">restore</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-2"><span class="nav-number">2.6.1.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reset"><span class="nav-number">2.7.</span> <span class="nav-text">reset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-reset-q-lt-tree-ish-gt-lt-pathspec-gt-…；git-reset-q-pathspec-from-file-lt-file-gt-pathspec-file-nul-lt-tree-ish-gt"><span class="nav-number">2.7.1.</span> <span class="nav-text">git reset [-q] [&lt;tree-ish&gt;] [--] &lt;pathspec&gt;…；git reset [-q] [--pathspec-from-file&#x3D;&lt;file&gt; [--pathspec-file-nul]] [&lt;tree-ish&gt;]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-reset-patch-p-lt-tree-ish-gt-lt-pathspec-gt-…"><span class="nav-number">2.7.2.</span> <span class="nav-text">git reset (--patch | -p) [&lt;tree-ish&gt;] [--] [&lt;pathspec&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-reset-lt-mode-gt-lt-commit-gt"><span class="nav-number">2.7.3.</span> <span class="nav-text">git reset [&lt;mode&gt;] [&lt;commit&gt;]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-3"><span class="nav-number">2.7.4.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm"><span class="nav-number">2.8.</span> <span class="nav-text">rm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mv"><span class="nav-number">2.9.</span> <span class="nav-text">mv</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-4"><span class="nav-number">2.9.1.</span> <span class="nav-text">选项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分支与合并"><span class="nav-number">3.</span> <span class="nav-text">分支与合并</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分享和更新项目"><span class="nav-number">4.</span> <span class="nav-text">分享和更新项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#检查和比较"><span class="nav-number">5.</span> <span class="nav-text">检查和比较</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

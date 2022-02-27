@@ -327,6 +327,226 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-java核心技术-II-8-脚本、编译和注解处理"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/">java核心技术-II-8-脚本、编译和注解处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/" class="article-date">
+	  <time datetime="2022-02-17T05:16:48.000Z" itemprop="datePublished">2022-02-17</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          Java平台的脚本机制Java平台的脚本API可以使之运行诸如JavaScript和Groovy这样的脚本语言代码。
+脚本语言是一种在运行时解释程序文本，从而避免了编译、链接等步骤。其具有以下优势：
+
+便于快速变更，鼓励不断实验。
+可以修改运行着的程序的行为。
+支持程序用户的定制化。
+
+获取脚本引擎脚本引擎是一个可以执行特定语言编写的脚本的类库。当虚拟机启动的时候，它会发现可以用的脚本引擎。为了枚举这些引擎，需要构造一个ScriptEngineManager，并调用getEngineFac...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-java核心技术-II-6-日期和时间API"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/">java核心技术-II-6-日期和时间API</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/" class="article-date">
+	  <time datetime="2022-02-16T04:21:08.000Z" itemprop="datePublished">2022-02-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          简介Java1.0有一个Date类，事后证明其太过简单了，当Java1.1引入Calendar之后，Date类中的大部分方法就被其弃用了。但是Calendar的API还是有缺陷，它的实例是可以修改的，并且它没有处理诸如闰秒这样的问题。 第三次在Java SE 8中引入了java.timeAPI，它修正了过去的错误。并且应该会服役相当长一段时间。
+时间线Java的Date和Time API规范要求Java使用的时间尺度为：
+
+每天86400秒。
+每天正午与官方时间精确匹配。
+在其他时间点上，...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-java核心技术-II-2-输入与输出"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/02/15/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-2-%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA/">java核心技术-II-2-输入与输出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/15/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-2-%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA/" class="article-date">
+	  <time datetime="2022-02-15T05:24:38.000Z" itemprop="datePublished">2022-02-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          输入与输出流在Java API中，输入流是一个可以读入字节的对象；输出流是一个可以写如字节的对象。这些字节的来源和目的地可以是文件、网络甚至是内存块。
+抽象类InputStream和OutputStream构成了输入/输出类层次结构的基础。（注意与上一节的流操作完全不同）
+InputStreamInputStream是输入流，即通过文件等获取一个InputStream的子类。然后通过其API获得输入流中的内容。其主要API如下：
+
+abstract int read()：从数组中读取一个字...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/02/15/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-2-%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-java核心技术-II-1-Java8的流库"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/02/14/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-1-Java8%E7%9A%84%E6%B5%81%E5%BA%93/">java核心技术-II-1-Java8的流库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/14/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-1-Java8%E7%9A%84%E6%B5%81%E5%BA%93/" class="article-date">
+	  <time datetime="2022-02-14T15:22:15.000Z" itemprop="datePublished">2022-02-14</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          迭代与流与集合相比，流提供了一种可以让我们在更高的概念级别上指定任务的数据视图。
+流提供了几种操作函数，其调用要比一般的迭代更加简洁。并且其可以链式调用，每一次调用都返回一个新的流对象。
+如：统计一个List中长度大于12的单词数量。
+迭代123456int count = 0;for(String w : words)&#123;    if(w.length() &gt; 12)&#123;        count++;    &#125;&#125;
+流1long count = ...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/02/14/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-1-Java8%E7%9A%84%E6%B5%81%E5%BA%93/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-java核心技术-I-12-并发"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -647,234 +867,6 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
         </p>
         <p class="article-more-link">
           <a href="/2022/01/19/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-5-%E7%BB%A7%E6%89%BF/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-I-4-对象与类"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/08/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-4-%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/">Java核心技术-I-4-对象与类</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/01/08/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-4-%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/" class="article-date">
-	  <time datetime="2022-01-08T05:30:48.000Z" itemprop="datePublished">2022-01-08</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          面向对象程序设计概述类类是构建对象的模板或蓝图。由类构造(construct)对象的过程被称为创建类的实例(instance)。
-封装是指不能让类中的方法直接访问其他类的实例字段。程序只能通过对象得到方法与对象数据进行交互。（这些实例字段就是这个对象的当前状态）
-对象对象的3个主要特征
-
-对象的行为（behavior）：有哪些方法。
-对象的状态（state）：有哪些实例属性。
-对象的标识（identity）：对象的标识（内存中的地址表示）。
-
-类与类之间的关系
-依赖(“uses-a”)：A...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/01/08/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-4-%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-I-3-Java的基本程序设计结构"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/05/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-3-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84/">Java核心技术-I-3-Java的基本程序设计结构</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/01/05/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-3-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84/" class="article-date">
-	  <time datetime="2022-01-05T12:42:15.000Z" itemprop="datePublished">2022-01-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          注释注释分为3类：
-
-单行注释：//其后的部分被视为注释。
-1Sysout.out.print("context") //annotation
-
-多行注释：/* xxx */内的xxx被视为注释，可以包含多行。
-12345/*	annotation1	annotation2	annotation3*/
-
-文档注释型：这种注释以/**开始，以*/结束，这种注释可以用来自动生成文档。
-12345/**	annotation1	annotation2	annotation3*/
-
-
-数据类型Ja...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/01/05/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-3-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-ssm配置文件随记"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/12/25/ssm%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%9A%8F%E8%AE%B0/">ssm配置文件随记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/12/25/ssm%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%9A%8F%E8%AE%B0/" class="article-date">
-	  <time datetime="2021-12-25T10:44:25.000Z" itemprop="datePublished">2021-12-25</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/SSM/">SSM</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          这里简单记录一下SSM里的各种配置文件，简单记录一下，作为基础。注意，xml中某些配置是有顺序要求的。
-web.xml
-引入约束：约束是作为其子标签的编写规范，可以作为提示和规范。
-12345&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;&lt;web-app xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;X...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/12/25/ssm%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%9A%8F%E8%AE%B0/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-float最全最根本解析"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/">float最全最根本解析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/" class="article-date">
-	  <time datetime="2021-10-16T12:55:21.000Z" itemprop="datePublished">2021-10-16</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/CSS/">CSS</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          前置知识要想真正得用好浮动，以及清除浮动。必须首先要理解几个概念作为前置知识。
-Normal flow （正常流）这个名词在国内一般被翻译为文档流，这个被很多人吐槽，就不再说了。
-这个正常流就是我们HTML初始的流模型。也就是整个文档内，如果你不添加其他属性（浮动和绝对定位）那么整个文档就属于正常流。
-格式化上下文（formatting context）一个格式化上下文（下文称FC）就是一系列相关的元素排布的环境。不同的FC有不同的排布规则。
-正常流中的一个盒子模型，都必然属于一个格式化上...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/#more">Read More</a>
         </p>
       
     </div>

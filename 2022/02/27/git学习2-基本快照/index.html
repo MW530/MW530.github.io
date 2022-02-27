@@ -3,25 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>git基本操作 | My Wonderland</title>
+  <title>git学习2-基本快照 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="git基本操作" />
+  <meta name="keywords" content="git基本快照" />
   
   
   
   
-  <meta name="description" content="获得和创建项目init该命令用于创建一个空的仓库或者初始化一个已经存在的仓库。 其会创建一个.git文件夹，其内部会创建以下子文件：  objects refs&#x2F;heads refs&#x2F;tags  选项： -q；--quite：只打印错误和警告信息；其他的输出都不会被输出。 --bare：创建一个空仓库，如果GIT_DIR环境变量没有设置，就其将当前工作目录设置。 --template&#x3D;&lt;te">
+  <meta name="description" content="基本快照addadd命令用于使用在工作树中找到的当前内容来更新索引，其为下一次提交（commit）准备阶段性的内容。通常将现有路径的当前内容作为一个整体添加，但通过一些选项，它也可以用于添加只应用了部分工作树文件更改的内容，或者删除工作树中不再存在的路径。 git status命令可用于获取一个摘要，其中哪些文件有更改，将在下次提交时暂存。 默认情况下，git add命令不会添加被忽略的文件。如果">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git基本操作">
-<meta property="og:url" content="http://yoursite.com/2022/02/24/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="git学习2-基本快照">
+<meta property="og:url" content="http://yoursite.com/2022/02/27/git%E5%AD%A6%E4%B9%A02-%E5%9F%BA%E6%9C%AC%E5%BF%AB%E7%85%A7/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="获得和创建项目init该命令用于创建一个空的仓库或者初始化一个已经存在的仓库。 其会创建一个.git文件夹，其内部会创建以下子文件：  objects refs&#x2F;heads refs&#x2F;tags  选项： -q；--quite：只打印错误和警告信息；其他的输出都不会被输出。 --bare：创建一个空仓库，如果GIT_DIR环境变量没有设置，就其将当前工作目录设置。 --template&#x3D;&lt;te">
-<meta property="article:published_time" content="2022-02-24T09:07:32.000Z">
-<meta property="article:modified_time" content="2022-02-25T15:46:44.037Z">
+<meta property="og:description" content="基本快照addadd命令用于使用在工作树中找到的当前内容来更新索引，其为下一次提交（commit）准备阶段性的内容。通常将现有路径的当前内容作为一个整体添加，但通过一些选项，它也可以用于添加只应用了部分工作树文件更改的内容，或者删除工作树中不再存在的路径。 git status命令可用于获取一个摘要，其中哪些文件有更改，将在下次提交时暂存。 默认情况下，git add命令不会添加被忽略的文件。如果">
+<meta property="article:published_time" content="2022-02-27T12:38:56.000Z">
+<meta property="article:modified_time" content="2022-02-27T12:42:15.064Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="git">
-<meta property="article:tag" content="基本操作">
+<meta property="article:tag" content="基本快照">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -172,7 +172,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-git基本操作" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-git学习2-基本快照" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -180,7 +180,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      git基本操作
+      git学习2-基本快照
     </h1>
   
 
@@ -188,8 +188,8 @@
     
     <div class="article-meta">
       
-	<a href="/2022/02/24/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="article-date">
-	  <time datetime="2022-02-24T09:07:32.000Z" itemprop="datePublished">2022-02-24</time>
+	<a href="/2022/02/27/git%E5%AD%A6%E4%B9%A02-%E5%9F%BA%E6%9C%AC%E5%BF%AB%E7%85%A7/" class="article-date">
+	  <time datetime="2022-02-27T12:38:56.000Z" itemprop="datePublished">2022-02-27</time>
 	</a>
 
       
@@ -205,46 +205,14 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="获得和创建项目"><a href="#获得和创建项目" class="headerlink" title="获得和创建项目"></a>获得和创建项目</h1><h2 id="init"><a href="#init" class="headerlink" title="init"></a><code>init</code></h2><p>该命令用于创建一个空的仓库或者初始化一个已经存在的仓库。</p>
-<p>其会创建一个<code>.git</code>文件夹，其内部会创建以下子文件：</p>
-<ul>
-<li><code>objects</code></li>
-<li><code>refs/heads</code></li>
-<li><code>refs/tags</code></li>
-</ul>
-<h3 id="选项："><a href="#选项：" class="headerlink" title="选项："></a>选项：</h3><ul>
-<li><code>-q；--quite</code>：只打印错误和警告信息；其他的输出都不会被输出。</li>
-<li><code>--bare</code>：创建一个空仓库，如果<code>GIT_DIR</code>环境变量没有设置，就其将当前工作目录设置。</li>
-<li><code>--template=&lt;template-directory&gt;</code>：指定模板被使用的目录。</li>
-<li><code>-b &lt;branch-name&gt;;--initial-branch=&lt;branch-name&gt;</code>：为新创建的仓库的初始化分支指定指定的名字。（如果没有指定，目前即为<code>master</code>，后期可能会改变。</li>
-</ul>
-<h3 id="通常用法："><a href="#通常用法：" class="headerlink" title="通常用法："></a>通常用法：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
-<h2 id="clone"><a href="#clone" class="headerlink" title="clone"></a>clone</h2><p>克隆一个仓库到一个新的目录。</p>
-<p>将一个存储库克隆到一个新创建的目录中，为克隆存储库中的每个分支创建远程跟踪分支(使用git branch——remotes可见)，并创建并签出一个从克隆存储库的当前活动分支分离出来的初始分支。</p>
-<p>在克隆之后，没有参数的<code>git fetch</code>命令将会更新所有的远程分支。没有参数的<code>git pull</code>将会额外将远程仓库的<code>master</code>分支合并到当前本地的<code>master</code>分支。</p>
-<p>这个默认配置是通过创建对下面的远程分支头的引用来实现的，<code>refs/remotes/origin</code>和初始化<code>remote.origin.url</code>和<code>remote.origin.fetch</code>。</p>
-<h3 id="选项：-1"><a href="#选项：-1" class="headerlink" title="选项："></a>选项：</h3><ul>
-<li><code>-l; --local</code>：当要被克隆的仓库是一个本地机器，这个标志绕过了正常的“Git感知”传输机制，通过复制objects和refs目录下的HEAD和所有东西来克隆存储库。将创建<code>.git/objects/</code>目录下的文件硬链接，以尽可能节省空间。</li>
-<li><code>--no-hardlinks</code>：强制克隆过程从本地文件系统的存储库中复制<code>.git/objects</code>目录下的文件，而不是使用硬链接。</li>
-<li><code>-q;--quiet</code>：静默地运作。进度不会报告给标准错误流。</li>
-<li><code>--progress</code>：默认状态，除非使用了<code>-q</code>。即所有的状态报告都会被打印出来。</li>
-<li><code>-o &lt;name&gt;; --origin &lt;name&gt;</code>：使用自定义的\&lt;name>名字作为远程仓库名字，而不是<code>origin</code>。本质是重写了配置文件中的<code>clone.defaultRemoteName</code>项。</li>
-<li><code>-b &lt;name&gt;; --branch &lt;name&gt;</code>：并不是从远程克隆仓库的<code>HEAD</code>所指向的分支来创建新的本地分支的<code>HEAD</code>，而是从\&lt;name>分支的<code>HEAD</code>来创建。</li>
-<li><code>--depth &lt;depth&gt;</code>：创建一个浅克隆，其历史截断为指定的提交数量。<code>--single-branch</code>和<code>--no-single-branch</code>可以用来获取是否是仓库的所有分支。</li>
-<li><code>--shallow-since=&lt;date&gt;</code>：在指定的时间之后创建具有历史记录的浅拷贝。</li>
-<li><code>--shallow-exclude=&lt;revision&gt;</code>：创建一个具有历史记录的浅克隆，排除从指定的远程分支或标记可到达的提交。此选项可指定多次。</li>
-<li><code>&lt;repository&gt;</code>：要克隆的仓库地址，如：<code>git://git.host.xz/</code></li>
-<li><code>&lt;directory&gt;</code>：要克隆到的新目录的位置。</li>
-</ul>
-<h3 id="通常用法：-1"><a href="#通常用法：-1" class="headerlink" title="通常用法："></a>通常用法：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://git.host.xz/</span><br></pre></td></tr></table></figure>
-<h1 id="基本快照"><a href="#基本快照" class="headerlink" title="基本快照"></a>基本快照</h1><h2 id="add"><a href="#add" class="headerlink" title="add"></a>add</h2><p>add命令用于使用在工作树中找到的当前内容来更新索引，其为下一次提交（<code>commit</code>）准备阶段性的内容。通常将现有路径的当前内容作为一个整体添加，但通过一些选项，它也可以用于添加只应用了部分工作树文件更改的内容，或者删除工作树中不再存在的路径。</p>
+        <h1 id="基本快照"><a href="#基本快照" class="headerlink" title="基本快照"></a>基本快照</h1><h2 id="add"><a href="#add" class="headerlink" title="add"></a>add</h2><p>add命令用于使用在工作树中找到的当前内容来更新索引，其为下一次提交（<code>commit</code>）准备阶段性的内容。通常将现有路径的当前内容作为一个整体添加，但通过一些选项，它也可以用于添加只应用了部分工作树文件更改的内容，或者删除工作树中不再存在的路径。</p>
 <p><code>git status</code>命令可用于获取一个摘要，其中哪些文件有更改，将在下次提交时暂存。</p>
 <p>默认情况下，<code>git add</code>命令不会添加被忽略的文件。如果在命令行中显式地指定了任何被忽略的文件，<code>git add</code>将失败，并显示一列被忽略的文件。<code>git add</code>命令可以使用<code>-f (force)</code>选项添加被忽略的文件。</p>
-<h3 id="选项：-2"><a href="#选项：-2" class="headerlink" title="选项："></a>选项：</h3><ul>
+<h3 id="选项："><a href="#选项：" class="headerlink" title="选项："></a>选项：</h3><ul>
 <li><code>&lt;pathspec&gt;…</code>：要添加的文件。其规则很简单，主要是通配符<code>*</code>和<code>?</code>可以匹配目录分隔符。例如：<code>Documentation/*.jpg</code>将匹配<code>Documentation</code>子树中的所有<code>.jpg</code>文件，包括<code>Documentation/chapter_1/figure_1.jpg</code>。</li>
 <li><code>-f</code>：允许添加被忽略的文件。</li>
 </ul>
-<h3 id="通常用法：-2"><a href="#通常用法：-2" class="headerlink" title="通常用法："></a>通常用法：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+<h3 id="通常用法："><a href="#通常用法：" class="headerlink" title="通常用法："></a>通常用法：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
 <p>用来将所有以改变的文件都更新索引。</p>
 <h2 id="status"><a href="#status" class="headerlink" title="status"></a>status</h2><p>该命令展示当前索引文件和当前HEAD提交的不同，工作树与索引文件存在差异的路径，以及工作树中未被Git跟踪的路径。</p>
 <h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
@@ -324,9 +292,9 @@
 </ul>
 <p>主要区别有</p>
 <ul>
-<li><code>git-revert</code>是关于进行一个<strong>新</strong>提交（commit）来恢复其他提交所做的更改。</li>
-<li><code>git-restore</code>是关于从索引或其他提交中<strong>恢复工作树中的文件</strong>。这个命令不会更新你的分支。该命令还可以用于从另一个提交恢复索引中的文件。</li>
-<li><code>git-reset</code>是关于更新你的分支，移动提示，以便添加或删除分支提交。该操作将更改提交历史记录。</li>
+<li><code>git-revert</code>：进行一个<strong>新</strong>提交（commit）来恢复其他提交所做的更改。</li>
+<li><code>git-restore</code>：从索引或其他提交中<strong>恢复工作树中的文件</strong>。这个命令不会更新你的分支。该命令还可以用于从另一个提交恢复索引中的文件。</li>
+<li><code>git-reset</code>：更新你的分支，移动分支的顶端，以便添加或删除分支提交。该操作将更改提交历史记录。</li>
 </ul>
 <p>该命令可以从一个还原源中来还原指定工作树中的特定目录或文件。如果一个路径被跟踪，但是在恢复源中不存在，那么它将被删除以匹配源。</p>
 <p>该命令还可以用于：</p>
@@ -386,8 +354,7 @@
 <li><code>-k</code>：跳过移动或重命名操作，这将可能导致错误情况。当源文件既不存在也不受git控制时，或者除非指定<code>-f</code>，否则它将覆盖现有文件时，就会发生错误。</li>
 <li><code>-v; --verbose</code>：在移动文件时报告文件的名称。</li>
 </ul>
-<p>### </p>
-<h1 id="分支与合并"><a href="#分支与合并" class="headerlink" title="分支与合并"></a>分支与合并</h1><h1 id="分享和更新项目"><a href="#分享和更新项目" class="headerlink" title="分享和更新项目"></a>分享和更新项目</h1><h1 id="检查和比较"><a href="#检查和比较" class="headerlink" title="检查和比较"></a>检查和比较</h1>
+
       
     </div>
     <footer class="article-footer">
@@ -415,7 +382,7 @@ var a = new Donate({
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2022/02/24/git基本操作/" target="_blank" title="git基本操作">http://yoursite.com/2022/02/24/git基本操作/</a>
+          <a href="/2022/02/27/git学习2-基本快照/" target="_blank" title="git学习2-基本快照">http://yoursite.com/2022/02/27/git学习2-基本快照/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -461,10 +428,19 @@ var a = new Donate({
     
 <nav id="article-nav">
   
+    <a href="/2022/02/27/git%E5%AD%A6%E4%B9%A03-%E5%88%86%E6%94%AF%E4%B8%8E%E5%90%88%E5%B9%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          git学习3-分支与合并
+        
+      </div>
+    </a>
   
-    <a href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2022/02/27/git%E5%AD%A6%E4%B9%A01-%E5%88%9B%E5%BB%BA%E5%92%8C%E8%8E%B7%E5%BE%97%E9%A1%B9%E7%9B%AE/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">MySQL必知必会22-30-MySQL高级特征</div>
+      <div class="article-nav-title">git学习1-创建和获得项目</div>
     </a>
   
 </nav>
@@ -478,7 +454,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#获得和创建项目"><span class="nav-number">1.</span> <span class="nav-text">获得和创建项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#init"><span class="nav-number">1.1.</span> <span class="nav-text">init</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项："><span class="nav-number">1.1.1.</span> <span class="nav-text">选项：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法："><span class="nav-number">1.1.2.</span> <span class="nav-text">通常用法：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#clone"><span class="nav-number">1.2.</span> <span class="nav-text">clone</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项：-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">选项：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法：-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">通常用法：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本快照"><span class="nav-number">2.</span> <span class="nav-text">基本快照</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#add"><span class="nav-number">2.1.</span> <span class="nav-text">add</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项：-2"><span class="nav-number">2.1.1.</span> <span class="nav-text">选项：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法：-2"><span class="nav-number">2.1.2.</span> <span class="nav-text">通常用法：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#status"><span class="nav-number">2.2.</span> <span class="nav-text">status</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数"><span class="nav-number">2.2.1.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法"><span class="nav-number">2.2.2.</span> <span class="nav-text">通常用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#diff"><span class="nav-number">2.3.</span> <span class="nav-text">diff</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-lt-path-gt-…"><span class="nav-number">2.3.1.</span> <span class="nav-text">git diff [&lt;options&gt;] [--] [&lt;path&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-no-index-lt-path-gt-lt-path-gt"><span class="nav-number">2.3.2.</span> <span class="nav-text">git diff [&lt;options&gt;] --no-index [--] &lt;path&gt; &lt;path&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-cached-merge-base-lt-commit-gt-lt-path-gt-…"><span class="nav-number">2.3.3.</span> <span class="nav-text">git diff [&lt;options&gt;] --cached [--merge-base] [&lt;commit&gt;] [--] [&lt;path&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-merge-base-lt-commit-gt-lt-commit-gt-lt-path-gt-…"><span class="nav-number">2.3.4.</span> <span class="nav-text">git diff [&lt;options&gt;] [--merge-base] &lt;commit&gt; &lt;commit&gt; [--] [&lt;path&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-lt-commit-gt-lt-commit-gt-…-lt-commit-gt-lt-path-gt-…"><span class="nav-number">2.3.5.</span> <span class="nav-text">git diff [&lt;options&gt;] &lt;commit&gt; &lt;commit&gt;… &lt;commit&gt; [--] [&lt;path&gt;…]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#commit"><span class="nav-number">2.4.</span> <span class="nav-text">commit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项"><span class="nav-number">2.4.1.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">2.5.</span> <span class="nav-text">note</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#子命令"><span class="nav-number">2.5.1.</span> <span class="nav-text">子命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-1"><span class="nav-number">2.5.2.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#restore"><span class="nav-number">2.6.</span> <span class="nav-text">restore</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-2"><span class="nav-number">2.6.1.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reset"><span class="nav-number">2.7.</span> <span class="nav-text">reset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-reset-q-lt-tree-ish-gt-lt-pathspec-gt-…；git-reset-q-pathspec-from-file-lt-file-gt-pathspec-file-nul-lt-tree-ish-gt"><span class="nav-number">2.7.1.</span> <span class="nav-text">git reset [-q] [&lt;tree-ish&gt;] [--] &lt;pathspec&gt;…；git reset [-q] [--pathspec-from-file&#x3D;&lt;file&gt; [--pathspec-file-nul]] [&lt;tree-ish&gt;]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-reset-patch-p-lt-tree-ish-gt-lt-pathspec-gt-…"><span class="nav-number">2.7.2.</span> <span class="nav-text">git reset (--patch | -p) [&lt;tree-ish&gt;] [--] [&lt;pathspec&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-reset-lt-mode-gt-lt-commit-gt"><span class="nav-number">2.7.3.</span> <span class="nav-text">git reset [&lt;mode&gt;] [&lt;commit&gt;]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-3"><span class="nav-number">2.7.4.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm"><span class="nav-number">2.8.</span> <span class="nav-text">rm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mv"><span class="nav-number">2.9.</span> <span class="nav-text">mv</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-4"><span class="nav-number">2.9.1.</span> <span class="nav-text">选项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分支与合并"><span class="nav-number">3.</span> <span class="nav-text">分支与合并</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分享和更新项目"><span class="nav-number">4.</span> <span class="nav-text">分享和更新项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#检查和比较"><span class="nav-number">5.</span> <span class="nav-text">检查和比较</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本快照"><span class="nav-number">1.</span> <span class="nav-text">基本快照</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#add"><span class="nav-number">1.1.</span> <span class="nav-text">add</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项："><span class="nav-number">1.1.1.</span> <span class="nav-text">选项：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法："><span class="nav-number">1.1.2.</span> <span class="nav-text">通常用法：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#status"><span class="nav-number">1.2.</span> <span class="nav-text">status</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数"><span class="nav-number">1.2.1.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通常用法"><span class="nav-number">1.2.2.</span> <span class="nav-text">通常用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#diff"><span class="nav-number">1.3.</span> <span class="nav-text">diff</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-lt-path-gt-…"><span class="nav-number">1.3.1.</span> <span class="nav-text">git diff [&lt;options&gt;] [--] [&lt;path&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-no-index-lt-path-gt-lt-path-gt"><span class="nav-number">1.3.2.</span> <span class="nav-text">git diff [&lt;options&gt;] --no-index [--] &lt;path&gt; &lt;path&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-cached-merge-base-lt-commit-gt-lt-path-gt-…"><span class="nav-number">1.3.3.</span> <span class="nav-text">git diff [&lt;options&gt;] --cached [--merge-base] [&lt;commit&gt;] [--] [&lt;path&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-merge-base-lt-commit-gt-lt-commit-gt-lt-path-gt-…"><span class="nav-number">1.3.4.</span> <span class="nav-text">git diff [&lt;options&gt;] [--merge-base] &lt;commit&gt; &lt;commit&gt; [--] [&lt;path&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-diff-lt-options-gt-lt-commit-gt-lt-commit-gt-…-lt-commit-gt-lt-path-gt-…"><span class="nav-number">1.3.5.</span> <span class="nav-text">git diff [&lt;options&gt;] &lt;commit&gt; &lt;commit&gt;… &lt;commit&gt; [--] [&lt;path&gt;…]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#commit"><span class="nav-number">1.4.</span> <span class="nav-text">commit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项"><span class="nav-number">1.4.1.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">1.5.</span> <span class="nav-text">note</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#子命令"><span class="nav-number">1.5.1.</span> <span class="nav-text">子命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-1"><span class="nav-number">1.5.2.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#restore"><span class="nav-number">1.6.</span> <span class="nav-text">restore</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-2"><span class="nav-number">1.6.1.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reset"><span class="nav-number">1.7.</span> <span class="nav-text">reset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-reset-q-lt-tree-ish-gt-lt-pathspec-gt-…；git-reset-q-pathspec-from-file-lt-file-gt-pathspec-file-nul-lt-tree-ish-gt"><span class="nav-number">1.7.1.</span> <span class="nav-text">git reset [-q] [&lt;tree-ish&gt;] [--] &lt;pathspec&gt;…；git reset [-q] [--pathspec-from-file&#x3D;&lt;file&gt; [--pathspec-file-nul]] [&lt;tree-ish&gt;]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-reset-patch-p-lt-tree-ish-gt-lt-pathspec-gt-…"><span class="nav-number">1.7.2.</span> <span class="nav-text">git reset (--patch | -p) [&lt;tree-ish&gt;] [--] [&lt;pathspec&gt;…]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-reset-lt-mode-gt-lt-commit-gt"><span class="nav-number">1.7.3.</span> <span class="nav-text">git reset [&lt;mode&gt;] [&lt;commit&gt;]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-3"><span class="nav-number">1.7.4.</span> <span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm"><span class="nav-number">1.8.</span> <span class="nav-text">rm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mv"><span class="nav-number">1.9.</span> <span class="nav-text">mv</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选项-4"><span class="nav-number">1.9.1.</span> <span class="nav-text">选项</span></a></li></ol></li></ol></li></ol>
     
     </div>
   </aside>

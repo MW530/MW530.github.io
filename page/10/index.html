@@ -327,6 +327,233 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-项目实际问题一-对象深浅拷贝问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/05/18/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E9%99%85%E9%97%AE%E9%A2%98%E4%B8%80-%E5%AF%B9%E8%B1%A1%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/">项目实际问题一:对象深浅拷贝问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/05/18/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E9%99%85%E9%97%AE%E9%A2%98%E4%B8%80-%E5%AF%B9%E8%B1%A1%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/" class="article-date">
+	  <time datetime="2019-05-18T00:32:35.000Z" itemprop="datePublished">2019-05-18</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          第一次经手比较大型的项目，总结第一个问题：对象的深拷贝问题。之前没注意这个问题，写完代码发现总是与自己的想法不符合，经调试才发现是对象的深浅拷贝问题。
+原理的话也很简单，对象作为基本类型之外的引用类型，在栈内存中保存着引用变量的名字，而这个变量保存的实际是一个地址，这个地址指向堆内存，实际这个变量的值是保存在堆内存中。
+所以当我们直接用 “=” 进行变量copy时，实际copy的是对内存中的地址。copy之后改变原变量的值同样会使新变量的值进行改变。所以有时候我们需要进行深拷贝来在堆内存中...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/05/18/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E9%99%85%E9%97%AE%E9%A2%98%E4%B8%80-%E5%AF%B9%E8%B1%A1%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E9%97%AE%E9%A2%98/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-项目部署引发的知识"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/04/09/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%BC%95%E5%8F%91%E7%9A%84%E7%9F%A5%E8%AF%86/">项目部署引发的知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/04/09/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%BC%95%E5%8F%91%E7%9A%84%E7%9F%A5%E8%AF%86/" class="article-date">
+	  <time datetime="2019-04-09T13:38:21.000Z" itemprop="datePublished">2019-04-09</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          项目部署之前一直在写东西，都没怎么部署过项目，特别是Linux系统下，本来之前买服务器是想买一个Linux的服务器的，然而，学生党只配用Windows，万恶的阿里云。现在又可以买Linux的了，然而我又不想重新布属我的项目。今天再部署Linux时，才发现完全不会。枯了~
+git命令开发最常用命令
+
+git init //初始化一个git文件夹
+git remote add origin https://gitee.com/mw530/xxx         //为本地仓库添加远程仓库
+gi...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/04/09/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%BC%95%E5%8F%91%E7%9A%84%E7%9F%A5%E8%AF%86/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Vue-review-router"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/03/20/Vue-review-router/">Vue-review-router</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/03/20/Vue-review-router/" class="article-date">
+	  <time datetime="2019-03-20T14:36:33.000Z" itemprop="datePublished">2019-03-20</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          最基本的一个路由展示域
+在Vue控制域中写入router规定的标签
+
+Go to Login  //该项为路由的链接，默认为a标签
+Go to Register//该项为路由的链接，默认为a标签
+   //该项为渲染路由组件的位置
+以下步骤一般不能交换，因为存在相互依赖关系
+
+
+
+
+
+
+创建组件模板
+
+const login = {template:&apos;&lt;h1\&gt;这是一个登录框&lt;/h1\&gt;&apos;};
+
+const register = {templat...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/03/20/Vue-review-router/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-webpack中ES6代码的压缩问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/03/16/webpack%E4%B8%ADES6%E4%BB%A3%E7%A0%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E9%97%AE%E9%A2%98/">webpack中ES6代码的压缩问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/03/16/webpack%E4%B8%ADES6%E4%BB%A3%E7%A0%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E9%97%AE%E9%A2%98/" class="article-date">
+	  <time datetime="2019-03-16T03:06:14.000Z" itemprop="datePublished">2019-03-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/webpack/">webpack</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          问题webpack中ES6代码压缩问题：
+在使用webpack插件uglifyjs-webpack-plugin压缩JS代码时，发现该插件只能压缩ES5-的代码，遇到ES6，就会报错ERROR in xxx.js from UglifyJs,遂查找解决办法。
+原理解决办法原理如上所说，uglifyjs-webpack-plugin该插件仅支持ES5-的JS代码。
+解决办法1. 不使用ES6语法这个办法理论上可行，但是面对ES6那么多方便快捷的语法，不使用的话会大大降低开发的进度，所以一般不...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/03/16/webpack%E4%B8%ADES6%E4%BB%A3%E7%A0%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E9%97%AE%E9%A2%98/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Image对象的complete与onload()事件(以及Canvas的drawImage()函数)"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -651,244 +878,6 @@ public static void Update(){
         </p>
         <p class="article-more-link">
           <a href="/2019/01/30/JSP%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-JSP中的表单编码问题"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/01/28/JSP%E4%B8%AD%E7%9A%84%E8%A1%A8%E5%8D%95%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/">JSP中的表单编码问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/01/28/JSP%E4%B8%AD%E7%9A%84%E8%A1%A8%E5%8D%95%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/" class="article-date">
-	  <time datetime="2019-01-28T12:13:29.000Z" itemprop="datePublished">2019-01-28</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JSP/">JSP</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          JSP的编码才看了几天的JSP，把最重要的表单提交看了一下，遇到了中文编码的问题，然后我查了一下JSP的默认代码是：ISO-8859-1重新设编码的语句共有下面几句：
-
-pageEncoding=”UTF-8”
-contentType=”text/html;charset=UTF-8”
-request.setCharacterEncoding(“UTF-8”)
-response.setCharacterEncoding(“UTF-8”)
-
-
-pageEncoding=”UTF-8” 是在第...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/01/28/JSP%E4%B8%AD%E7%9A%84%E8%A1%A8%E5%8D%95%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Python3-CGI编程踩坑日记"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/01/14/Python3-CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/">Python3_CGI编程踩坑日记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/01/14/Python3-CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/" class="article-date">
-	  <time datetime="2019-01-14T12:25:07.000Z" itemprop="datePublished">2019-01-14</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Python/">Python</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          Hard-start这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。
-
-Problem I met
-Apache的安装问题
-
-在得之要使用Apache之后，我直接就百度Apache，然后再官网首页
-
-结果下载下来直接用不了，解压了发现文件不对。然后一搜教程才发现文件下载错了。
-应该在这里下载：
-
-终于完成填了第一个坑！
-
-Apache配置问题
-
-要启用CGI，必需修改配置文件。而这个配置不仅...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/01/14/Python3-CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-欢迎2019-假如我年少有为"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/01/13/%E6%AC%A2%E8%BF%8E2019-%E5%81%87%E5%A6%82%E6%88%91%E5%B9%B4%E5%B0%91%E6%9C%89%E4%B8%BA/">欢迎2019-假如我年少有为</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/01/13/%E6%AC%A2%E8%BF%8E2019-%E5%81%87%E5%A6%82%E6%88%91%E5%B9%B4%E5%B0%91%E6%9C%89%E4%B8%BA/" class="article-date">
-	  <time datetime="2019-01-13T12:08:09.000Z" itemprop="datePublished">2019-01-13</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          
-
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc....
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/01/13/%E6%AC%A2%E8%BF%8E2019-%E5%81%87%E5%A6%82%E6%88%91%E5%B9%B4%E5%B0%91%E6%9C%89%E4%B8%BA/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-周报(0)"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/12/01/%E5%91%A8%E6%8A%A5(0)/">周报(0)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/12/01/%E5%91%A8%E6%8A%A5(0)/" class="article-date">
-	  <time datetime="2018-12-01T04:10:17.000Z" itemprop="datePublished">2018-12-01</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E5%91%A8%E6%8A%A5/">周报</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          LeetCode：
-简单思路：令i从0开始向后跑寻找与下标为length-1不相等的数，找到之后将那个数放到length的位置上，并且令length长度加1，最后返回length就行了。代码部分：
-int removeDuplicates(int* nums, int numsSize) {
-if(numsSize==0){
-    return 0;
-}
-int length = 1;
-for(int i=0;i&lt;numsSize;i++){
-    if(nums[i]!=num...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/12/01/%E5%91%A8%E6%8A%A5(0)/#more">Read More</a>
         </p>
       
     </div>

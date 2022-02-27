@@ -327,6 +327,234 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Vue插件开发2-事件对象e与视窗api详解"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/">Vue插件开发2-事件对象e与视窗api详解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/" class="article-date">
+	  <time datetime="2021-01-13T03:57:39.000Z" itemprop="datePublished">2021-01-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue%E6%8F%92%E4%BB%B6/">Vue插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          事件参数
+首先Vue没有对事件对象做修改，所以在Vue中的事件对象仍然与原生一样。
+其对象属性具体又分为4类：
+鼠标 / 键盘属性
+
+
+属性
+描述
+
+
+
+
+altKey
+返回当事件被触发时，”ALT” 是否被按下。
+
+
+button
+返回当事件被触发时，哪个鼠标按钮被点击。一个数字，表示鼠标事件发生时按下的鼠标按钮。可能的值：0：鼠标左键1：车轮按钮或中间按钮（如果有）2：鼠标右键注意： Internet Explorer 8和更早版本具有不同的返回值：1：鼠标左键2：鼠标右键4：车轮按钮...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Vue插件开发1-插件原理即应用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8D%B3%E5%BA%94%E7%94%A8/">Vue插件开发1-插件原理即应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8D%B3%E5%BA%94%E7%94%A8/" class="article-date">
+	  <time datetime="2021-01-12T06:45:27.000Z" itemprop="datePublished">2021-01-12</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue%E6%8F%92%E4%BB%B6/">Vue插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          原理简介
+插件通常用来为 Vue 添加全局功能。-Vue官网
+
+我觉得广义上的插件，实际上就是一些可以复用的功能或组件的封装。
+首先分析Vue源码：
+12345678910111213141516171819202122232425//src-&gt;core-&gt;instance-&gt;index.jsimport &#123; initMixin &#125; from './init'import &#123; stateMixin &#125; from './state'i...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8D%B3%E5%BA%94%E7%94%A8/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-TypeScript特点2"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/">TypeScript特点2</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/" class="article-date">
+	  <time datetime="2021-01-10T06:40:17.000Z" itemprop="datePublished">2021-01-10</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/TypeScript/">TypeScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          类型兼容性TS中的类型兼容性是基于结构子类型的。结构类型是一种只使用其成员来描述类型的方式。 与Java不同，Java的强制转换是基于继承的，只有有继承关系的对象才可以进行转换。
+即只要对象中的成员有包含关系，则可以进行类型转换。如，
+1234567891011interface Named &#123;    name: string;&#125;class Person &#123;    name: string;&#125;let p: Named;// OK, because o...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-TypeScript特点1"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/09/TypeScript%E7%89%B9%E7%82%B91/">TypeScript特点1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/09/TypeScript%E7%89%B9%E7%82%B91/" class="article-date">
+	  <time datetime="2021-01-09T07:18:36.000Z" itemprop="datePublished">2021-01-09</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/TypeScript/">TypeScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          基础类型VoidTS中增加了void类型，用于表示没有任何类型，一般也是用于一个函数没有返回值，但是与其他语言不同的是，TS允许一个变量直接声明为Void型（虽然这没什么用）。
+1let unusable: void = undefined;
+void型变量只能被赋值undefined,null
+Null 和 Undefined这里的null与undefined与JS中基本一致，其是所有类型的子类，即所有的变量都可被赋值为null与undifined。
+Nevernever表示那些永远不存...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/09/TypeScript%E7%89%B9%E7%82%B91/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-2020-奋斗的一年"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -640,226 +868,6 @@ Vue初始化Vue原型是在src/instance/idnex.js中定义的：
         </p>
         <p class="article-more-link">
           <a href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E6%8F%92%E6%A7%BD%E4%B8%8Ekeep-alive/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue中的组件传值"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/">Vue中的组件传值</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/" class="article-date">
-	  <time datetime="2020-01-05T10:05:01.000Z" itemprop="datePublished">2020-01-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          父 =&gt; 子父组件向子组件传值比较简单，直接使用v-bind:key = val 
-1234&#x2F;&#x2F;父组件&lt;template&gt;	&lt;child :name &#x3D; &quot;&#39;tom&#39;&quot; :age&#x3D;&quot;&#39;12&#39;&quot; &#x2F;&gt;&lt;&#x2F;template&gt;
-12345678910&#x2F;&#x2F;子组件&lt;template&gt;	&lt;di...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue中异步请求更新data导致数据变为非响应式的问题"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/05/Vue%E4%B8%AD%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%9B%B4%E6%96%B0data%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E5%8F%98%E4%B8%BA%E9%9D%9E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/">Vue中异步请求更新data导致数据变为非响应式的问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/05/Vue%E4%B8%AD%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%9B%B4%E6%96%B0data%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E5%8F%98%E4%B8%BA%E9%9D%9E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/" class="article-date">
-	  <time datetime="2020-01-05T04:22:40.000Z" itemprop="datePublished">2020-01-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          问题最近在项目遇到一个棘手的问题，看了1天才发现是异步与Vue的数据更新机制导致了结果与预期不一致。
-最开始的代码流程是这样：
-通过一个请求拿到一组数据data1，包括下一个请求的关键字
-在第一个请求的回掉函数中使用for循环利用上一个数组的关键字发送多个子请求得到对应的datan，并在每个子请求的回调中对data1和datan进行对比，然后给data1添加一个字段key
-在第一个请求的回调中把修改后的data1赋给Vue实例的data中
-
-产生的问题在Vue实例中的data1对象中，原来...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/05/Vue%E4%B8%AD%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%9B%B4%E6%96%B0data%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E5%8F%98%E4%B8%BA%E9%9D%9E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-2019年的我，21岁的人生"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/04/2019%E5%B9%B4%E7%9A%84%E6%88%91%EF%BC%8C21%E5%B2%81%E7%9A%84%E4%BA%BA%E7%94%9F/">2019年的我，21岁的人生</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/04/2019%E5%B9%B4%E7%9A%84%E6%88%91%EF%BC%8C21%E5%B2%81%E7%9A%84%E4%BA%BA%E7%94%9F/" class="article-date">
-	  <time datetime="2020-01-04T02:59:17.000Z" itemprop="datePublished">2020-01-04</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          
-
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc....
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/04/2019%E5%B9%B4%E7%9A%84%E6%88%91%EF%BC%8C21%E5%B2%81%E7%9A%84%E4%BA%BA%E7%94%9F/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-react中的事件绑定"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/12/22/react%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A/">react中的事件绑定</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/12/22/react%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A/" class="article-date">
-	  <time datetime="2019-12-22T08:39:36.000Z" itemprop="datePublished">2019-12-22</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/React/">React</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          遇到的问题最近想试一下React，之前一直用Vue在写东西。稍微看了几篇教程后，就开始写，能够基本运行起来，可能是因为项目比较简单吧。但是也遇到了几个问题，首先就是React的事件绑定问题：
-我第一次的写法是：
-12345handleEvent()&#123;	console.log("test")&#125;&lt;Button onClick="handleEvent"&gt; &lt;/Button&gt;
-这样普通的点击事件是能够正常触发的。
-this的指向问题但是当我要使用thi...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/12/22/react%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A/#more">Read More</a>
         </p>
       
     </div>

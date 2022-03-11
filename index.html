@@ -327,6 +327,59 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-深入理解JVM1-1-自动内存管理-Java内存区域与内存溢出异常"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/03/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/">深入理解JVM1-1-自动内存管理-Java内存区域与内存溢出异常</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/" class="article-date">
+	  <time datetime="2022-03-11T06:32:20.000Z" itemprop="datePublished">2022-03-11</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JVM/">JVM</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          Java内存区域与内存溢出异常运行时数据区域Java虚拟机在执行Java程序的过程中会把它说管理的内存划分为若干个不同的数据区域。
+具体如下图。
+
+程序计数器（线程私有）程序计数器（Program Counter Register）是一块较小的内存，它可以看作是当前线程所执行的字节码的行号指示器。在Java虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条要执行的字节码指令，它是程序控制流的指示器，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/03/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-git学习5-补丁"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -827,62 +880,6 @@ GROUP BY vend_...
         </p>
         <p class="article-more-link">
           <a href="/2022/02/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-12-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-II-9-Java平台模块系统"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/">java核心技术-II-9-Java平台模块系统</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/" class="article-date">
-	  <time datetime="2022-02-18T05:08:24.000Z" itemprop="datePublished">2022-02-18</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          模块的概念在Java系统中，提供了多种封装的层级。
-在面向对象编程中，基础的构建要素就是类。类提供了封装，私有特征只能被具有明确访问权限的代码访问。
-包提供了更高一级的组织方式，包是类的集合。包也提供了一种封装级别，具有包访问权限的所有特征（无论是公有还是私有）都只能被同一个包中的方法访问。
-但是在大型系统中，这些控制级别还是显得不够，所以设计了模块的概念。
-一般来说，一个Java平台模块包含以下部分：
-
-一个包集合。
-可选地包含资源文件和像本地库这样的其他文件。
-一个有关模块中可访问的包...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/#more">Read More</a>
         </p>
       
     </div>

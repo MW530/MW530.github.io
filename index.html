@@ -327,6 +327,58 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-深入理解JVM1-2.2-自动内存管理-垃圾收集器与内存分配策略（垃圾收集器及其选择）"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/">深入理解JVM1-2.2-自动内存管理-垃圾收集器与内存分配策略（垃圾收集器及其选择）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/" class="article-date">
+	  <time datetime="2022-03-16T01:47:27.000Z" itemprop="datePublished">2022-03-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JVM/">JVM</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          经典垃圾收集器垃圾收集器是对垃圾收集算法的实现，由于《Java虚拟机规范》中并没有明确垃圾收集器的实现细节。所以不同的厂商对于垃圾收集器都有不同的实现。而这里的经典垃圾收集器主要针对的是JDK 7 Update 4 之后JDK11正式发布之前，Oracle JDK中的HotSpot虚拟机所包含的全部可用的垃圾收集器。下图是各款经典垃圾收集器之间的关系：
+
+这里的垃圾收集器都有各自不同的优缺点，还没有出现一个没有短板的收集器，因此后续的工作实际上是根据工作场景选择合适的垃圾收集器。（希望以后...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-深入理解JVM1-2.1-自动内存管理-垃圾收集器与内存分配策略（垃圾收集算法和HostSpot算法细节）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -821,63 +873,6 @@ hobby
         </p>
         <p class="article-more-link">
           <a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-MySQL必知必会13-18-高级检索知识"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/">MySQL必知必会13-18-高级检索知识</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/" class="article-date">
-	  <time datetime="2022-02-23T07:08:21.000Z" itemprop="datePublished">2022-02-23</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          分组数据分组数据可以用于按照某一列数据作为分类标准来统计数据。所以其一般与聚集函数一起用。
-创建分组分组是使用SELECT子句和GROUP BY子句建立。
-例如：统计每个vend_id的数据数量：
-1SELECT vend_id, COUNT(*) AS num_prods FROM products GROUP BY vend_id;
-将语句分为两部分，
-
-SELECT vend_id, COUNT(*) AS num_prods FROM products
-GROUP BY vend_...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/#more">Read More</a>
         </p>
       
     </div>

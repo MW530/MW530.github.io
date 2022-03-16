@@ -17,19 +17,19 @@
 <meta property="og:url" content="http://yoursite.com/2022/03/14/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95%E5%92%8CHostSpot%E7%AE%97%E6%B3%95%E7%BB%86%E8%8A%82%EF%BC%89/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="垃圾收集器与内存分配策略对象死亡判定在堆里存放着几乎所有的Java对象，垃圾收集器在对堆进行回收的前，必须先对堆中的对象进行判定，哪些对象是活的，哪些对象是死的。 引用计数算法引用计数法是一种很经典的计数算法，即为每个对象添加一个引用计数器，当有一个地方引用它时，计数器的值就加一；当引用失效的时候，计数器的值就减一。任何时刻计数器为零的对象就是不可能再被使用的对象。 优点 原理简单。 判定效率高。">
-<meta property="og:image" content="d:/myblog/source/images/深入理解JVM/可达性分析例.png">
-<meta property="og:image" content="d:/myblog/source/images/深入理解JVM/标记-清除算法.png">
-<meta property="og:image" content="d:/myblog/source/images/深入理解JVM/标记-复制算法.png">
-<meta property="og:image" content="d:/myblog/source/images/深入理解JVM/标记-整理.png">
-<meta property="og:image" content="d:/myblog/source/images/深入理解JVM/并发出现“对象消失”问题.png">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E4%BE%8B.png">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E6%A0%87%E8%AE%B0-%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E6%A0%87%E8%AE%B0-%E6%95%B4%E7%90%86.png">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%B9%B6%E5%8F%91%E5%87%BA%E7%8E%B0%E2%80%9C%E5%AF%B9%E8%B1%A1%E6%B6%88%E5%A4%B1%E2%80%9D%E9%97%AE%E9%A2%98.png">
 <meta property="article:published_time" content="2022-03-14T04:27:04.000Z">
-<meta property="article:modified_time" content="2022-03-15T07:08:00.057Z">
+<meta property="article:modified_time" content="2022-03-16T11:35:11.415Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="JVM">
 <meta property="article:tag" content="垃圾收集器与内存分配策略">
 <meta property="article:tag" content="垃圾收集算法和HostSpot算法细节">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="d:/myblog/source/images/深入理解JVM/可达性分析例.png">
+<meta name="twitter:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E4%BE%8B.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -223,7 +223,7 @@
 </ul>
 <h3 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p>当前主流的商用程序语言（Java，C#等）的内存管理系统，都是通过可达性分析（Reachability Analysis）算法来判定对象是否存货。其算法的基本思路就是通过一系列的根对象，被称为<code>GC Roots</code>，作为起始节点集，然后从这些节点开始，根据对象引用关系向下搜索，搜索过程中走过的路径被称为“引用链”（Reference Chain），如果某个对象到GC Roots间没有任何引用链相连，或者用图论的话来说就是从GC Roots到这个对象不可达的时候，则证明这个对象是不可能再被使用的。</p>
 <p>例如，下图中对象object5、object6、object7虽然互有相关联，但是他们到GC Roots是不可达的，因此他们将会被判定为可回收的对象。</p>
-<p><img src="D:\myblog\source\images\深入理解JVM\可达性分析例.png" alt="可达性分析例"></p>
+<p><img src="\images\深入理解JVM\可达性分析例.png" alt="可达性分析例"></p>
 <p>在Java技术体系中，固定可作为FC Roots的对象包括以下几种：</p>
 <ul>
 <li>在虚拟机栈（栈帧中的本地变量表）中引用的对象，譬如各个线程被调用的方法堆栈中使用的参数、局部变量、临时变量等。</li>
@@ -302,7 +302,7 @@
 <li>内存空间的碎片化问题，标记、清除之后会产生大量不连续的内存碎片，空间碎片太多可能会导致当以后再程序运行过程中需要分配较打对象时产生不连续的内存碎片，空间碎片太多可能会导致当以后在程序运行过程中需要分配较大对象时无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。</li>
 </ul>
 <p>其原理如图：</p>
-<p><img src="D:\myblog\source\images\深入理解JVM\标记-清除算法.png" alt="标记-清除算法"></p>
+<p><img src="\images\深入理解JVM\标记-清除算法.png" alt="标记-清除算法"></p>
 <h3 id="标记-复制算法"><a href="#标记-复制算法" class="headerlink" title="标记-复制算法"></a>标记-复制算法</h3><p>标记-复制算法常被称简称为复制算法，其是为了解决标记-清除算法面对大量可回收对象时执行效率低的问题。最原始的思路主要为：将可用内存划分为容量大小相等的两部分，每次只是用其中一块。其中一块使用完后，就将其该块中存活的对象复制到另外一块中去，然后再把已使用的内存空间一次性清除掉。</p>
 <h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ul>
 <li>在多数对象都是可回收时，需要复制的对象很少，效率高。</li>
@@ -313,12 +313,12 @@
 <li>将可用内存缩小为原来的一般，空间浪费有点多。</li>
 </ul>
 <p>其原理如图：</p>
-<p><img src="D:\myblog\source\images\深入理解JVM\标记-复制算法.png" alt="标记-复制算法"></p>
+<p><img src="\images\深入理解JVM\标记-复制算法.png" alt="标记-复制算法"></p>
 <p>后期IBM公司一项研究证明-新生代对象有98%熬不过第一轮收集。因此不必要按照1：1的比例来划分新生代的内存空间。</p>
 <p>1989年Andrew Appel又提出了新的划分思路：把新生代分为一块较大的Eden空间和两块较小的Survivor空间，每次分配内存只是用Eden和其中一块Survivor空间。发生垃圾收集时，将Eden和该Survivor中仍然存活的对象一次性复制到另外一块Survivor空间上，然后直接清理掉Eden和已经使用过的那块Survivor。HotSpot虚拟机默认Eden和Survivor的大小比例是8:1。当然不可能确保每次以使用的内存都小于一块Survivor空间的大小。所以Appel式回收还有一个充当汉奸情况的“逃生门”的安全设计：当Survivor空间不足以容纳一次Minor GC之后存货的对象时，就需要依赖其他内存区域（实际上大多就是老年代）进行分配担保（Handle Promotion）。</p>
 <h3 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p>由于老年代中的对象普遍存活率较高，所以标记-复制算法不再适用。</p>
 <p>所以针对老年代对象的死亡特征，1974年Edward Lueders提出了另外一种针对性的“标记-整理”（Mark-Compact）算法，其中的标记过程依然与“标记-清除”算法一样，但后续步骤不是直接对可回收对象进行清除，而是让所有存货的对象都向内存空间的一端移动，然后直接清理边界意外的内存，其主要思路如图：</p>
-<p><img src="D:\myblog\source\images\深入理解JVM\标记-整理.png" alt="标记-整理"></p>
+<p><img src="\images\深入理解JVM\标记-整理.png" alt="标记-整理"></p>
 <p>该算法也存在缺点：即移动对象的收，必须暂停用户进程。（又被称为Stop the World）。</p>
 <h2 id="HotSpot虚拟机的算法细节实现"><a href="#HotSpot虚拟机的算法细节实现" class="headerlink" title="HotSpot虚拟机的算法细节实现"></a>HotSpot虚拟机的算法细节实现</h2><h3 id="根节点枚举"><a href="#根节点枚举" class="headerlink" title="根节点枚举"></a>根节点枚举</h3><p>由之前的介绍可知，GC Roots的节点主要在全局性的引用（例如常量或类静态属性）与执行上下文（如栈帧中本地变量表），虽然明确，但是随着应用体积的正大，这也是一项很大的工作。</p>
 <p>且迄今为止，所有的垃圾收集器在根节点枚举这一步骤中，都是必须暂停用户线程的。</p>
@@ -363,7 +363,7 @@
 <li>灰色：表示对象已经被垃圾收集器访问过，但这个对象上至少存在一个引用还没有被扫描过。</li>
 </ul>
 <p>收集器在对象图上标记颜色，同时用户线程在修改引用 关系——即修改对象图的结构，这样可能出现两种后果。一种是把原本消亡的对象错误标记为存活， 这不是好事，但其实是可以容忍的，只不过产生了一点逃过本次收集的浮动垃圾而已，下次收集清理 掉就好。另一种是把原本存活的对象错误标记为已消亡，这就是非常致命的后果了，程序肯定会因此发生错误，下面表演示了这样的致命错误具体是如何产生的。</p>
-<p><img src="D:\myblog\source\images\深入理解JVM\并发出现“对象消失”问题.png" alt="并发出现“对象消失”问题"></p>
+<p><img src="\images\深入理解JVM\并发出现“对象消失”问题.png" alt="并发出现“对象消失”问题"></p>
 <p>Wilson于1994年在理论上证明了，当且仅当以下两个条件同时满足时，会产生“对象消失”的问 题，即原本应该是黑色的对象被误标为白色：</p>
 <ul>
 <li><p><strong>赋值器插入了一条或多条从黑色对象到白色对象的新引用；</strong></p>
@@ -448,6 +448,15 @@ var a = new Donate({
   
     
 <nav id="article-nav">
+  
+    <a href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          深入理解JVM1-2.2-自动内存管理-垃圾收集器与内存分配策略（垃圾收集器及其选择）
+        
+      </div>
+    </a>
   
   
     <a href="/2022/03/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/" id="article-nav-older" class="article-nav-link-wrap">

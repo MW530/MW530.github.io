@@ -335,7 +335,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/">shiro与spring的集成</a>
+      <a class="article-title" href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/">shiro、spring和JWT的集成</a>
     </h1>
   
 
@@ -348,20 +348,17 @@
 	</a>
 
       
+    <a class="article-category-link" href="/categories/Shiro/">Shiro</a>
+
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          
-
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc....
+          XML配置1. 配置web.xml
+配置springShiro.xml文件读取
+1234&lt;context-param&gt;  &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;  &lt;param-value&gt;classpath:applicationContext.xml classpath:springShiro.xml&lt;/param-value&gt;&lt;/context-param&gt;
+...
         </p>
         <p class="article-more-link">
           <a href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/#more">Read More</a>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql与java中的日期api | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaMySQL日期API" />
+  
+  
+  
+  
+  <meta name="description" content="相关问题：问题：Java系统中采用了localDateTime类型的数据，MySQL数据库中采用了DateTime类型。但是存储之后再取出来发现数据不一致，即秒之后的毫秒部分变成了000000。 原因：MySQL的DateTime没有设置长度，则默认为不包含小数部分。即只存储’YYYY-MM-DD hh:mm:ss’，小数部分是不会被存储的，小数部分会被丢弃。但原始的localDateTime是包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL与Java中的日期API">
+<meta property="og:url" content="http://yoursite.com/2022/03/25/MySQL%E4%B8%8EJava%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9FAPI/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="相关问题：问题：Java系统中采用了localDateTime类型的数据，MySQL数据库中采用了DateTime类型。但是存储之后再取出来发现数据不一致，即秒之后的毫秒部分变成了000000。 原因：MySQL的DateTime没有设置长度，则默认为不包含小数部分。即只存储’YYYY-MM-DD hh:mm:ss’，小数部分是不会被存储的，小数部分会被丢弃。但原始的localDateTime是包">
+<meta property="article:published_time" content="2022-03-25T06:42:31.000Z">
+<meta property="article:modified_time" content="2022-03-25T09:24:32.030Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="日期API">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-MySQL与Java中的日期API" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      MySQL与Java中的日期API
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/25/MySQL%E4%B8%8EJava%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9FAPI/" class="article-date">
+	  <time datetime="2022-03-25T06:42:31.000Z" itemprop="datePublished">2022-03-25</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E6%97%A5%E6%9C%9FAPI/">日期API</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="相关问题："><a href="#相关问题：" class="headerlink" title="相关问题："></a>相关问题：</h1><h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><p>Java系统中采用了localDateTime类型的数据，MySQL数据库中采用了DateTime类型。但是存储之后再取出来发现数据不一致，即秒之后的毫秒部分变成了000000。</p>
+<h2 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h2><p>MySQL的DateTime没有设置长度，则默认为不包含小数部分。即只存储’YYYY-MM-DD hh:mm:ss’，小数部分是不会被存储的，小数部分会被丢弃。但原始的localDateTime是包含小数部分的，即到微秒部分：10^-6s。所以存储后取出来的数据就损失了小于秒部分，所以小数点后都为0，与原来的不相等。</p>
+<h3 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h3><ol>
+<li>只对比秒之前的部分，即无视损失的部分。</li>
+<li>将MySQL数据库的DateTime的长度设置为6（最长），则不会造成损失。</li>
+</ol>
+<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p>MySQL有5种日期类型：</p>
+<ul>
+<li>DATE</li>
+<li>TIME</li>
+<li>DATETIME</li>
+<li>TIMESTAMP</li>
+<li>YEAR</li>
+</ul>
+<p>但是在介绍具体的类型之前，需要先看MySQL官方的几条关于日期的提醒：</p>
+<ul>
+<li><p>MySQL会尝试各种格式来解析传入的值，但最好是按照标准的格式来进行传递，否则可能会有不可预知的行为出现。</p>
+<p>其具体格式简单介绍在后文附加。</p>
+</li>
+<li><p>虽然MySQL会尝试各种格式，但是date部分总是应该按照year-month-day的顺序来传递。</p>
+</li>
+<li><p>并不推荐用两个字表示的年份，起具有歧义，但MySQL仍然是接受的。其解析行为如下：</p>
+<ul>
+<li>如果是70-99则解析为1970-1999</li>
+<li>如果是00-69则解析为2000-2069</li>
+</ul>
+</li>
+<li><p>默认情况下，当MySQL遇到一个超出date或者time类型范围的值时，会默认将其转换为该类型的”0“值。</p>
+</li>
+<li><p>MySQL允许存储“0”值<code>0000-00-00</code>作为填充值，有时这比null更方便。可以通过开启<code>NO_ZERO_IN_DATE</code>来禁止零值。</p>
+</li>
+</ul>
+<p>下面的表展示了各种类型的零值：</p>
+<table summary="Format of the zero value for temporal data types."><colgroup><col style="width: 30%"><col style="width: 40%"></colgroup><thead><tr><br>          <th>Data Type</th><br>          <th><span class="quote">“<span class="quote">Zero</span>”</span> Value</th><br>        </tr></thead><tbody><tr><br>          <td><a class="link" href="datetime.html" title="11.2.2&nbsp;The DATE, DATETIME, and TIMESTAMP Types"><code class="literal">DATE</code></a></td><br>          <td><code class="literal">‘0000-00-00’</code></td><br>        </tr><tr><br>          <td><a class="link" href="time.html" title="11.2.3&nbsp;The TIME Type"><code class="literal">TIME</code></a></td><br>          <td><code class="literal">‘00:00:00’</code></td><br>        </tr><tr><br>          <td><a class="link" href="datetime.html" title="11.2.2&nbsp;The DATE, DATETIME, and TIMESTAMP Types"><code class="literal">DATETIME</code></a></td><br>          <td><code class="literal">‘0000-00-00 00:00:00’</code></td><br>        </tr><tr><br>          <td><a class="link" href="datetime.html" title="11.2.2&nbsp;The DATE, DATETIME, and TIMESTAMP Types"><code class="literal">TIMESTAMP</code></a></td><br>          <td><code class="literal">‘0000-00-00 00:00:00’</code></td><br>        </tr><tr><br>          <td><a class="link" href="year.html" title="11.2.4&nbsp;The YEAR Type"><code class="literal">YEAR</code></a></td><br>          <td><code class="literal">0000</code></td><br></tr></tbody></table>
+
+<h2 id="DATE-DATETIME-TIMESTAMP"><a href="#DATE-DATETIME-TIMESTAMP" class="headerlink" title="DATE, DATETIME,  TIMESTAMP"></a>DATE, DATETIME,  TIMESTAMP</h2><p>DATE类型用来存储不含时间的日期值。MySQL以’YYYY-MM-DD’格式检索和显示DATE值。支持的范围是’1000-01-01’到’9999-12-31’。</p>
+<p>DATETIME类型用来存储包含时间的日期值。MySQL以’YYYY-MM-DD hh:mm:ss’的格式检索和显示DATETIME值。支持的范围为’1000-01-01 00:00:00”到“9999-12-31 23:59:59’。</p>
+<p>TIMESTAMP也用于存储包含时间的日期值。TIMESTAMP的范围是’1970-01-01 00:00:01’ UTC到’2038-01-19 03:14:07’ UTC。</p>
+<p><strong>DATETIME或TIMESTAMP值可以包含尾随的小数秒部分，精度最高可达微秒(6位)。</strong></p>
+<p style="font-size: 30px; font-weight=bold">（注意默认是没有小数部分，需要将长度改为6才有所有的小数部分）</p>
+
+<p>而DATETIME包含小数的范围为：’1000-01-01 00:00:00.000000’<code>to</code>‘9999-12-31 23:59:59.999999’</p>
+<p>TIMESTAMP包含小数的范围为： <code>&#39;1970-01-01 00:00:01.000000&#39;</code> to <code>&#39;2038-01-19 03:14:07.999999&#39;</code></p>
+<p>MySQL将TIMESTAMP值从当前时区转换为UTC来存储，然后从UTC转换回当前时区以进行检索。(这不会发生在其他类型，如DATETIME。)</p>
+<p>默认情况下，每个连接的当前时区都是服务器的时间。</p>
+<p>时区可以在每个连接的基础上设置（通过<code>time_zone=xxx</code>）。只要时区设置保持不变，就会得到存储的相同值。如果存储了一个TIMESTAMP值，然后更改时区并检索该值，则检索到的值与存储的值不同。这是因为在两个方向上的转换没有使用相同的时区。</p>
+<p>无效值得处理：</p>
+<ul>
+<li>非严格模式下，无效的DATE、DATETIME或TIMESTAMP值将被转换为适当类型的“零”值，例如<code>10:45:15</code>会被转化为<code>0000-00-00</code>，因为’45’不是一个合法的月份。</li>
+<li>严格模式下，不仅仅只限制月份在1-12之间、天在1-31之间，而是会限制大月小月的区别，如’4-32’就不合法，因为4越没有31号。</li>
+</ul>
+<p>（这里的严格模式是指启用<code>STRICT_TRANS_TABLES</code>或<code>STRICT_ALL_TABLES</code>中的一个或两个模式。）</p>
+<h2 id="TIME"><a href="#TIME" class="headerlink" title="TIME"></a>TIME</h2><p>MySQL以’hh:mm:ss’的格式检索和显示时间值。其范围从’-838:59:59’ 到’838:59:59’。</p>
+<p>小时的部分可能是如此之大,因为可以使用时间类型不仅代表一个时间点(必须小于24小时),也可以代表运行时间或两个事件之间的时间间隔(可能是远远大于24小时,甚至负)。</p>
+<p>TIME也可以包含小数部分来表示更小的时间单位，最小可以到达小数点后6位，即微秒。此时其范围为：<code>&#39;-838:59:59.000000&#39;</code> to <code>&#39;838:59:59.000000&#39;</code>。</p>
+<p>对于简写，其规则如下：</p>
+<ul>
+<li>如果包含冒号，如’11:12’，则按从小时开始解析，即’11:12’被解析为’11:12:00’。</li>
+<li>如果不含冒号，如’1112’，则按从秒开始解析，即’1112’被解析为’00:11:12’，’12’被解析为’00:00:12’。</li>
+</ul>
+<p>注意：TIME的零值’00:00:00’本身也是一个合法的TIME值，所以如果数据库里存储的是’00:00:00’，则并不能识别其到底是零值还是正确的值。</p>
+<h2 id="YEAR"><a href="#YEAR" class="headerlink" title="YEAR"></a>YEAR</h2><p>YEAR类型是一种1字节类型，用于表示年份值。</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>从MySQL 8.0.19开始，带有显式显示宽度的YEAR(4)数据类型已经被弃用，MySQL在未来版本中将会将其移除。直接使用YEAR而不使用显示宽度，其具有相同的含义。</p>
+<p>MySQL 8.0不再支持2位YEAR(2)数据类型。</p>
+</blockquote>
+<p>MySQL以YYYY格式显示YEAR值，取值范围为1901 ~ 2155和0000。</p>
+<p>YEAR字段接受以下格式的值：</p>
+<ul>
+<li>四个数字的字符串，范围在’1901’到’2155’之间。</li>
+<li>四个数字的数字类型，范围在1901-2155之间。</li>
+<li>两个数字的字符串，与前面DATE一样，范围在’0’-‘99’之间，’0’-‘69’表示2000-1069年。’70’-‘99’表示1970到1999年。</li>
+<li>两个数字的数字类型，遇上面一样，只是传递的是数字。</li>
+<li>作为返回在YEAR上下文中可接受的值的函数的结果，例如NOW()。</li>
+</ul>
+<h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1><p>Java的日期API可以看另一篇专门介绍的文章。<a href="https://www.mw530.cn/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/" target="_blank" rel="noopener">java核心技术-II-6-日期和时间API</a></p>
+<p>只能说Java的日期API设计经过了这么多轮的迭代，比较混乱，要想完全掌握，还确实需要时间。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/03/25/MySQL与Java中的日期API/" target="_blank" title="MySQL与Java中的日期API">http://yoursite.com/2022/03/25/MySQL与Java中的日期API/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/03/25/springMVC%E4%B8%AD404%E9%94%99%E8%AF%AF%E7%9A%84%E6%8B%A6%E6%88%AA/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          springMVC中404错误的拦截
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">深入理解JVM1-2.2-自动内存管理-垃圾收集器与内存分配策略（垃圾收集器及其选择）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#相关问题："><span class="nav-number">1.</span> <span class="nav-text">相关问题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题："><span class="nav-number">1.1.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原因："><span class="nav-number">1.2.</span> <span class="nav-text">原因：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法："><span class="nav-number">1.2.1.</span> <span class="nav-text">解决办法：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL"><span class="nav-number">2.</span> <span class="nav-text">MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DATE-DATETIME-TIMESTAMP"><span class="nav-number">2.1.</span> <span class="nav-text">DATE, DATETIME,  TIMESTAMP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TIME"><span class="nav-number">2.2.</span> <span class="nav-text">TIME</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YEAR"><span class="nav-number">2.3.</span> <span class="nav-text">YEAR</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java"><span class="nav-number">3.</span> <span class="nav-text">Java</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

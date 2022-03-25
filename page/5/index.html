@@ -327,6 +327,186 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Node学习5-进程机制"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/">Node学习5-进程机制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/" class="article-date">
+	  <time datetime="2021-05-03T03:06:49.000Z" itemprop="datePublished">2021-05-03</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          服务端模型得变迁Web服务器的架构已经历了几次变迁。服务器处理客户端请求的并发量，就是每个里程碑的见证。
+石器时代：同步最早的服务器，其执行模型是同步的，它的服务模式是一次只为一次请求服务，所有的请求都得按次序等待服务。这意味着除了当前的请求被处理外，其余请求都处于等待被处理的状态。其处理性能相当低下，假设每次响应服务耗时为N秒，则这类服务的QPS为1/N。
+这种架构如今已基本被淘汰，只在一些无并发需要的应用中存在。
+青铜时代：复制进程为了解决同步架构的并发问题，衍生出了复制多个进程以提高...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-VSCODE-插件开发1"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/04/28/VSCODE-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911/">VSCODE-插件开发1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/28/VSCODE-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911/" class="article-date">
+	  <time datetime="2021-04-28T12:23:38.000Z" itemprop="datePublished">2021-04-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/VS-CODE%E6%8F%92%E4%BB%B6/">VS CODE插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          createTextEditorDecorationType(options: DecorationRenderOptions]): TextEditorDecorationType：创建一个新的装饰器。
+
+
+
+Parameter
+Description
+
+
+
+
+options: DecorationRenderOptions
+装饰类型渲染的选项
+
+
+Returns
+Description
+
+
+TextEditorDecorationType
+一个新的装饰器实体
+
+
+
+
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/04/28/VSCODE-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Node学习4-Buffer"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/04/28/Node%E5%AD%A6%E4%B9%A04-Buffer/">Node学习4-Buffer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/28/Node%E5%AD%A6%E4%B9%A04-Buffer/" class="article-date">
+	  <time datetime="2021-04-28T01:31:30.000Z" itemprop="datePublished">2021-04-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          BufferBuffer 对象用于表示固定长度的字节序列。
+从V3.0开始，该对象就继承自Uint8Array（从V3.0版本加入的特性），且继承时带上了涵盖额外用例的方法。只要支持 Buffer 的地方，Node.js API 都可以接受普通的 Uint8Array
+模块结构Buffer是一个典型的JavaScript与C++结合的模块，它将性能部分用C++实现，将非性能相关的部分用JavaScript实现。
+
+之前说过，Buffer所占的内存不过是V8分配的，属于堆外内存。由于V8垃圾...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/04/28/Node%E5%AD%A6%E4%B9%A04-Buffer/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-NodeJS学习3-内存控制"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -690,171 +870,6 @@ chrome默认是补全https协议
         </p>
         <p class="article-more-link">
           <a href="/2021/03/05/%E7%BB%8F%E5%85%B81-%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E6%A0%8F%E8%BE%93%E5%85%A5URL%E5%90%8E%E5%9B%9E%E8%BD%A6%EF%BC%8C%E8%83%8C%E5%90%8E%E6%89%80%E7%BB%8F%E5%8E%86%E7%9A%84%E6%AD%A5%E9%AA%A4/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-设计模式5-发布-订阅模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/03/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F5-%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/">设计模式5-发布-订阅模式（观察者模式）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/03/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F5-%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-03-02T08:01:39.000Z" itemprop="datePublished">2021-03-02</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          发布-订阅模式（观察者模式）定义其定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变的时候，所有依赖它的对象都会得到通知。
-主要解决一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的协作。
-在JavaScript中，其主要有以下两个用处：
-
-可以广泛应用于异步编程之中，这是一种代替回调函数的方案。
-发布-订阅模式可以取代对象之间的硬编码通知机制，一个对象不用再显示地调用另外一个对象的某个接口。
-
-实现在web开发中，我们其实已经用到了发布-订阅模式，其就是...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/03/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F5-%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-设计模式4-迭代器模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F4-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">设计模式4-迭代器模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F4-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-03-01T02:30:22.000Z" itemprop="datePublished">2021-03-01</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">迭代器模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          迭代器模式定义迭代器模式是指提供一种方法顺序访问一个集合对象中的各个元素，而不需要暴露该对象的内部表示。
-遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
-主要解决不需要关心对象内部表示来遍历整个对象。
-内部迭代器内部迭代器是指事先定义好迭代器的迭代规则，他完全接受整个迭代过程，外部只需要一次初始调用。
-实现我们实现一个each内部迭代器，接...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F4-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-设计模式3-代理模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">设计模式3-代理模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-02-27T06:32:20.000Z" itemprop="datePublished">2021-02-27</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          代理模式定义当目标对象不方便直接访问或者访问者不满住要求的时候，提供一个代理对象来控制对目标对象的访问。访问者实际上访问的是代理对象。代理对象对请求做出一些处理之后，再把请求转交给目标对象。
-主要解决在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有些对象由于某些原因（比如对象创建开销很大，或者某些操作需要安全控制，或者需要进程外的访问），直接访问会给使用者或者系统结构带来很多麻烦，我们可以在访问此对象时加上一个对此对象的访问层。
-优缺点优点
-职责清晰。
-...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/#more">Read More</a>
         </p>
       
     </div>

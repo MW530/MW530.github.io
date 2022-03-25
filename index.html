@@ -401,20 +401,16 @@
 	</a>
 
       
+    <a class="article-category-link" href="/categories/SpringMVC/">SpringMVC</a>
+
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          
-
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc....
+          SpringMVC统一错误处理该功能可以直接通过SpringMVC的@RestControllerAdvice注解搭配@ExceptionHandler来处理。
+例如：
+123456789101112131415161718192021222324@RestControllerAdvicepublic class ExceptionResponseAdvice &#123;    @ExceptionHandler(IndexOutOfBoundsException.class)    p...
         </p>
         <p class="article-more-link">
           <a href="/2022/03/25/springMVC%E4%B8%AD404%E9%94%99%E8%AF%AF%E7%9A%84%E6%8B%A6%E6%88%AA/#more">Read More</a>

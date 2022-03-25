@@ -6,19 +6,22 @@
   <title>springmvc中404错误的拦截 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="SpringSpringMVC" />
   
   
   
-  <meta name="description" content="function doDecrypt (pwd, onError) { 	console.log(&#39;in doDecrypt&#39;); 	const txt &#x3D; document.getElementById(&#39;enc_content&#39;).innerHTML; 	let plantext; 	try { 		const bytes &#x3D; CryptoJS.AES.decrypt(txt, pwd);">
+  
+  <meta name="description" content="SpringMVC统一错误处理该功能可以直接通过SpringMVC的@RestControllerAdvice注解搭配@ExceptionHandler来处理。 例如： 123456789101112131415161718192021222324@RestControllerAdvicepublic class ExceptionResponseAdvice &amp;#123;    @Excepti">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springMVC中404错误的拦截">
 <meta property="og:url" content="http://yoursite.com/2022/03/25/springMVC%E4%B8%AD404%E9%94%99%E8%AF%AF%E7%9A%84%E6%8B%A6%E6%88%AA/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="function doDecrypt (pwd, onError) { 	console.log(&#39;in doDecrypt&#39;); 	const txt &#x3D; document.getElementById(&#39;enc_content&#39;).innerHTML; 	let plantext; 	try { 		const bytes &#x3D; CryptoJS.AES.decrypt(txt, pwd);">
+<meta property="og:description" content="SpringMVC统一错误处理该功能可以直接通过SpringMVC的@RestControllerAdvice注解搭配@ExceptionHandler来处理。 例如： 123456789101112131415161718192021222324@RestControllerAdvicepublic class ExceptionResponseAdvice &amp;#123;    @Excepti">
 <meta property="article:published_time" content="2022-03-25T06:44:24.000Z">
-<meta property="article:modified_time" content="2022-03-25T06:44:24.901Z">
+<meta property="article:modified_time" content="2022-03-25T13:46:15.089Z">
 <meta property="article:author" content="Michael Wang">
-<meta property="article:tag" content="Life">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="SpringMVC">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
@@ -190,6 +193,8 @@
 	</a>
 
       
+    <a class="article-category-link" href="/categories/SpringMVC/">SpringMVC</a>
+
       
 	<a class="article-views">
 	<span id="busuanzi_container_page_pv">
@@ -200,46 +205,39 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <script src=/js/crypto-js.js></script>
-<script>
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-	} catch(err) {
-		if(onError) {
-			onError(err);
-		}
-		return;
-	}
-	document.getElementById('enc_content').innerHTML = plaintext;
-	document.getElementById('enc_content').style.display = 'block';
-	document.getElementById('enc_passwd').style.display = 'none';
-	if(typeof MathJax !== 'undefined') {
-		MathJax.Hub.Queue(
-			['resetEquationNumbers', MathJax.InputJax.TeX],
-			['PreProcess', MathJax.Hub],
-			['Reprocess', MathJax.Hub]
-		);
-	}
-}
-</script>
-<div id="enc_content" style="display:none">U2FsdGVkX1+5k5EcyeFuycTFtSNbCQDxhVCjAdnL6c8=</div>
-<div id="enc_passwd"> <input id="enc_pwd_input" type="password" style="border-radius: 5px;border-style: groove;height: 30px;width: 50%;cursor: auto;font-size: 102%;color: currentColor;outline: none;text-overflow: initial;padding-left: 5px;" onkeydown="if (event.keyCode == 13) { decrypt(); return false;}"> <input type="submit" value="解&nbsp;密" onclick="decrypt()" style="width: 58px;height: 34px;border-radius: 5px;background-color: white;border-style: solid;color: currentColor;"><div id="enc_error" style="display: inline-block;color: #d84527;margin-left: 10px"></div>
-<script>
-var onError = function(error) {
-	document.getElementById("enc_error").innerHTML = "password error!"
-};
-function decrypt() {
-var passwd = document.getElementById("enc_pwd_input").value;
-console.log(passwd);
-doDecrypt(passwd, onError);
-}
-</script>
-</div>
+        <h1 id="SpringMVC统一错误处理"><a href="#SpringMVC统一错误处理" class="headerlink" title="SpringMVC统一错误处理"></a>SpringMVC统一错误处理</h1><p>该功能可以直接通过SpringMVC的<code>@RestControllerAdvice</code>注解搭配<code>@ExceptionHandler</code>来处理。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExceptionResponseAdvice</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(IndexOutOfBoundsException<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Exception</span> <span class="title">handleException</span>(<span class="title">Exception</span> <span class="title">exception</span>)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"数组越界错误！"</span>);</span><br><span class="line">        <span class="comment">//handle Exception</span></span><br><span class="line">        <span class="keyword">return</span> exception;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(ClassNotFoundException<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Exception</span> <span class="title">handleException</span>(<span class="title">Exception</span> <span class="title">exception</span>)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"类未找到错判！"</span>);</span><br><span class="line">        <span class="comment">//handle Exception</span></span><br><span class="line">        <span class="keyword">return</span> exception;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(Throwable<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Exception</span> <span class="title">handleException</span>(<span class="title">Exception</span> <span class="title">exception</span>)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"兜底所有错误！"</span>);</span><br><span class="line">        <span class="comment">//handle Exception</span></span><br><span class="line">        <span class="keyword">return</span> exception;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="springMVC统一返回结构"><a href="#springMVC统一返回结构" class="headerlink" title="springMVC统一返回结构"></a>springMVC统一返回结构</h1><p>同样使用<code>@RestControllerAdvice</code>可以用来统一数据的返回结构。不过我们需要实现<code>ResponseBodyAdvice</code>接口。才能劫持方法返回的数据，然后进行重写其中的方法。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyResponseBodyAdvice</span> <span class="keyword">implements</span> <span class="title">ResponseBodyAdvice</span>&lt;<span class="title">Object</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supports</span><span class="params">(MethodParameter methodParameter, Class&lt;? extends HttpMessageConverter&lt;?&gt;&gt; aClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">beforeBodyWrite</span><span class="params">(Object o, MethodParameter methodParameter, MediaType mediaType, Class&lt;? extends HttpMessageConverter&lt;?&gt;&gt; aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//处理返回值是String的状况</span></span><br><span class="line">        <span class="comment">//处理字符串类型数据</span></span><br><span class="line">        <span class="keyword">if</span>(o <span class="keyword">instanceof</span> String)&#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> mapper.writeValueAsString(Result.data(o));</span><br><span class="line">           &#125; <span class="keyword">catch</span> (JsonProcessingException e) &#123;</span><br><span class="line">              e.printStackTrace();</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理错误</span></span><br><span class="line">        <span class="keyword">if</span>(o <span class="keyword">instanceof</span>  Exception)&#123;</span><br><span class="line">            <span class="keyword">return</span> Result.getResult((Exception) o);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> o <span class="keyword">instanceof</span> Result ? o : Result.data(o);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里还有一个坑，就是json化和String类型的冲突，即如果Controller返回的是一个String。不加这一句的话会报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class priv.mw.utils.Result cannot be cast to class java.lang.String (priv.mw.utils.Result is in unnamed module of loader org.apache.catalina.loader.ParallelWebappClassLoader @5049b1e5; java.lang.String is in module java.base of loader &#39;bootstrap&#39;)</span><br></pre></td></tr></table></figure>
+<p>即没办法将<code>Result</code>类型转化为<code>String</code>。其本质原因在于由于返回的是<code>String</code>，所以会匹配到<code>StringHttpMessageConverter</code>，因为他在所有Converter的前面。但由于我们在切面中将类型改成了Result，所以就会报错。</p>
+<p>但实际上我们需要的是<code>MappingJackson2HttpMessageConverter</code>。</p>
+<p>所以目前的解决办法有两种：</p>
+<ul>
+<li>在转换之前就将String转化为JSON字符串。</li>
+<li>将<code>MappingJackson2HttpMessageConverter</code> 放在所有converter的首位。</li>
+</ul>
+<p>第一种就是就是上面的写法。</p>
+<p>第二种可以通过配置来实现：</p>
+<ul>
+<li><p>XML方式：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            将MappingJackson2HttpMessageConverter移到前面,处理ResponseBodyAdvice的String异常的问题--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.http.converter.StringHttpMessageConverter"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"defaultCharset"</span> <span class="attr">value</span>=<span class="string">"UTF-8"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Class方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.converter.HttpMessageConverter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfiguration</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureMessageConverters</span><span class="params">(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters)</span> </span>&#123;</span><br><span class="line">        converters.add(<span class="number">0</span>, <span class="keyword">new</span> MappingJackson2HttpMessageConverter());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>还有一点值得注意的是：实际上错误处理是在<code>ResponseBodyAdvice</code>中，即统一结构返回中来处理。因为实际上我们需要统一返回结构，对于错误，需要判断错误类型来返回对应的数据。所以在这里处理是更加方便的。</p>
+<h1 id="漏掉的404"><a href="#漏掉的404" class="headerlink" title="漏掉的404"></a>漏掉的404</h1><p>虽然上面的做到了统一错误处理，但是404地址错误仍然没办法被劫持到。</p>
+<p>目前的做法是，实现一个能够劫持所有请求地址的controller，因为其在springMVC中，泛匹配优先级最低。所以可以这样实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Error</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/**"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">NotFound</span><span class="params">()</span> <span class="keyword">throws</span> ClientException </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ClientException(<span class="string">"请求地址出错！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>后期看能不能有更优的处理方法。</p>
+
       
     </div>
     <footer class="article-footer">
@@ -339,7 +337,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav">None</ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringMVC统一错误处理"><span class="nav-number">1.</span> <span class="nav-text">SpringMVC统一错误处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#springMVC统一返回结构"><span class="nav-number">2.</span> <span class="nav-text">springMVC统一返回结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏掉的404"><span class="nav-number">3.</span> <span class="nav-text">漏掉的404</span></a></li></ol>
     
     </div>
   </aside>

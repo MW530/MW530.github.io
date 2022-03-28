@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>git常见场景与冲突处理 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="git冲突处理" />
+  
+  
+  
+  
+  <meta name="description" content="常见场景暂存区确认暂存区1234&#x2F;&#x2F; 增加所有文件到暂存区$ git add .&#x2F;&#x2F; 增加指定文件到暂存区$ git add [filename] 撤销暂存区12345&#x2F;&#x2F; 取消所有最新的暂存区文件$ git reset HEAD .&#x2F;&#x2F; 取消缓存区最新的指定文件$ git reset HEAD REAMDME.md 注意该命令的参数HEAD是要被恢复的版本, 一般选择HEAD, 即恢复到最新的H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git常见场景与冲突处理">
+<meta property="og:url" content="http://yoursite.com/2022/03/27/git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%86%B2%E7%AA%81%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="常见场景暂存区确认暂存区1234&#x2F;&#x2F; 增加所有文件到暂存区$ git add .&#x2F;&#x2F; 增加指定文件到暂存区$ git add [filename] 撤销暂存区12345&#x2F;&#x2F; 取消所有最新的暂存区文件$ git reset HEAD .&#x2F;&#x2F; 取消缓存区最新的指定文件$ git reset HEAD REAMDME.md 注意该命令的参数HEAD是要被恢复的版本, 一般选择HEAD, 即恢复到最新的H">
+<meta property="article:published_time" content="2022-03-27T07:51:19.000Z">
+<meta property="article:modified_time" content="2022-03-28T14:56:11.790Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="冲突处理">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-git常见场景与冲突处理" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      git常见场景与冲突处理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/27/git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%86%B2%E7%AA%81%E5%A4%84%E7%90%86/" class="article-date">
+	  <time datetime="2022-03-27T07:51:19.000Z" itemprop="datePublished">2022-03-27</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/git/">git</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="常见场景"><a href="#常见场景" class="headerlink" title="常见场景"></a>常见场景</h1><h2 id="暂存区"><a href="#暂存区" class="headerlink" title="暂存区"></a>暂存区</h2><h3 id="确认暂存区"><a href="#确认暂存区" class="headerlink" title="确认暂存区"></a>确认暂存区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 增加所有文件到暂存区</span><br><span class="line">$ git add .</span><br><span class="line">// 增加指定文件到暂存区</span><br><span class="line">$ git add [filename]</span><br></pre></td></tr></table></figure>
+<h3 id="撤销暂存区"><a href="#撤销暂存区" class="headerlink" title="撤销暂存区"></a>撤销暂存区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 取消所有最新的暂存区文件</span><br><span class="line">$ git reset HEAD .</span><br><span class="line"></span><br><span class="line">// 取消缓存区最新的指定文件</span><br><span class="line">$ git reset HEAD REAMDME.md</span><br></pre></td></tr></table></figure>
+<p>注意该命令的参数HEAD是要被恢复的版本, 一般选择HEAD, 即恢复到最新的HEAD。</p>
+<p>下面撤销commit也使用该命令。</p>
+<h2 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h2><h3 id="确认提交"><a href="#确认提交" class="headerlink" title="确认提交"></a>确认提交</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 进行一次提交并附加消息<span class="string">'message'</span></span><br><span class="line">$ git commit -m <span class="string">'message'</span></span><br></pre></td></tr></table></figure>
+<h3 id="撤销提交"><a href="#撤销提交" class="headerlink" title="撤销提交"></a>撤销提交</h3><h4 id="git-revet"><a href="#git-revet" class="headerlink" title="git revet"></a><code>git revet</code></h4><p><code>git revert</code>进行一个<strong>新</strong>提交（commit）来恢复其他提交所做的更改。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git revert HEAD                  撤销前一次 commit</span><br><span class="line">$ git revert HEAD^               撤销前前一次 commit</span><br><span class="line">$ git revert commit （比如：fa042ce57ebbe5bb9c8db709f719cec2c58ee7ff）撤销指定的版本，撤销也会作为一次提交进行保存。</span><br></pre></td></tr></table></figure>
+<h4 id="git-reset-version"><a href="#git-reset-version" class="headerlink" title="git reset [version]"></a>git reset [version]</h4><p>该命令会将头部指到指定的版本位置。</p>
+<p>例如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git reset HEAD^            <span class="comment"># 回退所有内容到上一个版本  </span></span><br><span class="line">$ git reset HEAD^ hello.php  <span class="comment"># 回退 hello.php 文件的版本到上一个版本  </span></span><br><span class="line">$ git  reset  052e           <span class="comment"># 回退到指定版本</span></span><br></pre></td></tr></table></figure>
+<p>–hard会强制删除之前所有的信息提交. 慎用.</p>
+<p>例如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git reset –hard HEAD~3  <span class="comment"># 回退上上上一个版本  </span></span><br><span class="line">$ git reset –hard bae128  <span class="comment"># 回退到某个版本回退点之前的所有信息。 </span></span><br><span class="line">$ git reset --hard origin/master    <span class="comment"># 将本地的状态回退到和远程的一样</span></span><br></pre></td></tr></table></figure>
+<p>但是仍然可以恢复.</p>
+<blockquote>
+<p>git log -g 全局找到我们 commit 1 ID<br>git branch recover_bracch commit 1, 创建一个新的分支，<br>git merge recover_bracch 然后合并回来，</p>
+</blockquote>
+<h3 id="修改错误的提交"><a href="#修改错误的提交" class="headerlink" title="修改错误的提交"></a>修改错误的提交</h3><p>这种情况可能是提交的文件错误或者message写错了.</p>
+<p>此时可以使用<code>git commit --amend</code>来修改.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit --amend</span><br></pre></td></tr></table></figure>
+<p>接下来会弹出文本编辑器来修改对应信息, 不同系统不同,可以设置.</p>
+<p>其信息大致如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">new repaired message</span><br><span class="line"></span><br><span class="line"># Please enter the commit message for your changes. Lines starting</span><br><span class="line"># with &#39;#&#39; will be ignored, and an empty message aborts the commit.</span><br><span class="line">#</span><br><span class="line"># Date:      Mon Mar 28 21:37:11 2022 +0800</span><br><span class="line">#</span><br><span class="line"># On branch main</span><br><span class="line"># Changes to be committed:</span><br><span class="line">#	new file:   a.txt</span><br><span class="line">#	deleted:    &quot;\346\226\260\345\273\272\346\226\207\346\234\254\346\226\207\346\241\243 (2).txt&quot;</span><br><span class="line">#</span><br><span class="line"># Untracked files:</span><br><span class="line">#	a</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+<p>第一行就是message, 后面还包含新增或删除的文件</p>
+<h3 id="切换到制定提交位置"><a href="#切换到制定提交位置" class="headerlink" title="切换到制定提交位置"></a>切换到制定提交位置</h3><p>移动HEAD, 一般使用<code>checkout</code>命令.</p>
+<p>格式:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout &lt;SHA-1&gt;</span><br><span class="line">$ git checkout HEAD[^/~&lt;num&gt;/^&lt;num&gt;]</span><br><span class="line">$ git checkout 分支[^/~&lt;num&gt;/^&lt;num&gt;]</span><br></pre></td></tr></table></figure>
+<p>示例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout ea321		// 切换到ea321版本</span><br><span class="line">$ git checkout HEAD^		// 切换到上一个HEAD位置</span><br><span class="line">$ git checkout develop~3	// 切换到develop分支的前三个分支上</span><br></pre></td></tr></table></figure>
+<h3 id="提交合并"><a href="#提交合并" class="headerlink" title="提交合并"></a>提交合并</h3><p>使用<code>git rebase</code>命令可以合并commit.</p>
+<p>格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git rebase -i  [startpoint]  [endpoint]</span><br></pre></td></tr></table></figure>
+<p><code>[startpoint]</code> <code>[endpoint]</code>则指定了一个编辑区间，如果不指定<code>[endpoint]</code>，则该区间的终点默认是当前分支<code>HEAD</code>所指向的<code>commit</code>(注：该区间指定的是一个前开后闭的区间)。</p>
+<p>比如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 效果一致</span><br><span class="line">$ git rebase -i HEAD HEAD~3</span><br><span class="line">$ git rebase -i HEAD~3</span><br></pre></td></tr></table></figure>
+<p>然后会弹出编辑器.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pick b4d576b add b.phppick 90bc004 add c.php</span><br><span class="line">pick 45edfda add d.php</span><br><span class="line">#Rebase 36224db..45edfda onto 36224db (3 command(s))#</span><br><span class="line"># Commands:</span><br><span class="line">#p, pick &#x3D; use commit</span><br><span class="line">#r, reword &#x3D; use commit, but edit the commit message#e, edit &#x3D; use commit,but stop for amending</span><br><span class="line">#s, squash &#x3D; use commit, but meld into previous commit</span><br><span class="line"># f，fixup&#x3D; like &quot;squash&quot;, but discard this commit&#39;s log message#x,exec &#x3D; run command (the rest of the line)using shell</span><br><span class="line"># d,drop &#x3D; remove commit</span><br><span class="line">#</span><br><span class="line"># These lines can be re-ordered; they are executed from top to bottom.</span><br><span class="line"># If you remove a line here THAT COMMIT WILL BE LOST.</span><br><span class="line"># However, if you remove everything,the rebase will be aborted.#</span><br><span class="line">#Note that empty commits are commented out</span><br></pre></td></tr></table></figure>
+<p>然后根据命令修改.</p>
+<p>接下来还需要reset一下,才能完rebase.</p>
+<h4 id="不同分支合并"><a href="#不同分支合并" class="headerlink" title="不同分支合并"></a>不同分支合并</h4><p>还可以将不同的分支合并到到一起,比如将develop分支的前3个提交合并到master上.</p>
+<p>使用以下命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  git rebase  [startpoint]   [endpoint]  --onto  [branchName]</span><br></pre></td></tr></table></figure>
+<p>例如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$  git rebase  ab123   ab124  --onto  master</span><br><span class="line">$  git rebase  HEAD~3  --onto  master</span><br></pre></td></tr></table></figure>
+<h2 id="推送"><a href="#推送" class="headerlink" title="推送"></a>推送</h2><h3 id="确认推送"><a href="#确认推送" class="headerlink" title="确认推送"></a>确认推送</h3><h3 id="撤销推动"><a href="#撤销推动" class="headerlink" title="撤销推动"></a>撤销推动</h3><h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><h3 id="新增分支"><a href="#新增分支" class="headerlink" title="新增分支"></a>新增分支</h3><h3 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h3><h2 id="stash"><a href="#stash" class="headerlink" title="stash"></a>stash</h2><p>暂存一个不需要立即操作的版本</p>
+<h2 id="远程同步问题"><a href="#远程同步问题" class="headerlink" title="远程同步问题"></a>远程同步问题</h2><h1 id="冲突处理"><a href="#冲突处理" class="headerlink" title="冲突处理"></a>冲突处理</h1>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/03/27/git常见场景与冲突处理/" target="_blank" title="git常见场景与冲突处理">http://yoursite.com/2022/03/27/git常见场景与冲突处理/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/03/28/hibernate-validator%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          hibernate validator基本使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">shiro、spring和JWT的集成</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常见场景"><span class="nav-number">1.</span> <span class="nav-text">常见场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#暂存区"><span class="nav-number">1.1.</span> <span class="nav-text">暂存区</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#确认暂存区"><span class="nav-number">1.1.1.</span> <span class="nav-text">确认暂存区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#撤销暂存区"><span class="nav-number">1.1.2.</span> <span class="nav-text">撤销暂存区</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交"><span class="nav-number">1.2.</span> <span class="nav-text">提交</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#确认提交"><span class="nav-number">1.2.1.</span> <span class="nav-text">确认提交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#撤销提交"><span class="nav-number">1.2.2.</span> <span class="nav-text">撤销提交</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#git-revet"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">git revet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-reset-version"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">git reset [version]</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改错误的提交"><span class="nav-number">1.2.3.</span> <span class="nav-text">修改错误的提交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切换到制定提交位置"><span class="nav-number">1.2.4.</span> <span class="nav-text">切换到制定提交位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交合并"><span class="nav-number">1.2.5.</span> <span class="nav-text">提交合并</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#不同分支合并"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">不同分支合并</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推送"><span class="nav-number">1.3.</span> <span class="nav-text">推送</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#确认推送"><span class="nav-number">1.3.1.</span> <span class="nav-text">确认推送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#撤销推动"><span class="nav-number">1.3.2.</span> <span class="nav-text">撤销推动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支"><span class="nav-number">1.4.</span> <span class="nav-text">分支</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新增分支"><span class="nav-number">1.4.1.</span> <span class="nav-text">新增分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除分支"><span class="nav-number">1.4.2.</span> <span class="nav-text">删除分支</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stash"><span class="nav-number">1.5.</span> <span class="nav-text">stash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程同步问题"><span class="nav-number">1.6.</span> <span class="nav-text">远程同步问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#冲突处理"><span class="nav-number">2.</span> <span class="nav-text">冲突处理</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

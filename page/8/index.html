@@ -327,6 +327,62 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Vue插件开发3-拖动窗口的优化"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%913-%E6%8B%96%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E4%BC%98%E5%8C%96/">Vue插件开发3-简单拖动窗口的优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%913-%E6%8B%96%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E4%BC%98%E5%8C%96/" class="article-date">
+	  <time datetime="2021-01-13T04:02:08.000Z" itemprop="datePublished">2021-01-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Vue%E6%8F%92%E4%BB%B6/">Vue插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          思路思路一中心思想：首先算出首次拖动窗口距视窗的上面和左面的距离，然后计算出每次鼠标的偏移量（可正可负）。然后将其相加，就可得到新的偏移量。
+代码思路：
+
+设置一个变量，用于标记鼠标是否按下。
+mousedown钩子函数中记录下此时的clientX1,clientY1,offsetX,offsetY。
+mousemove钩子函数中记录下次此时的clientX2,clientY2，然后计算两组量：
+拖动之前拖动框距文档边框的距离left1 = clientX1 - offsetX，top1 ...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%913-%E6%8B%96%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E4%BC%98%E5%8C%96/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Vue插件开发2-事件对象e与视窗api详解"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -817,57 +873,6 @@ Vue初始化Vue原型是在src/instance/idnex.js中定义的：
         </p>
         <p class="article-more-link">
           <a href="/2020/01/06/Vue%E4%B8%AD%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1%E7%9A%84%E9%97%AE%E9%A2%98/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue中的插槽与keep-alive"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E6%8F%92%E6%A7%BD%E4%B8%8Ekeep-alive/">Vue中的插槽与keep-alive</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E6%8F%92%E6%A7%BD%E4%B8%8Ekeep-alive/" class="article-date">
-	  <time datetime="2020-01-05T15:01:42.000Z" itemprop="datePublished">2020-01-05</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          插槽初次真正接触插槽是在Elementui中的表格中在自定义列的内容时
-12345678910111213&lt;el-table-column                 label&#x3D;&quot;姓名&quot;                 width&#x3D;&quot;180&quot;&gt;    &lt;template slot-scope&#x3D;&quot;scope&quot;&gt;&lt;el-popover trigger&#x3D;&quo...
-        </p>
-        <p class="article-more-link">
-          <a href="/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E6%8F%92%E6%A7%BD%E4%B8%8Ekeep-alive/#more">Read More</a>
         </p>
       
     </div>

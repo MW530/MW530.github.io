@@ -327,6 +327,62 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Java多线程编程核心技术-2-对象及变量的并发访问"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/03/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-2-%E5%AF%B9%E8%B1%A1%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE/">Java多线程编程核心技术-2-对象及变量的并发访问</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-2-%E5%AF%B9%E8%B1%A1%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE/" class="article-date">
+	  <time datetime="2022-03-30T01:17:31.000Z" itemprop="datePublished">2022-03-30</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          在上一篇文章Java多线程编程核心技术-1-多线程技术基础中，提到了共享变量造成的非线程安全问题。
+本文就是为了解决非线程安全的相关问题。
+synchronized同步方法关键字synchronized可用来保障原子性、可见性和有序性。
+但是在学习synchronized之前，我们必须明确一点：
+synchronized锁住的是对象。即使是synchronized方法。
+线程安全问题和解决方案就像前一文中提到的，只有多线程共享的变量才会面临线程安全问题。
+即定义在线程类中并且被多个实例化为...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/03/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-2-%E5%AF%B9%E8%B1%A1%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Java多线程编程核心技术-1-多线程技术基础"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -785,56 +841,6 @@ spring MVC12345&lt;de...
         </p>
         <p class="article-more-link">
           <a href="/2022/03/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-git学习5-补丁"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/27/git%E5%AD%A6%E4%B9%A05-%E8%A1%A5%E4%B8%81/">git学习5-补丁</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/27/git%E5%AD%A6%E4%B9%A05-%E8%A1%A5%E4%B8%81/" class="article-date">
-	  <time datetime="2022-02-27T12:40:33.000Z" itemprop="datePublished">2022-02-27</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/git/">git</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          补丁apply12345678git apply [--stat] [--numstat] [--summary] [--check] [--index | --intent-to-add] [--3way]	  [--apply] [--no-add] [--build-fake-ancestor=&lt;file&gt;] [-R | --reverse]	  [--allow-binary-replacement | --binary] [--reject] [-z]	  [-p&l...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/27/git%E5%AD%A6%E4%B9%A05-%E8%A1%A5%E4%B8%81/#more">Read More</a>
         </p>
       
     </div>

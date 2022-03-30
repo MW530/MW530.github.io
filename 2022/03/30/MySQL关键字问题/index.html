@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql关键字问题 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="MySQL关键字" />
+  
+  
+  
+  
+  <meta name="description" content="因为之前排查一个sql错误，看了半天才发现是关键字占用，但是作为属性又没有提示，所以这里记录以下MySQL的所有关键字。 本来一般的排查方案是将sql复制到UI工具中查看，但是有些UI工具提示并不全（可能是版本问题），比如groups关键字，SQLyog就不会提示。导致一直没有排查出来。  MySQL的关键分为占用或不占用。如果是占用的关键词，那么就不能直接使用。必须添加引号，注意这个引号是 &#96;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL关键字问题">
+<meta property="og:url" content="http://yoursite.com/2022/03/30/MySQL%E5%85%B3%E9%94%AE%E5%AD%97%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="因为之前排查一个sql错误，看了半天才发现是关键字占用，但是作为属性又没有提示，所以这里记录以下MySQL的所有关键字。 本来一般的排查方案是将sql复制到UI工具中查看，但是有些UI工具提示并不全（可能是版本问题），比如groups关键字，SQLyog就不会提示。导致一直没有排查出来。  MySQL的关键分为占用或不占用。如果是占用的关键词，那么就不能直接使用。必须添加引号，注意这个引号是 &#96;">
+<meta property="article:published_time" content="2022-03-30T07:13:44.000Z">
+<meta property="article:modified_time" content="2022-03-30T08:25:14.074Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="关键字">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-MySQL关键字问题" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      MySQL关键字问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/30/MySQL%E5%85%B3%E9%94%AE%E5%AD%97%E9%97%AE%E9%A2%98/" class="article-date">
+	  <time datetime="2022-03-30T07:13:44.000Z" itemprop="datePublished">2022-03-30</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>因为之前排查一个sql错误，看了半天才发现是关键字占用，但是作为属性又没有提示，所以这里记录以下MySQL的所有关键字。</p>
+<p>本来一般的排查方案是将sql复制到UI工具中查看，但是有些UI工具提示并不全（可能是版本问题），比如<code>groups</code>关键字，SQLyog就不会提示。导致一直没有排查出来。</p>
+</blockquote>
+<p>MySQL的关键分为占用或不占用。如果是占用的关键词，那么就不能直接使用。必须添加引号，注意这个引号是 <strong>`</strong> ,即英文状态下的波浪号。其他的引号是无法做到消除占用的，包括单引号和双引号。</p>
+<p>如果是不占用的关键词，则可以直接使用，但不保证以后不会占用，所以最好还是避开这些关键字。</p>
+<p>下文中包含（R）的，即为被占用的，使用时必须要加  <strong>`</strong>。</p>
+<p>A</p>
+<ul>
+<li><code>ACCESSIBLE</code> (R)</li>
+<li><code>ACCOUNT</code></li>
+<li><code>ACTION</code></li>
+<li><code>ACTIVE</code>; added in 8.0.14 (nonreserved)</li>
+<li><code>ADD</code> (R)</li>
+<li><code>ADMIN</code>; became nonreserved in 8.0.12</li>
+<li><code>AFTER</code></li>
+<li><code>AGAINST</code></li>
+<li><code>AGGREGATE</code></li>
+<li><code>ALGORITHM</code></li>
+<li><code>ALL</code> (R)</li>
+<li><code>ALTER</code> (R)</li>
+<li><code>ALWAYS</code></li>
+<li><code>ANALYSE</code>; removed in 8.0.1</li>
+<li><code>ANALYZE</code> (R)</li>
+<li><code>AND</code> (R)</li>
+<li><code>ANY</code></li>
+<li><code>ARRAY</code>; added in 8.0.17 (reserved); became nonreserved in 8.0.19</li>
+<li><code>AS</code> (R)</li>
+<li><code>ASC</code> (R)</li>
+<li><code>ASCII</code></li>
+<li><code>ASENSITIVE</code> (R)</li>
+<li><code>AT</code></li>
+<li><code>ATTRIBUTE</code>; added in 8.0.21 (nonreserved)</li>
+<li><code>AUTHENTICATION</code>; added in 8.0.27 (nonreserved)</li>
+<li><code>AUTOEXTEND_SIZE</code></li>
+<li><code>AUTO_INCREMENT</code></li>
+<li><code>AVG</code></li>
+<li><code>AVG_ROW_LENGTH</code></li>
+</ul>
+<p>B</p>
+<ul>
+<li><code>BACKUP</code></li>
+<li><code>BEFORE</code> (R)</li>
+<li><code>BEGIN</code></li>
+<li><code>BETWEEN</code> (R)</li>
+<li><code>BIGINT</code> (R)</li>
+<li><code>BINARY</code> (R)</li>
+<li><code>BINLOG</code></li>
+<li><code>BIT</code></li>
+<li><code>BLOB</code> (R)</li>
+<li><code>BLOCK</code></li>
+<li><code>BOOL</code></li>
+<li><code>BOOLEAN</code></li>
+<li><code>BOTH</code> (R)</li>
+<li><code>BTREE</code></li>
+<li><code>BUCKETS</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>BY</code> (R)</li>
+<li><code>BYTE</code></li>
+</ul>
+<p>C</p>
+<ul>
+<li><code>CACHE</code></li>
+<li><code>CALL</code> (R)</li>
+<li><code>CASCADE</code> (R)</li>
+<li><code>CASCADED</code></li>
+<li><code>CASE</code> (R)</li>
+<li><code>CATALOG_NAME</code></li>
+<li><code>CHAIN</code></li>
+<li><code>CHALLENGE_RESPONSE</code>; added in 8.0.27 (nonreserved)</li>
+<li><code>CHANGE</code> (R)</li>
+<li><code>CHANGED</code></li>
+<li><code>CHANNEL</code></li>
+<li><code>CHAR</code> (R)</li>
+<li><code>CHARACTER</code> (R)</li>
+<li><code>CHARSET</code></li>
+<li><code>CHECK</code> (R)</li>
+<li><code>CHECKSUM</code></li>
+<li><code>CIPHER</code></li>
+<li><code>CLASS_ORIGIN</code></li>
+<li><code>CLIENT</code></li>
+<li><code>CLONE</code>; added in 8.0.3 (nonreserved)</li>
+<li><code>CLOSE</code></li>
+<li><code>COALESCE</code></li>
+<li><code>CODE</code></li>
+<li><code>COLLATE</code> (R)</li>
+<li><code>COLLATION</code></li>
+<li><code>COLUMN</code> (R)</li>
+<li><code>COLUMNS</code></li>
+<li><code>COLUMN_FORMAT</code></li>
+<li><code>COLUMN_NAME</code></li>
+<li><code>COMMENT</code></li>
+<li><code>COMMIT</code></li>
+<li><code>COMMITTED</code></li>
+<li><code>COMPACT</code></li>
+<li><code>COMPLETION</code></li>
+<li><code>COMPONENT</code></li>
+<li><code>COMPRESSED</code></li>
+<li><code>COMPRESSION</code></li>
+<li><code>CONCURRENT</code></li>
+<li><code>CONDITION</code> (R)</li>
+<li><code>CONNECTION</code></li>
+<li><code>CONSISTENT</code></li>
+<li><code>CONSTRAINT</code> (R)</li>
+<li><code>CONSTRAINT_CATALOG</code></li>
+<li><code>CONSTRAINT_NAME</code></li>
+<li><code>CONSTRAINT_SCHEMA</code></li>
+<li><code>CONTAINS</code></li>
+<li><code>CONTEXT</code></li>
+<li><code>CONTINUE</code> (R)</li>
+<li><code>CONVERT</code> (R)</li>
+<li><code>CPU</code></li>
+<li><code>CREATE</code> (R)</li>
+<li><code>CROSS</code> (R)</li>
+<li><code>CUBE</code> (R); became reserved in 8.0.1</li>
+<li><code>CUME_DIST</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>CURRENT</code></li>
+<li><code>CURRENT_DATE</code> (R)</li>
+<li><code>CURRENT_TIME</code> (R)</li>
+<li><code>CURRENT_TIMESTAMP</code> (R)</li>
+<li><code>CURRENT_USER</code> (R)</li>
+<li><code>CURSOR</code> (R)</li>
+<li><code>CURSOR_NAME</code></li>
+</ul>
+<p>D</p>
+<ul>
+<li><code>DATA</code></li>
+<li><code>DATABASE</code> (R)</li>
+<li><code>DATABASES</code> (R)</li>
+<li><code>DATAFILE</code></li>
+<li><code>DATE</code></li>
+<li><code>DATETIME</code></li>
+<li><code>DAY</code></li>
+<li><code>DAY_HOUR</code> (R)</li>
+<li><code>DAY_MICROSECOND</code> (R)</li>
+<li><code>DAY_MINUTE</code> (R)</li>
+<li><code>DAY_SECOND</code> (R)</li>
+<li><code>DEALLOCATE</code></li>
+<li><code>DEC</code> (R)</li>
+<li><code>DECIMAL</code> (R)</li>
+<li><code>DECLARE</code> (R)</li>
+<li><code>DEFAULT</code> (R)</li>
+<li><code>DEFAULT_AUTH</code></li>
+<li><code>DEFINER</code></li>
+<li><code>DEFINITION</code>; added in 8.0.4 (nonreserved)</li>
+<li><code>DELAYED</code> (R)</li>
+<li><code>DELAY_KEY_WRITE</code></li>
+<li><code>DELETE</code> (R)</li>
+<li><code>DENSE_RANK</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>DESC</code> (R)</li>
+<li><code>DESCRIBE</code> (R)</li>
+<li><code>DESCRIPTION</code>; added in 8.0.4 (nonreserved)</li>
+<li><code>DES_KEY_FILE</code>; removed in 8.0.3</li>
+<li><code>DETERMINISTIC</code> (R)</li>
+<li><code>DIAGNOSTICS</code></li>
+<li><code>DIRECTORY</code></li>
+<li><code>DISABLE</code></li>
+<li><code>DISCARD</code></li>
+<li><code>DISK</code></li>
+<li><code>DISTINCT</code> (R)</li>
+<li><code>DISTINCTROW</code> (R)</li>
+<li><code>DIV</code> (R)</li>
+<li><code>DO</code></li>
+<li><code>DOUBLE</code> (R)</li>
+<li><code>DROP</code> (R)</li>
+<li><code>DUAL</code> (R)</li>
+<li><code>DUMPFILE</code></li>
+<li><code>DUPLICATE</code></li>
+<li><code>DYNAMIC</code></li>
+</ul>
+<p>E</p>
+<ul>
+<li><code>EACH</code> (R)</li>
+<li><code>ELSE</code> (R)</li>
+<li><code>ELSEIF</code> (R)</li>
+<li><code>EMPTY</code> (R); added in 8.0.4 (reserved)</li>
+<li><code>ENABLE</code></li>
+<li><code>ENCLOSED</code> (R)</li>
+<li><code>ENCRYPTION</code></li>
+<li><code>END</code></li>
+<li><code>ENDS</code></li>
+<li><code>ENFORCED</code>; added in 8.0.16 (nonreserved)</li>
+<li><code>ENGINE</code></li>
+<li><code>ENGINES</code></li>
+<li><code>ENGINE_ATTRIBUTE</code>; added in 8.0.21 (nonreserved)</li>
+<li><code>ENUM</code></li>
+<li><code>ERROR</code></li>
+<li><code>ERRORS</code></li>
+<li><code>ESCAPE</code></li>
+<li><code>ESCAPED</code> (R)</li>
+<li><code>EVENT</code></li>
+<li><code>EVENTS</code></li>
+<li><code>EVERY</code></li>
+<li><code>EXCEPT</code> (R)</li>
+<li><code>EXCHANGE</code></li>
+<li><code>EXCLUDE</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>EXECUTE</code></li>
+<li><code>EXISTS</code> (R)</li>
+<li><code>EXIT</code> (R)</li>
+<li><code>EXPANSION</code></li>
+<li><code>EXPIRE</code></li>
+<li><code>EXPLAIN</code> (R)</li>
+<li><code>EXPORT</code></li>
+<li><code>EXTENDED</code></li>
+<li><code>EXTENT_SIZE</code></li>
+</ul>
+<p>F</p>
+<ul>
+<li><code>FACTOR</code>; added in 8.0.27 (nonreserved)</li>
+<li><code>FAILED_LOGIN_ATTEMPTS</code>; added in 8.0.19 (nonreserved)</li>
+<li><code>FALSE</code> (R)</li>
+<li><code>FAST</code></li>
+<li><code>FAULTS</code></li>
+<li><code>FETCH</code> (R)</li>
+<li><code>FIELDS</code></li>
+<li><code>FILE</code></li>
+<li><code>FILE_BLOCK_SIZE</code></li>
+<li><code>FILTER</code></li>
+<li><code>FINISH</code>; added in 8.0.27 (nonreserved)</li>
+<li><code>FIRST</code></li>
+<li><code>FIRST_VALUE</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>FIXED</code></li>
+<li><code>FLOAT</code> (R)</li>
+<li><code>FLOAT4</code> (R)</li>
+<li><code>FLOAT8</code> (R)</li>
+<li><code>FLUSH</code></li>
+<li><code>FOLLOWING</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>FOLLOWS</code></li>
+<li><code>FOR</code> (R)</li>
+<li><code>FORCE</code> (R)</li>
+<li><code>FOREIGN</code> (R)</li>
+<li><code>FORMAT</code></li>
+<li><code>FOUND</code></li>
+<li><code>FROM</code> (R)</li>
+<li><code>FULL</code></li>
+<li><code>FULLTEXT</code> (R)</li>
+<li><code>FUNCTION</code> (R); became reserved in 8.0.1</li>
+</ul>
+<p>G</p>
+<ul>
+<li><code>GENERAL</code></li>
+<li><code>GENERATED</code> (R)</li>
+<li><code>GEOMCOLLECTION</code>; added in 8.0.11 (nonreserved)</li>
+<li><code>GEOMETRY</code></li>
+<li><code>GEOMETRYCOLLECTION</code></li>
+<li><code>GET</code> (R)</li>
+<li><code>GET_FORMAT</code></li>
+<li><code>GET_MASTER_PUBLIC_KEY</code>; added in 8.0.4 (reserved); became nonreserved in 8.0.11</li>
+<li><code>GET_SOURCE_PUBLIC_KEY</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>GLOBAL</code></li>
+<li><code>GRANT</code> (R)</li>
+<li><code>GRANTS</code></li>
+<li><code>GROUP</code> (R)</li>
+<li><code>GROUPING</code> (R); added in 8.0.1 (reserved)</li>
+<li><code>GROUPS</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>GROUP_REPLICATION</code></li>
+<li><code>GTID_ONLY</code>; added in 8.0.27 (nonreserved)</li>
+</ul>
+<p>H</p>
+<ul>
+<li><code>HANDLER</code></li>
+<li><code>HASH</code></li>
+<li><code>HAVING</code> (R)</li>
+<li><code>HELP</code></li>
+<li><code>HIGH_PRIORITY</code> (R)</li>
+<li><code>HISTOGRAM</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>HISTORY</code>; added in 8.0.3 (nonreserved)</li>
+<li><code>HOST</code></li>
+<li><code>HOSTS</code></li>
+<li><code>HOUR</code></li>
+<li><code>HOUR_MICROSECOND</code> (R)</li>
+<li><code>HOUR_MINUTE</code> (R)</li>
+<li><code>HOUR_SECOND</code> (R)</li>
+</ul>
+<p>I</p>
+<ul>
+<li><code>IDENTIFIED</code></li>
+<li><code>IF</code> (R)</li>
+<li><code>IGNORE</code> (R)</li>
+<li><code>IGNORE_SERVER_IDS</code></li>
+<li><code>IMPORT</code></li>
+<li><code>IN</code> (R)</li>
+<li><code>INACTIVE</code>; added in 8.0.14 (nonreserved)</li>
+<li><code>INDEX</code> (R)</li>
+<li><code>INDEXES</code></li>
+<li><code>INFILE</code> (R)</li>
+<li><code>INITIAL</code>; added in 8.0.27 (nonreserved)</li>
+<li><code>INITIAL_SIZE</code></li>
+<li><code>INITIATE</code>; added in 8.0.27 (nonreserved)</li>
+<li><code>INNER</code> (R)</li>
+<li><code>INOUT</code> (R)</li>
+<li><code>INSENSITIVE</code> (R)</li>
+<li><code>INSERT</code> (R)</li>
+<li><code>INSERT_METHOD</code></li>
+<li><code>INSTALL</code></li>
+<li><code>INSTANCE</code></li>
+<li><code>INT</code> (R)</li>
+<li><code>INT1</code> (R)</li>
+<li><code>INT2</code> (R)</li>
+<li><code>INT3</code> (R)</li>
+<li><code>INT4</code> (R)</li>
+<li><code>INT8</code> (R)</li>
+<li><code>INTEGER</code> (R)</li>
+<li><code>INTERVAL</code> (R)</li>
+<li><code>INTO</code> (R)</li>
+<li><code>INVISIBLE</code></li>
+<li><code>INVOKER</code></li>
+<li><code>IO</code></li>
+<li><code>IO_AFTER_GTIDS</code> (R)</li>
+<li><code>IO_BEFORE_GTIDS</code> (R)</li>
+<li><code>IO_THREAD</code></li>
+<li><code>IPC</code></li>
+<li><code>IS</code> (R)</li>
+<li><code>ISOLATION</code></li>
+<li><code>ISSUER</code></li>
+<li><code>ITERATE</code> (R)</li>
+</ul>
+<p>J</p>
+<ul>
+<li><code>JOIN</code> (R)</li>
+<li><code>JSON</code></li>
+<li><code>JSON_TABLE</code> (R); added in 8.0.4 (reserved)</li>
+<li><code>JSON_VALUE</code>; added in 8.0.21 (nonreserved)</li>
+</ul>
+<p>K</p>
+<ul>
+<li><code>KEY</code> (R)</li>
+<li><code>KEYRING</code>; added in 8.0.24 (nonreserved)</li>
+<li><code>KEYS</code> (R)</li>
+<li><code>KEY_BLOCK_SIZE</code></li>
+<li><code>KILL</code> (R)</li>
+</ul>
+<p>L</p>
+<ul>
+<li><code>LAG</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>LANGUAGE</code></li>
+<li><code>LAST</code></li>
+<li><code>LAST_VALUE</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>LATERAL</code> (R); added in 8.0.14 (reserved)</li>
+<li><code>LEAD</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>LEADING</code> (R)</li>
+<li><code>LEAVE</code> (R)</li>
+<li><code>LEAVES</code></li>
+<li><code>LEFT</code> (R)</li>
+<li><code>LESS</code></li>
+<li><code>LEVEL</code></li>
+<li><code>LIKE</code> (R)</li>
+<li><code>LIMIT</code> (R)</li>
+<li><code>LINEAR</code> (R)</li>
+<li><code>LINES</code> (R)</li>
+<li><code>LINESTRING</code></li>
+<li><code>LIST</code></li>
+<li><code>LOAD</code> (R)</li>
+<li><code>LOCAL</code></li>
+<li><code>LOCALTIME</code> (R)</li>
+<li><code>LOCALTIMESTAMP</code> (R)</li>
+<li><code>LOCK</code> (R)</li>
+<li><code>LOCKED</code>; added in 8.0.1 (nonreserved)</li>
+<li><code>LOCKS</code></li>
+<li><code>LOGFILE</code></li>
+<li><code>LOGS</code></li>
+<li><code>LONG</code> (R)</li>
+<li><code>LONGBLOB</code> (R)</li>
+<li><code>LONGTEXT</code> (R)</li>
+<li><code>LOOP</code> (R)</li>
+<li><code>LOW_PRIORITY</code> (R)</li>
+</ul>
+<p>M</p>
+<ul>
+<li><code>MASTER</code></li>
+<li><code>MASTER_AUTO_POSITION</code></li>
+<li><code>MASTER_BIND</code> (R)</li>
+<li><code>MASTER_COMPRESSION_ALGORITHMS</code>; added in 8.0.18 (nonreserved)</li>
+<li><code>MASTER_CONNECT_RETRY</code></li>
+<li><code>MASTER_DELAY</code></li>
+<li><code>MASTER_HEARTBEAT_PERIOD</code></li>
+<li><code>MASTER_HOST</code></li>
+<li><code>MASTER_LOG_FILE</code></li>
+<li><code>MASTER_LOG_POS</code></li>
+<li><code>MASTER_PASSWORD</code></li>
+<li><code>MASTER_PORT</code></li>
+<li><code>MASTER_PUBLIC_KEY_PATH</code>; added in 8.0.4 (nonreserved)</li>
+<li><code>MASTER_RETRY_COUNT</code></li>
+<li><code>MASTER_SERVER_ID</code>; removed in 8.0.23</li>
+<li><code>MASTER_SSL</code></li>
+<li><code>MASTER_SSL_CA</code></li>
+<li><code>MASTER_SSL_CAPATH</code></li>
+<li><code>MASTER_SSL_CERT</code></li>
+<li><code>MASTER_SSL_CIPHER</code></li>
+<li><code>MASTER_SSL_CRL</code></li>
+<li><code>MASTER_SSL_CRLPATH</code></li>
+<li><code>MASTER_SSL_KEY</code></li>
+<li><code>MASTER_SSL_VERIFY_SERVER_CERT</code> (R)</li>
+<li><code>MASTER_TLS_CIPHERSUITES</code>; added in 8.0.19 (nonreserved)</li>
+<li><code>MASTER_TLS_VERSION</code></li>
+<li><code>MASTER_USER</code></li>
+<li><code>MASTER_ZSTD_COMPRESSION_LEVEL</code>; added in 8.0.18 (nonreserved)</li>
+<li><code>MATCH</code> (R)</li>
+<li><code>MAXVALUE</code> (R)</li>
+<li><code>MAX_CONNECTIONS_PER_HOUR</code></li>
+<li><code>MAX_QUERIES_PER_HOUR</code></li>
+<li><code>MAX_ROWS</code></li>
+<li><code>MAX_SIZE</code></li>
+<li><code>MAX_UPDATES_PER_HOUR</code></li>
+<li><code>MAX_USER_CONNECTIONS</code></li>
+<li><code>MEDIUM</code></li>
+<li><code>MEDIUMBLOB</code> (R)</li>
+<li><code>MEDIUMINT</code> (R)</li>
+<li><code>MEDIUMTEXT</code> (R)</li>
+<li><code>MEMBER</code>; added in 8.0.17 (reserved); became nonreserved in 8.0.19</li>
+<li><code>MEMORY</code></li>
+<li><code>MERGE</code></li>
+<li><code>MESSAGE_TEXT</code></li>
+<li><code>MICROSECOND</code></li>
+<li><code>MIDDLEINT</code> (R)</li>
+<li><code>MIGRATE</code></li>
+<li><code>MINUTE</code></li>
+<li><code>MINUTE_MICROSECOND</code> (R)</li>
+<li><code>MINUTE_SECOND</code> (R)</li>
+<li><code>MIN_ROWS</code></li>
+<li><code>MOD</code> (R)</li>
+<li><code>MODE</code></li>
+<li><code>MODIFIES</code> (R)</li>
+<li><code>MODIFY</code></li>
+<li><code>MONTH</code></li>
+<li><code>MULTILINESTRING</code></li>
+<li><code>MULTIPOINT</code></li>
+<li><code>MULTIPOLYGON</code></li>
+<li><code>MUTEX</code></li>
+<li><code>MYSQL_ERRNO</code></li>
+</ul>
+<p>N</p>
+<ul>
+<li><code>NAME</code></li>
+<li><code>NAMES</code></li>
+<li><code>NATIONAL</code></li>
+<li><code>NATURAL</code> (R)</li>
+<li><code>NCHAR</code></li>
+<li><code>NDB</code></li>
+<li><code>NDBCLUSTER</code></li>
+<li><code>NESTED</code>; added in 8.0.4 (nonreserved)</li>
+<li><code>NETWORK_NAMESPACE</code>; added in 8.0.16 (nonreserved)</li>
+<li><code>NEVER</code></li>
+<li><code>NEW</code></li>
+<li><code>NEXT</code></li>
+<li><code>NO</code></li>
+<li><code>NODEGROUP</code></li>
+<li><code>NONE</code></li>
+<li><code>NOT</code> (R)</li>
+<li><code>NOWAIT</code>; added in 8.0.1 (nonreserved)</li>
+<li><code>NO_WAIT</code></li>
+<li><code>NO_WRITE_TO_BINLOG</code> (R)</li>
+<li><code>NTH_VALUE</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>NTILE</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>NULL</code> (R)</li>
+<li><code>NULLS</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>NUMBER</code></li>
+<li><code>NUMERIC</code> (R)</li>
+<li><code>NVARCHAR</code></li>
+</ul>
+<p>O</p>
+<ul>
+<li><code>OF</code> (R); added in 8.0.1 (reserved)</li>
+<li><code>OFF</code>; added in 8.0.20 (nonreserved)</li>
+<li><code>OFFSET</code></li>
+<li><code>OJ</code>; added in 8.0.16 (nonreserved)</li>
+<li><code>OLD</code>; added in 8.0.14 (nonreserved)</li>
+<li><code>ON</code> (R)</li>
+<li><code>ONE</code></li>
+<li><code>ONLY</code></li>
+<li><code>OPEN</code></li>
+<li><code>OPTIMIZE</code> (R)</li>
+<li><code>OPTIMIZER_COSTS</code> (R)</li>
+<li><code>OPTION</code> (R)</li>
+<li><code>OPTIONAL</code>; added in 8.0.13 (nonreserved)</li>
+<li><code>OPTIONALLY</code> (R)</li>
+<li><code>OPTIONS</code></li>
+<li><code>OR</code> (R)</li>
+<li><code>ORDER</code> (R)</li>
+<li><code>ORDINALITY</code>; added in 8.0.4 (nonreserved)</li>
+<li><code>ORGANIZATION</code>; added in 8.0.4 (nonreserved)</li>
+<li><code>OTHERS</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>OUT</code> (R)</li>
+<li><code>OUTER</code> (R)</li>
+<li><code>OUTFILE</code> (R)</li>
+<li><code>OVER</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>OWNER</code></li>
+</ul>
+<p>P</p>
+<ul>
+<li><code>PACK_KEYS</code></li>
+<li><code>PAGE</code></li>
+<li><code>PARSER</code></li>
+<li><code>PARTIAL</code></li>
+<li><code>PARTITION</code> (R)</li>
+<li><code>PARTITIONING</code></li>
+<li><code>PARTITIONS</code></li>
+<li><code>PASSWORD</code></li>
+<li><code>PASSWORD_LOCK_TIME</code>; added in 8.0.19 (nonreserved)</li>
+<li><code>PATH</code>; added in 8.0.4 (nonreserved)</li>
+<li><code>PERCENT_RANK</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>PERSIST</code>; became nonreserved in 8.0.16</li>
+<li><code>PERSIST_ONLY</code>; added in 8.0.2 (reserved); became nonreserved in 8.0.16</li>
+<li><code>PHASE</code></li>
+<li><code>PLUGIN</code></li>
+<li><code>PLUGINS</code></li>
+<li><code>PLUGIN_DIR</code></li>
+<li><code>POINT</code></li>
+<li><code>POLYGON</code></li>
+<li><code>PORT</code></li>
+<li><code>PRECEDES</code></li>
+<li><code>PRECEDING</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>PRECISION</code> (R)</li>
+<li><code>PREPARE</code></li>
+<li><code>PRESERVE</code></li>
+<li><code>PREV</code></li>
+<li><code>PRIMARY</code> (R)</li>
+<li><code>PRIVILEGES</code></li>
+<li><code>PRIVILEGE_CHECKS_USER</code>; added in 8.0.18 (nonreserved)</li>
+<li><code>PROCEDURE</code> (R)</li>
+<li><code>PROCESS</code>; added in 8.0.11 (nonreserved)</li>
+<li><code>PROCESSLIST</code></li>
+<li><code>PROFILE</code></li>
+<li><code>PROFILES</code></li>
+<li><code>PROXY</code></li>
+<li><code>PURGE</code> (R)</li>
+</ul>
+<p>Q</p>
+<ul>
+<li><code>QUARTER</code></li>
+<li><code>QUERY</code></li>
+<li><code>QUICK</code></li>
+</ul>
+<p>R</p>
+<ul>
+<li><code>RANDOM</code>; added in 8.0.18 (nonreserved)</li>
+<li><code>RANGE</code> (R)</li>
+<li><code>RANK</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>READ</code> (R)</li>
+<li><code>READS</code> (R)</li>
+<li><code>READ_ONLY</code></li>
+<li><code>READ_WRITE</code> (R)</li>
+<li><code>REAL</code> (R)</li>
+<li><code>REBUILD</code></li>
+<li><code>RECOVER</code></li>
+<li><code>RECURSIVE</code> (R); added in 8.0.1 (reserved)</li>
+<li><code>REDOFILE</code>; removed in 8.0.3</li>
+<li><code>REDO_BUFFER_SIZE</code></li>
+<li><code>REDUNDANT</code></li>
+<li><code>REFERENCE</code>; added in 8.0.4 (nonreserved)</li>
+<li><code>REFERENCES</code> (R)</li>
+<li><code>REGEXP</code> (R)</li>
+<li><code>REGISTRATION</code>; added in 8.0.27 (nonreserved)</li>
+<li><code>RELAY</code></li>
+<li><code>RELAYLOG</code></li>
+<li><code>RELAY_LOG_FILE</code></li>
+<li><code>RELAY_LOG_POS</code></li>
+<li><code>RELAY_THREAD</code></li>
+<li><code>RELEASE</code> (R)</li>
+<li><code>RELOAD</code></li>
+<li><code>REMOTE</code>; added in 8.0.3 (nonreserved); removed in 8.0.14</li>
+<li><code>REMOVE</code></li>
+<li><code>RENAME</code> (R)</li>
+<li><code>REORGANIZE</code></li>
+<li><code>REPAIR</code></li>
+<li><code>REPEAT</code> (R)</li>
+<li><code>REPEATABLE</code></li>
+<li><code>REPLACE</code> (R)</li>
+<li><code>REPLICA</code>; added in 8.0.22 (nonreserved)</li>
+<li><code>REPLICAS</code>; added in 8.0.22 (nonreserved)</li>
+<li><code>REPLICATE_DO_DB</code></li>
+<li><code>REPLICATE_DO_TABLE</code></li>
+<li><code>REPLICATE_IGNORE_DB</code></li>
+<li><code>REPLICATE_IGNORE_TABLE</code></li>
+<li><code>REPLICATE_REWRITE_DB</code></li>
+<li><code>REPLICATE_WILD_DO_TABLE</code></li>
+<li><code>REPLICATE_WILD_IGNORE_TABLE</code></li>
+<li><code>REPLICATION</code></li>
+<li><code>REQUIRE</code> (R)</li>
+<li><code>REQUIRE_ROW_FORMAT</code>; added in 8.0.19 (nonreserved)</li>
+<li><code>RESET</code></li>
+<li><code>RESIGNAL</code> (R)</li>
+<li><code>RESOURCE</code>; added in 8.0.3 (nonreserved)</li>
+<li><code>RESPECT</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>RESTART</code>; added in 8.0.4 (nonreserved)</li>
+<li><code>RESTORE</code></li>
+<li><code>RESTRICT</code> (R)</li>
+<li><code>RESUME</code></li>
+<li><code>RETAIN</code>; added in 8.0.14 (nonreserved)</li>
+<li><code>RETURN</code> (R)</li>
+<li><code>RETURNED_SQLSTATE</code></li>
+<li><code>RETURNING</code>; added in 8.0.21 (nonreserved)</li>
+<li><code>RETURNS</code></li>
+<li><code>REUSE</code>; added in 8.0.3 (nonreserved)</li>
+<li><code>REVERSE</code></li>
+<li><code>REVOKE</code> (R)</li>
+<li><code>RIGHT</code> (R)</li>
+<li><code>RLIKE</code> (R)</li>
+<li><code>ROLE</code>; became nonreserved in 8.0.1</li>
+<li><code>ROLLBACK</code></li>
+<li><code>ROLLUP</code></li>
+<li><code>ROTATE</code></li>
+<li><code>ROUTINE</code></li>
+<li><code>ROW</code> (R); became reserved in 8.0.2</li>
+<li><code>ROWS</code> (R); became reserved in 8.0.2</li>
+<li><code>ROW_COUNT</code></li>
+<li><code>ROW_FORMAT</code></li>
+<li><code>ROW_NUMBER</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>RTREE</code></li>
+</ul>
+<p>S</p>
+<ul>
+<li><code>SAVEPOINT</code></li>
+<li><code>SCHEDULE</code></li>
+<li><code>SCHEMA</code> (R)</li>
+<li><code>SCHEMAS</code> (R)</li>
+<li><code>SCHEMA_NAME</code></li>
+<li><code>SECOND</code></li>
+<li><code>SECONDARY</code>; added in 8.0.16 (nonreserved)</li>
+<li><code>SECONDARY_ENGINE</code>; added in 8.0.13 (nonreserved)</li>
+<li><code>SECONDARY_ENGINE_ATTRIBUTE</code>; added in 8.0.21 (nonreserved)</li>
+<li><code>SECONDARY_LOAD</code>; added in 8.0.13 (nonreserved)</li>
+<li><code>SECONDARY_UNLOAD</code>; added in 8.0.13 (nonreserved)</li>
+<li><code>SECOND_MICROSECOND</code> (R)</li>
+<li><code>SECURITY</code></li>
+<li><code>SELECT</code> (R)</li>
+<li><code>SENSITIVE</code> (R)</li>
+<li><code>SEPARATOR</code> (R)</li>
+<li><code>SERIAL</code></li>
+<li><code>SERIALIZABLE</code></li>
+<li><code>SERVER</code></li>
+<li><code>SESSION</code></li>
+<li><code>SET</code> (R)</li>
+<li><code>SHARE</code></li>
+<li><code>SHOW</code> (R)</li>
+<li><code>SHUTDOWN</code></li>
+<li><code>SIGNAL</code> (R)</li>
+<li><code>SIGNED</code></li>
+<li><code>SIMPLE</code></li>
+<li><code>SKIP</code>; added in 8.0.1 (nonreserved)</li>
+<li><code>SLAVE</code></li>
+<li><code>SLOW</code></li>
+<li><code>SMALLINT</code> (R)</li>
+<li><code>SNAPSHOT</code></li>
+<li><code>SOCKET</code></li>
+<li><code>SOME</code></li>
+<li><code>SONAME</code></li>
+<li><code>SOUNDS</code></li>
+<li><code>SOURCE</code></li>
+<li><code>SOURCE_AUTO_POSITION</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_BIND</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_COMPRESSION_ALGORITHMS</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_CONNECT_RETRY</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_DELAY</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_HEARTBEAT_PERIOD</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_HOST</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_LOG_FILE</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_LOG_POS</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_PASSWORD</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_PORT</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_PUBLIC_KEY_PATH</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_RETRY_COUNT</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_SSL</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_SSL_CA</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_SSL_CAPATH</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_SSL_CERT</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_SSL_CIPHER</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_SSL_CRL</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_SSL_CRLPATH</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_SSL_KEY</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_SSL_VERIFY_SERVER_CERT</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_TLS_CIPHERSUITES</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_TLS_VERSION</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_USER</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SOURCE_ZSTD_COMPRESSION_LEVEL</code>; added in 8.0.23 (nonreserved)</li>
+<li><code>SPATIAL</code> (R)</li>
+<li><code>SPECIFIC</code> (R)</li>
+<li><code>SQL</code> (R)</li>
+<li><code>SQLEXCEPTION</code> (R)</li>
+<li><code>SQLSTATE</code> (R)</li>
+<li><code>SQLWARNING</code> (R)</li>
+<li><code>SQL_AFTER_GTIDS</code></li>
+<li><code>SQL_AFTER_MTS_GAPS</code></li>
+<li><code>SQL_BEFORE_GTIDS</code></li>
+<li><code>SQL_BIG_RESULT</code> (R)</li>
+<li><code>SQL_BUFFER_RESULT</code></li>
+<li><code>SQL_CACHE</code>; removed in 8.0.3</li>
+<li><code>SQL_CALC_FOUND_ROWS</code> (R)</li>
+<li><code>SQL_NO_CACHE</code></li>
+<li><code>SQL_SMALL_RESULT</code> (R)</li>
+<li><code>SQL_THREAD</code></li>
+<li><code>SQL_TSI_DAY</code></li>
+<li><code>SQL_TSI_HOUR</code></li>
+<li><code>SQL_TSI_MINUTE</code></li>
+<li><code>SQL_TSI_MONTH</code></li>
+<li><code>SQL_TSI_QUARTER</code></li>
+<li><code>SQL_TSI_SECOND</code></li>
+<li><code>SQL_TSI_WEEK</code></li>
+<li><code>SQL_TSI_YEAR</code></li>
+<li><code>SRID</code>; added in 8.0.3 (nonreserved)</li>
+<li><code>SSL</code> (R)</li>
+<li><code>STACKED</code></li>
+<li><code>START</code></li>
+<li><code>STARTING</code> (R)</li>
+<li><code>STARTS</code></li>
+<li><code>STATS_AUTO_RECALC</code></li>
+<li><code>STATS_PERSISTENT</code></li>
+<li><code>STATS_SAMPLE_PAGES</code></li>
+<li><code>STATUS</code></li>
+<li><code>STOP</code></li>
+<li><code>STORAGE</code></li>
+<li><code>STORED</code> (R)</li>
+<li><code>STRAIGHT_JOIN</code> (R)</li>
+<li><code>STREAM</code>; added in 8.0.20 (nonreserved)</li>
+<li><code>STRING</code></li>
+<li><code>SUBCLASS_ORIGIN</code></li>
+<li><code>SUBJECT</code></li>
+<li><code>SUBPARTITION</code></li>
+<li><code>SUBPARTITIONS</code></li>
+<li><code>SUPER</code></li>
+<li><code>SUSPEND</code></li>
+<li><code>SWAPS</code></li>
+<li><code>SWITCHES</code></li>
+<li><code>SYSTEM</code> (R); added in 8.0.3 (reserved)</li>
+</ul>
+<p>T</p>
+<ul>
+<li><code>TABLE</code> (R)</li>
+<li><code>TABLES</code></li>
+<li><code>TABLESPACE</code></li>
+<li><code>TABLE_CHECKSUM</code></li>
+<li><code>TABLE_NAME</code></li>
+<li><code>TEMPORARY</code></li>
+<li><code>TEMPTABLE</code></li>
+<li><code>TERMINATED</code> (R)</li>
+<li><code>TEXT</code></li>
+<li><code>THAN</code></li>
+<li><code>THEN</code> (R)</li>
+<li><code>THREAD_PRIORITY</code>; added in 8.0.3 (nonreserved)</li>
+<li><code>TIES</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>TIME</code></li>
+<li><code>TIMESTAMP</code></li>
+<li><code>TIMESTAMPADD</code></li>
+<li><code>TIMESTAMPDIFF</code></li>
+<li><code>TINYBLOB</code> (R)</li>
+<li><code>TINYINT</code> (R)</li>
+<li><code>TINYTEXT</code> (R)</li>
+<li><code>TLS</code>; added in 8.0.21 (nonreserved)</li>
+<li><code>TO</code> (R)</li>
+<li><code>TRAILING</code> (R)</li>
+<li><code>TRANSACTION</code></li>
+<li><code>TRIGGER</code> (R)</li>
+<li><code>TRIGGERS</code></li>
+<li><code>TRUE</code> (R)</li>
+<li><code>TRUNCATE</code></li>
+<li><code>TYPE</code></li>
+<li><code>TYPES</code></li>
+</ul>
+<p>U</p>
+<ul>
+<li><code>UNBOUNDED</code>; added in 8.0.2 (nonreserved)</li>
+<li><code>UNCOMMITTED</code></li>
+<li><code>UNDEFINED</code></li>
+<li><code>UNDO</code> (R)</li>
+<li><code>UNDOFILE</code></li>
+<li><code>UNDO_BUFFER_SIZE</code></li>
+<li><code>UNICODE</code></li>
+<li><code>UNINSTALL</code></li>
+<li><code>UNION</code> (R)</li>
+<li><code>UNIQUE</code> (R)</li>
+<li><code>UNKNOWN</code></li>
+<li><code>UNLOCK</code> (R)</li>
+<li><code>UNREGISTER</code>; added in 8.0.27 (nonreserved)</li>
+<li><code>UNSIGNED</code> (R)</li>
+<li><code>UNTIL</code></li>
+<li><code>UPDATE</code> (R)</li>
+<li><code>UPGRADE</code></li>
+<li><code>USAGE</code> (R)</li>
+<li><code>USE</code> (R)</li>
+<li><code>USER</code></li>
+<li><code>USER_RESOURCES</code></li>
+<li><code>USE_FRM</code></li>
+<li><code>USING</code> (R)</li>
+<li><code>UTC_DATE</code> (R)</li>
+<li><code>UTC_TIME</code> (R)</li>
+<li><code>UTC_TIMESTAMP</code> (R)</li>
+</ul>
+<p>V</p>
+<ul>
+<li><code>VALIDATION</code></li>
+<li><code>VALUE</code></li>
+<li><code>VALUES</code> (R)</li>
+<li><code>VARBINARY</code> (R)</li>
+<li><code>VARCHAR</code> (R)</li>
+<li><code>VARCHARACTER</code> (R)</li>
+<li><code>VARIABLES</code></li>
+<li><code>VARYING</code> (R)</li>
+<li><code>VCPU</code>; added in 8.0.3 (nonreserved)</li>
+<li><code>VIEW</code></li>
+<li><code>VIRTUAL</code> (R)</li>
+<li><code>VISIBLE</code></li>
+</ul>
+<p>W</p>
+<ul>
+<li><code>WAIT</code></li>
+<li><code>WARNINGS</code></li>
+<li><code>WEEK</code></li>
+<li><code>WEIGHT_STRING</code></li>
+<li><code>WHEN</code> (R)</li>
+<li><code>WHERE</code> (R)</li>
+<li><code>WHILE</code> (R)</li>
+<li><code>WINDOW</code> (R); added in 8.0.2 (reserved)</li>
+<li><code>WITH</code> (R)</li>
+<li><code>WITHOUT</code></li>
+<li><code>WORK</code></li>
+<li><code>WRAPPER</code></li>
+<li><code>WRITE</code> (R)</li>
+</ul>
+<p>X</p>
+<ul>
+<li><code>X509</code></li>
+<li><code>XA</code></li>
+<li><code>XID</code></li>
+<li><code>XML</code></li>
+<li><code>XOR</code> (R)</li>
+</ul>
+<p>Y</p>
+<ul>
+<li><code>YEAR</code></li>
+<li><code>YEAR_MONTH</code> (R)</li>
+</ul>
+<p>Z</p>
+<ul>
+<li><code>ZEROFILL</code> (R)</li>
+<li><code>ZONE</code>; added in 8.0.22 (nonreserved)</li>
+</ul>
+<h3 id="MySQL-8-0-New-Keywords-and-Reserved-Words"><a href="#MySQL-8-0-New-Keywords-and-Reserved-Words" class="headerlink" title="MySQL 8.0 New Keywords and Reserved Words"></a>MySQL 8.0 New Keywords and Reserved Words</h3><p>The following list shows the keywords and reserved words that are added in MySQL 8.0, compared to MySQL 5.7. Reserved keywords are marked with (R).</p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-A" target="_blank" rel="noopener">A</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-B" target="_blank" rel="noopener">B</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-C" target="_blank" rel="noopener">C</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-D" target="_blank" rel="noopener">D</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-E" target="_blank" rel="noopener">E</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-F" target="_blank" rel="noopener">F</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-G" target="_blank" rel="noopener">G</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-H" target="_blank" rel="noopener">H</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-I" target="_blank" rel="noopener">I</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-J" target="_blank" rel="noopener">J</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-K" target="_blank" rel="noopener">K</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-L" target="_blank" rel="noopener">L</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-M" target="_blank" rel="noopener">M</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-N" target="_blank" rel="noopener">N</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-O" target="_blank" rel="noopener">O</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-P" target="_blank" rel="noopener">P</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-R" target="_blank" rel="noopener">R</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-S" target="_blank" rel="noopener">S</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-T" target="_blank" rel="noopener">T</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-U" target="_blank" rel="noopener">U</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-V" target="_blank" rel="noopener">V</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-W" target="_blank" rel="noopener">W</a> | <a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html#keywords-new-8-0-Z" target="_blank" rel="noopener">Z</a></p>
+<p>A</p>
+<ul>
+<li><code>ACTIVE</code></li>
+<li><code>ADMIN</code></li>
+<li><code>ARRAY</code></li>
+<li><code>ATTRIBUTE</code></li>
+<li><code>AUTHENTICATION</code></li>
+</ul>
+<p>B</p>
+<ul>
+<li><code>BUCKETS</code></li>
+</ul>
+<p>C</p>
+<ul>
+<li><code>CHALLENGE_RESPONSE</code></li>
+<li><code>CLONE</code></li>
+<li><code>COMPONENT</code></li>
+<li><code>CUME_DIST</code> (R)</li>
+</ul>
+<p>D</p>
+<ul>
+<li><code>DEFINITION</code></li>
+<li><code>DENSE_RANK</code> (R)</li>
+<li><code>DESCRIPTION</code></li>
+</ul>
+<p>E</p>
+<ul>
+<li><code>EMPTY</code> (R)</li>
+<li><code>ENFORCED</code></li>
+<li><code>ENGINE_ATTRIBUTE</code></li>
+<li><code>EXCEPT</code> (R)</li>
+<li><code>EXCLUDE</code></li>
+</ul>
+<p>F</p>
+<ul>
+<li><code>FACTOR</code></li>
+<li><code>FAILED_LOGIN_ATTEMPTS</code></li>
+<li><code>FINISH</code></li>
+<li><code>FIRST_VALUE</code> (R)</li>
+<li><code>FOLLOWING</code></li>
+</ul>
+<p>G</p>
+<ul>
+<li><code>GEOMCOLLECTION</code></li>
+<li><code>GET_MASTER_PUBLIC_KEY</code></li>
+<li><code>GET_SOURCE_PUBLIC_KEY</code></li>
+<li><code>GROUPING</code> (R)</li>
+<li><code>GROUPS</code> (R)</li>
+<li><code>GTID_ONLY</code></li>
+</ul>
+<p>H</p>
+<ul>
+<li><code>HISTOGRAM</code></li>
+<li><code>HISTORY</code></li>
+</ul>
+<p>I</p>
+<ul>
+<li><code>INACTIVE</code></li>
+<li><code>INITIAL</code></li>
+<li><code>INITIATE</code></li>
+<li><code>INVISIBLE</code></li>
+</ul>
+<p>J</p>
+<ul>
+<li><code>JSON_TABLE</code> (R)</li>
+<li><code>JSON_VALUE</code></li>
+</ul>
+<p>K</p>
+<ul>
+<li><code>KEYRING</code></li>
+</ul>
+<p>L</p>
+<ul>
+<li><code>LAG</code> (R)</li>
+<li><code>LAST_VALUE</code> (R)</li>
+<li><code>LATERAL</code> (R)</li>
+<li><code>LEAD</code> (R)</li>
+<li><code>LOCKED</code></li>
+</ul>
+<p>M</p>
+<ul>
+<li><code>MASTER_COMPRESSION_ALGORITHMS</code></li>
+<li><code>MASTER_PUBLIC_KEY_PATH</code></li>
+<li><code>MASTER_TLS_CIPHERSUITES</code></li>
+<li><code>MASTER_ZSTD_COMPRESSION_LEVEL</code></li>
+<li><code>MEMBER</code></li>
+</ul>
+<p>N</p>
+<ul>
+<li><code>NESTED</code></li>
+<li><code>NETWORK_NAMESPACE</code></li>
+<li><code>NOWAIT</code></li>
+<li><code>NTH_VALUE</code> (R)</li>
+<li><code>NTILE</code> (R)</li>
+<li><code>NULLS</code></li>
+</ul>
+<p>O</p>
+<ul>
+<li><code>OF</code> (R)</li>
+<li><code>OFF</code></li>
+<li><code>OJ</code></li>
+<li><code>OLD</code></li>
+<li><code>OPTIONAL</code></li>
+<li><code>ORDINALITY</code></li>
+<li><code>ORGANIZATION</code></li>
+<li><code>OTHERS</code></li>
+<li><code>OVER</code> (R)</li>
+</ul>
+<p>P</p>
+<ul>
+<li><code>PASSWORD_LOCK_TIME</code></li>
+<li><code>PATH</code></li>
+<li><code>PERCENT_RANK</code> (R)</li>
+<li><code>PERSIST</code></li>
+<li><code>PERSIST_ONLY</code></li>
+<li><code>PRECEDING</code></li>
+<li><code>PRIVILEGE_CHECKS_USER</code></li>
+<li><code>PROCESS</code></li>
+</ul>
+<p>R</p>
+<ul>
+<li><code>RANDOM</code></li>
+<li><code>RANK</code> (R)</li>
+<li><code>RECURSIVE</code> (R)</li>
+<li><code>REFERENCE</code></li>
+<li><code>REGISTRATION</code></li>
+<li><code>REPLICA</code></li>
+<li><code>REPLICAS</code></li>
+<li><code>REQUIRE_ROW_FORMAT</code></li>
+<li><code>RESOURCE</code></li>
+<li><code>RESPECT</code></li>
+<li><code>RESTART</code></li>
+<li><code>RETAIN</code></li>
+<li><code>RETURNING</code></li>
+<li><code>REUSE</code></li>
+<li><code>ROLE</code></li>
+<li><code>ROW_NUMBER</code> (R)</li>
+</ul>
+<p>S</p>
+<ul>
+<li><code>SECONDARY</code></li>
+<li><code>SECONDARY_ENGINE</code></li>
+<li><code>SECONDARY_ENGINE_ATTRIBUTE</code></li>
+<li><code>SECONDARY_LOAD</code></li>
+<li><code>SECONDARY_UNLOAD</code></li>
+<li><code>SKIP</code></li>
+<li><code>SOURCE_AUTO_POSITION</code></li>
+<li><code>SOURCE_BIND</code></li>
+<li><code>SOURCE_COMPRESSION_ALGORITHMS</code></li>
+<li><code>SOURCE_CONNECT_RETRY</code></li>
+<li><code>SOURCE_DELAY</code></li>
+<li><code>SOURCE_HEARTBEAT_PERIOD</code></li>
+<li><code>SOURCE_HOST</code></li>
+<li><code>SOURCE_LOG_FILE</code></li>
+<li><code>SOURCE_LOG_POS</code></li>
+<li><code>SOURCE_PASSWORD</code></li>
+<li><code>SOURCE_PORT</code></li>
+<li><code>SOURCE_PUBLIC_KEY_PATH</code></li>
+<li><code>SOURCE_RETRY_COUNT</code></li>
+<li><code>SOURCE_SSL</code></li>
+<li><code>SOURCE_SSL_CA</code></li>
+<li><code>SOURCE_SSL_CAPATH</code></li>
+<li><code>SOURCE_SSL_CERT</code></li>
+<li><code>SOURCE_SSL_CIPHER</code></li>
+<li><code>SOURCE_SSL_CRL</code></li>
+<li><code>SOURCE_SSL_CRLPATH</code></li>
+<li><code>SOURCE_SSL_KEY</code></li>
+<li><code>SOURCE_SSL_VERIFY_SERVER_CERT</code></li>
+<li><code>SOURCE_TLS_CIPHERSUITES</code></li>
+<li><code>SOURCE_TLS_VERSION</code></li>
+<li><code>SOURCE_USER</code></li>
+<li><code>SOURCE_ZSTD_COMPRESSION_LEVEL</code></li>
+<li><code>SRID</code></li>
+<li><code>STREAM</code></li>
+<li><code>SYSTEM</code> (R)</li>
+</ul>
+<p>T</p>
+<ul>
+<li><code>THREAD_PRIORITY</code></li>
+<li><code>TIES</code></li>
+<li><code>TLS</code></li>
+</ul>
+<p>U</p>
+<ul>
+<li><code>UNBOUNDED</code></li>
+<li><code>UNREGISTER</code></li>
+</ul>
+<p>V</p>
+<ul>
+<li><code>VCPU</code></li>
+<li><code>VISIBLE</code></li>
+</ul>
+<p>W</p>
+<ul>
+<li><code>WINDOW</code> (R)</li>
+</ul>
+<p>Z</p>
+<ul>
+<li><code>ZONE</code></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/03/30/MySQL关键字问题/" target="_blank" title="MySQL关键字问题">http://yoursite.com/2022/03/30/MySQL关键字问题/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/03/30/%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">反射获取私有数据问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-8-0-New-Keywords-and-Reserved-Words"><span class="nav-number">1.</span> <span class="nav-text">MySQL 8.0 New Keywords and Reserved Words</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

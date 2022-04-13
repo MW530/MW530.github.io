@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java多线程编程核心技术-5-timer的使用 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Java多线程编程核心技术Timer的使用" />
+  
+  
+  
+  
+  <meta name="description" content="定时器Timer的使用Timer类Timer类的主要作用是设置计划任务，即在指定时间开始执行某一个任务。 其构造方法如下 1234567public Timer() &amp;#123;    this(&quot;Timer-&quot; + serialNumber());&amp;#125;public Timer(boolean isDaemon) &amp;#123;    this(&quot;Timer-&quot; + serialNumber">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程编程核心技术-5-Timer的使用">
+<meta property="og:url" content="http://yoursite.com/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="定时器Timer的使用Timer类Timer类的主要作用是设置计划任务，即在指定时间开始执行某一个任务。 其构造方法如下 1234567public Timer() &amp;#123;    this(&quot;Timer-&quot; + serialNumber());&amp;#125;public Timer(boolean isDaemon) &amp;#123;    this(&quot;Timer-&quot; + serialNumber">
+<meta property="article:published_time" content="2022-04-06T08:31:16.000Z">
+<meta property="article:modified_time" content="2022-04-13T02:12:54.340Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Java多线程编程核心技术">
+<meta property="article:tag" content="Timer的使用">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Java多线程编程核心技术-5-Timer的使用" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Java多线程编程核心技术-5-Timer的使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2022-04-06T08:31:16.000Z" itemprop="datePublished">2022-04-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="定时器Timer的使用"><a href="#定时器Timer的使用" class="headerlink" title="定时器Timer的使用"></a>定时器Timer的使用</h1><h2 id="Timer类"><a href="#Timer类" class="headerlink" title="Timer类"></a>Timer类</h2><p>Timer类的主要作用是设置计划任务，即在指定时间开始执行某一个任务。</p>
+<p>其构造方法如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Timer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(<span class="string">"Timer-"</span> + serialNumber());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Timer</span><span class="params">(<span class="keyword">boolean</span> isDaemon)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(<span class="string">"Timer-"</span> + serialNumber(), isDaemon);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即可以自定义该定时器的名称。</p>
+<p>其主要有四个方法：</p>
+<ul>
+<li>schedule</li>
+<li>scheduleAtFixedRate</li>
+<li>cancel</li>
+<li>purge</li>
+</ul>
+<p>其中第一二个都是计划执行的方法；而第三个为取消任务；第四个为移除所有被取消的任务，并返回器数量。</p>
+<h2 id="TimerTask类"><a href="#TimerTask类" class="headerlink" title="TimerTask类"></a>TimerTask类</h2><p>TimerTask是实现了Runnable接口的一个抽象类，即实际上是封装了一个线程。</p>
+<p>主要是在内部添加了状态属性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> state = VIRGIN;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VIRGIN = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SCHEDULED   = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> EXECUTED    = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CANCELLED   = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>并且新建了一个空对象作为锁对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * This object is used to control access to the TimerTask internals.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="keyword">final</span> Object lock = <span class="keyword">new</span> Object();</span><br></pre></td></tr></table></figure>
+<p>我们需要去继承TimerTask，然后重写run方法，进而实现自己的任务。</p>
+<h2 id="单次任务"><a href="#单次任务" class="headerlink" title="单次任务"></a>单次任务</h2><p>下面介绍可以单词执行任务的方法。</p>
+<h3 id="指定时间执行-schedule-TimerTask-task-Date-time"><a href="#指定时间执行-schedule-TimerTask-task-Date-time" class="headerlink" title="指定时间执行-schedule(TimerTask task, Date time)"></a>指定时间执行-<code>schedule(TimerTask task, Date time)</code></h3><p>可以通过<code>schedule(TimerTask task，Date time)</code>来执行定时只执行一次的任务。</p>
+<p>例如10秒后打印字符串：</p>
+<p>TimerTask类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTimerTask</span> <span class="keyword">extends</span> <span class="title">TimerTask</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"task begin!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Timer;</span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line">		TimerTask timerTask = <span class="keyword">new</span> MyTimerTask();</span><br><span class="line">		timer.schedule(timerTask, <span class="keyword">new</span> Date(System.currentTimeMillis()+<span class="number">10000</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="TimerThread线程不会自动销毁"><a href="#TimerThread线程不会自动销毁" class="headerlink" title="TimerThread线程不会自动销毁"></a>TimerThread线程不会自动销毁</h4><p>执行后会发现一个问题，即使当定时器已经执行完毕，定时器线程并不会结束。这是因为任务的实际执行是在Timer类内部的<code>TimerThread</code>线程来执行。其run方法是一个死循环：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        mainLoop();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="comment">// Someone killed this Thread, behave as if Timer cancelled</span></span><br><span class="line">        <span class="keyword">synchronized</span>(queue) &#123;</span><br><span class="line">            newTasksMayBeScheduled = <span class="keyword">false</span>;</span><br><span class="line">            queue.clear();  <span class="comment">// Eliminate obsolete references</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The main timer loop.  (See class comment.)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">mainLoop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            TimerTask task;</span><br><span class="line">            <span class="keyword">boolean</span> taskFired;</span><br><span class="line">            <span class="keyword">synchronized</span>(queue) &#123;</span><br><span class="line">                <span class="comment">// Wait for queue to become non-empty</span></span><br><span class="line">                <span class="keyword">while</span> (queue.isEmpty() &amp;&amp; newTasksMayBeScheduled)</span><br><span class="line">                    queue.wait();</span><br><span class="line">                <span class="keyword">if</span> (queue.isEmpty())</span><br><span class="line">                    <span class="keyword">break</span>; <span class="comment">// Queue is empty and will forever remain; die</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// Queue nonempty; look at first evt and do the right thing</span></span><br><span class="line">                <span class="keyword">long</span> currentTime, executionTime;</span><br><span class="line">                task = queue.getMin();</span><br><span class="line">                <span class="keyword">synchronized</span>(task.lock) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (task.state == TimerTask.CANCELLED) &#123;</span><br><span class="line">                        queue.removeMin();</span><br><span class="line">                        <span class="keyword">continue</span>;  <span class="comment">// No action required, poll queue again</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    currentTime = System.currentTimeMillis();</span><br><span class="line">                    executionTime = task.nextExecutionTime;</span><br><span class="line">                    <span class="keyword">if</span> (taskFired = (executionTime&lt;=currentTime)) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (task.period == <span class="number">0</span>) &#123; <span class="comment">// Non-repeating, remove</span></span><br><span class="line">                            queue.removeMin();</span><br><span class="line">                            task.state = TimerTask.EXECUTED;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123; <span class="comment">// Repeating task, reschedule</span></span><br><span class="line">                            queue.rescheduleMin(</span><br><span class="line">                                task.period&lt;<span class="number">0</span> ? currentTime   - task.period</span><br><span class="line">                                : executionTime + task.period);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (!taskFired) <span class="comment">// Task hasn't yet fired; wait</span></span><br><span class="line">                    queue.wait(executionTime - currentTime);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (taskFired)  <span class="comment">// Task fired; run it, holding no locks</span></span><br><span class="line">                task.run();</span><br><span class="line">        &#125; <span class="keyword">catch</span>(InterruptedException e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以即使是定时器全部结束，也不会停止线程。</p>
+<p>而我们可以使用<code>public void cancel()</code>来手动使TimerThread终止。</p>
+<p>Timer类中public void cancel()方法的作用是终止此计时器，丢弃所有当前已安排的任务。这不会干扰当前正在执行的任务（如果存在）。一旦终止了计时器，那么它的执行线程也会终止，并且无法根据它安排更多的任务。注意，在此计时器调用的计时器任务的run()方法内调用此方法，可以确保正在执行的任务是此计时器所执行的最后一个任务。可以重复调用此方法，但是第二次和后续调用无效。</p>
+<p>例如：</p>
+<p>执行类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Timer;</span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line">		TimerTask timerTask = <span class="keyword">new</span> MyTimerTask();</span><br><span class="line">		timer.schedule(timerTask, <span class="keyword">new</span> Date(System.currentTimeMillis()+<span class="number">10000</span>));</span><br><span class="line">		Thread.sleep(<span class="number">15000</span>);</span><br><span class="line">		timer.cancel();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即指定10秒钟后执行该任务，15秒后取消该定时器，定时线程也被终止。</p>
+<h4 id="计划时间早于当前时间——立即运行的效果"><a href="#计划时间早于当前时间——立即运行的效果" class="headerlink" title="计划时间早于当前时间——立即运行的效果"></a>计划时间早于当前时间——立即运行的效果</h4><p>如果指定的时间在当前时间之前，则该任务会立即执行。但是注意，其仍然是在异步线程中使用，所以仍然会比主线程慢输出，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Timer;</span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line">		TimerTask timerTask = <span class="keyword">new</span> MyTimerTask();</span><br><span class="line">		timer.schedule(timerTask, <span class="keyword">new</span> Date(System.currentTimeMillis()-<span class="number">10000</span>));</span><br><span class="line">		System.out.println(<span class="string">"main thread!"</span>);</span><br><span class="line">		timer.cancel();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">main thread!</span><br><span class="line">task begin!</span><br></pre></td></tr></table></figure>
+<h4 id="一个Timer中执行多个TimerTask任务"><a href="#一个Timer中执行多个TimerTask任务" class="headerlink" title="一个Timer中执行多个TimerTask任务"></a>一个Timer中执行多个TimerTask任务</h4><p>一个Timer相当于一个管理器，因此其可以管理多个异步任务。只需要多次调用schedule方法即可。</p>
+<p>例如：</p>
+<p>任务类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTimerTask</span> <span class="keyword">extends</span> <span class="title">TimerTask</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"Task Time: "</span> + System.currentTimeMillis());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Timer;</span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> nowTime = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"current time: "</span> + nowTime);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> scheduleTime1 = (nowTime + <span class="number">5000</span>);</span><br><span class="line">        <span class="keyword">long</span> scheduleTime2 = (nowTime + <span class="number">8000</span>);</span><br><span class="line">        System.out.println(<span class="string">"task1 time: "</span> + scheduleTime1);</span><br><span class="line">        System.out.println(<span class="string">"task2 time: "</span> + scheduleTime2);</span><br><span class="line"></span><br><span class="line">        MyTimerTask task1 = <span class="keyword">new</span> MyTimerTask();</span><br><span class="line">        MyTimerTask task2 = <span class="keyword">new</span> MyTimerTask();</span><br><span class="line"></span><br><span class="line">        Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line">        timer.schedule(task1, <span class="keyword">new</span> Date(scheduleTime1));</span><br><span class="line">        timer.schedule(task2, <span class="keyword">new</span> Date(scheduleTime2));</span><br><span class="line"></span><br><span class="line">		System.out.println(<span class="string">"main thread!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">current time: 1649239031782</span><br><span class="line">task1 time: 1649239036782</span><br><span class="line">task2 time: 1649239039782</span><br><span class="line">main thread!</span><br><span class="line">Task Time: 1649239036782</span><br><span class="line">Task Time: 1649239039796</span><br></pre></td></tr></table></figure>
+<p>可以看到其都执行了。</p>
+<h3 id="指定时间间隔后执行-schedule-TimerTask-task，long-delay"><a href="#指定时间间隔后执行-schedule-TimerTask-task，long-delay" class="headerlink" title="指定时间间隔后执行-schedule(TimerTask task，long delay)"></a>指定时间间隔后执行-<code>schedule(TimerTask task，long delay)</code></h3><p>该方法与上述的<code>schedule(TimerTask task, Date time)</code>都是添加一个任务。</p>
+<p>不过该方法是以执行方法当前的时间为参考时间，在此时间基础上延迟指定的毫秒数后执行一次TimerTask任务。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Timer;</span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Run</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTask</span> <span class="keyword">extends</span> <span class="title">TimerTask</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"运行了！时间为："</span> + System.currentTimeMillis());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyTask task = <span class="keyword">new</span> MyTask();</span><br><span class="line">        Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line">        System.out.println(<span class="string">"当前时间："</span> + System.currentTimeMillis());</span><br><span class="line">        timer.schedule(task, <span class="number">7000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="循环任务"><a href="#循环任务" class="headerlink" title="循环任务"></a>循环任务</h2><p>还可以制定以一定间隔一直循环执行任务。</p>
+<h3 id="追赶任务"><a href="#追赶任务" class="headerlink" title="追赶任务"></a>追赶任务</h3><h4 id="指定第一次任务-schedule-TimerTask-task，Date-firstTime，long-period"><a href="#指定第一次任务-schedule-TimerTask-task，Date-firstTime，long-period" class="headerlink" title="指定第一次任务-schedule(TimerTask task，Date firstTime，long period)"></a>指定第一次任务-<code>schedule(TimerTask task，Date firstTime，long period)</code></h4><p>该方法的作用是在<strong>指定日期之后</strong>按指定的间隔周期无限循环地执行某一任务。</p>
+<p>例如，执行类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Timer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> mytask.MyTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> nowTime = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"当前时间为："</span> + nowTime);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> scheduleTime = (nowTime + <span class="number">10000</span>);</span><br><span class="line">        System.out.println(<span class="string">"计划时间为："</span> + scheduleTime);</span><br><span class="line"></span><br><span class="line">        MyTask task = <span class="keyword">new</span> MyTask();</span><br><span class="line"></span><br><span class="line">        Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line">        timer.schedule(task, <span class="keyword">new</span> Date(scheduleTime), <span class="number">4000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">current time: <span class="number">1649241014210</span></span><br><span class="line">plan time: <span class="number">1649241024210</span></span><br><span class="line">Task Time: <span class="number">1649241024210</span></span><br><span class="line">Task Time: <span class="number">1649241028219</span></span><br><span class="line">Task Time: <span class="number">1649241032229</span></span><br><span class="line">Task Time: <span class="number">1649241036244</span></span><br></pre></td></tr></table></figure>
+<h4 id="以当前时间为第一次任务的开始时间-schedule-TimerTask-task，long-delay，long-period"><a href="#以当前时间为第一次任务的开始时间-schedule-TimerTask-task，long-delay，long-period" class="headerlink" title="以当前时间为第一次任务的开始时间-schedule(TimerTask task，long delay，long period)"></a>以当前时间为第一次任务的开始时间-<code>schedule(TimerTask task，long delay，long period)</code></h4><p>该方法的作用是以执行<code>schedule(TimerTask task，long delay，long period)</code>方法当前的时间为参考时间，在此时间基础上延迟指定的毫秒数后执行一次TimerTask任务。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Timer;</span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Run</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTask</span> <span class="keyword">extends</span> <span class="title">TimerTask</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"运行了！时间为："</span> + System.currentTimeMillis());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyTask task = <span class="keyword">new</span> MyTask();</span><br><span class="line">        Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line">        System.out.println(<span class="string">"当前时间："</span> + System.currentTimeMillis());</span><br><span class="line">        timer.schedule(task, <span class="number">7000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">current time: 1649241296832</span><br><span class="line">plan time: 1649241306832</span><br><span class="line">Task Time: 1649241299845</span><br><span class="line">Task Time: 1649241300855</span><br><span class="line">Task Time: 1649241301870</span><br></pre></td></tr></table></figure>
+<h3 id="不追赶任务-scheduleAtFixedRate"><a href="#不追赶任务-scheduleAtFixedRate" class="headerlink" title="不追赶任务-scheduleAtFixedRate"></a>不追赶任务-<code>scheduleAtFixedRate</code></h3><h4 id="追赶测试"><a href="#追赶测试" class="headerlink" title="追赶测试"></a>追赶测试</h4><p>schedule()方法和scheduleAtFixedRate()方法的主要区别在于有没有追赶特性。</p>
+<p>所谓追赶，即当上一次任务的结束时间已经比该次任务的计划时间晚了，那么该次任务是否还执行。</p>
+<p>而schedule是不具有追赶行的，即过期的任务不会被执行。</p>
+<p>scheduleAtFixedRate具有追赶性，即使任务过期，还是会执行。</p>
+<p>例如：</p>
+<p>追赶执行类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test9</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTask</span> <span class="keyword">extends</span> <span class="title">TimerTask</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"begin timer="</span> + System.currentTimeMillis());</span><br><span class="line">            System.out.println(<span class="string">"  end timer="</span> + System.currentTimeMillis());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyTask task = <span class="keyword">new</span> MyTask();</span><br><span class="line">        <span class="keyword">long</span> nowTime = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"现在执行时间："</span> + nowTime);</span><br><span class="line">        <span class="keyword">long</span> runTime = nowTime - <span class="number">20000</span>;</span><br><span class="line">        System.out.println(<span class="string">"计划执行时间："</span> + runTime);</span><br><span class="line">        Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line">        timer.schedule(task, <span class="keyword">new</span> Date(runTime), <span class="number">2000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">current time: 1649242106556</span><br><span class="line">plan time: 1649242086556</span><br><span class="line">begin timer&#x3D;1649242106557</span><br><span class="line">  end timer&#x3D;1649242106557</span><br><span class="line">begin timer&#x3D;1649242108563</span><br><span class="line">  end timer&#x3D;1649242108563</span><br><span class="line">begin timer&#x3D;1649242110575</span><br><span class="line">  end timer&#x3D;1649242110575</span><br><span class="line">begin timer&#x3D;1649242112582</span><br><span class="line">  end timer&#x3D;1649242112582</span><br><span class="line">begin timer&#x3D;1649242114596</span><br><span class="line">  end timer&#x3D;1649242114596</span><br><span class="line">begin timer&#x3D;1649242116607</span><br><span class="line">  end timer&#x3D;1649242116607</span><br><span class="line">begin timer&#x3D;1649242118610</span><br><span class="line">  end timer&#x3D;1649242118610</span><br><span class="line">begin timer&#x3D;1649242120622</span><br><span class="line">  end timer&#x3D;1649242120622</span><br><span class="line">begin timer&#x3D;1649242122633</span><br><span class="line">  end timer&#x3D;1649242122633</span><br></pre></td></tr></table></figure>
+<p>可以看到，1649242086556到1649242106556之间的任务都没有被执行。</p>
+<h4 id="不追赶测试"><a href="#不追赶测试" class="headerlink" title="不追赶测试"></a>不追赶测试</h4><p>同样的，我们将其换成scheduleAtFixedRate方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Timer;</span><br><span class="line"><span class="keyword">import</span> java.util.TimerTask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTask</span> <span class="keyword">extends</span> <span class="title">TimerTask</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"begin timer="</span> + System.currentTimeMillis());</span><br><span class="line">            System.out.println(<span class="string">"  end timer="</span> + System.currentTimeMillis());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyTask task = <span class="keyword">new</span> MyTask();</span><br><span class="line">        <span class="keyword">long</span> nowTime = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"current time: "</span> + nowTime);</span><br><span class="line">        <span class="keyword">long</span> runTime = nowTime - <span class="number">20000</span>;</span><br><span class="line">        System.out.println(<span class="string">"plan time: "</span> + runTime);</span><br><span class="line">        Timer timer = <span class="keyword">new</span> Timer();</span><br><span class="line">        timer.scheduleAtFixedRate(task, <span class="keyword">new</span> Date(runTime), <span class="number">2000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">current time: 1649242326064</span><br><span class="line">plan time: 1649242306064</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242326066</span><br><span class="line">  end timer&#x3D;1649242326066</span><br><span class="line">begin timer&#x3D;1649242328064</span><br><span class="line">  end timer&#x3D;1649242328064</span><br><span class="line">begin timer&#x3D;1649242330070</span><br><span class="line">  end timer&#x3D;1649242330070</span><br><span class="line">begin timer&#x3D;1649242332064</span><br><span class="line">  end timer&#x3D;1649242332064</span><br><span class="line">begin timer&#x3D;1649242334077</span><br><span class="line">  end timer&#x3D;1649242334077</span><br><span class="line">begin timer&#x3D;1649242336065</span><br><span class="line">  end timer&#x3D;1649242336065</span><br><span class="line">begin timer&#x3D;1649242338065</span><br><span class="line">  end timer&#x3D;1649242338065</span><br></pre></td></tr></table></figure>
+<p>可以看到，1649242326066的时间都被追赶执行。将20s之内执行任务的次数输出完，再每间隔2s执行一次任务。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/04/06/Java多线程编程核心技术-5-Timer的使用/" target="_blank" title="Java多线程编程核心技术-5-Timer的使用">http://yoursite.com/2022/04/06/Java多线程编程核心技术-5-Timer的使用/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java多线程编程核心技术-4-Lock对象的使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定时器Timer的使用"><span class="nav-number">1.</span> <span class="nav-text">定时器Timer的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Timer类"><span class="nav-number">1.1.</span> <span class="nav-text">Timer类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TimerTask类"><span class="nav-number">1.2.</span> <span class="nav-text">TimerTask类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单次任务"><span class="nav-number">1.3.</span> <span class="nav-text">单次任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指定时间执行-schedule-TimerTask-task-Date-time"><span class="nav-number">1.3.1.</span> <span class="nav-text">指定时间执行-schedule(TimerTask task, Date time)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TimerThread线程不会自动销毁"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">TimerThread线程不会自动销毁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计划时间早于当前时间——立即运行的效果"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">计划时间早于当前时间——立即运行的效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一个Timer中执行多个TimerTask任务"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">一个Timer中执行多个TimerTask任务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定时间间隔后执行-schedule-TimerTask-task，long-delay"><span class="nav-number">1.3.2.</span> <span class="nav-text">指定时间间隔后执行-schedule(TimerTask task，long delay)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环任务"><span class="nav-number">1.4.</span> <span class="nav-text">循环任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#追赶任务"><span class="nav-number">1.4.1.</span> <span class="nav-text">追赶任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#指定第一次任务-schedule-TimerTask-task，Date-firstTime，long-period"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">指定第一次任务-schedule(TimerTask task，Date firstTime，long period)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#以当前时间为第一次任务的开始时间-schedule-TimerTask-task，long-delay，long-period"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">以当前时间为第一次任务的开始时间-schedule(TimerTask task，long delay，long period)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不追赶任务-scheduleAtFixedRate"><span class="nav-number">1.4.2.</span> <span class="nav-text">不追赶任务-scheduleAtFixedRate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#追赶测试"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">追赶测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不追赶测试"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">不追赶测试</span></a></li></ol></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

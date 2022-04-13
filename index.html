@@ -327,6 +327,169 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Java多线程编程核心技术-5-Timer的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/">Java多线程编程核心技术-5-Timer的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2022-04-06T08:31:16.000Z" itemprop="datePublished">2022-04-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          定时器Timer的使用Timer类Timer类的主要作用是设置计划任务，即在指定时间开始执行某一个任务。
+其构造方法如下
+1234567public Timer() &#123;    this("Timer-" + serialNumber());&#125;public Timer(boolean isDaemon) &#123;    this("Timer-" + serialNumber(), isDaemon);&#125;
+即可以自定义该定时器的名称。
+其主要有四个方法：
+
+...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Java多线程编程核心技术-4-Lock对象的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/">Java多线程编程核心技术-4-Lock对象的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2022-04-06T02:52:49.000Z" itemprop="datePublished">2022-04-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          基本用法Java多线程可以使用synchronized关键字来实现线程间同步，不过JDK 1.5新增加的ReentrantLock类也能达到同样的效果，并且在扩展功能上更加强大，如具有嗅探锁定、多路分支通知等功能。
+ReentrantLock类可以直接new一个ReentranLock。然后再后面的方法中使用该对象的方法来进行同步处理。
+例如：
+1private Lock lock = new ReentrantLock();
+lock()方法lock方法用于锁定当前的ReentrantL...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Java多线程编程核心技术-3-线程间通信"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/04/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-3-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">Java多线程编程核心技术-3-线程间通信</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-3-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" class="article-date">
+	  <time datetime="2022-04-02T02:13:47.000Z" itemprop="datePublished">2022-04-02</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          wait/notify机制不使用wait/notify机制实现线程间通信 之前说过volatile可以实现不同线程的变量的可见性。所以不同线程间通信可以使用volatile变量来进行信息交换。
+示例：
+自定义List类:
+123456789101112package mylist;import java.util.ArrayList;import java.util.List;public class MyList &#123;    volatile private List list ...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/04/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-3-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-MySQL关键字问题"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -683,161 +846,6 @@ spring MVC12345&lt;de...
         </p>
         <p class="article-more-link">
           <a href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-springMVC中404错误的拦截"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/25/springMVC%E4%B8%AD404%E9%94%99%E8%AF%AF%E7%9A%84%E6%8B%A6%E6%88%AA/">springMVC中404错误的拦截</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/03/25/springMVC%E4%B8%AD404%E9%94%99%E8%AF%AF%E7%9A%84%E6%8B%A6%E6%88%AA/" class="article-date">
-	  <time datetime="2022-03-25T06:44:24.000Z" itemprop="datePublished">2022-03-25</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/SpringMVC/">SpringMVC</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          SpringMVC统一错误处理该功能可以直接通过SpringMVC的@RestControllerAdvice注解搭配@ExceptionHandler来处理。
-例如：
-123456789101112131415161718192021222324@RestControllerAdvicepublic class ExceptionResponseAdvice &#123;    @ExceptionHandler(IndexOutOfBoundsException.class)    p...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/03/25/springMVC%E4%B8%AD404%E9%94%99%E8%AF%AF%E7%9A%84%E6%8B%A6%E6%88%AA/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-MySQL与Java中的日期API"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/25/MySQL%E4%B8%8EJava%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9FAPI/">MySQL与Java中的日期API</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/03/25/MySQL%E4%B8%8EJava%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9FAPI/" class="article-date">
-	  <time datetime="2022-03-25T06:42:31.000Z" itemprop="datePublished">2022-03-25</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E6%97%A5%E6%9C%9FAPI/">日期API</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          相关问题：问题：Java系统中采用了localDateTime类型的数据，MySQL数据库中采用了DateTime类型。但是存储之后再取出来发现数据不一致，即秒之后的毫秒部分变成了000000。
-原因：MySQL的DateTime没有设置长度，则默认为不包含小数部分。即只存储’YYYY-MM-DD hh:mm:ss’，小数部分是不会被存储的，小数部分会被丢弃。但原始的localDateTime是包含小数部分的，即到微秒部分：10^-6s。所以存储后取出来的数据就损失了小于秒部分，所以小数点...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/03/25/MySQL%E4%B8%8EJava%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9FAPI/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-深入理解JVM1-2.2-自动内存管理-垃圾收集器与内存分配策略（垃圾收集器及其选择）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/">深入理解JVM1-2.2-自动内存管理-垃圾收集器与内存分配策略（垃圾收集器及其选择）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/" class="article-date">
-	  <time datetime="2022-03-16T01:47:27.000Z" itemprop="datePublished">2022-03-16</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JVM/">JVM</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          经典垃圾收集器垃圾收集器是对垃圾收集算法的实现，由于《Java虚拟机规范》中并没有明确垃圾收集器的实现细节。所以不同的厂商对于垃圾收集器都有不同的实现。而这里的经典垃圾收集器主要针对的是JDK 7 Update 4 之后JDK11正式发布之前，Oracle JDK中的HotSpot虚拟机所包含的全部可用的垃圾收集器。下图是各款经典垃圾收集器之间的关系：
-
-这里的垃圾收集器都有各自不同的优缺点，还没有出现一个没有短板的收集器，因此后续的工作实际上是根据工作场景选择合适的垃圾收集器。（希望以后...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/#more">Read More</a>
         </p>
       
     </div>

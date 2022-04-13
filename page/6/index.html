@@ -327,6 +327,184 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-VSCODE-插件开发1"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/04/28/VSCODE-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911/">VSCODE-插件开发1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/28/VSCODE-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911/" class="article-date">
+	  <time datetime="2021-04-28T12:23:38.000Z" itemprop="datePublished">2021-04-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/VS-CODE%E6%8F%92%E4%BB%B6/">VS CODE插件</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          createTextEditorDecorationType(options: DecorationRenderOptions]): TextEditorDecorationType：创建一个新的装饰器。
+
+
+
+Parameter
+Description
+
+
+
+
+options: DecorationRenderOptions
+装饰类型渲染的选项
+
+
+Returns
+Description
+
+
+TextEditorDecorationType
+一个新的装饰器实体
+
+
+
+
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/04/28/VSCODE-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Node学习4-Buffer"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/04/28/Node%E5%AD%A6%E4%B9%A04-Buffer/">Node学习4-Buffer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/28/Node%E5%AD%A6%E4%B9%A04-Buffer/" class="article-date">
+	  <time datetime="2021-04-28T01:31:30.000Z" itemprop="datePublished">2021-04-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          BufferBuffer 对象用于表示固定长度的字节序列。
+从V3.0开始，该对象就继承自Uint8Array（从V3.0版本加入的特性），且继承时带上了涵盖额外用例的方法。只要支持 Buffer 的地方，Node.js API 都可以接受普通的 Uint8Array
+模块结构Buffer是一个典型的JavaScript与C++结合的模块，它将性能部分用C++实现，将非性能相关的部分用JavaScript实现。
+
+之前说过，Buffer所占的内存不过是V8分配的，属于堆外内存。由于V8垃圾...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/04/28/Node%E5%AD%A6%E4%B9%A04-Buffer/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-NodeJS学习3-内存控制"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/04/27/NodeJS%E5%AD%A6%E4%B9%A03-%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/">NodeJS学习3-内存控制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/04/27/NodeJS%E5%AD%A6%E4%B9%A03-%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/" class="article-date">
+	  <time datetime="2021-04-27T01:13:46.000Z" itemprop="datePublished">2021-04-27</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          V8的内存分配在一般的后端开发语言中，在基本的内存使用上没有什么限制，然而在Node中通过JavaScript使用内存时就会发现只能使用部分内存（64位系统下约为1.4GB，32位系统下约为0.7GB），在这样的限制下，将会导致Node无法直接操作大内存对象。比如无法将一个2GB的文件读入内存中进行字符串分析处理，即使物理内存大于2GB，这样在单个Node进程的情况下，计算机的内存资源无法得到充足的使用。
+造成这个问题的主要原因在于Node基于V8构建，所以在Node中使用的JavaScr...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/04/27/NodeJS%E5%AD%A6%E4%B9%A03-%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-NodeJS学习2-异步的原理和应用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -696,168 +874,6 @@ chrome默认是补全https协议
         </p>
         <p class="article-more-link">
           <a href="/2021/03/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F5-%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-设计模式4-迭代器模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F4-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">设计模式4-迭代器模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F4-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-03-01T02:30:22.000Z" itemprop="datePublished">2021-03-01</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">迭代器模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          迭代器模式定义迭代器模式是指提供一种方法顺序访问一个集合对象中的各个元素，而不需要暴露该对象的内部表示。
-遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
-主要解决不需要关心对象内部表示来遍历整个对象。
-内部迭代器内部迭代器是指事先定义好迭代器的迭代规则，他完全接受整个迭代过程，外部只需要一次初始调用。
-实现我们实现一个each内部迭代器，接...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F4-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-设计模式3-代理模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">设计模式3-代理模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-02-27T06:32:20.000Z" itemprop="datePublished">2021-02-27</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          代理模式定义当目标对象不方便直接访问或者访问者不满住要求的时候，提供一个代理对象来控制对目标对象的访问。访问者实际上访问的是代理对象。代理对象对请求做出一些处理之后，再把请求转交给目标对象。
-主要解决在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有些对象由于某些原因（比如对象创建开销很大，或者某些操作需要安全控制，或者需要进程外的访问），直接访问会给使用者或者系统结构带来很多麻烦，我们可以在访问此对象时加上一个对此对象的访问层。
-优缺点优点
-职责清晰。
-...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-设计模式2-策略模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">设计模式2-策略模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-02-24T01:55:03.000Z" itemprop="datePublished">2021-02-24</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          策略模式定义定义一系列的算法，把它们一个个封装起来，并且使他们可以相互替换。
-主要解决在多种算法相似的情况下，使用 if…else 所带来的复杂和难以维护的问题。
-奖金的例子很多公司的年终奖的是根据员工的工资基数和年底绩效情况来发放的。例如，绩效为S的员工年终奖有4倍工资，绩效为A的员工年终奖有3倍工资，绩效为B的员工年终奖有2倍工资。假如需要一段代码来计算对应员工的年终奖。
-最基础写法我们直观想到的就是用if...else或者switch...case的方法来写。如下
-123456789...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/#more">Read More</a>
         </p>
       
     </div>

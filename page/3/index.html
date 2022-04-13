@@ -327,6 +327,195 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-MySQL必知必会22-30-MySQL高级特征"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/">MySQL必知必会22-30-MySQL高级特征</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/" class="article-date">
+	  <time datetime="2022-02-24T01:54:46.000Z" itemprop="datePublished">2022-02-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          使用视图视图视图是虚拟的表。与包含数据的表不同，视图只包含使用时动态检索数据的查询。
+例如：
+12345SELECT cust_name, cust_contact FROM custmers, orders, orderitems WHERE customers.cust_id = orders.cust_id AND orderitems.order_num = orders.order_num AND prod_id = 'TNT2';
+此查询用来检索订购了某个特定产品的客户。任何需...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-MySQL必知必会19-21-数据和表的操作"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">MySQL必知必会19-21-数据和表的操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" class="article-date">
+	  <time datetime="2022-02-23T07:28:43.000Z" itemprop="datePublished">2022-02-23</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          数据插入INSET可以用来插入数据，其可以用以下几种方式使用：
+
+插入完整的行；
+插入行的一部分；
+插入多行；
+插入某些查询的结果。
+
+
+插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。
+
+插入完整的行可以直接按照表中的字段顺序来使用INSERT插入数据。
+例如表Customers的结果为：
+
+
+
+id
+name
+location
+birthday
+hobby
+
+
+
+
+
+
+
+
+则可以通过下面的方式来插入数据：
+1INSERT INTO Cust...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-MySQL必知必会13-18-高级检索知识"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/">MySQL必知必会13-18-高级检索知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/" class="article-date">
+	  <time datetime="2022-02-23T07:08:21.000Z" itemprop="datePublished">2022-02-23</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          分组数据分组数据可以用于按照某一列数据作为分类标准来统计数据。所以其一般与聚集函数一起用。
+创建分组分组是使用SELECT子句和GROUP BY子句建立。
+例如：统计每个vend_id的数据数量：
+1SELECT vend_id, COUNT(*) AS num_prods FROM products GROUP BY vend_id;
+将语句分为两部分，
+
+SELECT vend_id, COUNT(*) AS num_prods FROM products
+GROUP BY vend_...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-MySQL必知必会1-12-基础知识"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -697,178 +886,6 @@ abstract int read()：从数组中读取一个字...
         </p>
         <p class="article-more-link">
           <a href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-12-%E5%B9%B6%E5%8F%91/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-I-9-集合"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-9-%E9%9B%86%E5%90%88/">java核心技术-I-9-集合</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-9-%E9%9B%86%E5%90%88/" class="article-date">
-	  <time datetime="2022-01-24T03:12:49.000Z" itemprop="datePublished">2022-01-24</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          Java集合框架集合接口与实现分离Java集合类库也将接口与实现分离。
-Collection接口在Java类库中，集合类的基本接口是Collection接口。这个接口有两个基本方法：
-
-boolean add(E element);
-Iterator&lt;E&gt; ietrator();
-
-迭代器Iterator接口包含4个方法：
-123456public interface Interface&lt;E&gt;&#123;  E next();  boolean hasNext();...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-9-%E9%9B%86%E5%90%88/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-I-8-泛型程序设计"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-8-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">java核心技术-I-8-泛型程序设计</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-8-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" class="article-date">
-	  <time datetime="2022-01-21T10:43:21.000Z" itemprop="datePublished">2022-01-21</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Jav/">Jav</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          泛型简介泛型实际上就是类型参数。即事先不确定参数类型，而在调用时传入对应参数类型才确定其类型。
-在泛型出现之前，一般是使用多态来实现，即使用Object来接受所有参数，确定就是接收到参数后需要强转。
-定义泛型类泛型类（generic type）就是一个或多个类型变量的类。
-例如：
-1234567891011121314151617181920212223242526272829303132package test.mw.ExceptionTest;public class Pair&lt;...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-8-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-I-7-异常、断言和日志"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/">java核心技术-I-7-异常、断言和日志</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/" class="article-date">
-	  <time datetime="2022-01-21T03:36:02.000Z" itemprop="datePublished">2022-01-21</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          异常分类在Java程序设计语言中，所有异常对象都是派生于Throwable类的一个类示例。 
-继承关系图如下：
-![错误类继承]images\java核心技术\错误类继承.jpg)
-可以看到Throwable异常被分为两大类：
-
-Error：表示Java运行时系统的内部错误和资源耗尽错误。
-Exception：程序运行的异常，一般我们能操作的都是这种错误。
-
-RuntimeException 一般是编程错误导致的。
-派生于RuntimeException的异常包括以下问题：
-
-错误的强制转...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/#more">Read More</a>
         </p>
       
     </div>

@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/page/5/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Something is going happen if you try to fight for it!">
+<meta property="og:locale">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Life">
 <meta name="twitter:card" content="summary">
@@ -65,7 +66,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -148,27 +149,6 @@
                         } else {
                           imageTag2.style.height = document.body.clientHeight + "px";
                           imageTag2.style.marginLeft = -(document.body.clientHeight * img2.width / img2.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img3" src="https://source.unsplash.com/collection/954550/1920x1080">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img3 = new Image();
-                      var imageTag3 = document.getElementById("carousel-img3");
-                      img3.src = imageTag3.src;
-                      img3.onload=function(){
-                        if (img3.width / img3.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag3.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag3.style.height = document.body.clientHeight + "px";
-                          imageTag3.style.marginLeft = -(document.body.clientHeight * img3.width / img3.height - document.body.clientWidth) / 2 + "px";
                         }
                       };
                   </script>
@@ -261,7 +241,7 @@
   
 
   <div class="intro-navigate">
-      <p class="navigater-list">
+      <div class="navigater-list">
         
           <a id="beautifont" class="main-nav-link" href="/">Home</a>
         
@@ -273,8 +253,27 @@
         
           <a id="beautifont" class="main-nav-link" href="/about">About</a>
         
-        <!-- <a  id="beautifont" class="main-nav-link">
-          <div id="search-form-wrap">
+
+        
+          <div class="main-nav-wrapper">
+            <a id="beautifont" class="main-nav-link" href="/like">Like</a>
+
+            <div class="drop-content">
+              
+                <a id="beautifont" class="main-nav-link" href="/books">Books</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/games">Games</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/songs">Songs</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/movies">Movies</a>
+              
+            </div>
+          </div>
+        
+
+      <!-- <a  id="beautifont" class="main-nav-link">
+        <div id="search-form-wrap">
 
     <form class="search-form">
         <input type="text" class="ins-search-input search-form-input" placeholder="" />
@@ -313,8 +312,8 @@
 
 
 </div>
-        </a> -->
-      </p>
+      </a> -->
+    </div>
   </div>
 
 </header>
@@ -327,7 +326,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-基于java的脚本语言hair的开发思路3-执行"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-git学习2-基本快照"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -335,7 +334,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/">基于java的脚本语言hair的开发思路3-执行</a>
+      <a class="article-title" href="/2022/02/27/git%E5%AD%A6%E4%B9%A02-%E5%9F%BA%E6%9C%AC%E5%BF%AB%E7%85%A7/">git学习2-基本快照</a>
     </h1>
   
 
@@ -343,25 +342,24 @@
     
     <div class="article-meta">
       
-	<a href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/" class="article-date">
-	  <time datetime="2021-09-30T13:15:30.000Z" itemprop="datePublished">2021-09-30</time>
+	<a href="/2022/02/27/git%E5%AD%A6%E4%B9%A02-%E5%9F%BA%E6%9C%AC%E5%BF%AB%E7%85%A7/" class="article-date">
+	  <time datetime="2022-02-27T12:38:56.000Z" itemprop="datePublished">2022-02-27</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/hair/">hair</a>
+    <a class="article-category-link" href="/categories/git/">git</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          执行经过上面的操作，我们已经根据程序生成了一个抽象语法树。此时我们需要让程序达到其预期的结果。即需要我们翻译为Java可执行的代码。实际上执行的过程很简单，既然我们已经生成了抽象语法树。我们只需要将每个节点的结果得到，最后得到根节点的结果，即为该程序的结果。所以这实际上也是一个树的遍历工作，从左边的叶节点开始遍历。依次得到上层的非叶节点的值。
-针对不同的节点，我们的实现方法不同，但是我们都将其定义为eval方法，意为evaluate，即得到结果。
-下面简单介绍几种类型的节点的实现：
-实现基...
+          基本快照addadd命令用于使用在工作树中找到的当前内容来更新索引，其为下一次提交（commit）准备阶段性的内容。通常将现有路径的当前内容作为一个整体添加，但通过一些选项，它也可以用于添加只应用了部分工作树文件更改的内容，或者删除工作树中不再存在的路径。
+git status命令可用于获取一个摘要，其中哪些文件有更改，将在下次提交时暂存。
+默认情况下，git add命令不会添加被忽略的文件。如果在命令行中显式地指定了任何被忽略的文件，git add将失败，并显示一列被忽略的文件。git ...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/#more">Read More</a>
+          <a href="/2022/02/27/git%E5%AD%A6%E4%B9%A02-%E5%9F%BA%E6%9C%AC%E5%BF%AB%E7%85%A7/#more">Read More</a>
         </p>
       
     </div>
@@ -380,7 +378,7 @@
 
 
   
-    <article id="post-基于java的脚本语言hair的开发思路2-语法分析"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-git学习1-创建和获得项目"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -388,7 +386,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/">基于java的脚本语言hair的开发思路2-语法分析</a>
+      <a class="article-title" href="/2022/02/27/git%E5%AD%A6%E4%B9%A01-%E5%88%9B%E5%BB%BA%E5%92%8C%E8%8E%B7%E5%BE%97%E9%A1%B9%E7%9B%AE/">git学习1-创建和获得项目</a>
     </h1>
   
 
@@ -396,27 +394,38 @@
     
     <div class="article-meta">
       
-	<a href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" class="article-date">
-	  <time datetime="2021-09-26T07:42:25.000Z" itemprop="datePublished">2021-09-26</time>
+	<a href="/2022/02/27/git%E5%AD%A6%E4%B9%A01-%E5%88%9B%E5%BB%BA%E5%92%8C%E8%8E%B7%E5%BE%97%E9%A1%B9%E7%9B%AE/" class="article-date">
+	  <time datetime="2022-02-27T12:38:40.000Z" itemprop="datePublished">2022-02-27</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/hair/">hair</a>
+    <a class="article-category-link" href="/categories/git/">git</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          语法分析在经过上一步的词法分析之后，我们已经将程序字符串分以上三种token。要想让程序运行起来，我们还必须将其构造为抽象语法树(Abstract Syntax Tree)。
-它是用来表示程序结构的树形结构。其中树的节点也分为不同的类型。
-具体的树节点类型后面介绍。
-在我们得到AST之后，想要得到结果，就很简单了：我们只需要自底而上活得每个树节点的对应的值。其根节点的值就是最终的程序结果。
-所以问题的关键是如何通过token队列来获得AST。这里我们首先引入BNF的概念。
-BNFBNF即巴...
+          获得和创建项目
+pre：
+
+索引（index）就是指添加（add）后的文件记录。
+工作树（working tree）指当前的目录树及其文件。
+
+
+init该命令用于创建一个空的仓库或者初始化一个已经存在的仓库。
+其会创建一个.git文件夹，其内部会创建以下子文件：
+
+objects
+refs/heads
+refs/tags
+
+选项：
+-q；--quite：只打印错误和警告信息；其他的输出都不会被输出。
+--bare：创建一个空仓库，如果GIT_DIR环境变量没有设置，就其将当前工作目录设置...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/#more">Read More</a>
+          <a href="/2022/02/27/git%E5%AD%A6%E4%B9%A01-%E5%88%9B%E5%BB%BA%E5%92%8C%E8%8E%B7%E5%BE%97%E9%A1%B9%E7%9B%AE/#more">Read More</a>
         </p>
       
     </div>
@@ -435,7 +444,7 @@ BNFBNF即巴...
 
 
   
-    <article id="post-基于java的脚本语言hair的开发思路1-词法分析"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-MySQL必知必会22-30-MySQL高级特征"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -443,7 +452,7 @@ BNFBNF即巴...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/">基于java的脚本语言hair的开发思路1-词法分析</a>
+      <a class="article-title" href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/">MySQL必知必会22-30-MySQL高级特征</a>
     </h1>
   
 
@@ -451,25 +460,25 @@ BNFBNF即巴...
     
     <div class="article-meta">
       
-	<a href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" class="article-date">
-	  <time datetime="2021-09-21T07:23:07.000Z" itemprop="datePublished">2021-09-21</time>
+	<a href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/" class="article-date">
+	  <time datetime="2022-02-24T01:54:46.000Z" itemprop="datePublished">2022-02-24</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/hair/">hair</a>
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          申明：本脚本语言前面的开发思路基本是《两周自制脚本语言》中Stone语言的模型，后期将逐渐分离，添加更多特征。这本书作为入门读物确实不错，但是其设计规范还是有待商榷，一是没有给出一个确定的项目架构、二是部分的结构的成分不够规范（比如token的定义，运算优先级的处理等）。
-词法分析一个程序片段被编译器解析的时候是一个很长的字符串。我们的目标是通过一定的手段分析将这个字符串分开来。
-而这个被分割后的子字符串我们一般称为Token，Token有很多类型。在V8中定义的部分代码如下：
-12345...
+          使用视图视图视图是虚拟的表。与包含数据的表不同，视图只包含使用时动态检索数据的查询。
+例如：
+12345SELECT cust_name, cust_contact FROM custmers, orders, orderitems WHERE customers.cust_id = orders.cust_id AND orderitems.order_num = orders.order_num AND prod_id = 'TNT2';
+此查询用来检索订购了某个特定产品的客户。任何需...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/#more">Read More</a>
+          <a href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/#more">Read More</a>
         </p>
       
     </div>
@@ -488,7 +497,7 @@ BNFBNF即巴...
 
 
   
-    <article id="post-java的正则表达式"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-MySQL必知必会19-21-数据和表的操作"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -496,7 +505,7 @@ BNFBNF即巴...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/19/java%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">java的正则表达式</a>
+      <a class="article-title" href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">MySQL必知必会19-21-数据和表的操作</a>
     </h1>
   
 
@@ -504,24 +513,51 @@ BNFBNF即巴...
     
     <div class="article-meta">
       
-	<a href="/2021/09/19/java%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-09-19T01:00:40.000Z" itemprop="datePublished">2021-09-19</time>
+	<a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" class="article-date">
+	  <time datetime="2022-02-23T07:28:43.000Z" itemprop="datePublished">2022-02-23</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/java/">java</a>
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          APIPattern类pattern 对象是一个正则表达式的编译表示。Pattern 类没有公共构造方法。要创建一个 Pattern 对象，你必须首先调用其公共静态编译方法，它返回一个 Pattern 对象。该方法接受一个正则表达式作为它的第一个参数。
-示例12private String regexPat = "\\abc"private Pattern pattern = Pattern.compile(regexPat);
-Matcher 类Matcher 对象是对输入字符串进行解释...
+          数据插入INSET可以用来插入数据，其可以用以下几种方式使用：
+
+插入完整的行；
+插入行的一部分；
+插入多行；
+插入某些查询的结果。
+
+
+插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。
+
+插入完整的行可以直接按照表中的字段顺序来使用INSERT插入数据。
+例如表Customers的结构为：
+
+
+
+id
+name
+location
+birthday
+hobby
+
+
+
+
+
+
+
+
+则可以通过下面的方式来插入数据：
+1INSERT INTO Cust...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/19/java%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">Read More</a>
+          <a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/#more">Read More</a>
         </p>
       
     </div>
@@ -540,7 +576,7 @@ Matcher 类Matcher 对象是对输入字符串进行解释...
 
 
   
-    <article id="post-Tensorflow2-0-data模块的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-MySQL必知必会13-18-高级检索知识"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -548,7 +584,7 @@ Matcher 类Matcher 对象是对输入字符串进行解释...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/04/Tensorflow2-0-data%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/">Tensorflow2.0-data模块的使用</a>
+      <a class="article-title" href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/">MySQL必知必会13-18-高级检索知识</a>
     </h1>
   
 
@@ -556,27 +592,29 @@ Matcher 类Matcher 对象是对输入字符串进行解释...
     
     <div class="article-meta">
       
-	<a href="/2021/09/04/Tensorflow2-0-data%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
-	  <time datetime="2021-09-04T12:06:03.000Z" itemprop="datePublished">2021-09-04</time>
+	<a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/" class="article-date">
+	  <time datetime="2022-02-23T07:08:21.000Z" itemprop="datePublished">2022-02-23</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Tensorflow/">Tensorflow</a>
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          Tensorflow-dataTesorflow官方提供了一些数据集来供我们使用。其地址为Tensorflow-data，我们可以在这里查看数据集的详细细节Tensorflow-data-catalog。
-其API地址为API。
-简单使用Tensorflow-data有137个API，一般不会全部使用。我们需要了解的第一个API是：
-tfds.load：从本地或网络载入数据集，并生成tf.data.Dataset对象。
-其基本形式为：
-1234567891011121314151617tf...
+          分组数据分组数据可以用于按照某一列数据作为分类标准来统计数据。所以其一般与聚集函数一起用。
+创建分组分组是使用SELECT子句和GROUP BY子句建立。
+例如：统计每个vend_id的数据数量：
+1SELECT vend_id, COUNT(*) AS num_prods FROM products GROUP BY vend_id;
+将语句分为两部分，
+
+SELECT vend_id, COUNT(*) AS num_prods FROM products
+GROUP BY vend_...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/04/Tensorflow2-0-data%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
+          <a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/#more">Read More</a>
         </p>
       
     </div>
@@ -595,7 +633,7 @@ tfds.load：从本地或网络载入数据集，并生成tf.data.Dataset对象�
 
 
   
-    <article id="post-西瓜书总结3-线性模型"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-MySQL必知必会1-12-基础知识"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -603,7 +641,7 @@ tfds.load：从本地或网络载入数据集，并生成tf.data.Dataset对象�
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/09/02/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%933-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/">西瓜书总结3-线性模型</a>
+      <a class="article-title" href="/2022/02/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-12-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">MySQL必知必会1-12-基础知识</a>
     </h1>
   
 
@@ -611,30 +649,31 @@ tfds.load：从本地或网络载入数据集，并生成tf.data.Dataset对象�
     
     <div class="article-meta">
       
-	<a href="/2021/09/02/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%933-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" class="article-date">
-	  <time datetime="2021-09-02T14:30:41.000Z" itemprop="datePublished">2021-09-02</time>
+	<a href="/2022/02/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-12-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="article-date">
+	  <time datetime="2022-02-20T05:38:59.000Z" itemprop="datePublished">2022-02-20</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          基本形式线性模型（linear model）顾名思义即通过线性函数来进行预测的模型。
-大部分机器学习算法的本质都是寻找一个函数来将输入进行处理得到预测结果。这里最简单的线性模型是这样，最复杂的神经网络模型也是如此。
+          数据库基础主键主键每一行都应该可以唯一标识自己的一列。没有主键，更新或删除表中特定行很困难，因为没有安全的方法保证只涉及相关的行。
+表中的任意行都可以作为主键，只要它满足以下条件：
 
-线性模型的一般形式为：
-f(x) = w1x1+w1x1+…+wdxd+b
-向量形式则为：
-f(x) = wTx + b
-其中w = (w1; w1; …;wd;)， w和b学得之后，模型就得以确定。
-线性模型形式简单、易于构造，但却蕴含着机器学习中一些重要的思想。许多更为强...
+任意两行不具有相同的主键值。
+每个行都必须具有一个主键（主键不允许为NULL）。
+
+主键通常是定义在表的一个列中，但并不是只能一列，也可以多个列一起使用作为主键。当使用多列作为主键时，上述条件必须应用到构成主键的所有列，所有列值的组合必须时唯一的（但单个列的值可以不唯一）。
+主键的好习惯：
+
+不更新主键列中的...
         </p>
         <p class="article-more-link">
-          <a href="/2021/09/02/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%933-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/#more">Read More</a>
+          <a href="/2022/02/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-12-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/#more">Read More</a>
         </p>
       
     </div>
@@ -653,7 +692,7 @@ f(x) = wTx + b
 
 
   
-    <article id="post-西瓜书总结2-模型评估与选择"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-java核心技术-II-9-Java平台模块系统"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -661,7 +700,7 @@ f(x) = wTx + b
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/08/30/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%932-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/">西瓜书总结2-模型评估与选择</a>
+      <a class="article-title" href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/">java核心技术-II-9-Java平台模块系统</a>
     </h1>
   
 
@@ -669,29 +708,28 @@ f(x) = wTx + b
     
     <div class="article-meta">
       
-	<a href="/2021/08/30/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%932-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/" class="article-date">
-	  <time datetime="2021-08-30T11:27:49.000Z" itemprop="datePublished">2021-08-30</time>
+	<a href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/" class="article-date">
+	  <time datetime="2022-02-18T05:08:24.000Z" itemprop="datePublished">2022-02-18</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
-
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          经验误差与过拟合概念错误率：分类错误的样本数占样本总数的比例。
-精度：1 - 错误率。
-训练误差（经验误差）：学习器在训练集上的误差。
-泛化误差：学习器在新样本上的误差。
-过拟合：把训练样本自身的一些特点当作了所有潜在样本都具有的一般特征。一般无法彻底避免，只能缓解。
-欠拟合：与过拟合相反，即对训练样本的一般性质未学习好。
-评估方法留出法留出法（hold-out）直接将数据集D划分为两个互斥的集合，其中一个集合用作训练集S，另一个作为测试集T。即D=S∪T，S∩T=Ø。
-其缺点在于少了一部...
+          模块的概念在Java系统中，提供了多种封装的层级。
+在面向对象编程中，基础的构建要素就是类。类提供了封装，私有特征只能被具有明确访问权限的代码访问。
+包提供了更高一级的组织方式，包是类的集合。包也提供了一种封装级别，具有包访问权限的所有特征（无论是公有还是私有）都只能被同一个包中的方法访问。
+但是在大型系统中，这些控制级别还是显得不够，所以设计了模块的概念。
+一般来说，一个Java平台模块包含以下部分：
+
+一个包集合。
+可选地包含资源文件和像本地库这样的其他文件。
+一个有关模块中可访问的包...
         </p>
         <p class="article-more-link">
-          <a href="/2021/08/30/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%932-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/#more">Read More</a>
+          <a href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/#more">Read More</a>
         </p>
       
     </div>
@@ -710,7 +748,7 @@ f(x) = wTx + b
 
 
   
-    <article id="post-聚类的几种算法简述"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-java核心技术-II-8-脚本、编译和注解处理"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -718,7 +756,7 @@ f(x) = wTx + b
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/">聚类的几种算法简述</a>
+      <a class="article-title" href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/">java核心技术-II-8-脚本、编译和注解处理</a>
     </h1>
   
 
@@ -726,28 +764,29 @@ f(x) = wTx + b
     
     <div class="article-meta">
       
-	<a href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/" class="article-date">
-	  <time datetime="2021-08-11T15:40:33.000Z" itemprop="datePublished">2021-08-11</time>
+	<a href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/" class="article-date">
+	  <time datetime="2022-02-17T05:16:48.000Z" itemprop="datePublished">2022-02-17</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E8%81%9A%E7%B1%BB/">聚类</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          聚类聚类是无监督学习中应用最广泛的算法。聚类会将数据集中的样本划分为若干个不同的子集，每个子集称为一个簇。
-原型聚类原型聚类假设聚类结构能通过一组原型刻画。通常情况下，该类算法先对原型进行初始化，然后对原型进行迭代更新求解。
-k均值算法（k-means）该算法的目的是最小化每个簇中每个样本到对应原型的距离。
-但是直接求解的话会是一个NP难问题，较难求解，因此我们仍然采用迭代更新的贪心算法来求解可能的最近似解。值得注意的是，这样并不一定能求得最优解。
-其算法大致思想如下：
+          Java平台的脚本机制Java平台的脚本API可以使之运行诸如JavaScript和Groovy这样的脚本语言代码。
+脚本语言是一种在运行时解释程序文本，从而避免了编译、链接等步骤。其具有以下优势：
 
-初始化簇的数目K...
+便于快速变更，鼓励不断实验。
+可以修改运行着的程序的行为。
+支持程序用户的定制化。
+
+获取脚本引擎脚本引擎是一个可以执行特定语言编写的脚本的类库。当虚拟机启动的时候，它会发现可以用的脚本引擎。为了枚举这些引擎，需要构造一个ScriptEngineManager，并调用getEngineFac...
         </p>
         <p class="article-more-link">
-          <a href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/#more">Read More</a>
+          <a href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/#more">Read More</a>
         </p>
       
     </div>
@@ -766,7 +805,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
 
 
   
-    <article id="post-机器学习1-决策树算法"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-java核心技术-II-6-日期和时间API"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -774,7 +813,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/">机器学习1-决策树算法</a>
+      <a class="article-title" href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/">java核心技术-II-6-日期和时间API</a>
     </h1>
   
 
@@ -782,31 +821,27 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
     
     <div class="article-meta">
       
-	<a href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/" class="article-date">
-	  <time datetime="2021-07-13T08:03:13.000Z" itemprop="datePublished">2021-07-13</time>
+	<a href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/" class="article-date">
+	  <time datetime="2022-02-16T04:21:08.000Z" itemprop="datePublished">2022-02-16</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          算法回忆总述首先决策树算法的一个核心思想是通过一些方法将数据递归的划分为一个树状结构。其算法流程大致如下：
+          简介Java1.0有一个Date类，事后证明其太过简单了，当Java1.1引入Calendar之后，Date类中的大部分方法就被其弃用了。但是Calendar的API还是有缺陷，它的实例是可以修改的，并且它没有处理诸如闰秒这样的问题。 第三次在Java SE 8中引入了java.timeAPI，它修正了过去的错误。并且应该会服役相当长一段时间。
+时间线Java的Date和Time API规范要求Java使用的时间尺度为：
 
-读取数据
-注意CSV是文本格式，读取时是r；Excel是二进制文件，读取时是rb
-
-
-根据标准计算最优属性，一般选择香农熵，其流程如下：
-递归每一个属性，计算该属性的总熵值，总熵值为每个值得熵得和
-先统计该属性得所有不重复值的数据条数
-根据公式：ent = (-item/count)*np.log2(item/count)  计算每个属性值的熵值 ， 其中item为该属性值的数据数...
+每天86400秒。
+每天正午与官方时间精确匹配。
+在其他时间点上，...
         </p>
         <p class="article-more-link">
-          <a href="/2021/07/13/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01-%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95/#more">Read More</a>
+          <a href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/#more">Read More</a>
         </p>
       
     </div>
@@ -825,7 +860,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
 
 
   
-    <article id="post-Node学习5-进程机制"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-java核心技术-II-2-输入与输出"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -833,7 +868,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/">Node学习5-进程机制</a>
+      <a class="article-title" href="/2022/02/15/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-2-%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA/">java核心技术-II-2-输入与输出</a>
     </h1>
   
 
@@ -841,25 +876,26 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
     
     <div class="article-meta">
       
-	<a href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/" class="article-date">
-	  <time datetime="2021-05-03T03:06:49.000Z" itemprop="datePublished">2021-05-03</time>
+	<a href="/2022/02/15/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-2-%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA/" class="article-date">
+	  <time datetime="2022-02-15T05:24:38.000Z" itemprop="datePublished">2022-02-15</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Node-js/">Node.js</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          服务端模型得变迁Web服务器的架构已经历了几次变迁。服务器处理客户端请求的并发量，就是每个里程碑的见证。
-石器时代：同步最早的服务器，其执行模型是同步的，它的服务模式是一次只为一次请求服务，所有的请求都得按次序等待服务。这意味着除了当前的请求被处理外，其余请求都处于等待被处理的状态。其处理性能相当低下，假设每次响应服务耗时为N秒，则这类服务的QPS为1/N。
-这种架构如今已基本被淘汰，只在一些无并发需要的应用中存在。
-青铜时代：复制进程为了解决同步架构的并发问题，衍生出了复制多个进程以提高...
+          输入与输出流在Java API中，输入流是一个可以读入字节的对象；输出流是一个可以写如字节的对象。这些字节的来源和目的地可以是文件、网络甚至是内存块。
+抽象类InputStream和OutputStream构成了输入/输出类层次结构的基础。（注意与上一节的流操作完全不同）
+InputStreamInputStream是输入流，即通过文件等获取一个InputStream的子类。然后通过其API获得输入流中的内容。其主要API如下：
+
+abstract int read()：从数组中读取一个字...
         </p>
         <p class="article-more-link">
-          <a href="/2021/05/03/Node%E5%AD%A6%E4%B9%A05-%E8%BF%9B%E7%A8%8B%E6%9C%BA%E5%88%B6/#more">Read More</a>
+          <a href="/2022/02/15/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-2-%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA/#more">Read More</a>
         </p>
       
     </div>
@@ -882,7 +918,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/6/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -897,7 +933,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -1054,7 +1090,7 @@ k均值算法（k-means）该算法的目的是最小化每个簇中每个样本
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

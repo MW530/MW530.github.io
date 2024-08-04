@@ -6,25 +6,27 @@
   <title>深入理解jvm1-1-自动内存管理-java内存区域与内存溢出异常 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="JVM自动内存管理" />
+  <meta name="keywords" content="JVM自动内存管理Java内存区域与内存溢出异常" />
   
   
   
   
-  <meta name="description" content="Java内存区域与内存溢出异常运行时数据区域Java虚拟机在执行Java程序的过程中会把它说管理的内存划分为若干个不同的数据区域。 具体如下图。  程序计数器（线程私有）程序计数器（Program Counter Register）是一块较小的内存，它可以看作是当前线程所执行的字节码的行号指示器。在Java虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条要执行的字节码指">
+  <meta name="description" content="Java内存区域与内存溢出异常运行时数据区域Java虚拟机在执行Java程序的过程中会把管理的内存划分为若干个不同的数据区域。 具体如下图。  Java堆Java堆（Java Heap）是虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时启动。此内存区域的唯一目的就是存放内存实例，Java世界里几乎所有的对象实例都在这里分配。 Java堆是垃圾收集器管理的内存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解JVM1-1-自动内存管理-Java内存区域与内存溢出异常">
 <meta property="og:url" content="http://yoursite.com/2022/03/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="Java内存区域与内存溢出异常运行时数据区域Java虚拟机在执行Java程序的过程中会把它说管理的内存划分为若干个不同的数据区域。 具体如下图。  程序计数器（线程私有）程序计数器（Program Counter Register）是一块较小的内存，它可以看作是当前线程所执行的字节码的行号指示器。在Java虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条要执行的字节码指">
+<meta property="og:description" content="Java内存区域与内存溢出异常运行时数据区域Java虚拟机在执行Java程序的过程中会把管理的内存划分为若干个不同的数据区域。 具体如下图。  Java堆Java堆（Java Heap）是虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时启动。此内存区域的唯一目的就是存放内存实例，Java世界里几乎所有的对象实例都在这里分配。 Java堆是垃圾收集器管理的内存">
+<meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA.png">
 <meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E9%80%9A%E8%BF%87%E5%8F%A5%E6%9F%84%E8%AE%BF%E9%97%AE%E5%AF%B9%E8%B1%A1.png">
 <meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E9%80%9A%E8%BF%87%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E5%AF%B9%E8%B1%A1.png">
 <meta property="article:published_time" content="2022-03-11T06:32:20.000Z">
-<meta property="article:modified_time" content="2022-03-11T09:00:19.687Z">
+<meta property="article:modified_time" content="2022-08-16T11:28:17.669Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="JVM">
 <meta property="article:tag" content="自动内存管理">
+<meta property="article:tag" content="Java内存区域与内存溢出异常">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA.png">
   
@@ -78,7 +80,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -209,17 +211,17 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Java内存区域与内存溢出异常"><a href="#Java内存区域与内存溢出异常" class="headerlink" title="Java内存区域与内存溢出异常"></a>Java内存区域与内存溢出异常</h1><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><p>Java虚拟机在执行Java程序的过程中会把它说管理的内存划分为若干个不同的数据区域。</p>
+        <h1 id="Java内存区域与内存溢出异常"><a href="#Java内存区域与内存溢出异常" class="headerlink" title="Java内存区域与内存溢出异常"></a>Java内存区域与内存溢出异常</h1><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><p>Java虚拟机在执行Java程序的过程中会把管理的内存划分为若干个不同的数据区域。</p>
 <p>具体如下图。</p>
 <p><img src="\images\深入理解JVM\Java虚拟机运行时数据区.png" alt="Java虚拟机运行时数据区"></p>
-<h3 id="程序计数器（线程私有）"><a href="#程序计数器（线程私有）" class="headerlink" title="程序计数器（线程私有）"></a>程序计数器（线程私有）</h3><p>程序计数器（Program Counter Register）是一块较小的内存，它可以看作是当前线程所执行的字节码的行号指示器。在Java虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条要执行的字节码指令，它是程序控制流的指示器，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
-<p>值得注意的是：只有当线程执行的是Java方法的时候，这个计数器才记录正在执行的虚拟机字节码指令的地址；如果执行的是原生（Native）方法，这个计数器就为空。</p>
+<h3 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h3><p>Java堆（Java Heap）是虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时启动。此内存区域的唯一目的就是存放内存实例，Java世界里几乎所有的对象实例都在这里分配。</p>
+<p>Java堆是垃圾收集器管理的内存区域，因此其也被称为GC堆。从内存回收的角度来看，由于现代垃圾收集器大部分都基于分代收集理论，所以Java堆中经常出现“新生代”，“老年代”，“永久代”，“Eden空间”，“From Survivor空间”，“To Survivor空间”等名词。</p>
+<h3 id="方法区（非-堆）"><a href="#方法区（非-堆）" class="headerlink" title="方法区（非-堆）"></a>方法区（非-堆）</h3><p>方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译后的代码缓存等数据。虽然《Java虚拟机规范》中把方法区描述为堆的一个逻辑部分，但是它却又一个别名叫做“非堆”（Non-Heap），目的是与Java堆区分开来。</p>
 <h3 id="Java虚拟机栈（线程私有）"><a href="#Java虚拟机栈（线程私有）" class="headerlink" title="Java虚拟机栈（线程私有）"></a>Java虚拟机栈（线程私有）</h3><p>Java虚拟机栈（Java Virtual Machine Stack）也是线程私有的，它的生命周期与线程相同。虚拟机栈描述的是Java方法执行的线程内存模型：每个方法被执行的时候，Java虚拟机都会同步创建一个栈帧（Stack Frame）用于存储局部变量表、操作数栈、动态连接、方法出口等信息。每个方法被调用直至执行完毕的过程，就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程。</p>
 <p>而局部变量存放了编译器可知的各种Java虚拟机基本数据库类型（boolean、byte、char、short、int、float、long、double）、对象引用（reference类型，它并不等于对象本身，可能是一个指向内存起始地址的引用 指针，也可能是指向一个代码对象的句柄或者其他与此对象相关的位置）和returnAddress类型（指向了一条 字节码指令的地址）</p>
 <h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>本地方法栈（Native Method Stacks）与虚拟机栈所发挥的作用非常相似，且u别是虚拟机栈为悉尼及执行Java方法（也就是字节码）服务，而本地方法栈则是为虚拟机使用到本地（Native）方法服务。</p>
-<h3 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h3><p>Java堆（Java Heap）是虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时启动。此内存区域的唯一目的就是存放内存实例，Java世界里几乎所有的对象实例都在这里分配。</p>
-<p>Java堆是垃圾收集器管理的内存区域，因此其也被称为GC堆。从内存回收的角度来看，由于现代垃圾收集器大部分都基于分代收集理论，所以Java堆中经常出现“新生代”，“老年代”，“永久代”，“Eden空间”，“From Survivor空间”，“To Survivor空间”等名词。</p>
-<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><p>方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译后的代码缓存等数据。虽然《Java虚拟机规范》中把方法区描述为堆的一个逻辑部分，但是它却又一个别名叫做“非堆”（Non-Heap），目的是与Java堆区分开来。</p>
+<h3 id="程序计数器（线程私有）"><a href="#程序计数器（线程私有）" class="headerlink" title="程序计数器（线程私有）"></a>程序计数器（线程私有）</h3><p>程序计数器（Program Counter Register）是一块较小的内存，它可以看作是当前线程所执行的字节码的行号指示器。在Java虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条要执行的字节码指令，它是程序控制流的指示器，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</p>
+<p>值得注意的是：只有当线程执行的是Java方法的时候，这个计数器才记录正在执行的虚拟机字节码指令的地址；如果执行的是原生（Native）方法，这个计数器就为空。</p>
 <h3 id="运行常量池"><a href="#运行常量池" class="headerlink" title="运行常量池"></a>运行常量池</h3><p>运行时常量池（Running Constant Pool）是方法区的一部分。class文件中除了有类的版本、字段、接口等描述信息外，还有一项信息是常量池表（Constant Pool Tables），用于存放编译期间生成的各种字面量与符号引用，这部分内容将在类加载后存放到方法区的运行时常量池中。</p>
 <p>运行时常量池相对于Class文件常量池的另外一个重要特征是具备动态性，Java语言并不要求常量一定只有编译期才能产生，也就是说，并非预置入Class文件中常量池的内容才能进入运行时常量池，运行期间也可以将新的常量放入池中。这种特性被开发人员用得最多的便是String类的<code>intern()</code>方法</p>
 <h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是《Java虚拟机规范》中定义的内存区域。但也被频繁使用，而且也可能导致OutOfMemoryError异常。</p>
@@ -370,7 +372,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java内存区域与内存溢出异常"><span class="nav-number">1.</span> <span class="nav-text">Java内存区域与内存溢出异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行时数据区域"><span class="nav-number">1.1.</span> <span class="nav-text">运行时数据区域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#程序计数器（线程私有）"><span class="nav-number">1.1.1.</span> <span class="nav-text">程序计数器（线程私有）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java虚拟机栈（线程私有）"><span class="nav-number">1.1.2.</span> <span class="nav-text">Java虚拟机栈（线程私有）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地方法栈"><span class="nav-number">1.1.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java堆"><span class="nav-number">1.1.4.</span> <span class="nav-text">Java堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法区"><span class="nav-number">1.1.5.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行常量池"><span class="nav-number">1.1.6.</span> <span class="nav-text">运行常量池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接内存"><span class="nav-number">1.1.7.</span> <span class="nav-text">直接内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HotSpot虚拟机"><span class="nav-number">1.2.</span> <span class="nav-text">HotSpot虚拟机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的创建"><span class="nav-number">1.2.1.</span> <span class="nav-text">对象的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的内存布局"><span class="nav-number">1.2.2.</span> <span class="nav-text">对象的内存布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象头"><span class="nav-number">1.2.3.</span> <span class="nav-text">对象头</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实例数据"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">实例数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对齐填充"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">对齐填充</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的访问定位"><span class="nav-number">1.2.4.</span> <span class="nav-text">对象的访问定位</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引用"><span class="nav-number">2.</span> <span class="nav-text">引用</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-number">1.</span> <span class="nav-text">Java内存区域与内存溢出异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F"><span class="nav-number">1.1.</span> <span class="nav-text">运行时数据区域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%A0%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">Java堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA%EF%BC%88%E9%9D%9E-%E5%A0%86%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">方法区（非-堆）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%EF%BC%88%E7%BA%BF%E7%A8%8B%E7%A7%81%E6%9C%89%EF%BC%89"><span class="nav-number">1.1.3.</span> <span class="nav-text">Java虚拟机栈（线程私有）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">1.1.4.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8%EF%BC%88%E7%BA%BF%E7%A8%8B%E7%A7%81%E6%9C%89%EF%BC%89"><span class="nav-number">1.1.5.</span> <span class="nav-text">程序计数器（线程私有）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="nav-number">1.1.6.</span> <span class="nav-text">运行常量池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="nav-number">1.1.7.</span> <span class="nav-text">直接内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HotSpot%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">1.2.</span> <span class="nav-text">HotSpot虚拟机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">1.2.1.</span> <span class="nav-text">对象的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number">1.2.2.</span> <span class="nav-text">对象的内存布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%A4%B4"><span class="nav-number">1.2.3.</span> <span class="nav-text">对象头</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E6%95%B0%E6%8D%AE"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">实例数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E9%BD%90%E5%A1%AB%E5%85%85"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">对齐填充</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D"><span class="nav-number">1.2.4.</span> <span class="nav-text">对象的访问定位</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">引用</span></a></li></ol>
     
     </div>
   </aside>
@@ -385,7 +387,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -542,7 +544,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

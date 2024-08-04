@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/page/3/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Something is going happen if you try to fight for it!">
+<meta property="og:locale">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Life">
 <meta name="twitter:card" content="summary">
@@ -65,7 +66,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -148,27 +149,6 @@
                         } else {
                           imageTag2.style.height = document.body.clientHeight + "px";
                           imageTag2.style.marginLeft = -(document.body.clientHeight * img2.width / img2.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img3" src="https://source.unsplash.com/collection/954550/1920x1080">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img3 = new Image();
-                      var imageTag3 = document.getElementById("carousel-img3");
-                      img3.src = imageTag3.src;
-                      img3.onload=function(){
-                        if (img3.width / img3.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag3.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag3.style.height = document.body.clientHeight + "px";
-                          imageTag3.style.marginLeft = -(document.body.clientHeight * img3.width / img3.height - document.body.clientWidth) / 2 + "px";
                         }
                       };
                   </script>
@@ -261,7 +241,7 @@
   
 
   <div class="intro-navigate">
-      <p class="navigater-list">
+      <div class="navigater-list">
         
           <a id="beautifont" class="main-nav-link" href="/">Home</a>
         
@@ -273,8 +253,27 @@
         
           <a id="beautifont" class="main-nav-link" href="/about">About</a>
         
-        <!-- <a  id="beautifont" class="main-nav-link">
-          <div id="search-form-wrap">
+
+        
+          <div class="main-nav-wrapper">
+            <a id="beautifont" class="main-nav-link" href="/like">Like</a>
+
+            <div class="drop-content">
+              
+                <a id="beautifont" class="main-nav-link" href="/books">Books</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/games">Games</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/songs">Songs</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/movies">Movies</a>
+              
+            </div>
+          </div>
+        
+
+      <!-- <a  id="beautifont" class="main-nav-link">
+        <div id="search-form-wrap">
 
     <form class="search-form">
         <input type="text" class="ins-search-input search-form-input" placeholder="" />
@@ -313,8 +312,8 @@
 
 
 </div>
-        </a> -->
-      </p>
+      </a> -->
+    </div>
   </div>
 
 </header>
@@ -327,7 +326,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-MySQL必知必会22-30-MySQL高级特征"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-深入理解JVM2-1-虚拟机执行子系统-类文件结构"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -335,7 +334,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/">MySQL必知必会22-30-MySQL高级特征</a>
+      <a class="article-title" href="/2022/04/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM2-1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A7%E8%A1%8C%E5%AD%90%E7%B3%BB%E7%BB%9F-%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">深入理解JVM2-1-虚拟机执行子系统-类文件结构</a>
     </h1>
   
 
@@ -343,25 +342,83 @@
     
     <div class="article-meta">
       
-	<a href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/" class="article-date">
-	  <time datetime="2022-02-24T01:54:46.000Z" itemprop="datePublished">2022-02-24</time>
+	<a href="/2022/04/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM2-1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A7%E8%A1%8C%E5%AD%90%E7%B3%BB%E7%BB%9F-%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="article-date">
+	  <time datetime="2022-04-24T01:46:39.000Z" itemprop="datePublished">2022-04-24</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+    <a class="article-category-link" href="/categories/JVM/">JVM</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          使用视图视图视图是虚拟的表。与包含数据的表不同，视图只包含使用时动态检索数据的查询。
+          类无关性的基石实现语言无关性的基础仍然是虚拟机和字节码存储格式。Java虚拟机不与包括Java语言在内的任何 程序语言绑定，它只与“Class文件”这种特定的二进制文件格式所关联，Class文件中包含了Java虚拟机指令集、符号表以及若干其他辅助信息。
+作为一个通用的、与机器无关的执行平 台，任何其他语言的实现者都可以将Java虚拟机作为他们语言的运行基础，以Class文件作为他们产品 的交付媒介。例如，使用Java编译器可以把Java代码编译为存储字节码的Class文件，使用JRuby等...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/04/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM2-1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A7%E8%A1%8C%E5%AD%90%E7%B3%BB%E7%BB%9F-%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-MyBatis动态SQL和resultMap"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/04/15/MyBatis%E5%8A%A8%E6%80%81SQL%E5%92%8CresultMap/">MyBatis动态SQL和resultMap</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/15/MyBatis%E5%8A%A8%E6%80%81SQL%E5%92%8CresultMap/" class="article-date">
+	  <time datetime="2022-04-15T13:28:12.000Z" itemprop="datePublished">2022-04-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/MyBatis/">MyBatis</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          动态SQLmybatis动态SQL可以根据Java变量的不同动态拼接SQL，其本质就是按照我们每次向接口中传入的变量和我们指定的规则来帮助我们拼接SQL语句，简化了SQL语句的编写。
+其主要有以下几组标签，其语义与在Java中相同：
+
+if
+choose (when, otherwise)
+trim (where, set)
+foreach
+
+ifif即条件判断，一般多用于where后的判断。
 例如：
-12345SELECT cust_name, cust_contact FROM custmers, orders, orderitems WHERE customers.cust_id = orders.cust_id AND orderitems.order_num = orders.order_num AND prod_id = 'TNT2';
-此查询用来检索订购了某个特定产品的客户。任何需...
+1234567&lt;select id="findActiveBlogWithTitl...
         </p>
         <p class="article-more-link">
-          <a href="/2022/02/24/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A22-30-MySQL%E9%AB%98%E7%BA%A7%E7%89%B9%E5%BE%81/#more">Read More</a>
+          <a href="/2022/04/15/MyBatis%E5%8A%A8%E6%80%81SQL%E5%92%8CresultMap/#more">Read More</a>
         </p>
       
     </div>
@@ -380,7 +437,7 @@
 
 
   
-    <article id="post-MySQL必知必会19-21-数据和表的操作"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Java多线程编程核心技术-5-Timer的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -388,7 +445,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">MySQL必知必会19-21-数据和表的操作</a>
+      <a class="article-title" href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/">Java多线程编程核心技术-5-Timer的使用</a>
     </h1>
   
 
@@ -396,483 +453,175 @@
     
     <div class="article-meta">
       
-	<a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" class="article-date">
-	  <time datetime="2022-02-23T07:28:43.000Z" itemprop="datePublished">2022-02-23</time>
+	<a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2022-04-06T08:31:16.000Z" itemprop="datePublished">2022-04-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          定时器Timer的使用Timer类Timer类的主要作用是设置计划任务，即在指定时间开始执行某一个任务。
+其构造方法如下
+1234567public Timer() &#123;    this("Timer-" + serialNumber());&#125;public Timer(boolean isDaemon) &#123;    this("Timer-" + serialNumber(), isDaemon);&#125;
+即可以自定义该定时器的名称。
+其主要有四个方法：
+
+...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Java多线程编程核心技术-4-Lock对象的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/">Java多线程编程核心技术-4-Lock对象的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2022-04-06T02:52:49.000Z" itemprop="datePublished">2022-04-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          基本用法Java多线程可以使用synchronized关键字来实现线程间同步，不过JDK 1.5新增加的ReentrantLock类也能达到同样的效果，并且在扩展功能上更加强大，如具有嗅探锁定、多路分支通知等功能。
+ReentrantLock类可以直接new一个ReentranLock。然后再后面的方法中使用该对象的方法来进行同步处理。
+例如：
+1private Lock lock = new ReentrantLock();
+lock()方法lock方法用于锁定当前的ReentrantL...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Java多线程编程核心技术-3-线程间通信"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/04/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-3-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">Java多线程编程核心技术-3-线程间通信</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-3-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" class="article-date">
+	  <time datetime="2022-04-02T02:13:47.000Z" itemprop="datePublished">2022-04-02</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          wait/notify机制不使用wait/notify机制实现线程间通信 之前说过volatile可以实现不同线程的变量的可见性。所以不同线程间通信可以使用volatile变量来进行信息交换。
+示例：
+自定义List类:
+123456789101112package mylist;import java.util.ArrayList;import java.util.List;public class MyList &#123;    volatile private List list ...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/04/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-3-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-MySQL关键字问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/03/30/MySQL%E5%85%B3%E9%94%AE%E5%AD%97%E9%97%AE%E9%A2%98/">MySQL关键字问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/30/MySQL%E5%85%B3%E9%94%AE%E5%AD%97%E9%97%AE%E9%A2%98/" class="article-date">
+	  <time datetime="2022-03-30T07:13:44.000Z" itemprop="datePublished">2022-03-30</time>
 	</a>
 
       
     <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          数据插入INSET可以用来插入数据，其可以用以下几种方式使用：
-
-插入完整的行；
-插入行的一部分；
-插入多行；
-插入某些查询的结果。
-
-
-插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。
-
-插入完整的行可以直接按照表中的字段顺序来使用INSERT插入数据。
-例如表Customers的结果为：
-
-
-
-id
-name
-location
-birthday
-hobby
-
-
-
-
-
-
-
-
-则可以通过下面的方式来插入数据：
-1INSERT INTO Cust...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-MySQL必知必会13-18-高级检索知识"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/">MySQL必知必会13-18-高级检索知识</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/" class="article-date">
-	  <time datetime="2022-02-23T07:08:21.000Z" itemprop="datePublished">2022-02-23</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          分组数据分组数据可以用于按照某一列数据作为分类标准来统计数据。所以其一般与聚集函数一起用。
-创建分组分组是使用SELECT子句和GROUP BY子句建立。
-例如：统计每个vend_id的数据数量：
-1SELECT vend_id, COUNT(*) AS num_prods FROM products GROUP BY vend_id;
-将语句分为两部分，
-
-SELECT vend_id, COUNT(*) AS num_prods FROM products
-GROUP BY vend_...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A13-18-%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%9F%A5%E8%AF%86/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-MySQL必知必会1-12-基础知识"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-12-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">MySQL必知必会1-12-基础知识</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-12-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="article-date">
-	  <time datetime="2022-02-20T05:38:59.000Z" itemprop="datePublished">2022-02-20</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          数据库基础主键主键每一行都应该可以唯一标识自己的一列。没有主键，更新或删除表中特定行很困难，因为没有安全的方法保证只涉及相关的行。
-表中的任意行都可以作为主键，只要它满足以下条件：
-
-任意两行不具有相同的主键值。
-每个行都必须具有一个主键（主键不允许为NULL）。
-
-主键通常是定义在表的一个列中，但并不是只能一列，也可以多个列一起使用作为主键。当使用多列作为主键时，上述条件必须应用到构成主键的所有列，所有列值的组合必须时唯一的（但单个列的值可以不唯一）。
-主键的好习惯：
-
-不更新主键列中的...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-12-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-II-9-Java平台模块系统"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/">java核心技术-II-9-Java平台模块系统</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/" class="article-date">
-	  <time datetime="2022-02-18T05:08:24.000Z" itemprop="datePublished">2022-02-18</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          模块的概念在Java系统中，提供了多种封装的层级。
-在面向对象编程中，基础的构建要素就是类。类提供了封装，私有特征只能被具有明确访问权限的代码访问。
-包提供了更高一级的组织方式，包是类的集合。包也提供了一种封装级别，具有包访问权限的所有特征（无论是公有还是私有）都只能被同一个包中的方法访问。
-但是在大型系统中，这些控制级别还是显得不够，所以设计了模块的概念。
-一般来说，一个Java平台模块包含以下部分：
-
-一个包集合。
-可选地包含资源文件和像本地库这样的其他文件。
-一个有关模块中可访问的包...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-II-8-脚本、编译和注解处理"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/">java核心技术-II-8-脚本、编译和注解处理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/" class="article-date">
-	  <time datetime="2022-02-17T05:16:48.000Z" itemprop="datePublished">2022-02-17</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          Java平台的脚本机制Java平台的脚本API可以使之运行诸如JavaScript和Groovy这样的脚本语言代码。
-脚本语言是一种在运行时解释程序文本，从而避免了编译、链接等步骤。其具有以下优势：
-
-便于快速变更，鼓励不断实验。
-可以修改运行着的程序的行为。
-支持程序用户的定制化。
-
-获取脚本引擎脚本引擎是一个可以执行特定语言编写的脚本的类库。当虚拟机启动的时候，它会发现可以用的脚本引擎。为了枚举这些引擎，需要构造一个ScriptEngineManager，并调用getEngineFac...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-II-6-日期和时间API"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/">java核心技术-II-6-日期和时间API</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/" class="article-date">
-	  <time datetime="2022-02-16T04:21:08.000Z" itemprop="datePublished">2022-02-16</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          简介Java1.0有一个Date类，事后证明其太过简单了，当Java1.1引入Calendar之后，Date类中的大部分方法就被其弃用了。但是Calendar的API还是有缺陷，它的实例是可以修改的，并且它没有处理诸如闰秒这样的问题。 第三次在Java SE 8中引入了java.timeAPI，它修正了过去的错误。并且应该会服役相当长一段时间。
-时间线Java的Date和Time API规范要求Java使用的时间尺度为：
-
-每天86400秒。
-每天正午与官方时间精确匹配。
-在其他时间点上，...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/16/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-6-%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4API/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-II-2-输入与输出"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/15/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-2-%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA/">java核心技术-II-2-输入与输出</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/15/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-2-%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA/" class="article-date">
-	  <time datetime="2022-02-15T05:24:38.000Z" itemprop="datePublished">2022-02-15</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          输入与输出流在Java API中，输入流是一个可以读入字节的对象；输出流是一个可以写如字节的对象。这些字节的来源和目的地可以是文件、网络甚至是内存块。
-抽象类InputStream和OutputStream构成了输入/输出类层次结构的基础。（注意与上一节的流操作完全不同）
-InputStreamInputStream是输入流，即通过文件等获取一个InputStream的子类。然后通过其API获得输入流中的内容。其主要API如下：
-
-abstract int read()：从数组中读取一个字...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/15/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-2-%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-II-1-Java8的流库"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/02/14/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-1-Java8%E7%9A%84%E6%B5%81%E5%BA%93/">java核心技术-II-1-Java8的流库</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/02/14/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-1-Java8%E7%9A%84%E6%B5%81%E5%BA%93/" class="article-date">
-	  <time datetime="2022-02-14T15:22:15.000Z" itemprop="datePublished">2022-02-14</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          迭代与流与集合相比，流提供了一种可以让我们在更高的概念级别上指定任务的数据视图。
-流提供了几种操作函数，其调用要比一般的迭代更加简洁。并且其可以链式调用，每一次调用都返回一个新的流对象。
-如：统计一个List中长度大于12的单词数量。
-迭代123456int count = 0;for(String w : words)&#123;    if(w.length() &gt; 12)&#123;        count++;    &#125;&#125;
-流1long count = ...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/02/14/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-1-Java8%E7%9A%84%E6%B5%81%E5%BA%93/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-java核心技术-I-12-并发"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-12-%E5%B9%B6%E5%8F%91/">java核心技术-I-12-并发</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-12-%E5%B9%B6%E5%8F%91/" class="article-date">
-	  <time datetime="2022-01-24T05:51:06.000Z" itemprop="datePublished">2022-01-24</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java/">Java</a>
 
       
     </div>
@@ -880,12 +629,226 @@ abstract int read()：从数组中读取一个字...
       
         <p class="article-excerpt-content">
           
-线程的概念
-在早期的操作系统中并没有线程的概念，进程是拥有资源和独立运行的最小单位，也是程序执行的最小单位。任务调度采用的是时间片轮转的抢占式调度方式，而进程是任务调度的最小单位，每个进程有各自独立的一块内存，使得各个进程之间内存地址相互隔离。
-　　后来，随着计算机的发展，对CPU的要求越来越高，进程之间的切换开销较大，已经无法满足越来越复杂的程序的要求了。于是就发明了线程，线程是程序执行中一个单一的顺序控制流程，是程序执行流的最小单元，是处理器调度和分派的基本单位。一个进程可以有一个或...
+因为之前排查一个sql错误，看了半天才发现是关键字占用，但是作为属性又没有提示，所以这里记录以下MySQL的所有关键字。
+本来一般的排查方案是将sql复制到UI工具中查看，但是有些UI工具提示并不全（可能是版本问题），比如groups关键字，SQLyog就不会提示。导致一直没有排查出来。
+
+MySQL的关键分为占用或不占用。如果是占用的关键词，那么就不能直接使用。必须添加引号，注意这个引号是 ` ,即英文状态下的波浪号。其他的引号是无法做到消除占用的，包括单引号和双引号。
+如果是不占用的...
         </p>
         <p class="article-more-link">
-          <a href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-12-%E5%B9%B6%E5%8F%91/#more">Read More</a>
+          <a href="/2022/03/30/MySQL%E5%85%B3%E9%94%AE%E5%AD%97%E9%97%AE%E9%A2%98/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-反射获取私有数据问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/03/30/%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE%E9%97%AE%E9%A2%98/">反射获取私有数据问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/30/%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE%E9%97%AE%E9%A2%98/" class="article-date">
+	  <time datetime="2022-03-30T07:13:23.000Z" itemprop="datePublished">2022-03-30</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          这里记录通过反射访问私有变量并赋值的方法。第一种是最普遍的，可以访问没有公开的私有变量。而后两种似乎有点多余，直接调用方法也行，权当记录一下后两种操作方法吧。
+preUser对象
+1234567891011121314151617181920212223242526272829303132333435363738package reflect;public class User &#123;	private int id;	private String name;	private Stri...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/03/30/%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE%E9%97%AE%E9%A2%98/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Java多线程编程核心技术-2-对象及变量的并发访问"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/03/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-2-%E5%AF%B9%E8%B1%A1%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE/">Java多线程编程核心技术-2-对象及变量的并发访问</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-2-%E5%AF%B9%E8%B1%A1%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE/" class="article-date">
+	  <time datetime="2022-03-30T01:17:31.000Z" itemprop="datePublished">2022-03-30</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          在上一篇文章Java多线程编程核心技术-1-多线程技术基础中，提到了共享变量造成的非线程安全问题。
+本文就是为了解决非线程安全的相关问题。
+synchronized同步方法关键字synchronized可用来保障原子性、可见性和有序性。
+但是在学习synchronized之前，我们必须明确一点：
+synchronized锁住的是对象。即使是synchronized方法。
+线程安全问题和解决方案就像前一文中提到的，只有多线程共享的变量才会面临线程安全问题。
+即定义在线程类中并且被多个实例化为...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/03/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-2-%E5%AF%B9%E8%B1%A1%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Java多线程编程核心技术-1-多线程技术基础"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/03/29/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-1-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">Java多线程编程核心技术-1-多线程技术基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/29/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-1-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/" class="article-date">
+	  <time datetime="2022-03-29T04:06:39.000Z" itemprop="datePublished">2022-03-29</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          使用多线程Java的JDK实现多线程编程主要有两种方式：一种是继承Thread类，另一种是实现Runnable接口。
+继承Thread类直接继承Thread类，然后重写其run方法就可以得到一个新的线程类。
+12345678public class MyThread extends Thread&#123;        @override    public void run()&#123;        super.run();        System.out.println("M...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/03/29/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-1-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-hibernate-validator基本使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/03/28/hibernate-validator%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">hibernate validator基本使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/28/hibernate-validator%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2022-03-28T09:57:42.000Z" itemprop="datePublished">2022-03-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/hibernate-validator/">hibernate validator</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          引入Spring-bootspring-boot-starter-web就包含了hibernate validator。
+1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;&lt;/dependency&gt;
+spring MVC12345&lt;de...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/03/28/hibernate-validator%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/#more">Read More</a>
         </p>
       
     </div>
@@ -908,7 +871,7 @@ abstract int read()：从数组中读取一个字...
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -923,7 +886,7 @@ abstract int read()：从数组中读取一个字...
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -1080,7 +1043,7 @@ abstract int read()：从数组中读取一个字...
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

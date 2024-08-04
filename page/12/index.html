@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/page/12/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Something is going happen if you try to fight for it!">
+<meta property="og:locale">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Life">
 <meta name="twitter:card" content="summary">
@@ -65,7 +66,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -148,27 +149,6 @@
                         } else {
                           imageTag2.style.height = document.body.clientHeight + "px";
                           imageTag2.style.marginLeft = -(document.body.clientHeight * img2.width / img2.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img3" src="https://source.unsplash.com/collection/954550/1920x1080">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img3 = new Image();
-                      var imageTag3 = document.getElementById("carousel-img3");
-                      img3.src = imageTag3.src;
-                      img3.onload=function(){
-                        if (img3.width / img3.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag3.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag3.style.height = document.body.clientHeight + "px";
-                          imageTag3.style.marginLeft = -(document.body.clientHeight * img3.width / img3.height - document.body.clientWidth) / 2 + "px";
                         }
                       };
                   </script>
@@ -261,7 +241,7 @@
   
 
   <div class="intro-navigate">
-      <p class="navigater-list">
+      <div class="navigater-list">
         
           <a id="beautifont" class="main-nav-link" href="/">Home</a>
         
@@ -273,8 +253,27 @@
         
           <a id="beautifont" class="main-nav-link" href="/about">About</a>
         
-        <!-- <a  id="beautifont" class="main-nav-link">
-          <div id="search-form-wrap">
+
+        
+          <div class="main-nav-wrapper">
+            <a id="beautifont" class="main-nav-link" href="/like">Like</a>
+
+            <div class="drop-content">
+              
+                <a id="beautifont" class="main-nav-link" href="/books">Books</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/games">Games</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/songs">Songs</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/movies">Movies</a>
+              
+            </div>
+          </div>
+        
+
+      <!-- <a  id="beautifont" class="main-nav-link">
+        <div id="search-form-wrap">
 
     <form class="search-form">
         <input type="text" class="ins-search-input search-form-input" placeholder="" />
@@ -313,8 +312,8 @@
 
 
 </div>
-        </a> -->
-      </p>
+      </a> -->
+    </div>
   </div>
 
 </header>
@@ -327,7 +326,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-canvas基础"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-CSS3过渡与动画"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -335,7 +334,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/03/10/canvas%E5%9F%BA%E7%A1%80/">canvas基础</a>
+      <a class="article-title" href="/2019/11/18/CSS3%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB/">CSS3过渡与动画</a>
     </h1>
   
 
@@ -343,35 +342,24 @@
     
     <div class="article-meta">
       
-	<a href="/2019/03/10/canvas%E5%9F%BA%E7%A1%80/" class="article-date">
-	  <time datetime="2019-03-10T13:56:25.000Z" itemprop="datePublished">2019-03-10</time>
+	<a href="/2019/11/18/CSS3%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB/" class="article-date">
+	  <time datetime="2019-11-18T13:13:17.000Z" itemprop="datePublished">2019-11-18</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Canvas/">Canvas</a>
+    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          创建canvas画布css:
-canvas{
-            border:3px solid blue;
-        }
-
-html:
-&lt;canvas width=&quot;700&quot; height=&quot;700&quot; id=&quot;myCanvas&quot;&gt;
-        您的浏览器不支持canvas，请更换浏览器访问！
-    &lt;/canvas&gt;
-
-Javascript:
-
-    &lt;script&gt;
-  ...
+          CSS3-过渡 CSS3中，我们为了添加某种效果可以从一种样式转变到另一个的时候，无需使用Flash动画或JavaScript。 使用transition属性，CSS3会自动为属性的变化来添加过渡样式。这个属性一般可以用在:hoevr :active等伪元素切换。
+transition也是一个复合属性：
+1234tag&#123;    transition:transition-property ransition-duration transition-timing-function ...
         </p>
         <p class="article-more-link">
-          <a href="/2019/03/10/canvas%E5%9F%BA%E7%A1%80/#more">Read More</a>
+          <a href="/2019/11/18/CSS3%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB/#more">Read More</a>
         </p>
       
     </div>
@@ -390,7 +378,7 @@ Javascript:
 
 
   
-    <article id="post-JavaScript中的.与[]的区别"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-函数的防抖与节流以及一些重要的函数模式"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -398,7 +386,7 @@ Javascript:
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/03/03/JavaScript%E4%B8%AD%E7%9A%84.%E4%B8%8E%5B%5D%E7%9A%84%E5%8C%BA%E5%88%AB/">JavaScript中的.与[]的区别</a>
+      <a class="article-title" href="/2019/11/17/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E7%9A%84%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F/">函数的防抖与节流以及一些重要的函数模式</a>
     </h1>
   
 
@@ -406,8 +394,8 @@ Javascript:
     
     <div class="article-meta">
       
-	<a href="/2019/03/03/JavaScript%E4%B8%AD%E7%9A%84.%E4%B8%8E%5B%5D%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-	  <time datetime="2019-03-03T04:17:00.000Z" itemprop="datePublished">2019-03-03</time>
+	<a href="/2019/11/17/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E7%9A%84%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F/" class="article-date">
+	  <time datetime="2019-11-17T12:25:01.000Z" itemprop="datePublished">2019-11-17</time>
 	</a>
 
       
@@ -418,22 +406,13 @@ Javascript:
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          叨叨一下最近在看ES6，感觉很有意思啊。然后就遇到了这个问题，.(点)与[] (方括号)的区别。
-
-正文这个问题是在遍历器(Iterator)这一部分发现的，其中对于不存在遍历器的数据结构，比如一个对象。我们可以自定义一个遍历器，就可以实现forEach,for…in…等方法。然后就出现下面这段语句：
-var arrlike = {
-    0:a,
-    1:b,
-    2:c
-}
-
-arrlike.[Symbol.iterator](){
-    //遍历器内容，略
-}
-问题就在：...
+          防抖（debounce）在学习单片机开发时，按键防抖非常重要，我们必须使用一定的方法来进行防抖，否则会造成一次按键按键的多次触发的情况。而在JavaScript中，同样会有这样的问题，即在用户进行持续性的操作时，在用户大概率完成后，在进行后续操作（请求服务器，浏览器渲染等）。如果不进行防抖操作，会导致服务器或浏览器的性能浪费。
+其具体定义：在第一次触发事件时，不立即执行函数，而是给出一个期限值比如200ms，然后：
+- 如果在一段时间内没有再次触发滚动事件，那么就执行函数
+- 如果在一段时...
         </p>
         <p class="article-more-link">
-          <a href="/2019/03/03/JavaScript%E4%B8%AD%E7%9A%84.%E4%B8%8E%5B%5D%E7%9A%84%E5%8C%BA%E5%88%AB/#more">Read More</a>
+          <a href="/2019/11/17/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E7%9A%84%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F/#more">Read More</a>
         </p>
       
     </div>
@@ -452,7 +431,7 @@ arrlike.[Symbol.iterator](){
 
 
   
-    <article id="post-JSP实战项目-学生信息管理系统的总结"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Vue中局部修改组件样式"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -460,7 +439,7 @@ arrlike.[Symbol.iterator](){
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/02/09/JSP%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE-%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%80%BB%E7%BB%93/">JSP实战项目:学生信息管理系统的总结</a>
+      <a class="article-title" href="/2019/11/17/Vue%E4%B8%AD%E5%B1%80%E9%83%A8%E4%BF%AE%E6%94%B9%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F/">Vue中局部修改组件样式</a>
     </h1>
   
 
@@ -468,23 +447,28 @@ arrlike.[Symbol.iterator](){
     
     <div class="article-meta">
       
-	<a href="/2019/02/09/JSP%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE-%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%80%BB%E7%BB%93/" class="article-date">
-	  <time datetime="2019-02-09T04:38:11.000Z" itemprop="datePublished">2019-02-09</time>
+	<a href="/2019/11/17/Vue%E4%B8%AD%E5%B1%80%E9%83%A8%E4%BF%AE%E6%94%B9%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F/" class="article-date">
+	  <time datetime="2019-11-17T11:52:19.000Z" itemprop="datePublished">2019-11-17</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          前言简单学习了一下JSP，不知道以后老师怎么教的，不过我是感觉到JSP的真谛还是Java，无论是按照MVC或者三层模式，一般Control层都是servlet来写，Model层都是用纯java来写，当然，在JSP文件中，也是可以进行这些操作的，毕竟在JSP的&lt;%…%&gt;中完全可以写java代码，而servlet的本质就是java的一个类。但是一般在开始时总是界面与逻辑分开，否则整个项目结构混乱，代码冗余。所以我觉的学JSP本质还是学java，学servlet。
-正文整个项目差不多...
+          Vue如何修改子组件样式在使用element-ui或者i-view这些第三方样式库时，我们有时会想只在某一个组件中局部修改库中的样式而部影响全局样式。
+首先我们需要打开控制器找到对应组件的CSS样式的类名或者id
+有以下几种方式
+不在style样式上添加scope属性&lt;template&gt;
+    &lt;div class=&quot;father&quot;&gt;
+        &lt;el-input&gt;&lt;/el-input&gt;
+    &lt;/div&...
         </p>
         <p class="article-more-link">
-          <a href="/2019/02/09/JSP%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE-%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%80%BB%E7%BB%93/#more">Read More</a>
+          <a href="/2019/11/17/Vue%E4%B8%AD%E5%B1%80%E9%83%A8%E4%BF%AE%E6%94%B9%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F/#more">Read More</a>
         </p>
       
     </div>
@@ -503,7 +487,7 @@ arrlike.[Symbol.iterator](){
 
 
   
-    <article id="post-JSP数据库处理"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-CSS3-转换"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -511,7 +495,7 @@ arrlike.[Symbol.iterator](){
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/01/31/JSP%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%84%E7%90%86/">JSP数据库处理</a>
+      <a class="article-title" href="/2019/11/05/CSS3-%E8%BD%AC%E6%8D%A2/">CSS3-转换</a>
     </h1>
   
 
@@ -519,32 +503,29 @@ arrlike.[Symbol.iterator](){
     
     <div class="article-meta">
       
-	<a href="/2019/01/31/JSP%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%84%E7%90%86/" class="article-date">
-	  <time datetime="2019-01-31T08:50:58.000Z" itemprop="datePublished">2019-01-31</time>
+	<a href="/2019/11/05/CSS3-%E8%BD%AC%E6%8D%A2/" class="article-date">
+	  <time datetime="2019-11-05T01:23:39.000Z" itemprop="datePublished">2019-11-05</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          JSP的数据库操作经过这两天的操作，我觉得还是要看视频或者买书或者看官方文档学习，网上的资料缺点太多，写的过于简单，甚至兼容性也有问题。所以，搞了一天，终于，把数据库搞出来了~
-
-源码分析sql.java
-package student.servlet;
-import java.sql.*;
-
-
-public class sql {
-public static void Update(){
-    Statement stmt = null;
-    Connection connecti...
+          CSS3中的转换CSS3中的转换可以形成简单的动画，对于页面的小优化有点金的效果。
+CSS3中的转换都在transform属性中定义，在该属性中定义其他函数来进行不同的转换。
+CSS3的2D转换translate()该函数接受两个参数，分别是其x，y轴的偏移量，右下为正方向。
+transform:translate(50px,100px);
+将原元素向右、下移动50px、100px。
+如果只填一个参数，则默认为x轴偏移。
+transform:translate(50px);
+向x轴移动50...
         </p>
         <p class="article-more-link">
-          <a href="/2019/01/31/JSP%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%84%E7%90%86/#more">Read More</a>
+          <a href="/2019/11/05/CSS3-%E8%BD%AC%E6%8D%A2/#more">Read More</a>
         </p>
       
     </div>
@@ -563,7 +544,7 @@ public static void Update(){
 
 
   
-    <article id="post-JSP基础部分"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-CSS3-文本效果和字体"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -571,7 +552,7 @@ public static void Update(){
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/01/30/JSP%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/">JSP基础部分</a>
+      <a class="article-title" href="/2019/11/04/CSS3-%E6%96%87%E6%9C%AC%E6%95%88%E6%9E%9C%E5%92%8C%E5%AD%97%E4%BD%93/">CSS3-文本效果和字体</a>
     </h1>
   
 
@@ -579,27 +560,49 @@ public static void Update(){
     
     <div class="article-meta">
       
-	<a href="/2019/01/30/JSP%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/" class="article-date">
-	  <time datetime="2019-01-30T13:46:43.000Z" itemprop="datePublished">2019-01-30</time>
+	<a href="/2019/11/04/CSS3-%E6%96%87%E6%9C%AC%E6%95%88%E6%9E%9C%E5%92%8C%E5%AD%97%E4%BD%93/" class="article-date">
+	  <time datetime="2019-11-04T07:26:39.000Z" itemprop="datePublished">2019-11-04</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          JSP这几天把JSP基本部分看了，方便记忆，还是回顾一下。文件部分有一点复杂，所以后面直接单独解析一下。
-日期处理其实日期处理部分还是JAVA中的Date()对象提供的。只是之前学习JAVA是没认真看，哈哈哈。
-获取时间eg:
-&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
-    pageEncoding=&quot;UTF-8&quot;%&gt;
-&lt;%@...
+          CSS3中的文字效果及字体CSS3本来规定了较多的文字属性，但是大部分没有被实现，所以只介绍已经被实现的属性。
+text-shadowtext-shadow用于创建一个文字阴影，其参数如下：
+
+
+
+参数
+说明
+
+
+
+
+&lt;offset-x&gt;
+x轴的偏移量
+
+
+&lt;offset-y&gt;
+y轴的偏移量
+
+
+&lt;blur-radius&gt;
+模糊半径
+
+
+
+example1:
+text-shadow: 5px 5px 5px #FF0000;
+
+text-shadow案例...
         </p>
         <p class="article-more-link">
-          <a href="/2019/01/30/JSP%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/#more">Read More</a>
+          <a href="/2019/11/04/CSS3-%E6%96%87%E6%9C%AC%E6%95%88%E6%9E%9C%E5%92%8C%E5%AD%97%E4%BD%93/#more">Read More</a>
         </p>
       
     </div>
@@ -618,7 +621,7 @@ public static void Update(){
 
 
   
-    <article id="post-JSP中的表单编码问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-CSS3-背景"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -626,7 +629,7 @@ public static void Update(){
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/01/28/JSP%E4%B8%AD%E7%9A%84%E8%A1%A8%E5%8D%95%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/">JSP中的表单编码问题</a>
+      <a class="article-title" href="/2019/10/29/CSS3-%E8%83%8C%E6%99%AF/">CSS3-背景</a>
     </h1>
   
 
@@ -634,30 +637,34 @@ public static void Update(){
     
     <div class="article-meta">
       
-	<a href="/2019/01/28/JSP%E4%B8%AD%E7%9A%84%E8%A1%A8%E5%8D%95%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/" class="article-date">
-	  <time datetime="2019-01-28T12:13:29.000Z" itemprop="datePublished">2019-01-28</time>
+	<a href="/2019/10/29/CSS3-%E8%83%8C%E6%99%AF/" class="article-date">
+	  <time datetime="2019-10-29T01:48:59.000Z" itemprop="datePublished">2019-10-29</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JSP/">JSP</a>
+    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          JSP的编码才看了几天的JSP，把最重要的表单提交看了一下，遇到了中文编码的问题，然后我查了一下JSP的默认代码是：ISO-8859-1重新设编码的语句共有下面几句：
+          backgroundCSS中，background是一个复合属性，是以下单属性的符合属性：
 
-pageEncoding=”UTF-8”
-contentType=”text/html;charset=UTF-8”
-request.setCharacterEncoding(“UTF-8”)
-response.setCharacterEncoding(“UTF-8”)
+background-color
+background-position
+background-size
+background-repeat
+background-origin
+background-clip
+background-attachment
+background-image
 
-
-pageEncoding=”UTF-8” 是在第...
+其格式如下
+1background:bg-color bg-image position/bg-size bg...
         </p>
         <p class="article-more-link">
-          <a href="/2019/01/28/JSP%E4%B8%AD%E7%9A%84%E8%A1%A8%E5%8D%95%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/#more">Read More</a>
+          <a href="/2019/10/29/CSS3-%E8%83%8C%E6%99%AF/#more">Read More</a>
         </p>
       
     </div>
@@ -676,7 +683,7 @@ pageEncoding=”UTF-8” 是在第...
 
 
   
-    <article id="post-Python3-CGI编程踩坑日记"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-CSS3-边框"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -684,7 +691,7 @@ pageEncoding=”UTF-8” 是在第...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/01/14/Python3-CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/">Python3_CGI编程踩坑日记</a>
+      <a class="article-title" href="/2019/10/19/CSS3-%E8%BE%B9%E6%A1%86/">CSS3-边框</a>
     </h1>
   
 
@@ -692,36 +699,36 @@ pageEncoding=”UTF-8” 是在第...
     
     <div class="article-meta">
       
-	<a href="/2019/01/14/Python3-CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/" class="article-date">
-	  <time datetime="2019-01-14T12:25:07.000Z" itemprop="datePublished">2019-01-14</time>
+	<a href="/2019/10/19/CSS3-%E8%BE%B9%E6%A1%86/" class="article-date">
+	  <time datetime="2019-10-19T14:09:49.000Z" itemprop="datePublished">2019-10-19</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Python/">Python</a>
+    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          Hard-start这是学习Python的第六天，也是进入Python高级编程的第一天，嗯，对，然后我就遇见了Big Problem，甚至到现在都还有一个问题没有解决。
+          引言之所以想到重学CSS3，是因为最近在看《CSS揭秘》一书时，在发现原来CSS3的内容有很多当时没有深入去琢磨，只是简单学习了其基础用法。下面就通过其一些高级用法来深入的研究一下CSS3的内容。
+该内容分为：
 
-Problem I met
-Apache的安装问题
+边框
+背景
+文本效果
+字体
+2D、3D转换
+过渡
+动画
+多列、用户界面（盒尺寸、轮廓）
+媒体查询
 
-在得之要使用Apache之后，我直接就百度Apache，然后再官网首页
-
-结果下载下来直接用不了，解压了发现文件不对。然后一搜教程才发现文件下载错了。
-应该在这里下载：
-
-终于完成填了第一个坑！
-
-Apache配置问题
-
-要启用CGI，必需修改配置文件。而这个配置不仅...
+CSS边框border-radiusborder-radius参数解析该属性与padding、margin相同，可以有1、2、3、4个值，所以复习一次：
+Example1: bor...
         </p>
         <p class="article-more-link">
-          <a href="/2019/01/14/Python3-CGI%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/#more">Read More</a>
+          <a href="/2019/10/19/CSS3-%E8%BE%B9%E6%A1%86/#more">Read More</a>
         </p>
       
     </div>
@@ -740,7 +747,7 @@ Apache配置问题
 
 
   
-    <article id="post-欢迎2019-假如我年少有为"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-javaee之spring框架总结"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -748,7 +755,7 @@ Apache配置问题
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/01/13/%E6%AC%A2%E8%BF%8E2019-%E5%81%87%E5%A6%82%E6%88%91%E5%B9%B4%E5%B0%91%E6%9C%89%E4%B8%BA/">欢迎2019-假如我年少有为</a>
+      <a class="article-title" href="/2019/08/09/javaee%E4%B9%8Bspring%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/">javaee之spring框架总结</a>
     </h1>
   
 
@@ -756,30 +763,27 @@ Apache配置问题
     
     <div class="article-meta">
       
-	<a href="/2019/01/13/%E6%AC%A2%E8%BF%8E2019-%E5%81%87%E5%A6%82%E6%88%91%E5%B9%B4%E5%B0%91%E6%9C%89%E4%B8%BA/" class="article-date">
-	  <time datetime="2019-01-13T12:08:09.000Z" itemprop="datePublished">2019-01-13</time>
+	<a href="/2019/08/09/javaee%E4%B9%8Bspring%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/" class="article-date">
+	  <time datetime="2019-08-09T08:36:31.000Z" itemprop="datePublished">2019-08-09</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a>
+    <a class="article-category-link" href="/categories/JavaEE/">JavaEE</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          
+          前言spring作为目前最流行，应用最广泛的后端框架，它有着许多优点与特色，比如应用它IOC（控制翻转）的功能以及spring内部的封装，可以与hibernate，struts进行整合，这里只是简单的介绍其主要功能。
 
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc....
+springIOCIOC内部原理IOC内部使用了映射的原理：
+&lt;bean id = &quot;userService&quot; class=&quot;cn.itcast.UserService&quot;/&gt;
+内部原理如下：
+//解析dom4j解析xml文...
         </p>
         <p class="article-more-link">
-          <a href="/2019/01/13/%E6%AC%A2%E8%BF%8E2019-%E5%81%87%E5%A6%82%E6%88%91%E5%B9%B4%E5%B0%91%E6%9C%89%E4%B8%BA/#more">Read More</a>
+          <a href="/2019/08/09/javaee%E4%B9%8Bspring%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/#more">Read More</a>
         </p>
       
     </div>
@@ -798,7 +802,7 @@ function doDecrypt (pwd, onError) {
 
 
   
-    <article id="post-周报(0)"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-javaee之hibernate框架总结"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -806,7 +810,7 @@ function doDecrypt (pwd, onError) {
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/12/01/%E5%91%A8%E6%8A%A5(0)/">周报(0)</a>
+      <a class="article-title" href="/2019/08/08/javaee%E4%B9%8Bhibernate%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/">javaee之hibernate框架总结</a>
     </h1>
   
 
@@ -814,30 +818,29 @@ function doDecrypt (pwd, onError) {
     
     <div class="article-meta">
       
-	<a href="/2018/12/01/%E5%91%A8%E6%8A%A5(0)/" class="article-date">
-	  <time datetime="2018-12-01T04:10:17.000Z" itemprop="datePublished">2018-12-01</time>
+	<a href="/2019/08/08/javaee%E4%B9%8Bhibernate%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/" class="article-date">
+	  <time datetime="2019-08-08T10:09:11.000Z" itemprop="datePublished">2019-08-08</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E5%91%A8%E6%8A%A5/">周报</a>
+    <a class="article-category-link" href="/categories/JavaEE/">JavaEE</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          LeetCode：
-简单思路：令i从0开始向后跑寻找与下标为length-1不相等的数，找到之后将那个数放到length的位置上，并且令length长度加1，最后返回length就行了。代码部分：
-int removeDuplicates(int* nums, int numsSize) {
-if(numsSize==0){
-    return 0;
-}
-int length = 1;
-for(int i=0;i&lt;numsSize;i++){
-    if(nums[i]!=num...
+          前言Hibernate目前使用的还是比较多，虽然不及mybatis。
+Hibernate概述Hibernate工作在javaEE三层结构中的dao层，对数据库进行crud操作，其核心思想是orm（object relational mapping，对象关系映射），并且Hibernate支持多种查询方式，包括HQL，QBC,SQL三种方式。
+
+orm
+让实体类和数据库表进行一一对应关系
+让实体类首先和数据库表对应
+让实体类属性 和 表里面字段对应
+不需要直接操作数据库表，而操作表对应实体类对...
         </p>
         <p class="article-more-link">
-          <a href="/2018/12/01/%E5%91%A8%E6%8A%A5(0)/#more">Read More</a>
+          <a href="/2019/08/08/javaee%E4%B9%8Bhibernate%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/#more">Read More</a>
         </p>
       
     </div>
@@ -856,7 +859,7 @@ for(int i=0;i&lt;numsSize;i++){
 
 
   
-    <article id="post-JavaScript数组（二，ES6部分）"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-javaee之struts框架总结"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -864,7 +867,7 @@ for(int i=0;i&lt;numsSize;i++){
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/11/02/JavaScript%E6%95%B0%E7%BB%84%EF%BC%88%E4%BA%8C%EF%BC%8CES6%E9%83%A8%E5%88%86%EF%BC%89/">JavaScript数组（二，ES6部分）</a>
+      <a class="article-title" href="/2019/08/08/javaee%E4%B9%8Bstruts%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/">javaee之struts框架总结</a>
     </h1>
   
 
@@ -872,31 +875,27 @@ for(int i=0;i&lt;numsSize;i++){
     
     <div class="article-meta">
       
-	<a href="/2018/11/02/JavaScript%E6%95%B0%E7%BB%84%EF%BC%88%E4%BA%8C%EF%BC%8CES6%E9%83%A8%E5%88%86%EF%BC%89/" class="article-date">
-	  <time datetime="2018-11-02T10:06:23.000Z" itemprop="datePublished">2018-11-02</time>
+	<a href="/2019/08/08/javaee%E4%B9%8Bstruts%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/" class="article-date">
+	  <time datetime="2019-08-08T00:32:52.000Z" itemprop="datePublished">2019-08-08</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+    <a class="article-category-link" href="/categories/JavaEE/">JavaEE</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          前言上次介绍了ES5之前发布的JS的数组方法，这次再看一下ES5中发布的JS方法。
+          前言最近在了解后端开发框架，所以先从SSH（Struts，Spring，Hibernate）开始，因为在企业级开发中SSH任然在使用，所以还是有必要了解一下，后面再详细学习SSM（Spring MVC，Spring，mybatis），目前互联网企业中大多都在使用SSM。
 
-正文
-indexOf()和lastIndexOf()
-
-描述：
-indexOf()：接收两个参数：要查找的项和（可选的）表示查找起点位置的索引。其中， 从数组的开头（位置 0）开始向后查找。 
-lastIndexOf：接收两个参数：要查找的项和（可选的）表示查找起点位置的索引。其中， 从数组的末尾开始向前查找。
-应用：
-这两个方法都返回要查找的项在数组中的位置，或者在没找到的情况下返回-1。在比较第一个参...
+这一期先介绍struts。
+strutsstruts介绍struts是一个工作在表示层，负责与JSP页面实现交互，将用户的请求委派给相应的Action处理。
+配置过滤器在web-app内添加如下内容：
+&lt;filte...
         </p>
         <p class="article-more-link">
-          <a href="/2018/11/02/JavaScript%E6%95%B0%E7%BB%84%EF%BC%88%E4%BA%8C%EF%BC%8CES6%E9%83%A8%E5%88%86%EF%BC%89/#more">Read More</a>
+          <a href="/2019/08/08/javaee%E4%B9%8Bstruts%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/#more">Read More</a>
         </p>
       
     </div>
@@ -919,7 +918,7 @@ lastIndexOf：接收两个参数：要查找的项和（可选的）表示查找
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/11/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/13/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -934,7 +933,7 @@ lastIndexOf：接收两个参数：要查找的项和（可选的）表示查找
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -1091,7 +1090,7 @@ lastIndexOf：接收两个参数：要查找的项和（可选的）表示查找
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

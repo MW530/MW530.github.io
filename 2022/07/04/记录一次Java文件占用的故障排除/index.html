@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>记录一次java文件占用的故障排除 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Java文件" />
+  
+  
+  
+  
+  <meta name="description" content="起因这个问题是在一个项目中的有一个压缩文件的功能，其服务逻辑比较复杂，如下：  生成压缩文件的路径。 调用ZipFile进行压缩。 确保文件夹是否存在，如果不存在就新建。 看文件是否存在，如果存在就先删除。 新建ZipFile对象。 新建ZipParameters对象。 为zipFile添加文件。 关闭zipFile文件。   为文件生成hash值。 利用hash值生成新的文件名并重命名。  主要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一次Java文件占用的故障排除">
+<meta property="og:url" content="http://yoursite.com/2022/07/04/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Java%E6%96%87%E4%BB%B6%E5%8D%A0%E7%94%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="起因这个问题是在一个项目中的有一个压缩文件的功能，其服务逻辑比较复杂，如下：  生成压缩文件的路径。 调用ZipFile进行压缩。 确保文件夹是否存在，如果不存在就新建。 看文件是否存在，如果存在就先删除。 新建ZipFile对象。 新建ZipParameters对象。 为zipFile添加文件。 关闭zipFile文件。   为文件生成hash值。 利用hash值生成新的文件名并重命名。  主要">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Java%E6%96%87%E4%BB%B6%E5%8D%A0%E7%94%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/lock.jpg">
+<meta property="article:published_time" content="2022-07-04T07:34:24.000Z">
+<meta property="article:modified_time" content="2022-07-04T08:33:53.975Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="文件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Java%E6%96%87%E4%BB%B6%E5%8D%A0%E7%94%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/lock.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-记录一次Java文件占用的故障排除" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      记录一次Java文件占用的故障排除
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/07/04/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Java%E6%96%87%E4%BB%B6%E5%8D%A0%E7%94%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/" class="article-date">
+	  <time datetime="2022-07-04T07:34:24.000Z" itemprop="datePublished">2022-07-04</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>这个问题是在一个项目中的有一个压缩文件的功能，其服务逻辑比较复杂，如下：</p>
+<ol>
+<li>生成压缩文件的路径。</li>
+<li>调用ZipFile进行压缩。<ol>
+<li>确保文件夹是否存在，如果不存在就新建。</li>
+<li>看文件是否存在，如果存在就先删除。</li>
+<li>新建ZipFile对象。</li>
+<li>新建ZipParameters对象。</li>
+<li>为zipFile添加文件。</li>
+<li>关闭zipFile文件。</li>
+</ol>
+</li>
+<li>为文件生成hash值。</li>
+<li>利用hash值生成新的文件名并重命名。</li>
+</ol>
+<p>主要是第4步这里一直不成功，即重命名返回失败。下面就是排查过程</p>
+<h1 id="排除过程"><a href="#排除过程" class="headerlink" title="排除过程"></a>排除过程</h1><h2 id="文件锁定"><a href="#文件锁定" class="headerlink" title="文件锁定"></a>文件锁定</h2><p>对于文件的操作失败，首先应当想到的是文件锁定。然后利用工具查看，确实如此。文件被jdk锁定了。</p>
+<p><img src="/images/记录一次Java文件占用的故障排除/lock.jpg" alt="lock"></p>
+<h2 id="流的排查"><a href="#流的排查" class="headerlink" title="流的排查"></a>流的排查</h2><p><strong>一般文件锁定都是文件对应的流没有关闭导致的，因为文件流需要从文件中读取数据，所以都会将文件锁定。</strong></p>
+<p>由于这里是新建的压缩文件，所以我首先看是否在新建文件的时候是否锁定了文件。</p>
+<h2 id="新建文件部分"><a href="#新建文件部分" class="headerlink" title="新建文件部分"></a>新建文件部分</h2><p>值得注意的是，使用<code>new File()</code>时确实会锁定文件，因为这里是对文件的写操作。所以我单步debug。</p>
+<p>但是发现并不是这里的问题，一般只要<code>new File()</code>成功，那么就会解除锁定了，因为文件生成了。</p>
+<h2 id="压缩库文件"><a href="#压缩库文件" class="headerlink" title="压缩库文件"></a>压缩库文件</h2><p>压缩工具类如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">zipFiles</span><span class="params">(List&lt;XPanFile&gt; files, String filePath, Integer compressLevel, Boolean encrypt, String password)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 判断外围文件夹是否存在，如果不存在则创建</span></span><br><span class="line">        String filePathWithoutName = FileUtils.getFilePathWithoutName(filePath);</span><br><span class="line">        File pathFile = <span class="keyword">new</span> File(filePathWithoutName);</span><br><span class="line">        <span class="keyword">if</span>(!pathFile.exists())&#123;</span><br><span class="line">            pathFile.mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 判断源文件存在，则删除</span></span><br><span class="line">        File tempFile = <span class="keyword">new</span> File(filePath);</span><br><span class="line">        <span class="keyword">if</span>(tempFile.exists())&#123;</span><br><span class="line">            tempFile.delete();</span><br><span class="line">        &#125;</span><br><span class="line">        ZipFile zipFile;</span><br><span class="line">        <span class="keyword">if</span>(encrypt)&#123;</span><br><span class="line">            zipFile = <span class="keyword">new</span> ZipFile(filePath, password.toCharArray());</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           zipFile = <span class="keyword">new</span> ZipFile(filePath);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ZipParameters zipParameters = <span class="keyword">new</span> ZipParameters();</span><br><span class="line">        zipParameters.setEncryptFiles(encrypt);</span><br><span class="line">        zipParameters.setCompressionLevel(pairLevel(compressLevel));</span><br><span class="line">        zipParameters.setEncryptionMethod(EncryptionMethod.AES);</span><br><span class="line">        zipParameters.setAesKeyStrength(AesKeyStrength.KEY_STRENGTH_128);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (XPanFile xpanFile : files) &#123;</span><br><span class="line">            String curFileName = xpanFile.getFile_name();</span><br><span class="line">            String absolutePath = FileUtils.getAbsolutePath(xpanFile.getUrl(), <span class="keyword">true</span>);</span><br><span class="line">            File curFile = <span class="keyword">new</span> File(absolutePath);</span><br><span class="line">            zipFile.addFile(curFile, zipParameters);</span><br><span class="line">            zipFile.renameFile(curFileName, xpanFile.getUser_file_name());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>由于Java自代的zip压缩库并没有加密功能，所以我采用了zip4j进行压缩。那么我就怀疑是不是库文件在写入后没有关闭流文件。</p>
+<p>然后我发现了zip4j生成文件有一个close方法。我之前是没有加上的。所以在此加上该方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zipFile.close();</span><br></pre></td></tr></table></figure>
+<p>应该就可行了。</p>
+<p>但是结果还是被占用。</p>
+<p>我点进了close方法内部，发现其实就是关闭所有的流，包括文件整体的，以及压缩文件内部的子文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Iterator var1 = <span class="keyword">this</span>.openInputStreams.iterator();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(var1.hasNext()) &#123;</span><br><span class="line">        InputStream inputStream = (InputStream)var1.next();</span><br><span class="line">        inputStream.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.openInputStreams.clear();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么理论上调用这个方法只要不抛出错误，那么流应该就被关闭完了。那就排除了库文件的占用问题。</p>
+<h2 id="绝对不要使用匿名流"><a href="#绝对不要使用匿名流" class="headerlink" title="绝对不要使用匿名流"></a>绝对不要使用匿名流</h2><p>经过上面的过程，我就已经感觉可能不是压缩这一部分的问题了。然后就对着服务代码重新看了一会：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">String basePath = FileUtils.generateAvailableFilePath(fileName, <span class="keyword">true</span>);</span><br><span class="line">        String path = basePath + fileName;</span><br><span class="line">        <span class="comment">// 压缩文件</span></span><br><span class="line">        CompressUtils.compressFiles(files, path, compressType, compressLevel, encrypt, password);</span><br><span class="line">        LocalDateTime now = LocalDateTime.now();</span><br><span class="line">        String suffix = FileUtils.getSuffix(fileName);</span><br><span class="line">        String fileHash = FileUtils.generateAvailableHash(<span class="keyword">new</span> FileInputStream(path));</span><br><span class="line">        Integer integer = fileMapper.isFileExistsByHash(fileHash);</span><br><span class="line">        FileUtils.renameFile(path, fileHash + <span class="string">"."</span> +suffix);</span><br><span class="line">        <span class="keyword">if</span>(integer == <span class="number">0</span>)&#123;</span><br><span class="line">            XPanFile compressedFile = <span class="keyword">new</span> XPanFile();</span><br><span class="line">            compressedFile.setFile_name(fileHash + <span class="string">"."</span> + suffix);</span><br><span class="line">            compressedFile.setHash(fileHash);</span><br><span class="line">            compressedFile.setPid(pid);</span><br><span class="line">            compressedFile.setGmt_update(now);</span><br><span class="line">            compressedFile.setGmt_create(now);</span><br><span class="line">            String realRelativePath = FileUtils.getRelativePath(FileUtils.getFilePathWithoutName(path) + fileHash + <span class="string">"."</span> +suffix, <span class="keyword">true</span>);</span><br><span class="line">            compressedFile.setUrl(realRelativePath);</span><br><span class="line">            compressedFile.setType(FileUtils.getType(suffix));</span><br><span class="line">            fileMapper.createFile(compressedFile);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 链接用户文件表</span></span><br><span class="line">        fileMapper.createUserFile(fileName, userId, fileHash, pid, now, now);</span><br></pre></td></tr></table></figure>
+<p>然后我就突然发现了问题所在（可能认真的话，一眼就看出来了）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String fileHash = FileUtils.generateAvailableHash(<span class="keyword">new</span> FileInputStream(path));</span><br></pre></td></tr></table></figure>
+<p>没错，这里使用了匿名流！</p>
+<p>这里就是问题所在，由于计算hash就必须要读文件，所以我这里就直接传入了一个流。但这里传入的是一个匿名流，所以最后没有关闭。</p>
+<h3 id="解决方法1-主动调用垃圾回收"><a href="#解决方法1-主动调用垃圾回收" class="headerlink" title="解决方法1-主动调用垃圾回收"></a>解决方法1-主动调用垃圾回收</h3><p>在找到这个问题之前，我寻找了很多资料，然后发现了一个解决办法：主动调用垃圾回收。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.gc();</span><br></pre></td></tr></table></figure>
+<p>这样能解决问题也很容易理解，上面看到是一个匿名流问题，所以如果主动调用垃圾回收，那么这个匿名流就会被回收。当然文件的占用就会被解除了。</p>
+<p>但这是著表不治本的方法。相当于是先产生问题，然后去修补它，而没有去找到生成问题的原因。</p>
+<h3 id="解决方法1-主动调用垃圾回收-1"><a href="#解决方法1-主动调用垃圾回收-1" class="headerlink" title="解决方法1-主动调用垃圾回收"></a>解决方法1-主动调用垃圾回收</h3><p>因为产生问题的关键在匿名流，那么找到这个问题后，解决就很简单了。那就是将匿名流改成具名流，然后在完成hash计算后，将其关闭。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(path);</span><br><span class="line">String fileHash = FileUtils.generateAvailableHash(fileInputStream);</span><br><span class="line">fileInputStream.close();</span><br></pre></td></tr></table></figure>
+<h1 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h1><p>从这次问题中，收获主要有两点：</p>
+<ul>
+<li>永远不要使用匿名流，特别是文件流，因为不关的话，资源会一直被占用。</li>
+<li>做事要仔细，其实如果早一点仔细看代码，可能就直接看出来问题所在了。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/07/04/记录一次Java文件占用的故障排除/" target="_blank" title="记录一次Java文件占用的故障排除">http://yoursite.com/2022/07/04/记录一次Java文件占用的故障排除/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/11/%E5%B8%B8%E8%A7%81%E7%9A%84sql%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          常见的sql调优手段
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/01/Java%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E3%80%81%E8%A7%A3%E5%8E%8B%E6%96%B9%E6%B3%95%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD~%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java中的各种文件压缩、解压方法（更新中~）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%B7%E5%9B%A0"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%92%E9%99%A4%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">排除过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E9%94%81%E5%AE%9A"><span class="nav-number">2.1.</span> <span class="nav-text">文件锁定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%9A%84%E6%8E%92%E6%9F%A5"><span class="nav-number">2.2.</span> <span class="nav-text">流的排查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E9%83%A8%E5%88%86"><span class="nav-number">2.3.</span> <span class="nav-text">新建文件部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%BA%93%E6%96%87%E4%BB%B6"><span class="nav-number">2.4.</span> <span class="nav-text">压缩库文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9D%E5%AF%B9%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E5%8C%BF%E5%90%8D%E6%B5%81"><span class="nav-number">2.5.</span> <span class="nav-text">绝对不要使用匿名流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%951-%E4%B8%BB%E5%8A%A8%E8%B0%83%E7%94%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">2.5.1.</span> <span class="nav-text">解决方法1-主动调用垃圾回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%951-%E4%B8%BB%E5%8A%A8%E8%B0%83%E7%94%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6-1"><span class="nav-number">2.5.2.</span> <span class="nav-text">解决方法1-主动调用垃圾回收</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%B6%E8%8E%B7"><span class="nav-number">3.</span> <span class="nav-text">收获</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

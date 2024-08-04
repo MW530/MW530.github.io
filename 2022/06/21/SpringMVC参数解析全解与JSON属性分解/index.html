@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>springmvc参数解析全解与json属性分解 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="SpringMVC参数接收" />
+  
+  
+  
+  
+  <meta name="description" content="PRE-HTTP请求结构 实例 处理函数处理函数可以通过多种方式定义，其最主要还是通过注解方式，即@RequestMapping方式。Spring为不同的HTTP方法提供了简化的注解，分别如下：  @GetMapping @PostMapping @PutMapping @DeleteMapping @PatchMapping  另外还可以在WebConfig中手动配置，但这种方法用得不多，这里就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC参数解析全解与JSON属性分解">
+<meta property="og:url" content="http://yoursite.com/2022/06/21/SpringMVC%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%85%A8%E8%A7%A3%E4%B8%8EJSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="PRE-HTTP请求结构 实例 处理函数处理函数可以通过多种方式定义，其最主要还是通过注解方式，即@RequestMapping方式。Spring为不同的HTTP方法提供了简化的注解，分别如下：  @GetMapping @PostMapping @PutMapping @DeleteMapping @PatchMapping  另外还可以在WebConfig中手动配置，但这种方法用得不多，这里就">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/SpringMVC%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%85%A8%E8%A7%A3%E4%B8%8EJSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3/HTTP%E8%AF%B7%E6%B1%82%E7%BB%93%E6%9E%84.jpeg">
+<meta property="og:image" content="http://yoursite.com/images/SpringMVC%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%85%A8%E8%A7%A3%E4%B8%8EJSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3/HTTP%E8%AF%B7%E6%B1%82%E5%AE%9E%E4%BE%8B.png">
+<meta property="article:published_time" content="2022-06-21T02:46:02.000Z">
+<meta property="article:modified_time" content="2022-06-27T07:20:13.848Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="SpringMVC">
+<meta property="article:tag" content="参数接收">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/SpringMVC%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%85%A8%E8%A7%A3%E4%B8%8EJSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3/HTTP%E8%AF%B7%E6%B1%82%E7%BB%93%E6%9E%84.jpeg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-SpringMVC参数解析全解与JSON属性分解" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      SpringMVC参数解析全解与JSON属性分解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/06/21/SpringMVC%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%85%A8%E8%A7%A3%E4%B8%8EJSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3/" class="article-date">
+	  <time datetime="2022-06-21T02:46:02.000Z" itemprop="datePublished">2022-06-21</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/SpringMVC/">SpringMVC</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="PRE-HTTP请求"><a href="#PRE-HTTP请求" class="headerlink" title="PRE-HTTP请求"></a>PRE-HTTP请求</h1><h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p><img src="/images/SpringMVC参数解析全解与JSON属性分解/HTTP请求结构.jpeg" alt="HTTP请求结构"></p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p><img src="/images/SpringMVC参数解析全解与JSON属性分解/HTTP请求实例.png" alt="HTTP请求实例"></p>
+<h1 id="处理函数"><a href="#处理函数" class="headerlink" title="处理函数"></a>处理函数</h1><p>处理函数可以通过多种方式定义，其最主要还是通过注解方式，即<code>@RequestMapping</code>方式。Spring为不同的HTTP方法提供了简化的注解，分别如下：</p>
+<ul>
+<li><code>@GetMapping</code></li>
+<li><code>@PostMapping</code></li>
+<li><code>@PutMapping</code></li>
+<li><code>@DeleteMapping</code></li>
+<li><code>@PatchMapping</code></li>
+</ul>
+<p>另外还可以在<code>WebConfig</code>中手动配置，但这种方法用得不多，这里就不再赘述。</p>
+<h2 id="处理函数接受的参数"><a href="#处理函数接受的参数" class="headerlink" title="处理函数接受的参数"></a>处理函数接受的参数</h2><p>处理函数由于本质上还是由SpringMVC来调用，因此SpringMVC是可以通过反射获取到特定处理函数的参数列表的。所以SpringMVC提供了灵活的参数选择，可以填写多种参数，具体如下表：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ServerWebExchange</code></td>
+<td>获取一个<code>ServerWebExchange</code>对象，这个对象是由Spring定义的一个类，其相当于是整个HTTP过程的容器，可以从中获取request，response或者attributes等。</td>
+</tr>
+<tr>
+<td><code>ServerHttpRequest</code><br /><code>ServerHttpResponse</code></td>
+<td>获取一个原始的HTTP request或者response对象</td>
+</tr>
+<tr>
+<td><code>WebSession</code></td>
+<td>获取一个session对象。（如果不增加session值，不会新创建session）</td>
+</tr>
+<tr>
+<td><code>java.security.Principal</code></td>
+<td>获取一个Spring Security的Principal对象，实际上就是当前用户认证信息。（但用的不多，需要时再研究）</td>
+</tr>
+<tr>
+<td><code>org.springframework.http.HttpM ethod</code></td>
+<td>获取当前请求的HTTP方法。（既然定义了，肯定是知道方法的，所以用得也不多）</td>
+</tr>
+<tr>
+<td><code>java.util.Locale</code></td>
+<td>获取当前请求的Locale对象，可以通过配置<code>LocaleResolver/LocaleContextResolver</code>来决定。</td>
+</tr>
+<tr>
+<td><code>java.util.TimeZone</code><br /><code>java.time.ZoneId</code></td>
+<td>获取当前request的时区对象，也是由<code>LocaleContextResolver</code>来决定。</td>
+</tr>
+<tr>
+<td><code>@PathVariable</code></td>
+<td>获取URL模板变量。详细见下</td>
+</tr>
+<tr>
+<td><code>@MatrixVariable</code></td>
+<td>获取在URL中定义的通过分号间隔的键值对变量。详细见下</td>
+</tr>
+<tr>
+<td><code>@RequestParam</code></td>
+<td>获取Servlet request的请求参数。参数值会转换到指定的类型。详细见下<br />（<code>@RequestParam是可选的，简单类型如果不加，则相当于加上了该注解。</code>）</td>
+</tr>
+<tr>
+<td><code>@RequestHeader</code></td>
+<td>获取请求头部。头部值会被转换为指定的类型。详细见下</td>
+</tr>
+<tr>
+<td><code>@CookieValue</code></td>
+<td>获取指定cookie值。cookie值会被转换为指定类型。详细见下</td>
+</tr>
+<tr>
+<td><code>@RequestBody</code></td>
+<td>获取HTTP请求的body部分。body部分会通过<code>HttpMessageConverter</code>实例来转换为方法中给出的目标参数类型。详细见下</td>
+</tr>
+<tr>
+<td><code>HttpEntity&lt;B&gt;</code></td>
+<td>获取请求的header和body。body部分会通过<code>HttpMessageConverter</code>实例来转换为方法中给出的目标参数类型。</td>
+</tr>
+<tr>
+<td><code>@RequestPart</code></td>
+<td>获取<code>multipart/form-data</code>请求中的一个部分。</td>
+</tr>
+<tr>
+<td><code>java.util.Map</code><br /><code>org.springframework.ui.Model</code><br /><code>org.springframework.ui.ModelMa p</code></td>
+<td>用在模板系统中的注入的变量。（待确定）</td>
+</tr>
+<tr>
+<td><code>@ModelAttribute</code></td>
+<td>通过应用数据绑定和验证访问模型中的现有属性(如果不存在，则实例化)。（待确定）</td>
+</tr>
+<tr>
+<td><code>Errors</code><br /><code>BindingResult</code></td>
+<td>获取验证和绑定对象时的错误。(必须在验证过的方法参数之后立即声明Errors或BindingResult参数。)</td>
+</tr>
+<tr>
+<td><code>SessionStatus</code><br />class-level<code>@SessionAttributes</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>UriComponentsBuilder</code></td>
+<td>用于获取相对于当前请求的主机、端口、方案和上下文路径的URL。</td>
+</tr>
+<tr>
+<td><code>@SessionAttribute</code></td>
+<td>用于获取会话属性-与存储在会话中的作为类级别结果的模型属性相反<code>@SessionAttributes</code>声明。</td>
+</tr>
+<tr>
+<td><code>@RequestAttribute</code></td>
+<td>获取请求的参数。即request的attribute。</td>
+</tr>
+<tr>
+<td>其他类型参数</td>
+<td>如果这个参数不匹配以上任意的参数。则如果是简单类型，就默认添加<code>@RequestParam</code>，否则就默认添加<code>@ModelAttribute</code>。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="详细解析"><a href="#详细解析" class="headerlink" title="详细解析"></a>详细解析</h2><h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p>从HTTP协议种得到的数据归根到底都是字符串，而有时候我们的处理函数中的参数不仅仅是字符串。这个时候就需要转换器将字符串转换到对应的类型，比如数字类型等。</p>
+<p>可以在<code>Webconfig</code>中添加转换器，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureMessageConverters</span><span class="params">(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters)</span> </span>&#123;</span><br><span class="line">        WebMvcConfigurer.<span class="keyword">super</span>.configureMessageConverters(converters);</span><br><span class="line">        converters.add(<span class="keyword">new</span> MappingJackson2HttpMessageConverter());</span><br><span class="line">        converters.add(<span class="keyword">new</span> StringHttpMessageConverter());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="RequestParam"><a href="#RequestParam" class="headerlink" title="@RequestParam"></a><code>@RequestParam</code></h3><p>这个注解是用来将URL上的query部分转换为处理函数的参数。例如URL=<code>http://baidu.com/addUser?user=123&amp;group=1</code>中的query就是<code>user=123</code>和<code>group=1</code>。</p>
+<p>那么可以这样获取参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/addUser"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addUser</span><span class="params">(@RequestParam String user, @RequestParam Integer group)</span></span>&#123;</span><br><span class="line">    System.out.println(user);</span><br><span class="line">    System.out.println(group);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，这个注解是默认添加的，即时不加，也可以获取query的参数。所以下面的代码又是一样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/addUser"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addUser</span><span class="params">(String user, Integer group)</span></span>&#123;</span><br><span class="line">    System.out.println(user);</span><br><span class="line">    System.out.println(group);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，该注解还可以接受其他参数为集合类型，比如Map，List。</p>
+<p>例如：</p>
+<h4 id="Map接收"><a href="#Map接收" class="headerlink" title="Map接收"></a>Map接收</h4><p>URL：<code>http://localhost:8080/xpan/file/file/compressFile?d=123&amp;dd=ddd</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@RequestParam Map&lt;String, String&gt; res)</span></span>&#123;</span><br><span class="line">    System.out.println(res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;d&#x3D;123, dd&#x3D;ddd&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<p>用Map接收的时候，不需要在乎参数的名字，因为其名字会作为Map的键。</p>
+<h4 id="List接收"><a href="#List接收" class="headerlink" title="List接收"></a>List接收</h4><p>URL：<code>http://localhost:8080/xpan/file/file/compressFile?res=123&amp;res=ddd</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@RequestParam List&lt;String&gt; res)</span></span>&#123;</span><br><span class="line">    System.out.println(res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[123, ddd]</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<p>使用List的时候就需要注意，提交的参数名字必须和接收的参数名字一样，或者使用<code>@RequestParam(&quot;xxx&quot;)</code>的形式来获取xxx的值。</p>
+<h4 id="数组接收"><a href="#数组接收" class="headerlink" title="数组接收"></a>数组接收</h4><p>URL：<code>http://localhost:8080/xpan/file/file/compressFile?res=123&amp;res=ddd</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@RequestParam String[] res)</span></span>&#123;</span><br><span class="line">    System.out.println(Arrays.toString(res));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[123, ddd]</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<p>使用数组和List基本一致，就是名字也需要保持一致，或者在注解中自定义。</p>
+<p>源码位置在<code>RequestParamMethodArgumentResolver</code>。待解析。</p>
+<h3 id="RequestBody"><a href="#RequestBody" class="headerlink" title="@RequestBody"></a><code>@RequestBody</code></h3><p>这个注解是用来获取HTTP请求的body部分参数（见前面的HTTP结构图）。</p>
+<p>并且可以通过converter将其转换为确定的类型。</p>
+<p>这个注解也是需要converter来支持特定的request类型，即header中的<code>content-type</code>属性。即实际上body部分就是一串字符串，我们需要约定特定的格式来进行交互，而这个格式得有一个名字，这个名字就存储在<code>content-type</code>中。然后就按照这种格式来编码body得内容。</p>
+<p>而我们一般使用的是JSON格式进行交互，所以此时的<code>content-type</code>就为<code>application/json</code>。</p>
+<p>那么就需要一个JSON的转换器，这个转换器spring官方是没有内置的，需要我们自己添加，比如Jackson，可以在<code>Webconfig</code>中进行配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureMessageConverters</span><span class="params">(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters)</span> </span>&#123;</span><br><span class="line">    WebMvcConfigurer.<span class="keyword">super</span>.configureMessageConverters(converters);</span><br><span class="line">    converters.add(<span class="keyword">new</span> MappingJackson2HttpMessageConverter());</span><br><span class="line">    converters.add(<span class="keyword">new</span> StringHttpMessageConverter());	<span class="comment">//添加这一个是为了解决StringHttpMessageConverter在前面导致String在统一返回对象时出现错误</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="接收JSON字符串"><a href="#接收JSON字符串" class="headerlink" title="接收JSON字符串"></a>接收JSON字符串</h4><p>URL：<code>http://localhost:8080/xpan/file/folder/createFolder</code></p>
+<p>body：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"folder_name"</span>: <span class="string">"myfolder"</span>,</span><br><span class="line">    <span class="attr">"depth"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"pid"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"size"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"sub_folder_count"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"sub_file_count"</span>: <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/createFolder"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createFolder</span><span class="params">(@RequestBody Folder folder)</span></span>&#123;</span><br><span class="line">    System.out.println(folder);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Folder(id&#x3D;null, user_id&#x3D;null, folder_name&#x3D;myfolder, depth&#x3D;1, icon&#x3D;null, pid&#x3D;0, size&#x3D;0, sub_folder_count&#x3D;0, sub_file_count&#x3D;0, gmt_statistics&#x3D;null, gmt_create&#x3D;null, gmt_update&#x3D;null)</span><br></pre></td></tr></table></figure>
+<p>值得注意的是：这里还有一些Jackson的配置，比如默认是可以忽略参数的，即如果一些参数不带也是可以解析的。同样可以设置为全参数，否则报错的模式。</p>
+<h3 id="PathVariable"><a href="#PathVariable" class="headerlink" title="@PathVariable"></a><code>@PathVariable</code></h3><p>这个注解可以用于获取URI中的变量，与<code>requestParam</code>，这里是可以通过自定义的格式获取URI中的某一部分作为路径变量，然后注入到处理方法的参数中。</p>
+<p>其中URI的匹配规则如下：</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>?</code></td>
+<td>匹配一个字符</td>
+<td><code>/pages/t?st.html</code> 匹配 <code>/pages/test.html</code> 和<code>/pages/t3st.html</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>匹配0个或多个<strong>字符</strong>（在一个路径段中）</td>
+<td><code>/resources/*.png</code> 匹配<code>/resources/file.png</code><br/><code>/projects/*/versions</code> 匹配 <code>/projects/spring/versions</code> <br/>但是不匹配<code>/projects/spring/boot/versions</code></td>
+</tr>
+<tr>
+<td><code>**</code></td>
+<td>匹配直到路径尾部的一个或多个<strong>路径段</strong></td>
+<td><code>/resources/**</code> 匹配 <code>/resources/file.png</code> 和 <code>/resources/images/file.png</code><br/><code>/resources/**/file.png</code> 是不合法的，因为**只允许在路径尾部。</td>
+</tr>
+<tr>
+<td><code>{name}</code></td>
+<td>匹配一个路径段并且将其捕捉为一个名为name的变量</td>
+<td><code>/projects/{project}/versions</code> 匹配 <code>/projects/spring/versions</code> 并且捕捉为<br/>project=spring</td>
+</tr>
+<tr>
+<td><code>{name:[a-z]+}</code></td>
+<td>匹配<code>[a-z]+</code>为一个名为name的变量</td>
+<td><code>/projects/{project:[a-z]+}/versions</code> 匹配<code>/projects/spring/versions</code> 但不匹配<br/><code>/projects/spring1/versions</code></td>
+</tr>
+<tr>
+<td><code>{*path}</code></td>
+<td>匹配直到路径尾部的一个或多个路径段并作为一个名为path的变量</td>
+</tr>
+</tbody>
+</table>
+<p>注：</p>
+<ul>
+<li>路径段（path segment）：指两个反斜杠内的部分。如<code>https://www.baidu.com/xxx/yyy</code>其中xxx就是一个路径段。</li>
+</ul>
+<p>接下来可以在处理方法中的参数中使用<code>@PathVariable</code>来获取路径变量。</p>
+<p>如：</p>
+<p>URL：<code>http://localhost:8080/xpan/file/file/compressFile/12345</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile/&#123;userId&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@PathVariable(<span class="string">"userId"</span>)</span> Integer userId)</span>&#123;</span><br><span class="line">    System.out.println(userId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">12345</span><br></pre></td></tr></table></figure>
+<p>当然也可以用其他更复杂，比如正则表达式来接收路径变量。</p>
+<h3 id="MatrixVariable"><a href="#MatrixVariable" class="headerlink" title="@MatrixVariable"></a><code>@MatrixVariable</code></h3><p>矩阵变量（Matrix Variable）其实很简单，就是在路径段中的键值对。</p>
+<p>与路径query的作用一致，只是形式不同。矩阵变量是以<code>;</code>分号作为URL结尾与矩阵变量开始的分隔符（query中是是<code>?</code>）和不同的矩阵变量之间的分隔符（query中是是<code>&amp;</code>）。而同一个name的不同值用,分割。同样的，键值之间仍然是以<code>=</code>作为连接符的。</p>
+<p>例如<code>/cars;color=red,green;year=2012</code>中的矩阵变量为：<code>color=red,green;year=2012</code>。</p>
+<p>与<code>@RequestParam</code>一致，也支持List和数组接收。</p>
+<h4 id="普通参数"><a href="#普通参数" class="headerlink" title="普通参数"></a>普通参数</h4><p>URL：<code>http://localhost:8080/xpan/file/file/compressFile/12345;groupId=111;username=hhhhh</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile/&#123;userId&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@PathVariable(<span class="string">"userId"</span>)</span> Integer userId, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"groupId"</span>)</span> String groupId, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"username"</span>)</span> String username)</span>&#123;</span><br><span class="line">    System.out.println(userId);</span><br><span class="line">    System.out.println(groupId);</span><br><span class="line">    System.out.println(username);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">12345</span><br><span class="line">111</span><br><span class="line">hhhhh</span><br></pre></td></tr></table></figure>
+<h4 id="List接收-1"><a href="#List接收-1" class="headerlink" title="List接收"></a>List接收</h4><p>URL：<code>http://localhost:8080/xpan/file/file/compressFile/12345;groupId=111;username=hhhhh;color=red,blue</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile/&#123;userId&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@PathVariable(<span class="string">"userId"</span>)</span> Integer userId, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"groupId"</span>)</span> String groupId, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"username"</span>)</span> String username, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"color"</span>)</span> List color)</span>&#123;</span><br><span class="line">    System.out.println(userId);</span><br><span class="line">    System.out.println(groupId);</span><br><span class="line">    System.out.println(username);</span><br><span class="line">    System.out.println(color);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">12345</span><br><span class="line">111</span><br><span class="line">hhhhh</span><br><span class="line">[red, blue]</span><br></pre></td></tr></table></figure>
+<h4 id="数组接收-1"><a href="#数组接收-1" class="headerlink" title="数组接收"></a>数组接收</h4><p>URL：<code>http://localhost:8080/xpan/file/file/compressFile/12345;groupId=111;username=hhhhh;color=red,blue</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile/&#123;userId&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@PathVariable(<span class="string">"userId"</span>)</span> Integer userId, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"groupId"</span>)</span> String groupId, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"username"</span>)</span> String username, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"color"</span>)</span> String[] color)</span>&#123;</span><br><span class="line">    System.out.println(userId);</span><br><span class="line">    System.out.println(groupId);</span><br><span class="line">    System.out.println(username);</span><br><span class="line">    System.out.println(Arrays.toString(color));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">12345</span><br><span class="line">111</span><br><span class="line">hhhhh</span><br><span class="line">[red, blue]</span><br></pre></td></tr></table></figure>
+<h4 id="Map接收-1"><a href="#Map接收-1" class="headerlink" title="Map接收"></a>Map接收</h4><p>使用map接收的时候，<code>@MatrixVariable</code>中就不需要填写参数了。例如：</p>
+<p>URL：<code>http://localhost:8080/xpan/file/file/compressFile/12345;groupId=111;username=hhhhh;color=red,blue</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile/&#123;userId&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@PathVariable(<span class="string">"userId"</span>)</span> Integer userId, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"groupId"</span>)</span> String groupId, @MatrixVariable Map matrixVars)</span>&#123;</span><br><span class="line">    System.out.println(userId);</span><br><span class="line">    System.out.println(groupId);</span><br><span class="line">    System.out.println(matrixVars);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">12345</span><br><span class="line">111</span><br><span class="line">&#123;groupId&#x3D;111, username&#x3D;hhhhh, color&#x3D;red&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有两个点值得注意：</p>
+<ul>
+<li>矩阵变量可以单独读取和Map读取同时进行，即一个矩阵变量在多个处理方法的参数中。</li>
+<li>当使用Map接收的时候，如果不指定泛型类型，则默认为<code>&lt;String, String&gt;</code>，所以后面color只解析出一个值。</li>
+</ul>
+<p>如果要克服也很简单，就是将泛型类型指定为List，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile/&#123;userId&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@PathVariable(<span class="string">"userId"</span>)</span> Integer userId, @<span class="title">MatrixVariable</span><span class="params">(<span class="string">"groupId"</span>)</span> String groupId, @MatrixVariable Map&lt;String, List&gt; matrixVars)</span>&#123;</span><br><span class="line">    System.out.println(userId);</span><br><span class="line">    System.out.println(groupId);</span><br><span class="line">    System.out.println(matrixVars);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么就能正常读取结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">12345</span><br><span class="line">111</span><br><span class="line">&#123;groupId&#x3D;[111], username&#x3D;[hhhhh], color&#x3D;[red, blue]&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="矩阵变量与路径参数的匹配"><a href="#矩阵变量与路径参数的匹配" class="headerlink" title="矩阵变量与路径参数的匹配"></a>矩阵变量与路径参数的匹配</h4><p>矩阵变量与路径参数是可以匹配的，即如果矩阵变量名字相同，可以通过前置的路径变量进行定位。例如：</p>
+<p>URL：<code>http://localhost:8080/xpan/file/file/compressFile/12345;order=111/123;order=222</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile/&#123;userId&#125;/&#123;groupId&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@PathVariable(<span class="string">"userId"</span>)</span> Integer userId, @<span class="title">MatrixVariable</span><span class="params">(name = <span class="string">"order"</span>, pathVar = <span class="string">"userId"</span>)</span> Integer userOrder, @<span class="title">PathVariable</span><span class="params">(<span class="string">"groupId"</span>)</span> Integer groupId, @<span class="title">MatrixVariable</span><span class="params">(name = <span class="string">"order"</span>, pathVar = <span class="string">"groupId"</span>)</span> String groupOrder)</span>&#123;</span><br><span class="line">System.out.println(userId);</span><br><span class="line">System.out.println(userOrder);</span><br><span class="line">System.out.println(groupId);</span><br><span class="line">System.out.println(groupOrder);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">12345</span><br><span class="line">111</span><br><span class="line">123</span><br><span class="line">222</span><br></pre></td></tr></table></figure>
+<h3 id="RequestHeader"><a href="#RequestHeader" class="headerlink" title="@RequestHeader"></a><code>@RequestHeader</code></h3><p>这个注解很简单，就是将header中的属性注入到处理函数的参数中。例如：</p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@RequestHeader(<span class="string">"Host"</span>)</span> String host, @<span class="title">RequestHeader</span><span class="params">(<span class="string">"Accept"</span>)</span> String accept)</span>&#123;</span><br><span class="line">    System.out.println(host);</span><br><span class="line">    System.out.println(accept);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">localhost:8080</span><br><span class="line">*&#x2F;*</span><br></pre></td></tr></table></figure>
+<h3 id="CookieValue"><a href="#CookieValue" class="headerlink" title="@CookieValue"></a><code>@CookieValue</code></h3><p>这个注解是用来获取cookie的值并注入到处理函数的参数中，例如：</p>
+<p>cookie(附在HTTP header中)：</p>
+<p><code>Cookie: userId=123</code></p>
+<p>处理函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/compressFile"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compressFile</span><span class="params">(@CookieValue(<span class="string">"userId"</span>)</span> Integer userId)</span>&#123;</span><br><span class="line">    System.out.println(userId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">123</span><br></pre></td></tr></table></figure>
+<h1 id="JSON属性分解"><a href="#JSON属性分解" class="headerlink" title="JSON属性分解"></a>JSON属性分解</h1><h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>Java中注解的定义也很简单，但是需要注意的是需要加上另外两个注解：</p>
+<ul>
+<li><code>Target</code>：当前注解被用的位置（参数、方法、类等），参数是<code>java.lang.annotation.ElementType</code>。</li>
+<li><code>Retention</code>：注解存留的时间（源代码、类、运行时），参数是<code>java.lang.annotation.RetentionPolicy</code>。</li>
+</ul>
+<h2 id="HandlerMethodArgumentResolver"><a href="#HandlerMethodArgumentResolver" class="headerlink" title="HandlerMethodArgumentResolver"></a>HandlerMethodArgumentResolver</h2><p>HandlerMethodArgumentResolver接口可以用来解析HTTP请求，并且给处理函数的参数进行赋值。相当于自己实现一个参数解析的过程，本来springMVC中是有这一部分的实现，比如<code>@RequestParam</code>的<code>RequestParamMethodArgumentResolver</code>。</p>
+<p>这个接口也很简单，只含有两个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> org.springframework.web.method.support;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.core.MethodParameter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.lang.Nullable;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.support.WebDataBinderFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.request.NativeWebRequest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HandlerMethodArgumentResolver</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">supportsParameter</span><span class="params">(MethodParameter parameter)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="function">Object <span class="title">resolveArgument</span><span class="params">(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer, NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>supportsParameter</code>：该参数解析器是否支持当前参数。</li>
+<li><code>resolveArgument</code>：返回解析后的对象，这个对象会直接赋值给当前参数。</li>
+</ul>
+<h2 id="自定义解析JSON"><a href="#自定义解析JSON" class="headerlink" title="自定义解析JSON"></a>自定义解析JSON</h2><p>利用上述两个知识和Jackson，就可以实现自定义的JSON解析方式。理论上可以分为2步：</p>
+<ul>
+<li>定义一个注解，并且<code>Target</code>为<code>ElementType.PARAMETER</code>；<code>Retention</code>为<code>RetentionPolicy.RUNTIME</code>，即确保整个注解是加在参数上，保留到运行时。</li>
+<li>定义一个<code>HandlerMethodArgumentResolver</code>，support方法查看这个参数是否有上面定义的注解，resolveArgument方法利用Jackson来解析字符串。</li>
+</ul>
+<p>一个简单的例子如下，其功能是解析JSON中包含的<code>user_id</code>并返回：</p>
+<p>注解类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.PARAMETER&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> UserId &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>UserIdHandlerMethodArgumentResolver</code>类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Auther</span>: MichaelWang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2022/6/12 19:45</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: UserIdHandlerMethodArgumentResolver</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserIdHandlerMethodArgumentResolver</span> <span class="keyword">implements</span> <span class="title">HandlerMethodArgumentResolver</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String[] userMethodIdExpList = &#123;<span class="string">"uid"</span>, <span class="string">"id"</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supportsParameter</span><span class="params">(MethodParameter parameter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> parameter.hasParameterAnnotation(UserId<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">resolveArgument</span><span class="params">(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String token = webRequest.getHeader(<span class="string">"Authorization"</span>);</span><br><span class="line">        Integer id = JWTUtils.getIdFromToken(token.substring(<span class="number">7</span>));</span><br><span class="line">        <span class="keyword">if</span>(id == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AuthenticationException(<span class="string">"身份认证失败！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        Class&lt;?&gt; parameterType = parameter.getParameterType();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 简单类型参数</span></span><br><span class="line">        <span class="keyword">if</span> (parameterType == Integer<span class="class">.<span class="keyword">class</span> || <span class="title">parameterType</span> </span>== <span class="keyword">int</span><span class="class">.<span class="keyword">class</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> id;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            String requestJsonString = HttpUtils.getRequestJsonString(webRequest.getNativeRequest(HttpServletRequest<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">            Object o = JSONUtils.JSON2Object(requestJsonString, parameterType);</span><br><span class="line">            <span class="keyword">for</span> (String s : userMethodIdExpList) &#123;</span><br><span class="line">                PropertyDescriptor pd = <span class="keyword">new</span> PropertyDescriptor(s,parameterType);</span><br><span class="line">                Method writeMethod = pd.getWriteMethod();</span><br><span class="line">                writeMethod.invoke(o, id);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ServerException(<span class="string">"UserId注解obj模式下，参数对象必须含有uid/id字段"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：这里面还加入了身份认证和参数类型验证等。</p>
+<h2 id="JSON属性分解注入"><a href="#JSON属性分解注入" class="headerlink" title="JSON属性分解注入"></a>JSON属性分解注入</h2><p>在面对前端传入的JSON数据，有时候可能并不是系统内定义的实体类，可能只是分开的几个参数，此时一般采用Map来接收，但是这样并不好做验证。所以我就想实现一个JSON属性分解，然后分别注入到处理函数的参数。所以一个简单的实现如下：</p>
+<p>注解类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.PARAMETER&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SingleRequestBody &#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> "-1"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>UserIdHandlerMethodArgumentResolver</code>类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> priv.mw.xpan.resolver;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.core.MethodParameter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.support.WebDataBinderFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.request.NativeWebRequest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.method.support.HandlerMethodArgumentResolver;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.method.support.ModelAndViewContainer;</span><br><span class="line"><span class="keyword">import</span> priv.mw.xpan.annotation.SingleRequestBody;</span><br><span class="line"><span class="keyword">import</span> priv.mw.xpan.utils.HttpUtils;</span><br><span class="line"><span class="keyword">import</span> priv.mw.xpan.utils.JSONUtils;</span><br><span class="line"><span class="keyword">import</span> priv.mw.xpan.utils.XPanRequestWrapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Auther</span>: MichaelWang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2022/6/20 18:15</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: SingalMethodParamResolver</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleMethodParamResolver</span> <span class="keyword">implements</span> <span class="title">HandlerMethodArgumentResolver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supportsParameter</span><span class="params">(MethodParameter parameter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> parameter.hasParameterAnnotation(SingleRequestBody<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">resolveArgument</span><span class="params">(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String requestJsonString = HttpUtils.getRequestJsonString(webRequest.getNativeRequest(XPanRequestWrapper<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">        HashMap&lt;String, String&gt; jsonObject = JSONUtils.JSON2Object(requestJsonString, HashMap<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        SingleRequestBody singleRequestBody = parameter.getParameterAnnotation(SingleRequestBody<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        String value = singleRequestBody.value();</span><br><span class="line">        <span class="keyword">if</span>(!value.equals(<span class="string">"-1"</span>))&#123;</span><br><span class="line">            <span class="keyword">return</span> jsonObject.get(value);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            String parameterName = parameter.getParameterName();</span><br><span class="line">            <span class="keyword">return</span> jsonObject.get(parameterName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/renameFile"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">renameFile</span><span class="params">(@SingleRequestBody String oldName)</span></span>&#123;</span><br><span class="line">    System.out.println(oldName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完全没问题。</p>
+<p>但是在测试如下代码时：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/renameFile"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">renameFile</span><span class="params">(@SingleRequestBody String oldName,@SingleRequestBody  String newName,@SingleRequestBody   Integer pId, @UserId Integer userId)</span></span>&#123;</span><br><span class="line">    System.out.println(oldName);</span><br><span class="line">    System.out.println(newName);</span><br><span class="line">    System.out.println(pId);</span><br><span class="line">    System.out.println(userId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就出现问题了，解析第一个参数时没问题，但是在解析第二个参数时就没办法从request中读取body部分了。</p>
+<p>经过搜索才发现request的body是一个流，读取一次过后body指针就到最后的位置了，第二次就没办法读取了。</p>
+<h2 id="解决request-body只能读取一次"><a href="#解决request-body只能读取一次" class="headerlink" title="解决request body只能读取一次"></a>解决request body只能读取一次</h2><p>这个问题网上也提供了一种比较好的把那份，即使用自定义的<code>HttpServletRequestWrapper</code>来包装一次request，这个<code>HttpServletRequestWrapper</code>需要重新定义一下body的读取方式。这里的思路也很简单，就是定义一个私有的body变量。读取的时候，如果已经有了就直接读取了。</p>
+<p>下面给出一个示例（来自网上）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Auther</span>: MichaelWang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2022/6/20 19:14</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: XPanRequestWrapper</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XPanRequestWrapper</span>  <span class="keyword">extends</span> <span class="title">HttpServletRequestWrapper</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">byte</span>[] body;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Construct a wrapper for the specified request.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request The request to be wrapped</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">XPanRequestWrapper</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(request);</span><br><span class="line">        body = IOUtils.toByteArray(<span class="keyword">super</span>.getInputStream());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BufferedReader <span class="title">getReader</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(getInputStream()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ServletInputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RequestBodyCachingInputStream(body);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">RequestBodyCachingInputStream</span> <span class="keyword">extends</span> <span class="title">ServletInputStream</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">byte</span>[] body;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> lastIndexRetrieved = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">private</span> ReadListener listener;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">RequestBodyCachingInputStream</span><span class="params">(<span class="keyword">byte</span>[] body)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.body = body;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (isFinished()) &#123;</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> i = body[lastIndexRetrieved + <span class="number">1</span>];</span><br><span class="line">            lastIndexRetrieved++;</span><br><span class="line">            <span class="keyword">if</span> (isFinished() &amp;&amp; listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    listener.onAllDataRead();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    listener.onError(e);</span><br><span class="line">                    <span class="keyword">throw</span> e;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isFinished</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> lastIndexRetrieved == body.length - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isReady</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">// This implementation will never block</span></span><br><span class="line">            <span class="comment">// We also never need to call the readListener from this method, as this method will never return false</span></span><br><span class="line">            <span class="keyword">return</span> isFinished();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setReadListener</span><span class="params">(ReadListener listener)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (listener == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"listener cann not be null"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"listener has been set"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">this</span>.listener = listener;</span><br><span class="line">            <span class="keyword">if</span> (!isFinished()) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    listener.onAllDataRead();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    listener.onError(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    listener.onAllDataRead();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    listener.onError(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">available</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> body.length - lastIndexRetrieved - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">            lastIndexRetrieved = body.length - <span class="number">1</span>;</span><br><span class="line">            body = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过以上的步骤，还需要定义一个Filter，用来每次替换request：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Auther</span>: MichaelWang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2022/6/20 19:15</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: RequestWrapperFilter</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XPanRequestWrapperFilter</span> <span class="keyword">extends</span> <span class="title">OncePerRequestFilter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doFilterInternal</span><span class="params">(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!(request <span class="keyword">instanceof</span> XPanRequestWrapper))&#123;</span><br><span class="line">            request = <span class="keyword">new</span> XPanRequestWrapper(request);</span><br><span class="line">        &#125;</span><br><span class="line">        filterChain.doFilter(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="HttpServletRequestWrapper无法处理muilti-part文件"><a href="#HttpServletRequestWrapper无法处理muilti-part文件" class="headerlink" title="HttpServletRequestWrapper无法处理muilti-part文件"></a>HttpServletRequestWrapper无法处理muilti-part文件</h2><p>解决了上面的问题，又发现上传文件时就无法读取到文件了，这里有一个曲线救国的方法：</p>
+<p>就是检测<code>content-type</code>是<code>multipart/form-data</code>的时候，就不进行包装。</p>
+<p>所以Filter定义需要重新加一段逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Auther</span>: MichaelWang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2022/6/20 19:15</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: RequestWrapperFilter</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XPanRequestWrapperFilter</span> <span class="keyword">extends</span> <span class="title">OncePerRequestFilter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doFilterInternal</span><span class="params">(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * <span class="doctag">TODO:</span> 完善文件上传时，request的封装</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        String contentType = request.getContentType();</span><br><span class="line">        String method = <span class="string">"multipart/form-data"</span>;</span><br><span class="line">        <span class="keyword">if</span> (contentType != <span class="keyword">null</span> &amp;&amp; contentType.contains(method)) &#123;</span><br><span class="line">            <span class="comment">// 将转化后的 request 放入过滤链中</span></span><br><span class="line">            request = <span class="keyword">new</span> StandardServletMultipartResolver().resolveMultipart(request);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(!(request <span class="keyword">instanceof</span> XPanRequestWrapper))&#123;</span><br><span class="line">                request = <span class="keyword">new</span> XPanRequestWrapper(request);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        filterChain.doFilter(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>等后期研究一下，我觉得还有更好的解决方案，即完善这个<code>HttpServletRequestWrapper</code>，让它也支持<code>multi-part</code>文件。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/06/21/SpringMVC参数解析全解与JSON属性分解/" target="_blank" title="SpringMVC参数解析全解与JSON属性分解">http://yoursite.com/2022/06/21/SpringMVC参数解析全解与JSON属性分解/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/06/22/requestWrapper%E7%9A%84%E7%94%A8%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          requestWrapper的用法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/06/02/SpringSecurity%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SpringSecurity结构梳理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PRE-HTTP%E8%AF%B7%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">PRE-HTTP请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">处理函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E6%8E%A5%E5%8F%97%E7%9A%84%E5%8F%82%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">处理函数接受的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text">详细解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.2.1.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestParam"><span class="nav-number">2.2.2.</span> <span class="nav-text">@RequestParam</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Map%E6%8E%A5%E6%94%B6"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">Map接收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#List%E6%8E%A5%E6%94%B6"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">List接收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E6%8E%A5%E6%94%B6"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">数组接收</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestBody"><span class="nav-number">2.2.3.</span> <span class="nav-text">@RequestBody</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E6%94%B6JSON%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">接收JSON字符串</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PathVariable"><span class="nav-number">2.2.4.</span> <span class="nav-text">@PathVariable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MatrixVariable"><span class="nav-number">2.2.5.</span> <span class="nav-text">@MatrixVariable</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E5%8F%82%E6%95%B0"><span class="nav-number">2.2.5.1.</span> <span class="nav-text">普通参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#List%E6%8E%A5%E6%94%B6-1"><span class="nav-number">2.2.5.2.</span> <span class="nav-text">List接收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E6%8E%A5%E6%94%B6-1"><span class="nav-number">2.2.5.3.</span> <span class="nav-text">数组接收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map%E6%8E%A5%E6%94%B6-1"><span class="nav-number">2.2.5.4.</span> <span class="nav-text">Map接收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E5%8F%98%E9%87%8F%E4%B8%8E%E8%B7%AF%E5%BE%84%E5%8F%82%E6%95%B0%E7%9A%84%E5%8C%B9%E9%85%8D"><span class="nav-number">2.2.5.5.</span> <span class="nav-text">矩阵变量与路径参数的匹配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestHeader"><span class="nav-number">2.2.6.</span> <span class="nav-text">@RequestHeader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CookieValue"><span class="nav-number">2.2.7.</span> <span class="nav-text">@CookieValue</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">JSON属性分解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.1.</span> <span class="nav-text">自定义注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HandlerMethodArgumentResolver"><span class="nav-number">3.2.</span> <span class="nav-text">HandlerMethodArgumentResolver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%A3%E6%9E%90JSON"><span class="nav-number">3.3.</span> <span class="nav-text">自定义解析JSON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3%E6%B3%A8%E5%85%A5"><span class="nav-number">3.4.</span> <span class="nav-text">JSON属性分解注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3request-body%E5%8F%AA%E8%83%BD%E8%AF%BB%E5%8F%96%E4%B8%80%E6%AC%A1"><span class="nav-number">3.5.</span> <span class="nav-text">解决request body只能读取一次</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HttpServletRequestWrapper%E6%97%A0%E6%B3%95%E5%A4%84%E7%90%86muilti-part%E6%96%87%E4%BB%B6"><span class="nav-number">3.6.</span> <span class="nav-text">HttpServletRequestWrapper无法处理muilti-part文件</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

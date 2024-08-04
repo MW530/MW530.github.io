@@ -17,8 +17,9 @@
 <meta property="og:url" content="http://yoursite.com/2020/01/05/Vue%E4%B8%AD%E7%9A%84%E6%8F%92%E6%A7%BD%E4%B8%8Ekeep-alive/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="插槽初次真正接触插槽是在Elementui中的表格中在自定义列的内容时 12345678910111213&lt;el-table-column                 label&#x3D;&quot;姓名&quot;                 width&#x3D;&quot;180&quot;&gt;    &lt;template slot-scope&#x3D;&quot;">
+<meta property="og:locale">
 <meta property="article:published_time" content="2020-01-05T15:01:42.000Z">
-<meta property="article:modified_time" content="2020-01-05T15:02:43.462Z">
+<meta property="article:modified_time" content="2022-07-11T08:39:25.747Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="插槽">
@@ -75,7 +76,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -218,7 +219,6 @@
 </blockquote>
 <p>这句话中的“在”字，即我们能看到的。即使是插槽这样传递到子组件中元素。</p>
 <p>所以，<strong>插槽总是能访问父组件的数据，而不能访问子组件的数组。</strong>但是有时我们又必须访问子组件的数据怎么办呢？这就用到了v-slot（slot-scope）属性。</p>
-<p>官方称之为</p>
 <h2 id="作用域插槽"><a href="#作用域插槽" class="headerlink" title="作用域插槽"></a>作用域插槽</h2><p>对于默认插槽（即default），可以通过开始的代码形式，来获取子组件的值，前提是在子组件中使用 v-bind将其绑定到slot上。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;父组件</span><br><span class="line">&lt;child&gt;</span><br><span class="line">    &lt;template v-slot&#x3D;&quot;defaultPorps&quot;&gt;</span><br><span class="line">        &#123;&#123;defaultPorps.user.name&#125;&#125;</span><br><span class="line">    &lt;&#x2F;template&gt;</span><br><span class="line">&lt;child&gt;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;子组件</span><br><span class="line">&lt;slot v-bind:user &#x3D; &#123;&quot;name&quot;:&quot;tom&quot;&#125;&gt;</span><br><span class="line">&lt;&#x2F;slot&gt;</span><br></pre></td></tr></table></figure>
@@ -241,7 +241,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//router.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">'vue-router'</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./views/Home.vue'</span></span><br><span class="line"><span class="keyword">import</span> Login <span class="keyword">from</span> <span class="string">'./views/Login.vue'</span></span><br><span class="line"><span class="keyword">import</span> Register <span class="keyword">from</span> <span class="string">"./views/regisetr.vue"</span></span><br><span class="line"></span><br><span class="line">Vue.use(Router)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Router(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/'</span>,</span><br><span class="line">      name: <span class="string">'home'</span>,</span><br><span class="line">      component: Home</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/about'</span>,</span><br><span class="line">      name: <span class="string">'about'</span>,</span><br><span class="line">      componet: About</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/login'</span>,</span><br><span class="line">      name: <span class="string">'login'</span>,</span><br><span class="line">      component: Login</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="string">'/register'</span>,</span><br><span class="line">      name: <span class="string">'register'</span>,</span><br><span class="line">      component: Register</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> &lt;transition</span><br><span class="line">            :duration&#x3D;&quot;500&quot;</span><br><span class="line">            mode&#x3D;&quot;out-in&quot;</span><br><span class="line">            enter-active-class&#x3D;&quot;animated bounceIn&quot;</span><br><span class="line">            leave-active-class&#x3D;&quot;animated bounceOutDown&quot;</span><br><span class="line">          &gt;</span><br><span class="line">     &lt;keep-alive exclude&#x3D;&quot;Login,Register&quot; max&#x3D;2&gt;</span><br><span class="line">         &lt;router-view&gt;&lt;&#x2F;router-view&gt;</span><br><span class="line">     &lt;&#x2F;keep-alive&gt;</span><br><span class="line">&lt;&#x2F;transition&gt;</span><br></pre></td></tr></table></figure>
 <p>上面的代码即表示，不缓存<code>Login</code>,<code>Register</code>组件，并且最多缓存2和组件。</p>
-<p>*值得注意的是，当同时使用<code>transiton</code>组件与<code>keep-alive</code>组件时，<code>transiton</code>组件必须位于外层，很容易想明白，<code>keep-alive</code>组件对其内部的组件进行管控，如果将<code>transiton</code>组件放置到其内部，即使它是抽象组件，也会被被<code>keep-alive</code>组件管控，导致不正常**</p>
+<p><strong>值得注意的是，当同时使用<code>transiton</code>组件与<code>keep-alive</code>组件时，<code>transiton</code>组件必须位于外层，很容易想明白，<code>keep-alive</code>组件对其内部的组件进行管控，如果将<code>transiton</code>组件放置到其内部，即使它是抽象组件，也会被被<code>keep-alive</code>组件管控，导致不正常</strong></p>
 
       
     </div>
@@ -342,7 +342,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#插槽"><span class="nav-number">1.</span> <span class="nav-text">插槽</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插槽的作用域"><span class="nav-number">1.1.</span> <span class="nav-text">插槽的作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域插槽"><span class="nav-number">1.2.</span> <span class="nav-text">作用域插槽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具名插槽"><span class="nav-number">1.3.</span> <span class="nav-text">具名插槽</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#keep-alive"><span class="nav-number">2.</span> <span class="nav-text">keep-alive</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本用法"><span class="nav-number">2.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配合路由"><span class="nav-number">2.2.</span> <span class="nav-text">配合路由</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E6%A7%BD"><span class="nav-number">1.</span> <span class="nav-text">插槽</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E6%A7%BD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">1.1.</span> <span class="nav-text">插槽的作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%E6%8F%92%E6%A7%BD"><span class="nav-number">1.2.</span> <span class="nav-text">作用域插槽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E5%90%8D%E6%8F%92%E6%A7%BD"><span class="nav-number">1.3.</span> <span class="nav-text">具名插槽</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#keep-alive"><span class="nav-number">2.</span> <span class="nav-text">keep-alive</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E5%90%88%E8%B7%AF%E7%94%B1"><span class="nav-number">2.2.</span> <span class="nav-text">配合路由</span></a></li></ol></li></ol>
     
     </div>
   </aside>
@@ -357,7 +357,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -514,7 +514,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

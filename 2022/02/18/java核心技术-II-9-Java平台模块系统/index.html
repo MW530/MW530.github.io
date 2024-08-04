@@ -17,15 +17,16 @@
 <meta property="og:url" content="http://yoursite.com/2022/02/18/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-9-Java%E5%B9%B3%E5%8F%B0%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="模块的概念在Java系统中，提供了多种封装的层级。 在面向对象编程中，基础的构建要素就是类。类提供了封装，私有特征只能被具有明确访问权限的代码访问。 包提供了更高一级的组织方式，包是类的集合。包也提供了一种封装级别，具有包访问权限的所有特征（无论是公有还是私有）都只能被同一个包中的方法访问。 但是在大型系统中，这些控制级别还是显得不够，所以设计了模块的概念。 一般来说，一个Java平台模块包含以下">
-<meta property="og:image" content="e:/myblog/source/images/java核心技术/模块依赖.png">
+<meta property="og:locale">
+<meta property="og:image" content="e:\myblog\source\images\java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF\%E6%A8%A1%E5%9D%97%E4%BE%9D%E8%B5%96.png">
 <meta property="article:published_time" content="2022-02-18T05:08:24.000Z">
-<meta property="article:modified_time" content="2022-02-18T09:14:00.586Z">
+<meta property="article:modified_time" content="2022-05-10T10:53:05.063Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Java核心技术">
 <meta property="article:tag" content="[object Object]">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="e:/myblog/source/images/java核心技术/模块依赖.png">
+<meta name="twitter:image" content="e:\myblog\source\images\java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF\%E6%A8%A1%E5%9D%97%E4%BE%9D%E8%B5%96.png">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -77,7 +78,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -239,8 +240,8 @@
 <p>而模块中的还可能会依赖其他的模块，就会形成一个依赖链。例如下面的依赖链：</p>
 <p><img src="E:\myblog\source\images\java核心技术\模块依赖.png" alt="模块依赖"></p>
 <p>注意在模块依赖中不能有环，即，一个模块不能直接或间接地对自己产生依赖。</p>
-<h1 id="导出-导入包"><a href="#导出-导入包" class="headerlink" title="导出/导入包"></a>导出/导入包</h1><h2 id="到处包"><a href="#到处包" class="headerlink" title="到处包"></a>到处包</h2><p>在模块系统中，可以在<code>module-info.java</code>使用关键字<code>export</code>来指定导出的模块。例如，下面是<code>java.xml</code>模块地模块声明中地一部分：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> java.xml</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">exports</span> javax.xml;</span><br><span class="line">    export javax.xml.dataType;</span><br><span class="line">    export javax.xml.namespace;</span><br><span class="line">    export javax.xml.parsers;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="导出-导入包"><a href="#导出-导入包" class="headerlink" title="导出/导入包"></a>导出/导入包</h1><h2 id="导出包"><a href="#导出包" class="headerlink" title="导出包"></a>导出包</h2><p>在模块系统中，可以在<code>module-info.java</code>使用关键字<code>export</code>来指定导出的模块。例如，下面是<code>java.xml</code>模块地模块声明中地一部分：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> java.xml</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">exports</span> javax.xml;</span><br><span class="line">    <span class="keyword">exports</span> javax.xml.dataType;</span><br><span class="line">    <span class="keyword">exports</span> javax.xml.namespace;</span><br><span class="line">    <span class="keyword">exports</span> javax.xml.parsers;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>值得注意的是：</p>
 <ul>
 <li>只有导出了的类才能被外部使用，也就是说可以隐藏内部地部分类。</li>
@@ -284,7 +285,7 @@
 <p>前两条规则表明自动模块中的包的行为和在类路径上一样。使用模块路径的原因是为u了让其他模块受益，使得它们可以表示对这个模块的依赖关系。</p>
 <h2 id="不具名模块"><a href="#不具名模块" class="headerlink" title="不具名模块"></a>不具名模块</h2><p>任何不在模块路径中的类都是不具名模块的一部分。从技术上讲，可能会有多个不具名模块，但是它们合起来看就像是单个不具名的模块。与自动模块一样，不具名模块可以访问所有其他的模块，它的所有包都会被导出，并且都是开放的。</p>
 <p>但是，没有任何明确模块可以访问不具名的模块。（明确模块是既不是自动模块也不是不具名模块，即，<code>module-info.java</code>在模块路径上的模块。）</p>
-<h1 id="传递需求和静态的需求"><a href="#传递需求和静态的需求" class="headerlink" title="传递需求和静态的需求"></a>传递需求和静态的需求</h1><h2 id="传递需求"><a href="#传递需求" class="headerlink" title="传递需求"></a>传递需求</h2><p>前面提到，模块的需求是不会传递的，即A需要B，B需要C，则A并不会直接需要C。但是有时候这种需求又是存在的，比如一些列的包都是需要底层的一个包，可以使用<code>requires transitive</code>来满这个需求。</p>
+<h1 id="传递需求和静态需求"><a href="#传递需求和静态需求" class="headerlink" title="传递需求和静态需求"></a>传递需求和静态需求</h1><h2 id="传递需求"><a href="#传递需求" class="headerlink" title="传递需求"></a>传递需求</h2><p>前面提到，模块的需求是不会传递的，即A需要B，B需要C，则A并不会直接需要C。但是有时候这种需求又是存在的，比如一些列的包都是需要底层的一个包，可以使用<code>requires transitive</code>来满这个需求。</p>
 <p>例如，JavaFX用户界面元素的<code>javafx.controls</code>模块。<code>javafx.controls</code>模块需要<code>javafx.base</code>模块，因此每个使用<code>javafx.controls</code>的程序都需要<code>javafx.base</code>模块。因此<code>javafx.controls</code>模块声明需要使用<code>transitive</code>修饰符：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> javafx.controls</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">requires</span> transitive javafx.base;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>任何声明需要<code>javafx.controls</code>的模块现在都自动需要<code>javafx.base</code>。</p>
@@ -437,7 +438,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#模块的概念"><span class="nav-number">1.</span> <span class="nav-text">模块的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对模块命名"><span class="nav-number">2.</span> <span class="nav-text">对模块命名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个例子：模块化的”Hello-World-”程序"><span class="nav-number">3.</span> <span class="nav-text">一个例子：模块化的”Hello World!”程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对模块的需求"><span class="nav-number">4.</span> <span class="nav-text">对模块的需求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#导出-导入包"><span class="nav-number">5.</span> <span class="nav-text">导出&#x2F;导入包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#到处包"><span class="nav-number">5.1.</span> <span class="nav-text">到处包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入包"><span class="nav-number">5.2.</span> <span class="nav-text">导入包</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模块化的JAR"><span class="nav-number">6.</span> <span class="nav-text">模块化的JAR</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模块和反射式访问"><span class="nav-number">7.</span> <span class="nav-text">模块和反射式访问</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动模块和不具名模块"><span class="nav-number">8.</span> <span class="nav-text">自动模块和不具名模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#自动模块"><span class="nav-number">8.1.</span> <span class="nav-text">自动模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不具名模块"><span class="nav-number">8.2.</span> <span class="nav-text">不具名模块</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#传递需求和静态的需求"><span class="nav-number">9.</span> <span class="nav-text">传递需求和静态的需求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#传递需求"><span class="nav-number">9.1.</span> <span class="nav-text">传递需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态需求"><span class="nav-number">9.2.</span> <span class="nav-text">静态需求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#限定导出和开放"><span class="nav-number">10.</span> <span class="nav-text">限定导出和开放</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务加载"><span class="nav-number">11.</span> <span class="nav-text">服务加载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#提供服务"><span class="nav-number">11.1.</span> <span class="nav-text">提供服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消费服务"><span class="nav-number">11.2.</span> <span class="nav-text">消费服务</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">模块的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E6%A8%A1%E5%9D%97%E5%91%BD%E5%90%8D"><span class="nav-number">2.</span> <span class="nav-text">对模块命名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90%EF%BC%9A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E2%80%9DHello-World-%E2%80%9D%E7%A8%8B%E5%BA%8F"><span class="nav-number">3.</span> <span class="nav-text">一个例子：模块化的”Hello World!”程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E9%9C%80%E6%B1%82"><span class="nav-number">4.</span> <span class="nav-text">对模块的需求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%BC%E5%87%BA-%E5%AF%BC%E5%85%A5%E5%8C%85"><span class="nav-number">5.</span> <span class="nav-text">导出&#x2F;导入包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E5%87%BA%E5%8C%85"><span class="nav-number">5.1.</span> <span class="nav-text">导出包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E5%8C%85"><span class="nav-number">5.2.</span> <span class="nav-text">导入包</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84JAR"><span class="nav-number">6.</span> <span class="nav-text">模块化的JAR</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%92%8C%E5%8F%8D%E5%B0%84%E5%BC%8F%E8%AE%BF%E9%97%AE"><span class="nav-number">7.</span> <span class="nav-text">模块和反射式访问</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%A8%A1%E5%9D%97%E5%92%8C%E4%B8%8D%E5%85%B7%E5%90%8D%E6%A8%A1%E5%9D%97"><span class="nav-number">8.</span> <span class="nav-text">自动模块和不具名模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%A8%A1%E5%9D%97"><span class="nav-number">8.1.</span> <span class="nav-text">自动模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%85%B7%E5%90%8D%E6%A8%A1%E5%9D%97"><span class="nav-number">8.2.</span> <span class="nav-text">不具名模块</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%A0%E9%80%92%E9%9C%80%E6%B1%82%E5%92%8C%E9%9D%99%E6%80%81%E9%9C%80%E6%B1%82"><span class="nav-number">9.</span> <span class="nav-text">传递需求和静态需求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E9%80%92%E9%9C%80%E6%B1%82"><span class="nav-number">9.1.</span> <span class="nav-text">传递需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E9%9C%80%E6%B1%82"><span class="nav-number">9.2.</span> <span class="nav-text">静态需求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%90%E5%AE%9A%E5%AF%BC%E5%87%BA%E5%92%8C%E5%BC%80%E6%94%BE"><span class="nav-number">10.</span> <span class="nav-text">限定导出和开放</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%8A%A0%E8%BD%BD"><span class="nav-number">11.</span> <span class="nav-text">服务加载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E4%BE%9B%E6%9C%8D%E5%8A%A1"><span class="nav-number">11.1.</span> <span class="nav-text">提供服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E6%9C%8D%E5%8A%A1"><span class="nav-number">11.2.</span> <span class="nav-text">消费服务</span></a></li></ol></li></ol>
     
     </div>
   </aside>
@@ -452,7 +453,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -609,7 +610,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

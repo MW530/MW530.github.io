@@ -17,8 +17,9 @@
 <meta property="og:url" content="http://yoursite.com/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="前面已经写过一篇文章来理解Promise及其使用方法，这里尝试来模拟Promise。 要求根据Promise&#x2F;A+原理，有以下几个点需要遵守：  Promise有一个Promise States，其有三种状态：  pending：初始状态，可以转化为fulfilled，rejected。 fulfilled： 需要一个value作为结果。 不能转化为其他状态。   rejected： 需要一个re">
+<meta property="og:locale">
 <meta property="article:published_time" content="2021-02-04T05:03:48.000Z">
-<meta property="article:modified_time" content="2021-02-09T10:43:36.364Z">
+<meta property="article:modified_time" content="2022-07-13T01:54:56.009Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="Promise">
@@ -74,7 +75,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -269,14 +270,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">2秒！！！</span><br><span class="line"></span><br><span class="line">p1</span><br><span class="line"></span><br><span class="line">111</span><br><span class="line"></span><br><span class="line">p2</span><br><span class="line"></span><br><span class="line">111</span><br></pre></td></tr></table></figure>
 <h2 id="实现1，2，3功能"><a href="#实现1，2，3功能" class="headerlink" title="实现1，2，3功能"></a>实现1，2，3功能</h2><p>前面我们基本实现了<code>Promise</code>的基本功能，但是还是一个问题是：<code>Promise</code>必须返回一个<code>Promise</code>，上面的代码并不满足这一点。</p>
 <p>所谓我们为了实现返回的都是<code>Promise</code>，我们需要重写<code>then</code>方法，使之返回的是一个Promise，这时，我们还是要根据当前<code>Promise</code>的状态来分开来处理。</p>
-<p>但是其中心点是，必须持续执行<code>Promise</code>，直到其返回值不是一个<code>thenable</code>对象或方法，所以请是一个递归的过程。所以我们定义了一个函数<code>cycleResolve</code>，其接受四个参数：</p>
+<p>但是其中心点是，必须持续执行<code>Promise</code>，直到其返回值不是一个<code>thenable</code>对象或方法，所以这是一个递归的过程。所以我们定义了一个函数<code>cycleResolve</code>，其接受四个参数：</p>
 <ol>
 <li><code>newPromise</code>：新建的被用于返回的<code>Promise</code></li>
 <li><code>target</code>：回调函数执行的获得结果（可能仍然是一个<code>Promise</code>）</li>
 <li><code>resolve</code>：新<code>Promise</code>的<code>resolve</code>函数</li>
 <li><code>reject</code>：新<code>Promise</code>的<code>reject</code>函数</li>
 </ol>
-<p>该函数的功能是：判定返回值<code>target</code>是不是一个<code>thenable</code>对象（包括<code>Promise</code>），如果是，继续执行其<code>then</code>方法。给i贵这个过程，知道返回值不是<code>thenable</code>对象，然后将其值<code>resolve</code>出去。</p>
+<p>该函数的功能是：判定返回值<code>target</code>是不是一个<code>thenable</code>对象（包括<code>Promise</code>），如果是，继续执行其<code>then</code>方法。经过这个过程，知道返回值不是<code>thenable</code>对象，然后将其值<code>resolve</code>出去。</p>
 <p>注意：</p>
 <ol>
 <li>只有<code>target</code>是一个<code>thenable</code>对象并且其<code>then</code>属性是一个函数时，才会调用其<code>then</code>方法，否则会直接将<code>target</code>resolve出去。</li>
@@ -415,7 +416,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#要求"><span class="nav-number">1.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发"><span class="nav-number">2.</span> <span class="nav-text">开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现1，2功能"><span class="nav-number">2.1.</span> <span class="nav-text">实现1，2功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现1，2，3功能"><span class="nav-number">2.2.</span> <span class="nav-text">实现1，2，3功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现catch方法"><span class="nav-number">2.3.</span> <span class="nav-text">实现catch方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现finally"><span class="nav-number">2.4.</span> <span class="nav-text">实现finally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现Promise-resolve方法-下面的方法是直接作为class的静态函数成员的"><span class="nav-number">2.5.</span> <span class="nav-text">实现Promise.resolve方法(下面的方法是直接作为class的静态函数成员的)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现Promise-reject方法"><span class="nav-number">2.6.</span> <span class="nav-text">实现Promise.reject方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现Promise-all-p1-p2-p3"><span class="nav-number">2.7.</span> <span class="nav-text">实现Promise.all([p1, p2, p3])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现Promise-race-p1-p2-p3"><span class="nav-number">2.8.</span> <span class="nav-text">实现Promise.race([p1, p2, p3])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现Promise-allSettled-p1-p2-p3"><span class="nav-number">2.9.</span> <span class="nav-text">实现Promise.allSettled([p1, p2, p3])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现Promise-any-p1-p2-p3"><span class="nav-number">2.10.</span> <span class="nav-text">实现Promise.any(p1, p2, p3)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%8F%91"><span class="nav-number">2.</span> <span class="nav-text">开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B01%EF%BC%8C2%E5%8A%9F%E8%83%BD"><span class="nav-number">2.1.</span> <span class="nav-text">实现1，2功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B01%EF%BC%8C2%EF%BC%8C3%E5%8A%9F%E8%83%BD"><span class="nav-number">2.2.</span> <span class="nav-text">实现1，2，3功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0catch%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">实现catch方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0finally"><span class="nav-number">2.4.</span> <span class="nav-text">实现finally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Promise-resolve%E6%96%B9%E6%B3%95-%E4%B8%8B%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95%E6%98%AF%E7%9B%B4%E6%8E%A5%E4%BD%9C%E4%B8%BAclass%E7%9A%84%E9%9D%99%E6%80%81%E5%87%BD%E6%95%B0%E6%88%90%E5%91%98%E7%9A%84"><span class="nav-number">2.5.</span> <span class="nav-text">实现Promise.resolve方法(下面的方法是直接作为class的静态函数成员的)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Promise-reject%E6%96%B9%E6%B3%95"><span class="nav-number">2.6.</span> <span class="nav-text">实现Promise.reject方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Promise-all-p1-p2-p3"><span class="nav-number">2.7.</span> <span class="nav-text">实现Promise.all([p1, p2, p3])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Promise-race-p1-p2-p3"><span class="nav-number">2.8.</span> <span class="nav-text">实现Promise.race([p1, p2, p3])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Promise-allSettled-p1-p2-p3"><span class="nav-number">2.9.</span> <span class="nav-text">实现Promise.allSettled([p1, p2, p3])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0Promise-any-p1-p2-p3"><span class="nav-number">2.10.</span> <span class="nav-text">实现Promise.any(p1, p2, p3)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
     
     </div>
   </aside>
@@ -430,7 +431,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -587,7 +588,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

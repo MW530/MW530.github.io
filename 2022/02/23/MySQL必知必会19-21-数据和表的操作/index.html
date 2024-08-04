@@ -11,14 +11,15 @@
   
   
   
-  <meta name="description" content="数据插入INSET可以用来插入数据，其可以用以下几种方式使用：  插入完整的行； 插入行的一部分； 插入多行； 插入某些查询的结果。   插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。  插入完整的行可以直接按照表中的字段顺序来使用INSERT插入数据。 例如表Customers的结果为：    id name location birthday h">
+  <meta name="description" content="数据插入INSET可以用来插入数据，其可以用以下几种方式使用：  插入完整的行； 插入行的一部分； 插入多行； 插入某些查询的结果。   插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。  插入完整的行可以直接按照表中的字段顺序来使用INSERT插入数据。 例如表Customers的结构为：    id name location birthday h">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL必知必会19-21-数据和表的操作">
 <meta property="og:url" content="http://yoursite.com/2022/02/23/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A19-21-%E6%95%B0%E6%8D%AE%E5%92%8C%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="数据插入INSET可以用来插入数据，其可以用以下几种方式使用：  插入完整的行； 插入行的一部分； 插入多行； 插入某些查询的结果。   插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。  插入完整的行可以直接按照表中的字段顺序来使用INSERT插入数据。 例如表Customers的结果为：    id name location birthday h">
+<meta property="og:description" content="数据插入INSET可以用来插入数据，其可以用以下几种方式使用：  插入完整的行； 插入行的一部分； 插入多行； 插入某些查询的结果。   插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。  插入完整的行可以直接按照表中的字段顺序来使用INSERT插入数据。 例如表Customers的结构为：    id name location birthday h">
+<meta property="og:locale">
 <meta property="article:published_time" content="2022-02-23T07:28:43.000Z">
-<meta property="article:modified_time" content="2022-02-24T08:59:32.590Z">
+<meta property="article:modified_time" content="2022-05-12T13:30:23.338Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="MySQL">
@@ -75,7 +76,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -217,7 +218,7 @@
 <p>插入及系统安全机制：可针对每个表或 每个用户，利用MySQL的安全机制禁止使用INSET语句。</p>
 </blockquote>
 <h2 id="插入完整的行"><a href="#插入完整的行" class="headerlink" title="插入完整的行"></a>插入完整的行</h2><p>可以直接按照表中的字段顺序来使用<code>INSERT</code>插入数据。</p>
-<p>例如表<code>Customers</code>的结果为：</p>
+<p>例如表<code>Customers</code>的结构为：</p>
 <table>
 <thead>
 <tr>
@@ -238,28 +239,28 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Customers <span class="keyword">VALUES</span>(<span class="literal">NULL</span>, <span class="string">'mw'</span>, <span class="string">'China'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'hike'</span>);</span><br></pre></td></tr></table></figure>
 <p>但这种方式并不安全，因为其依赖于表中字段的顺序。还可以按照给出的字段顺序来插入数据：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Customers(<span class="keyword">id</span>, <span class="keyword">name</span>, location, birthday, hobby) <span class="keyword">VALUES</span>(<span class="literal">NULL</span>, <span class="string">'mw'</span>, <span class="string">'China'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'hike'</span>);</span><br></pre></td></tr></table></figure>
-<p>此例子完成与前一个<code>INSERT</code>语句完全相同的工作，但在表名后 的括号里明确地给出了列名。则其后<code>VALUES</code>中的数据就是与前面给出的顺序相同。</p>
+<p>此例子完成与前一个<code>INSERT</code>语句完全相同的工作，但在表名后的括号里明确地给出了列名。则其后<code>VALUES</code>中的数据就是与前面给出的顺序相同。</p>
 <p>因为提供了列名，<code>VALUES</code>必须以其指定的次序匹配指定的列名，不 一定按各个列出现在实际表中的次序。其优点是，即使表的结构改变， 此<code>INSERT</code>语句仍然能正确工作。</p>
 <blockquote>
-<p>总是使用列的列表 一般不要使用没有明确给出列的列表的 INSERT语句。使用列的列表能使SQL代码继续发挥作用，即使<br>表结构发生了变化。</p>
+<p><strong>总是使用列的列表</strong>，一般不要使用没有明确给出列的列表的 INSERT语句。使用列的列表能使SQL代码继续发挥作用，即使<br>表结构发生了变化。</p>
 </blockquote>
 <p>省略列：如果表的定义允许，则可以在INSERT操作中省略某 些列。省略的列必须满足以下某个条件。 </p>
 <ul>
 <li>该列定义为允许<code>NULL</code>值（无值或空值）。 </li>
-<li>在表定义中给出默认值。这表示如果不给出值，将使用默<br>认值。</li>
+<li>在表定义中给出默认值。这表示如果不给出值，将使用默认值。</li>
 </ul>
 <p>如果数据检索是最重要的（通常是这样），则你可以通过在 <code>INSERT</code>和<code>INTO</code>之间添加关键字<code>LOW_PRIORITY</code>，指示MySQL 降低<code>INSERT</code>语句的优先级，如下所示：<br>顺便说一下，这也适用于下一章介绍的<code>UPDATE</code>和<code>DELETE</code>语句。</p>
 <h2 id="插入多行"><a href="#插入多行" class="headerlink" title="插入多行"></a>插入多行</h2><p><code>INSERT</code>也支持一条语句插入多条数据。</p>
 <p>例如：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Customers(<span class="keyword">id</span>, <span class="keyword">name</span>, location, birthday, hobby) <span class="keyword">VALUES</span></span><br><span class="line">(<span class="literal">NULL</span>, <span class="string">'mw'</span>, <span class="string">'China'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'hike'</span>),</span><br><span class="line">(<span class="literal">NULL</span>, <span class="string">'tom'</span>, <span class="string">'America'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'basketball'</span>),</span><br><span class="line">(<span class="literal">NULL</span>, <span class="string">'jimmy'</span>, <span class="string">'France'</span>, <span class="string">'1999-1-1'</span>, <span class="string">'drink'</span>);</span><br></pre></td></tr></table></figure>
 <p>其中单条INSERT语句有多组值，每组值用一对圆括号括起来， 用逗号分隔。</p>
-<p>提高<code>INSERT</code>的性能 此技术可以提高数据库处理的性能，因 为MySQL用单条INSERT语句处理多个插入比使用多条<code>INSERT</code>语句快。</p>
-<h2 id="插入检索的数据"><a href="#插入检索的数据" class="headerlink" title="插入检索的数据"></a>插入检索的数据</h2><p><code>INSERT</code>一般用来给表插入一个指定列值的行。但是，<code>INSERT</code>还存在 另一种形式，可以利用它将一条<code>SELECT</code>语句的结果插入表中。这就是所 谓的<code>INSERT SELECT</code>，顾名思义，它是由一条<code>INSERT</code>语句和一条<code>SELECT</code>语句组成的。</p>
-<p>假如你想从另一表中合并客户列表到你的customers表。不需要每次 读取一行，然后再将它用INSERT插入，可以如下进行：</p>
+<p><strong>提高<code>INSERT</code>的性能此技术可以提高数据库处理的性能，因为MySQL用单条INSERT语句处理多个插入比使用多条<code>INSERT</code>语句快。</strong></p>
+<h2 id="插入检索的数据"><a href="#插入检索的数据" class="headerlink" title="插入检索的数据"></a>插入检索的数据</h2><p><code>INSERT</code>一般用来给表插入一个指定列值的行。但是，<code>INSERT</code>还存在另一种形式，可以利用它将一条<code>SELECT</code>语句的结果插入表中。这就是所 谓的<code>INSERT SELECT</code>，顾名思义，它是由一条<code>INSERT</code>语句和一条<code>SELECT</code>语句组成的。</p>
+<p>假如你想从另一表中合并客户列表到你的customers表。不需要每次读取一行，然后再将它用INSERT插入，可以如下进行：</p>
 <p>例如，将<code>Customers</code>中的数据插入到新的<code>CustomersNew</code>表中。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> CustomersNew(<span class="keyword">id</span>, <span class="keyword">name</span>, location, birthday, hobby)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span>, <span class="keyword">name</span>, location, birthday, hobby</span><br><span class="line"><span class="keyword">FROM</span> customers;</span><br></pre></td></tr></table></figure>
 <p>这个例子使用<code>INSERT SELECT</code>从中将<code>customers</code>所有数据导入 <code>CustomersNew</code>。</p>
-<p>这条语句将插入多少行有赖于<code>customers</code>表中有多少行。</p>
+<p><strong>这条语句将插入多少行有赖于<code>customers</code>表中有多少行。</strong></p>
 <p>这个例子导入了cust_id（假设你能够确保cust_id的值不重复）。你 也可以简单地省略这列（从INSERT和SELECT中），这样MySQL就会生成新值。</p>
 <blockquote>
 <p>INSERT SELECT中的列名：为简单起见，这个例子在INSERT和 SELECT语句中使用了相同的列名。但是，不一定要求列名匹配。 事实上，MySQL甚至不关心SELECT返回的列名。它使用的是 列的位置，因此SELECT中的第一列（不管其列名）将用来填充 表列中指定的第一个列，第二列将用来填充表列中指定的第二 个列，如此等等。这对于从使用不同列名的表中导入数据是非<br>常有用的。</p>
@@ -297,7 +298,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> customers;</span><br></pre></td></tr></table></figure>
 <p>即去掉<code>WHERE</code>限制条件。就会删除表中的所有数据。</p>
 <blockquote>
-<p>更快的删除：如果想从表中删除所有行，不要使用DELETE。 可使用TRUNCATE TABLE语句，它完成相同的工作，但速度更 快（TRUNCATE实际是删除原来的表并重新创建一个表，而不<br>是逐行删除表中的数据）。</p>
+<p>更快的删除：如果想从表中删除所有行，不要使用DELETE。 可使用TRUNCATE TABLE语句，它完成相同的工作，但速度更快（TRUNCATE实际是删除原来的表并重新创建一个表，而不是逐行删除表中的数据）。</p>
 </blockquote>
 <h2 id="更新和删除指导"><a href="#更新和删除指导" class="headerlink" title="更新和删除指导"></a>更新和删除指导</h2><ul>
 <li>除非确实打算更新和删除每一行，否则绝对不要使用不带WHERE 子句的UPDATE或DELETE语句。</li>
@@ -311,9 +312,9 @@
 <li>新表的名字，在关键字<code>CREATE TABLE</code>之后给出；</li>
 <li>表列的名字和定义，用逗号分隔。</li>
 </ul>
-<p>CREATE TABLE语句也可能会包括其他关键字或选项，但至少要包括表的 名字和列的细节。</p>
+<p>CREATE TABLE语句也可能会包括其他关键字或选项，但至少要包括表的名字和列的细节。</p>
 <h3 id="表创建基础"><a href="#表创建基础" class="headerlink" title="表创建基础"></a>表创建基础</h3><p>例如，创建<code>customers</code>表：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> customers</span><br><span class="line">(</span><br><span class="line">cust_id <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">cust_name <span class="built_in">char</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">cust_address <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_city <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_state <span class="built_in">char</span>(<span class="number">5</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_zip <span class="built_in">char</span>(<span class="number">10</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_country <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_contact <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">cust_emai1 <span class="built_in">char</span>(<span class="number">255</span>) <span class="literal">NULL</span>,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (cust_id)</span><br><span class="line">) <span class="keyword">ENGINE</span>-<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> customers</span><br><span class="line">(</span><br><span class="line">    cust_id <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">    cust_name <span class="built_in">char</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    cust_address <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">    cust_city <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">    cust_state <span class="built_in">char</span>(<span class="number">5</span>) <span class="literal">NULL</span>,</span><br><span class="line">    cust_zip <span class="built_in">char</span>(<span class="number">10</span>) <span class="literal">NULL</span>,</span><br><span class="line">    cust_country <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">    cust_contact <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span>,</span><br><span class="line">    cust_emai1 <span class="built_in">char</span>(<span class="number">255</span>) <span class="literal">NULL</span>,</span><br><span class="line">    PRIMARY <span class="keyword">KEY</span> (cust_id)</span><br><span class="line">) <span class="keyword">ENGINE</span>-<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
 <p>从上面的例子中可以看到，表名紧跟在<code>CREATE TABLE</code>关键字后 面。实际的表定义（所有列）括在圆括号之中。各列之间用逗号分隔。这个表由9列组成。每列的定义以列名（它在表中必须是唯一的）开始，后跟列的数据类型。表的主键可以在创建表时用 <code>PRIMARY KEY</code>关键字指定。这里，列cust_id指定作为主键列。整条语句由右圆括号后的分号结束。</p>
 <blockquote>
 <p>处理现有的表 在创建新表时，指定的表名必须不存在，否则 将出错。如果要防止意外覆盖已有的表，SQL要求首先手工删 除该表，然后再重建它，而不是简单地用创建表语句覆盖它。</p>
@@ -322,7 +323,7 @@
 <p>MySQL可以在指定字段时指定<code>NULL</code>或<code>NOT NULL</code>来确定允许空缺或不允许空缺。</p>
 <h3 id="使用AUTO-INCREMENT"><a href="#使用AUTO-INCREMENT" class="headerlink" title="使用AUTO_INCREMENT"></a>使用AUTO_INCREMENT</h3><p>被<code>AUTO_INCREMENT</code>标记得的字段会在数据增加的时候自动增加（一般将其赋NULL，让其自增）。但是其有以下规范：</p>
 <ul>
-<li><p>`AUTO_INCREMENT·是数据列的一种属性，只适用于整数类型数据列。</p>
+<li><p><code>AUTO_INCREMENT</code>是数据列的一种属性，只适用于整数类型数据列。</p>
 </li>
 <li><p>设置<code>AUTO_INCREMENT</code>属性的数据列应该是一个正数序列，所以应该把该数据列声明为UNSIGNED，这样序列的编号个可增加一倍。</p>
 </li>
@@ -340,17 +341,17 @@
 <p>其通过<code>DEFAULT</code>关键字来指定。</p>
 <p>例如：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line">(</span><br><span class="line">    order_numint <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    order_item <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">    prod_idchar(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    quantity intNOT <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">1</span>,</span><br><span class="line">    item _price decima1(<span class="number">8</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    PRIMARY <span class="keyword">KEY</span> (order_num，order_item)</span><br><span class="line">)<span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
-<p>quantity列包含订单中每项物品的数 量。在此例子中，给该列的描述添加文本<code>DEFAULT 1</code>指示MySQL，在未<br>给出数量的情况下使用数量1。</p>
+<p>quantity列包含订单中每项物品的数量。在此例子中，给该列的描述添加文本<code>DEFAULT 1</code>指示MySQL，在未给出数量的情况下使用数量1。</p>
 <h3 id="引擎类型"><a href="#引擎类型" class="headerlink" title="引擎类型"></a>引擎类型</h3><p>MySQL有一个具体管理和处理数据的内部引擎。 在你使用CREATE TABLE语句时，该引擎具体创建表，而在你使用<code>SELECT</code> 语句或进行其他数据库处理时，该引擎在内部处理你的请求。多数时候，此引擎都隐藏在DBMS内，不需要过多关注它。</p>
 <p>但MySQL与其他DBMS不一样，它具有多种引擎。它打包多个引擎， 这些引擎都隐藏在MySQL服务器内，全都能执行<code>CREATE TABLE</code>和<code>SELECT</code>等命令。</p>
-<p>当然，你完全可以忽略这些数据库引擎。如果省略<code>ENGINE=</code>语句，则 使用默认引擎。多数SQL语句都会默认使用它。但并 不是所有语句都默认使用它，这就是为什么<code>ENGINE=</code>语句很重要的原因。</p>
+<p>当然，你完全可以忽略这些数据库引擎。如果省略<code>ENGINE=</code>语句，则 使用默认引擎。多数SQL语句都会默认使用它。但并不是所有语句都默认使用它，这就是为什么<code>ENGINE=</code>语句很重要的原因。</p>
 <p>下面是几个引擎：</p>
 <ul>
-<li>InnoDB是一个可靠的事务处理引擎（参见第26章），它不支持全文 本搜索；</li>
+<li>InnoDB是一个可靠的事务处理引擎，它不支持全文本搜索；</li>
 <li>MEMORY在功能等同于MyISAM，但由于数据存储在内存（不是磁盘） 中，速度很快（特别适合于临时表）；</li>
-<li>MyISAM是一个性能极高的引擎，它支持全文本搜索（参见第18章）， 但不支持事务处理。</li>
+<li>MyISAM是一个性能极高的引擎，它支持全文本搜索， 但不支持事务处理。</li>
 </ul>
-<h2 id="更新表"><a href="#更新表" class="headerlink" title="更新表"></a>更新表</h2><p>为更新表定义，可使用ALTER TABLE语句。<strong>但是，理想状态下，当表 中存储数据以后，该表就不应该再被更新。</strong>在表的设计过程中需要花费大量时间来考虑，以便后期不对该表进行大的改动。</p>
+<h2 id="更新表"><a href="#更新表" class="headerlink" title="更新表"></a>更新表</h2><p>为更新表定义，可使用ALTER TABLE语句。<strong>但是，理想状态下，当表中存储数据以后，该表就不应该再被更新。</strong>在表的设计过程中需要花费大量时间来考虑，以便后期不对该表进行大的改动。</p>
 <p>为了使用ALTER TABLE更改表结构，必须给出下面的信息：</p>
 <ul>
 <li>在ALTER TABLE之后给出要更改的表名（该表必须存在，否则将 出错）；</li>
@@ -362,8 +363,8 @@
 <p>2：删除表的一个字段：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="keyword">DROP</span> <span class="keyword">COLUMN</span> vend_phone;</span><br></pre></td></tr></table></figure>
 <p>3：定义外键：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_orderitems_orders</span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (order_num) <span class="keyword">REFERENCES</span> orders (order_num);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_orderitems_products <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (prod_id)<span class="keyword">REFERENCES</span> products (prod_id);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> orders</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_orders_customers <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (cust_id)<span class="keyword">REFERENCES</span> customers (cust_id);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> products</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_products_vendors</span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (vend_id)<span class="keyword">REFERENCES</span> vendors (vend_id);</span><br></pre></td></tr></table></figure>
-<p>这里，由于要更改4个不同的表，使用了4条ALTER TABLE语句。为了 对单个表进行多个更改，可以使用单条ALTER TABLE语句，每个更改用逗号分隔。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_orderitems_orders</span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (order_num) <span class="keyword">REFERENCES</span> orders (order_num);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_orderitems_products </span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (prod_id)<span class="keyword">REFERENCES</span> products (prod_id);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> orders</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_orders_customers </span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (cust_id)<span class="keyword">REFERENCES</span> customers (cust_id);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> products</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> fk_products_vendors</span><br><span class="line"><span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (vend_id)<span class="keyword">REFERENCES</span> vendors (vend_id);</span><br></pre></td></tr></table></figure>
+<p>这里，由于要更改4个不同的表，使用了4条ALTER TABLE语句。为了对单个表进行多个更改，可以使用单条ALTER TABLE语句，每个更改用逗号分隔。</p>
 <h2 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h2><p>使用<code>DROP</code>关键字来删除整个表。</p>
 <p>例如：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> customers;</span><br></pre></td></tr></table></figure>
@@ -473,7 +474,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据插入"><span class="nav-number">1.</span> <span class="nav-text">数据插入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插入完整的行"><span class="nav-number">1.1.</span> <span class="nav-text">插入完整的行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入多行"><span class="nav-number">1.2.</span> <span class="nav-text">插入多行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入检索的数据"><span class="nav-number">1.3.</span> <span class="nav-text">插入检索的数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更新和删除数据"><span class="nav-number">2.</span> <span class="nav-text">更新和删除数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新单列"><span class="nav-number">2.0.1.</span> <span class="nav-text">更新单列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新多列"><span class="nav-number">2.0.2.</span> <span class="nav-text">更新多列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除某个值"><span class="nav-number">2.0.3.</span> <span class="nav-text">删除某个值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除数据"><span class="nav-number">2.1.</span> <span class="nav-text">删除数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新和删除指导"><span class="nav-number">2.2.</span> <span class="nav-text">更新和删除指导</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建和操纵表"><span class="nav-number">3.</span> <span class="nav-text">创建和操纵表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#表的创建"><span class="nav-number">3.1.</span> <span class="nav-text">表的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#表创建基础"><span class="nav-number">3.1.1.</span> <span class="nav-text">表创建基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用NULL值"><span class="nav-number">3.1.2.</span> <span class="nav-text">使用NULL值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用AUTO-INCREMENT"><span class="nav-number">3.1.3.</span> <span class="nav-text">使用AUTO_INCREMENT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定默认值"><span class="nav-number">3.1.4.</span> <span class="nav-text">指定默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引擎类型"><span class="nav-number">3.1.5.</span> <span class="nav-text">引擎类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新表"><span class="nav-number">3.2.</span> <span class="nav-text">更新表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除表"><span class="nav-number">3.3.</span> <span class="nav-text">删除表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重命名表"><span class="nav-number">3.4.</span> <span class="nav-text">重命名表</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8F%92%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">数据插入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%AE%8C%E6%95%B4%E7%9A%84%E8%A1%8C"><span class="nav-number">1.1.</span> <span class="nav-text">插入完整的行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%A4%9A%E8%A1%8C"><span class="nav-number">1.2.</span> <span class="nav-text">插入多行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%A3%80%E7%B4%A2%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">1.3.</span> <span class="nav-text">插入检索的数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%92%8C%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="nav-number">2.</span> <span class="nav-text">更新和删除数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%8D%95%E5%88%97"><span class="nav-number">2.0.1.</span> <span class="nav-text">更新单列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%A4%9A%E5%88%97"><span class="nav-number">2.0.2.</span> <span class="nav-text">更新多列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%9F%90%E4%B8%AA%E5%80%BC"><span class="nav-number">2.0.3.</span> <span class="nav-text">删除某个值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="nav-number">2.1.</span> <span class="nav-text">删除数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%92%8C%E5%88%A0%E9%99%A4%E6%8C%87%E5%AF%BC"><span class="nav-number">2.2.</span> <span class="nav-text">更新和删除指导</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E6%93%8D%E7%BA%B5%E8%A1%A8"><span class="nav-number">3.</span> <span class="nav-text">创建和操纵表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">3.1.</span> <span class="nav-text">表的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E5%88%9B%E5%BB%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">3.1.1.</span> <span class="nav-text">表创建基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8NULL%E5%80%BC"><span class="nav-number">3.1.2.</span> <span class="nav-text">使用NULL值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8AUTO-INCREMENT"><span class="nav-number">3.1.3.</span> <span class="nav-text">使用AUTO_INCREMENT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="nav-number">3.1.4.</span> <span class="nav-text">指定默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E6%93%8E%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.5.</span> <span class="nav-text">引擎类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E8%A1%A8"><span class="nav-number">3.2.</span> <span class="nav-text">更新表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%A1%A8"><span class="nav-number">3.3.</span> <span class="nav-text">删除表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%91%BD%E5%90%8D%E8%A1%A8"><span class="nav-number">3.4.</span> <span class="nav-text">重命名表</span></a></li></ol></li></ol>
     
     </div>
   </aside>
@@ -488,7 +489,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -645,7 +646,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

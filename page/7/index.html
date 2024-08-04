@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/page/7/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Something is going happen if you try to fight for it!">
+<meta property="og:locale">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Life">
 <meta name="twitter:card" content="summary">
@@ -65,7 +66,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -148,27 +149,6 @@
                         } else {
                           imageTag2.style.height = document.body.clientHeight + "px";
                           imageTag2.style.marginLeft = -(document.body.clientHeight * img2.width / img2.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img3" src="https://source.unsplash.com/collection/954550/1920x1080">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img3 = new Image();
-                      var imageTag3 = document.getElementById("carousel-img3");
-                      img3.src = imageTag3.src;
-                      img3.onload=function(){
-                        if (img3.width / img3.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag3.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag3.style.height = document.body.clientHeight + "px";
-                          imageTag3.style.marginLeft = -(document.body.clientHeight * img3.width / img3.height - document.body.clientWidth) / 2 + "px";
                         }
                       };
                   </script>
@@ -261,7 +241,7 @@
   
 
   <div class="intro-navigate">
-      <p class="navigater-list">
+      <div class="navigater-list">
         
           <a id="beautifont" class="main-nav-link" href="/">Home</a>
         
@@ -273,8 +253,27 @@
         
           <a id="beautifont" class="main-nav-link" href="/about">About</a>
         
-        <!-- <a  id="beautifont" class="main-nav-link">
-          <div id="search-form-wrap">
+
+        
+          <div class="main-nav-wrapper">
+            <a id="beautifont" class="main-nav-link" href="/like">Like</a>
+
+            <div class="drop-content">
+              
+                <a id="beautifont" class="main-nav-link" href="/books">Books</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/games">Games</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/songs">Songs</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/movies">Movies</a>
+              
+            </div>
+          </div>
+        
+
+      <!-- <a  id="beautifont" class="main-nav-link">
+        <div id="search-form-wrap">
 
     <form class="search-form">
         <input type="text" class="ins-search-input search-form-input" placeholder="" />
@@ -313,8 +312,8 @@
 
 
 </div>
-        </a> -->
-      </p>
+      </a> -->
+    </div>
   </div>
 
 </header>
@@ -327,7 +326,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-设计模式4-迭代器模式"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-float最全最根本解析"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -335,7 +334,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F4-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">设计模式4-迭代器模式</a>
+      <a class="article-title" href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/">float最全最根本解析</a>
     </h1>
   
 
@@ -343,26 +342,26 @@
     
     <div class="article-meta">
       
-	<a href="/2021/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F4-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-03-01T02:30:22.000Z" itemprop="datePublished">2021-03-01</time>
+	<a href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/" class="article-date">
+	  <time datetime="2021-10-16T12:55:21.000Z" itemprop="datePublished">2021-10-16</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">迭代器模式</a>
+    <a class="article-category-link" href="/categories/CSS/">CSS</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          迭代器模式定义迭代器模式是指提供一种方法顺序访问一个集合对象中的各个元素，而不需要暴露该对象的内部表示。
-遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
-主要解决不需要关心对象内部表示来遍历整个对象。
-内部迭代器内部迭代器是指事先定义好迭代器的迭代规则，他完全接受整个迭代过程，外部只需要一次初始调用。
-实现我们实现一个each内部迭代器，接...
+          前置知识要想真正得用好浮动，以及清除浮动。必须首先要理解几个概念作为前置知识。
+Normal flow （正常流）这个名词在国内一般被翻译为文档流，这个被很多人吐槽，就不再说了。
+这个正常流就是我们HTML初始的流模型。也就是整个文档内，如果你不添加其他属性（浮动和绝对定位）那么整个文档就属于正常流。
+格式化上下文（formatting context）一个格式化上下文（下文称FC）就是一系列相关的元素排布的环境。不同的FC有不同的排布规则。
+正常流中的一个盒子模型，都必然属于一个格式化上...
         </p>
         <p class="article-more-link">
-          <a href="/2021/03/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F4-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/#more">Read More</a>
+          <a href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/#more">Read More</a>
         </p>
       
     </div>
@@ -381,7 +380,7 @@
 
 
   
-    <article id="post-设计模式3-代理模式"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Vue首屏优化全解析"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -389,7 +388,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">设计模式3-代理模式</a>
+      <a class="article-title" href="/2021/10/16/Vue%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E5%85%A8%E8%A7%A3%E6%9E%90/">Vue首屏优化全解析</a>
     </h1>
   
 
@@ -397,26 +396,26 @@
     
     <div class="article-meta">
       
-	<a href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-02-27T06:32:20.000Z" itemprop="datePublished">2021-02-27</time>
+	<a href="/2021/10/16/Vue%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E5%85%A8%E8%A7%A3%E6%9E%90/" class="article-date">
+	  <time datetime="2021-10-16T07:00:24.000Z" itemprop="datePublished">2021-10-16</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          代理模式定义当目标对象不方便直接访问或者访问者不满住要求的时候，提供一个代理对象来控制对目标对象的访问。访问者实际上访问的是代理对象。代理对象对请求做出一些处理之后，再把请求转交给目标对象。
-主要解决在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有些对象由于某些原因（比如对象创建开销很大，或者某些操作需要安全控制，或者需要进程外的访问），直接访问会给使用者或者系统结构带来很多麻烦，我们可以在访问此对象时加上一个对此对象的访问层。
-优缺点优点
-职责清晰。
-...
+          Vue首屏优化全解析打开GZIP直接打包称为xxx.gz文件在前端打包过程中即生成gz文件可以减少部署服务器的打包过程，可以减少服务器的性能压力，提高响应时间。
+使用webpack插件CompressionWebpackPlugin来实现gzip打包。
+在vue项目根目录新建webpack.config.js来增加webpack配置。
+下面是一个基本配置，具体详细见其文档。
+123456789101112131415161718192021222324252627282930const C...
         </p>
         <p class="article-more-link">
-          <a href="/2021/02/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F3-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/#more">Read More</a>
+          <a href="/2021/10/16/Vue%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E5%85%A8%E8%A7%A3%E6%9E%90/#more">Read More</a>
         </p>
       
     </div>
@@ -435,7 +434,7 @@
 
 
   
-    <article id="post-设计模式2-策略模式"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-基于java的脚本语言hair的开发思路3-执行"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -443,7 +442,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">设计模式2-策略模式</a>
+      <a class="article-title" href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/">基于java的脚本语言hair的开发思路3-执行</a>
     </h1>
   
 
@@ -451,26 +450,25 @@
     
     <div class="article-meta">
       
-	<a href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-02-24T01:55:03.000Z" itemprop="datePublished">2021-02-24</time>
+	<a href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/" class="article-date">
+	  <time datetime="2021-09-30T13:15:30.000Z" itemprop="datePublished">2021-09-30</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+    <a class="article-category-link" href="/categories/hair/">hair</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          策略模式定义定义一系列的算法，把它们一个个封装起来，并且使他们可以相互替换。
-主要解决在多种算法相似的情况下，使用 if…else 所带来的复杂和难以维护的问题。
-奖金的例子很多公司的年终奖的是根据员工的工资基数和年底绩效情况来发放的。例如，绩效为S的员工年终奖有4倍工资，绩效为A的员工年终奖有3倍工资，绩效为B的员工年终奖有2倍工资。假如需要一段代码来计算对应员工的年终奖。
-最基础写法我们直观想到的就是用if...else或者switch...case的方法来写。如下
-123456789...
+          执行经过上面的操作，我们已经根据程序生成了一个抽象语法树。此时我们需要让程序达到其预期的结果。即需要我们翻译为Java可执行的代码。实际上执行的过程很简单，既然我们已经生成了抽象语法树。我们只需要将每个节点的结果得到，最后得到根节点的结果，即为该程序的结果。所以这实际上也是一个树的遍历工作，从左边的叶节点开始遍历。依次得到上层的非叶节点的值。
+针对不同的节点，我们的实现方法不同，但是我们都将其定义为eval方法，意为evaluate，即得到结果。
+下面简单介绍几种类型的节点的实现：
+实现基...
         </p>
         <p class="article-more-link">
-          <a href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F2-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/#more">Read More</a>
+          <a href="/2021/09/30/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF3-%E6%89%A7%E8%A1%8C/#more">Read More</a>
         </p>
       
     </div>
@@ -489,7 +487,7 @@
 
 
   
-    <article id="post-设计模式1-单例模式"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-基于java的脚本语言hair的开发思路2-语法分析"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -497,7 +495,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F1-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">设计模式1-单例模式</a>
+      <a class="article-title" href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/">基于java的脚本语言hair的开发思路2-语法分析</a>
     </h1>
   
 
@@ -505,25 +503,27 @@
     
     <div class="article-meta">
       
-	<a href="/2021/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F1-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2021-02-22T02:19:56.000Z" itemprop="datePublished">2021-02-22</time>
+	<a href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/" class="article-date">
+	  <time datetime="2021-09-26T07:42:25.000Z" itemprop="datePublished">2021-09-26</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+    <a class="article-category-link" href="/categories/hair/">hair</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          设计模式最近在写Vue插件，发现自己通过直观想法写的东西总是与别人的插件有一定的差距。我也明白别人的库中用了一种或多种设计模式，使代码结构更加恰当等等。之前就说要学习一下设计模式，被搁置到现在，现在买了《JavaScript设计模式与开发实践》，后面会陆续将自己的学习过程通过博客记录。
-单例模式定义保证一个类仅有一个实例，并提供一个访问它的全局访问点。
-描述单例模式是一种常用的模式，有一些对象我们往往只需要一个，比如线程池、全局缓存、浏览器中的window对象。
-实现传统单例模式JavaS...
+          语法分析在经过上一步的词法分析之后，我们已经将程序字符串分以上三种token。要想让程序运行起来，我们还必须将其构造为抽象语法树(Abstract Syntax Tree)。
+它是用来表示程序结构的树形结构。其中树的节点也分为不同的类型。
+具体的树节点类型后面介绍。
+在我们得到AST之后，想要得到结果，就很简单了：我们只需要自底而上活得每个树节点的对应的值。其根节点的值就是最终的程序结果。
+所以问题的关键是如何通过token队列来获得AST。这里我们首先引入BNF的概念。
+BNFBNF即巴...
         </p>
         <p class="article-more-link">
-          <a href="/2021/02/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F1-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/#more">Read More</a>
+          <a href="/2021/09/26/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF2-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90/#more">Read More</a>
         </p>
       
     </div>
@@ -542,7 +542,7 @@
 
 
   
-    <article id="post-JavaScript中的模块导入导出"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-基于java的脚本语言hair的开发思路1-词法分析"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -550,7 +550,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/14/JavaScript%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/">JavaScript中的模块导入导出</a>
+      <a class="article-title" href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/">基于java的脚本语言hair的开发思路1-词法分析</a>
     </h1>
   
 
@@ -558,25 +558,25 @@
     
     <div class="article-meta">
       
-	<a href="/2021/02/14/JavaScript%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/" class="article-date">
-	  <time datetime="2021-02-14T10:47:09.000Z" itemprop="datePublished">2021-02-14</time>
+	<a href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" class="article-date">
+	  <time datetime="2021-09-21T07:23:07.000Z" itemprop="datePublished">2021-09-21</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+    <a class="article-category-link" href="/categories/hair/">hair</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          模块的概念
-（Modular design）　所谓的模块化设计，简单地说就是将产品的某些要素组合在一起，构成一个具有特定功能的子系统，将这个子系统作为通用性的模块与其他产品要素进行多种组合，构成新的系统，产生多种不同功能或相同功能、不同性能的系列产品。
-
-这是在整个设计行业对模块化的定义。对于编程语言中的模块化设计，其基本思路就是将有相同功能的部分代码封装在一起，形成一个通用的，可复用的模块，使之在其它系统中可以重复利用，并不会对模块内部产生影响。所以设计模式中模块化设计的三大特征也要遵循...
+          申明：本脚本语言前面的开发思路基本是《两周自制脚本语言》中Stone语言的模型，后期将逐渐分离，添加更多特征。这本书作为入门读物确实不错，但是其设计规范还是有待商榷，一是没有给出一个确定的项目架构、二是部分的结构的成分不够规范（比如token的定义，运算优先级的处理等）。
+词法分析一个程序片段被编译器解析的时候是一个很长的字符串。我们的目标是通过一定的手段分析将这个字符串分开来。
+而这个被分割后的子字符串我们一般称为Token，Token有很多类型。在V8中定义的部分代码如下：
+12345...
         </p>
         <p class="article-more-link">
-          <a href="/2021/02/14/JavaScript%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/#more">Read More</a>
+          <a href="/2021/09/21/%E5%9F%BA%E4%BA%8Ejava%E7%9A%84%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80hair%E7%9A%84%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF1-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/#more">Read More</a>
         </p>
       
     </div>
@@ -595,7 +595,7 @@
 
 
   
-    <article id="post-Fetch方法的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-java的正则表达式"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -603,7 +603,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/13/Fetch%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/">Fetch方法的使用</a>
+      <a class="article-title" href="/2021/09/19/java%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">java的正则表达式</a>
     </h1>
   
 
@@ -611,25 +611,24 @@
     
     <div class="article-meta">
       
-	<a href="/2021/02/13/Fetch%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
-	  <time datetime="2021-02-13T06:16:24.000Z" itemprop="datePublished">2021-02-13</time>
+	<a href="/2021/09/19/java%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="article-date">
+	  <time datetime="2021-09-19T01:00:40.000Z" itemprop="datePublished">2021-09-19</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Fetch/">Fetch</a>
+    <a class="article-category-link" href="/categories/java/">java</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          介绍Fetch是基于Promise开发的用于访问和操纵 HTTP 管道的一个API。其提供了一个全局 fetch()方法，该方法提供了一种简单，合理的方式来跨网络异步获取资源。
-以前浏览器中的网络请求只能通过XMLHttpRequest实现（虽然大多使用的是封装过后的接口）。而Fetch则结合Promise提供了一种更加简化的发送网络请求的方式（其调用方法与axiso相似）。
-用法Fetch()方法Fetch接受两个参数：
-Promise&lt;Response&gt; fetch(inp...
+          APIPattern类pattern 对象是一个正则表达式的编译表示。Pattern 类没有公共构造方法。要创建一个 Pattern 对象，你必须首先调用其公共静态编译方法，它返回一个 Pattern 对象。该方法接受一个正则表达式作为它的第一个参数。
+示例12private String regexPat = "\\abc"private Pattern pattern = Pattern.compile(regexPat);
+Matcher 类Matcher 对象是对输入字符串进行解释...
         </p>
         <p class="article-more-link">
-          <a href="/2021/02/13/Fetch%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
+          <a href="/2021/09/19/java%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">Read More</a>
         </p>
       
     </div>
@@ -648,7 +647,7 @@ Promise&lt;Response&gt; fetch(inp...
 
 
   
-    <article id="post-about跨域"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Tensorflow2-0-data模块的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -656,7 +655,7 @@ Promise&lt;Response&gt; fetch(inp...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/09/about%E8%B7%A8%E5%9F%9F/">about跨域</a>
+      <a class="article-title" href="/2021/09/04/Tensorflow2-0-data%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/">Tensorflow2.0-data模块的使用</a>
     </h1>
   
 
@@ -664,29 +663,27 @@ Promise&lt;Response&gt; fetch(inp...
     
     <div class="article-meta">
       
-	<a href="/2021/02/09/about%E8%B7%A8%E5%9F%9F/" class="article-date">
-	  <time datetime="2021-02-09T14:29:31.000Z" itemprop="datePublished">2021-02-09</time>
+	<a href="/2021/09/04/Tensorflow2-0-data%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2021-09-04T12:06:03.000Z" itemprop="datePublished">2021-09-04</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/%E9%80%9A%E4%BF%A1/">通信</a>
+    <a class="article-category-link" href="/categories/Tensorflow/">Tensorflow</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          域的概念域（Domain）作为计算机网络中一个重要的概念，其阐述的是：网络中一组计算机的逻辑集合，是活动目录中的核心单元、是活动目录的分区。其有以下特点：
-
-域定义了安全边界，每个域均有各自的安全策略以及与其它域的信任关系，在没有授权的情况下，不允许其他域中的用户访问本域中的资源。
-
-中可以存储上百万个对象，不同的域之间具有层次关系，可以建立域树或域林，以便于域的扩展。域树通常由一个或多个共享连续的名称空间的域组合而成，其中第一个域称作根域，其他域称为子域，如图。
-
-
-域林通常由一个或多个...
+          Tensorflow-dataTesorflow官方提供了一些数据集来供我们使用。其地址为Tensorflow-data，我们可以在这里查看数据集的详细细节Tensorflow-data-catalog。
+其API地址为API。
+简单使用Tensorflow-data有137个API，一般不会全部使用。我们需要了解的第一个API是：
+tfds.load：从本地或网络载入数据集，并生成tf.data.Dataset对象。
+其基本形式为：
+1234567891011121314151617tf...
         </p>
         <p class="article-more-link">
-          <a href="/2021/02/09/about%E8%B7%A8%E5%9F%9F/#more">Read More</a>
+          <a href="/2021/09/04/Tensorflow2-0-data%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
         </p>
       
     </div>
@@ -705,7 +702,7 @@ Promise&lt;Response&gt; fetch(inp...
 
 
   
-    <article id="post-JavaScript宏任务，微任务与Event-loop"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-西瓜书总结3-线性模型"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -713,7 +710,7 @@ Promise&lt;Response&gt; fetch(inp...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/">JavaScript宏任务，微任务与Event-loop</a>
+      <a class="article-title" href="/2021/09/02/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%933-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/">西瓜书总结3-线性模型</a>
     </h1>
   
 
@@ -721,30 +718,30 @@ Promise&lt;Response&gt; fetch(inp...
     
     <div class="article-meta">
       
-	<a href="/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/" class="article-date">
-	  <time datetime="2021-02-09T10:47:09.000Z" itemprop="datePublished">2021-02-09</time>
+	<a href="/2021/09/02/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%933-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" class="article-date">
+	  <time datetime="2021-09-02T14:30:41.000Z" itemprop="datePublished">2021-09-02</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaScrit/">JavaScrit</a>
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          浏览器进程（chrome）chrome中有5个主要进程：
+          基本形式线性模型（linear model）顾名思义即通过线性函数来进行预测的模型。
+大部分机器学习算法的本质都是寻找一个函数来将输入进行处理得到预测结果。这里最简单的线性模型是这样，最复杂的神经网络模型也是如此。
 
-浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。
-UI Thread：负责浏览器按钮、地址栏。
-storage Thread：负责文件访问。
-
-
-渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。
-Main Thread ：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样式计算 -&gt; 构建布局树 -&gt; ...
+线性模型的一般形式为：
+f(x) = w1x1+w1x1+…+wdxd+b
+向量形式则为：
+f(x) = wTx + b
+其中w = (w1; w1; …;wd;)， w和b学得之后，模型就得以确定。
+线性模型形式简单、易于构造，但却蕴含着机器学习中一些重要的思想。许多更为强...
         </p>
         <p class="article-more-link">
-          <a href="/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/#more">Read More</a>
+          <a href="/2021/09/02/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%933-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/#more">Read More</a>
         </p>
       
     </div>
@@ -763,7 +760,7 @@ Main Thread ：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样
 
 
   
-    <article id="post-Promise的实现"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-西瓜书总结2-模型评估与选择"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -771,7 +768,7 @@ Main Thread ：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/">Promise的实现</a>
+      <a class="article-title" href="/2021/08/30/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%932-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/">西瓜书总结2-模型评估与选择</a>
     </h1>
   
 
@@ -779,42 +776,29 @@ Main Thread ：构建dom树 -&gt; 加载资源 -&gt; js下载与执行 -&gt; 样
     
     <div class="article-meta">
       
-	<a href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="article-date">
-	  <time datetime="2021-02-04T05:03:48.000Z" itemprop="datePublished">2021-02-04</time>
+	<a href="/2021/08/30/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%932-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/" class="article-date">
+	  <time datetime="2021-08-30T11:27:49.000Z" itemprop="datePublished">2021-08-30</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          前面已经写过一篇文章来理解Promise及其使用方法，这里尝试来模拟Promise。
-要求根据Promise/A+原理，有以下几个点需要遵守：
-
-Promise有一个Promise States，其有三种状态：
-
-pending：初始状态，可以转化为fulfilled，rejected。
-fulfilled：
-需要一个value作为结果。
-不能转化为其他状态。
-
-
-rejected：
-需要一个reason作为一个原因。
-不能转化为其他状态。
-
-
-
-
-必须要一个then方法，接受两个参数
-
-...
+          经验误差与过拟合概念错误率：分类错误的样本数占样本总数的比例。
+精度：1 - 错误率。
+训练误差（经验误差）：学习器在训练集上的误差。
+泛化误差：学习器在新样本上的误差。
+过拟合：把训练样本自身的一些特点当作了所有潜在样本都具有的一般特征。一般无法彻底避免，只能缓解。
+欠拟合：与过拟合相反，即对训练样本的一般性质未学习好。
+评估方法留出法留出法（hold-out）直接将数据集D划分为两个互斥的集合，其中一个集合用作训练集S，另一个作为测试集T。即D=S∪T，S∩T=Ø。
+其缺点在于少了一部...
         </p>
         <p class="article-more-link">
-          <a href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/#more">Read More</a>
+          <a href="/2021/08/30/%E8%A5%BF%E7%93%9C%E4%B9%A6%E6%80%BB%E7%BB%932-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/#more">Read More</a>
         </p>
       
     </div>
@@ -833,7 +817,7 @@ rejected：
 
 
   
-    <article id="post-全面理解JavaScript作用域与闭包"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-聚类的几种算法简述"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -841,7 +825,7 @@ rejected：
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/">全面理解JavaScript作用域与闭包</a>
+      <a class="article-title" href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/">聚类的几种算法简述</a>
     </h1>
   
 
@@ -849,32 +833,28 @@ rejected：
     
     <div class="article-meta">
       
-	<a href="/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/" class="article-date">
-	  <time datetime="2021-01-31T09:26:46.000Z" itemprop="datePublished">2021-01-31</time>
+	<a href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/" class="article-date">
+	  <time datetime="2021-08-11T15:40:33.000Z" itemprop="datePublished">2021-08-11</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+    <a class="article-category-link" href="/categories/%E8%81%9A%E7%B1%BB/">聚类</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          作用域pre：块语句块语句（或其他语言的复合语句）用于组合零个或多个语句。该块由一对大括号界定，可以是labelled：
-块语句会生成一个块级作用域，生成块级作用域包含两种方法：
+          聚类聚类是无监督学习中应用最广泛的算法。聚类会将数据集中的样本划分为若干个不同的子集，每个子集称为一个簇。
+原型聚类原型聚类假设聚类结构能通过一组原型刻画。通常情况下，该类算法先对原型进行初始化，然后对原型进行迭代更新求解。
+k均值算法（k-means）该算法的目的是最小化每个簇中每个样本到对应原型的距离。
+但是直接求解的话会是一个NP难问题，较难求解，因此我们仍然采用迭代更新的贪心算法来求解可能的最近似解。值得注意的是，这样并不一定能求得最优解。
+其算法大致思想如下：
 
-使用任意声明符号（’’, var,let,const）在函数中会生成一个块级作用域。
-
-使用let,const在任何块语句中生成一个块级作用域。
-注意：var在非函数的块语句中不会生成一个块级作用域。
-
-
-介绍中都会使用var来进行举例，在变量声明中会对let和const进行说明。
-介绍变量的简单说作用域就是在...
+初始化簇的数目K...
         </p>
         <p class="article-more-link">
-          <a href="/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/#more">Read More</a>
+          <a href="/2021/08/11/%E8%81%9A%E7%B1%BB%E7%9A%84%E5%87%A0%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AE%80%E8%BF%B0/#more">Read More</a>
         </p>
       
     </div>
@@ -897,7 +877,7 @@ rejected：
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -912,7 +892,7 @@ rejected：
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -1069,7 +1049,7 @@ rejected：
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

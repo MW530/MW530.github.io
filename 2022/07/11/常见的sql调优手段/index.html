@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>常见的sql调优手段 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="SQL调优" />
+  
+  
+  
+  
+  <meta name="description" content="常见手段1. limit分页优化当偏移量特别大时，limit效率会非常低。 比如： SELECT id FROM A LIMIT 1000,10   很快 SELECT id FROM A LIMIT 90000,10 很慢 方案一：结合order by使用。 1select id from A order by id limit 90000,10; 其原理在于order by会调用索引，所以速度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见的sql调优手段">
+<meta property="og:url" content="http://yoursite.com/2022/07/11/%E5%B8%B8%E8%A7%81%E7%9A%84sql%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="常见手段1. limit分页优化当偏移量特别大时，limit效率会非常低。 比如： SELECT id FROM A LIMIT 1000,10   很快 SELECT id FROM A LIMIT 90000,10 很慢 方案一：结合order by使用。 1select id from A order by id limit 90000,10; 其原理在于order by会调用索引，所以速度">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/%E5%B8%B8%E8%A7%81%E7%9A%84sql%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5/%%E6%97%A0%E7%B4%A2%E5%BC%95.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E5%B8%B8%E8%A7%81%E7%9A%84sql%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5/%%E6%9C%89%E7%B4%A2%E5%BC%95.jpg">
+<meta property="article:published_time" content="2022-07-11T08:59:25.000Z">
+<meta property="article:modified_time" content="2022-07-11T12:31:43.855Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="调优">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/%E5%B8%B8%E8%A7%81%E7%9A%84sql%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5/%%E6%97%A0%E7%B4%A2%E5%BC%95.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-常见的sql调优手段" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      常见的sql调优手段
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/07/11/%E5%B8%B8%E8%A7%81%E7%9A%84sql%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5/" class="article-date">
+	  <time datetime="2022-07-11T08:59:25.000Z" itemprop="datePublished">2022-07-11</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/SQL/">SQL</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="常见手段"><a href="#常见手段" class="headerlink" title="常见手段"></a>常见手段</h1><h2 id="1-limit分页优化"><a href="#1-limit分页优化" class="headerlink" title="1. limit分页优化"></a>1. limit分页优化</h2><p>当偏移量特别大时，limit效率会非常低。</p>
+<p>比如：</p>
+<p><strong>SELECT id FROM A LIMIT 1000,10   很快</strong></p>
+<p>SELECT id FROM A LIMIT 90000,10 很慢</p>
+<p><strong>方案一</strong>：结合<code>order by</code>使用。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> A <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">id</span> <span class="keyword">limit</span> <span class="number">90000</span>,<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<p>其原理在于<code>order by</code>会调用索引，所以速度会快的多。</p>
+<p><strong>方案二</strong>：结合<code>between...and...</code>，缩小检索范围。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> A <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">id</span>  <span class="keyword">between</span> <span class="number">90000</span> <span class="keyword">and</span> <span class="number">90010</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="2-利用limit-1-（MySQL）、top-1（SQL-Server）-取得一行"><a href="#2-利用limit-1-（MySQL）、top-1（SQL-Server）-取得一行" class="headerlink" title="2.利用limit 1 （MySQL）、top 1（SQL Server） 取得一行"></a>2.利用limit 1 （MySQL）、top 1（SQL Server） 取得一行</h2><p>有些业务逻辑进行查询操作时(特别是在根据某一字段DESC,取最大一笔)。可以使用limit 1 或者 top 1 来终止[数据库索引]继续扫描整个表或索引。</p>
+<p>反例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">LIKE</span> <span class="string">'abc%'</span></span><br></pre></td></tr></table></figure>
+<p>正例：limit</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">LIKE</span> <span class="string">'abc%'</span> <span class="keyword">limit</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-任何情况都不要用-select-from-table-，用具体的字段列表替换”“，不要返回用不到的字段-避免全盘扫描！"><a href="#3-任何情况都不要用-select-from-table-，用具体的字段列表替换”“，不要返回用不到的字段-避免全盘扫描！" class="headerlink" title="3. 任何情况都不要用 select  from table ，用具体的字段列表替换”“，不要返回用不到的字段,避免全盘扫描！"></a>3. 任何情况都不要用 select <em> from table ，用具体的字段列表替换”</em>“，不要返回用不到的字段,避免全盘扫描！</h2><p>反例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> A</span><br></pre></td></tr></table></figure>
+<p>正例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A</span><br></pre></td></tr></table></figure>
+<p>但是值得注意的是：MyISAM引擎在计算<code>COUNT(*)</code>全表时会很快。</p>
+<h2 id="4-批量插入优化"><a href="#4-批量插入优化" class="headerlink" title="4. 批量插入优化"></a>4. 批量插入优化</h2><p>反例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">into</span> person(<span class="keyword">name</span>,age) <span class="keyword">values</span>(<span class="string">'A'</span>,<span class="number">24</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">into</span> person(<span class="keyword">name</span>,age) <span class="keyword">values</span>(<span class="string">'B'</span>,<span class="number">24</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">into</span> person(<span class="keyword">name</span>,age) <span class="keyword">values</span>(<span class="string">'C'</span>,<span class="number">24</span>)</span><br></pre></td></tr></table></figure>
+<p>正例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">into</span> person(<span class="keyword">name</span>,age) <span class="keyword">values</span>(<span class="string">'A'</span>,<span class="number">24</span>),(<span class="string">'B'</span>,<span class="number">24</span>),(<span class="string">'C'</span>,<span class="number">24</span>),</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>sql语句的优化主要在于对索引的正确使用，而我们在开发中经常犯的错误便是对表进行全盘扫描，一来影响性能，而来耗费时间!</p>
+</blockquote>
+<h2 id="5-like语句的优化"><a href="#5-like语句的优化" class="headerlink" title="5.like语句的优化"></a>5.like语句的优化</h2><p>反例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%abc%'</span></span><br></pre></td></tr></table></figure>
+<p>由于abc前面用了“%”，因此该查询必然走全表查询,除非必要(模糊查询需要包含abc)，否则不要在关键词前加%</p>
+<p>正例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'abc%'</span></span><br></pre></td></tr></table></figure>
+<p><strong>实例</strong></p>
+<p>mysql版本：5.7.26</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> nick_name <span class="keyword">from</span> <span class="keyword">member</span> <span class="keyword">where</span> nick_name <span class="keyword">like</span> <span class="string">'%小明%'</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/常见的sql调优手段/%无索引.jpg" alt="%无索引"></p>
+<p><strong>like’%小明%’</strong> 并未使用索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> nick_name <span class="keyword">from</span> <span class="keyword">member</span> <span class="keyword">where</span> nick_name <span class="keyword">like</span> <span class="string">'小明%'</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/常见的sql调优手段/%有索引.jpg" alt="%有索引"></p>
+<p><strong>like’小明%’</strong> 成功使用索引。</p>
+<h2 id="6-where子句使用or的优化"><a href="#6-where子句使用or的优化" class="headerlink" title="6.where子句使用or的优化"></a>6.where子句使用or的优化</h2><p>通常使用 union all 或 union 的方式替换“or”会得到更好的效果。where子句中使用了or关键字,索引将被放弃使用。</p>
+<p>反例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> <span class="keyword">num</span> = <span class="number">10</span> <span class="keyword">or</span> <span class="keyword">num</span> = <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<p>正例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> <span class="keyword">num</span> = <span class="number">10</span> <span class="keyword">union</span> <span class="keyword">all</span> <span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> <span class="keyword">num</span>=<span class="number">20</span></span><br></pre></td></tr></table></figure>
+<h2 id="7-where子句中使用-IS-NULL-或-IS-NOT-NULL-的优化"><a href="#7-where子句中使用-IS-NULL-或-IS-NOT-NULL-的优化" class="headerlink" title="7.where子句中使用 IS NULL 或 IS NOT NULL 的优化"></a>7.where子句中使用 IS NULL 或 IS NOT NULL 的优化</h2><p>反例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> <span class="keyword">num</span> <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+<p>在where子句中使用 IS NULL 或 IS NOT NULL 判断，索引将被放弃使用，会进行全表查询。</p>
+<p>正例</p>
+<p><strong>优化成num上设置默认值0</strong>，确保表中num没有null值, IS NULL 的用法在实际业务场景下SQL使用率极高，我们应注意<strong>避免全表扫描</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> <span class="keyword">num</span>=<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h2 id="8-where子句中对字段进行表达式操作的优化"><a href="#8-where子句中对字段进行表达式操作的优化" class="headerlink" title="8.where子句中对字段进行表达式操作的优化"></a>8.where子句中对字段进行表达式操作的优化</h2><p>不要在where子句中的“=”左边进行函数、算数运算或其他表达式运算，否则系统将可能无法正确使用索引。</p>
+<ul>
+<li><strong>1</strong></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> <span class="keyword">datediff</span>(<span class="keyword">day</span>,createdate,<span class="string">'2019-11-30'</span>)=<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>优化为</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> createdate&gt;=<span class="string">'2019-11-30'</span> <span class="keyword">and</span> createdate&lt;<span class="string">'2019-12-1'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>2</strong></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">WHERE</span> <span class="keyword">year</span>(addate) &lt;<span class="number">2020</span></span><br></pre></td></tr></table></figure>
+<p>优化为</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">FROM</span> A <span class="keyword">where</span> addate&lt;<span class="string">'2020-01-01'</span></span><br></pre></td></tr></table></figure>
+<h2 id="9-排序的索引问题"><a href="#9-排序的索引问题" class="headerlink" title="9. 排序的索引问题 "></a>9. 排序的索引问题 </h2><p>mysql查询只是用一个索引，因此如果where子句中已经使用了索引的话，那么<strong>order by中的列是不会使用索引</strong>。因此数据库默认排序可以符合要求情况下不要使用排序操作；</p>
+<p>尽量不要包含多个列的排序，如果需要最好给这些列创建<strong>复合索引</strong>。</p>
+<h2 id="10-尽量用-union-all-替换-union"><a href="#10-尽量用-union-all-替换-union" class="headerlink" title="10. 尽量用 union all 替换 union"></a>10. 尽量用 union all 替换 union</h2><p>union和union all的差异主要是<strong>前者</strong>需要将两个（或者多个）结果集合并后再进行唯一性过滤操作，这就会涉及到排序，增加大量的cpu运算，加大资源消耗及延迟。所以当我们可以确认不可能出现重复结果集或者不在乎重复结果集的时候，尽量使用union all而不是union</p>
+<h2 id="11-Inner-join-和-left-join、right-join、子查询"><a href="#11-Inner-join-和-left-join、right-join、子查询" class="headerlink" title="11.Inner join 和 left join、right join、子查询"></a>11.Inner join 和 left join、right join、子查询</h2><ul>
+<li>第一：inner join内连接也叫等值连接是，left/rightjoin是外连接。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> A.id,A.name,B.id,B.name <span class="keyword">FROM</span> A <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> B <span class="keyword">ON</span> A.id =B.id;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> A.id,A.name,B.id,B.name <span class="keyword">FROM</span> A <span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> <span class="keyword">ON</span> B A.id= B.id;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> A.id,A.name,B.id,B.name <span class="keyword">FROM</span> A <span class="keyword">INNER</span> <span class="keyword">JOIN</span> <span class="keyword">ON</span> A.id =B.id;</span><br></pre></td></tr></table></figure>
+<p>经过来之多方面的证实 inner join性能比较快，因为inner join是等值连接，或许返回的行数比较少。但是我们要记得有些语句隐形的用到了等值连接，如：</p>
+<p><strong>SELECT A.id,A.name,B.id,B.name FROM A,B WHERE A.id = B.id;</strong></p>
+<p><strong>推荐：能用inner join连接尽量使用inner join连接</strong></p>
+<ul>
+<li>第二：子查询的性能又比外连接性能慢，尽量用外连接来替换子查询。</li>
+</ul>
+<p>反例</p>
+<p>mysql是先对外表A执行全表查询，然后根据uuid逐次执行子查询，如果外层表是一个很大的表，我们可以想象查询性能会表现比这个更加糟糕。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span>* <span class="keyword">from</span> A <span class="keyword">where</span> <span class="keyword">exists</span> (<span class="keyword">select</span> * <span class="keyword">from</span> B <span class="keyword">where</span> <span class="keyword">id</span>&gt;=<span class="number">3000</span> <span class="keyword">and</span> A.uuid=B.uuid);</span><br></pre></td></tr></table></figure>
+<p><strong>执行时间：2s左右</strong></p>
+<p>正例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span>* <span class="keyword">from</span> A <span class="keyword">inner</span> <span class="keyword">join</span> B <span class="keyword">ON</span> A.uuid=B.uuid <span class="keyword">where</span> b.uuid&gt;=<span class="number">3000</span>;  这个语句执行测试不到一秒；</span><br></pre></td></tr></table></figure>
+<p><strong>执行时间：1s不到</strong></p>
+<ul>
+<li>第三：使用JOIN时候，应该用小的结果驱动大的结果</li>
+</ul>
+<p>left join 左边表结果尽量小，如果有条件应该放到左边先处理，right join同理反向。如：</p>
+<p>反例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> * <span class="keyword">from</span> A <span class="keyword">left</span> <span class="keyword">join</span> B A.id=B.ref_id <span class="keyword">where</span>  A.id&gt;<span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p>正例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (<span class="keyword">select</span> * <span class="keyword">from</span> A wehre <span class="keyword">id</span> &gt;<span class="number">10</span>) T1 <span class="keyword">left</span> <span class="keyword">join</span> B <span class="keyword">on</span> T1.id=B.ref_id;</span><br></pre></td></tr></table></figure>
+<h3 id="12-exist-amp-in-优化"><a href="#12-exist-amp-in-优化" class="headerlink" title="12.exist &amp; in 优化"></a>12.exist &amp; in 优化</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">from</span> A <span class="keyword">WHERE</span> <span class="keyword">id</span> <span class="keyword">in</span> ( <span class="keyword">SELECT</span> <span class="keyword">id</span> <span class="keyword">from</span> B )</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">from</span> A <span class="keyword">WHERE</span> <span class="keyword">id</span> <span class="keyword">EXISTS</span> ( <span class="keyword">SELECT</span> <span class="number">1</span> <span class="keyword">from</span> A.id= B.id )</span><br></pre></td></tr></table></figure>
+<h1 id="查询的拆分"><a href="#查询的拆分" class="headerlink" title="查询的拆分"></a>查询的拆分</h1><p>设计查询的时候一个需要考虑的重要问题是，是否需要将一个复杂的查询分成多个简单的查询。在传统实现中，总是强调需要数据库层完成尽可能多的工作，这样做的逻辑在于以前总是认为网络通信、查询解析和优化是一件代价很高的事情。</p>
+<p>但是这样的想法对于MySQL并不适用，对于MySQL，可以适当的拆分（比如需要使用联合查询与子查询的地方）。</p>
+<p>其主要原因有以下几点：</p>
+<ul>
+<li>MySQL从设计上让连接和断开连接都很轻量级，在返回一个小的查询结果方面很高效。</li>
+<li>减少锁的持有时间，比如一个大型的任务，拆分后方便其他任务有时间执行。</li>
+<li>可以有效地利用缓存。许多应用程序可以方便地缓存单表查询对应的结果对象。</li>
+<li>可以减少冗余记录的查询。在应用层做关联查询，意味着对于某条记录应用只需要查询一次，而在数据库中做关联查询，则可能需要重复地访问一部分数据。从这点看，这样的重构还可能会减少网络和内存的消耗。</li>
+</ul>
+<p>比如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tag</span><br><span class="line"><span class="keyword">JOIN</span> tag post <span class="keyword">ON</span> tag post.tag_id=tag.id</span><br><span class="line"><span class="keyword">JOIN</span> post <span class="keyword">ON</span> tag post.post_id post.id</span><br><span class="line"><span class="keyword">WHERE</span> tag.tag <span class="string">'mysql'</span>;</span><br></pre></td></tr></table></figure>
+<p>应该改为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> tag post <span class="keyword">WHERE</span> tag_id=<span class="number">1</span>’;</span><br><span class="line"><span class="keyword">SELECT</span>*<span class="keyword">FROM</span> tag post <span class="keyword">WHERE</span> tag_id=<span class="number">1234</span>;</span><br><span class="line"><span class="keyword">SELECT</span>*<span class="keyword">FROM</span> post <span class="keyword">WHERE</span> post.id <span class="keyword">in</span> (<span class="number">123</span>,<span class="number">456</span>, <span class="number">567</span>,<span class="number">9098</span>,<span class="number">8904</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/07/11/常见的sql调优手段/" target="_blank" title="常见的sql调优手段">http://yoursite.com/2022/07/11/常见的sql调优手段/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/09/23/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A01-PCANet-A-Simple-Deep-Learning-Baseline-for-Image-Classification/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          论文学习1-PCANet.A Simple Deep Learning Baseline for Image Classification
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/04/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Java%E6%96%87%E4%BB%B6%E5%8D%A0%E7%94%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">记录一次Java文件占用的故障排除</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%89%8B%E6%AE%B5"><span class="nav-number">1.</span> <span class="nav-text">常见手段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-limit%E5%88%86%E9%A1%B5%E4%BC%98%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">1. limit分页优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%88%A9%E7%94%A8limit-1-%EF%BC%88MySQL%EF%BC%89%E3%80%81top-1%EF%BC%88SQL-Server%EF%BC%89-%E5%8F%96%E5%BE%97%E4%B8%80%E8%A1%8C"><span class="nav-number">1.2.</span> <span class="nav-text">2.利用limit 1 （MySQL）、top 1（SQL Server） 取得一行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%BB%BB%E4%BD%95%E6%83%85%E5%86%B5%E9%83%BD%E4%B8%8D%E8%A6%81%E7%94%A8-select-from-table-%EF%BC%8C%E7%94%A8%E5%85%B7%E4%BD%93%E7%9A%84%E5%AD%97%E6%AE%B5%E5%88%97%E8%A1%A8%E6%9B%BF%E6%8D%A2%E2%80%9D%E2%80%9C%EF%BC%8C%E4%B8%8D%E8%A6%81%E8%BF%94%E5%9B%9E%E7%94%A8%E4%B8%8D%E5%88%B0%E7%9A%84%E5%AD%97%E6%AE%B5-%E9%81%BF%E5%85%8D%E5%85%A8%E7%9B%98%E6%89%AB%E6%8F%8F%EF%BC%81"><span class="nav-number">1.3.</span> <span class="nav-text">3. 任何情况都不要用 select  from table ，用具体的字段列表替换”“，不要返回用不到的字段,避免全盘扫描！</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E4%BC%98%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">4. 批量插入优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-like%E8%AF%AD%E5%8F%A5%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">1.5.</span> <span class="nav-text">5.like语句的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-where%E5%AD%90%E5%8F%A5%E4%BD%BF%E7%94%A8or%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">1.6.</span> <span class="nav-text">6.where子句使用or的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-where%E5%AD%90%E5%8F%A5%E4%B8%AD%E4%BD%BF%E7%94%A8-IS-NULL-%E6%88%96-IS-NOT-NULL-%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">1.7.</span> <span class="nav-text">7.where子句中使用 IS NULL 或 IS NOT NULL 的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-where%E5%AD%90%E5%8F%A5%E4%B8%AD%E5%AF%B9%E5%AD%97%E6%AE%B5%E8%BF%9B%E8%A1%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">1.8.</span> <span class="nav-text">8.where子句中对字段进行表达式操作的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E6%8E%92%E5%BA%8F%E7%9A%84%E7%B4%A2%E5%BC%95%E9%97%AE%E9%A2%98"><span class="nav-number">1.9.</span> <span class="nav-text">9. 排序的索引问题 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E5%B0%BD%E9%87%8F%E7%94%A8-union-all-%E6%9B%BF%E6%8D%A2-union"><span class="nav-number">1.10.</span> <span class="nav-text">10. 尽量用 union all 替换 union</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-Inner-join-%E5%92%8C-left-join%E3%80%81right-join%E3%80%81%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.11.</span> <span class="nav-text">11.Inner join 和 left join、right join、子查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#12-exist-amp-in-%E4%BC%98%E5%8C%96"><span class="nav-number">1.11.1.</span> <span class="nav-text">12.exist &amp; in 优化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%8B%86%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">查询的拆分</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

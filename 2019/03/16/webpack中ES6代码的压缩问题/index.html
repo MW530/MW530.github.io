@@ -17,6 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/03/16/webpack%E4%B8%ADES6%E4%BB%A3%E7%A0%81%E7%9A%84%E5%8E%8B%E7%BC%A9%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="问题webpack中ES6代码压缩问题： 在使用webpack插件uglifyjs-webpack-plugin压缩JS代码时，发现该插件只能压缩ES5-的代码，遇到ES6，就会报错ERROR in xxx.js from UglifyJs,遂查找解决办法。">
+<meta property="og:locale">
 <meta property="article:published_time" content="2019-03-16T03:06:14.000Z">
 <meta property="article:modified_time" content="2019-03-17T14:19:55.978Z">
 <meta property="article:author" content="Michael Wang">
@@ -75,7 +76,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -410,7 +411,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原理解决办法"><span class="nav-number">2.</span> <span class="nav-text">原理解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决办法"><span class="nav-number">2.2.</span> <span class="nav-text">解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-不使用ES6语法"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 不使用ES6语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用babel-loader将ES6转化为ES5代码"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 使用babel-loader将ES6转化为ES5代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-使用uglifyes-webpack-plugin插件"><span class="nav-number">2.2.3.</span> <span class="nav-text">3.使用uglifyes-webpack-plugin插件</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">原理解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%B8%8D%E4%BD%BF%E7%94%A8ES6%E8%AF%AD%E6%B3%95"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 不使用ES6语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BD%BF%E7%94%A8babel-loader%E5%B0%86ES6%E8%BD%AC%E5%8C%96%E4%B8%BAES5%E4%BB%A3%E7%A0%81"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 使用babel-loader将ES6转化为ES5代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8uglifyes-webpack-plugin%E6%8F%92%E4%BB%B6"><span class="nav-number">2.2.3.</span> <span class="nav-text">3.使用uglifyes-webpack-plugin插件</span></a></li></ol></li></ol></li></ol>
     
     </div>
   </aside>
@@ -425,7 +426,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -582,7 +583,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

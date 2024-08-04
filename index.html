@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Something is going happen if you try to fight for it!">
+<meta property="og:locale">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Life">
 <meta name="twitter:card" content="summary">
@@ -65,7 +66,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -148,27 +149,6 @@
                         } else {
                           imageTag2.style.height = document.body.clientHeight + "px";
                           imageTag2.style.marginLeft = -(document.body.clientHeight * img2.width / img2.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img3" src="https://source.unsplash.com/collection/954550/1920x1080">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img3 = new Image();
-                      var imageTag3 = document.getElementById("carousel-img3");
-                      img3.src = imageTag3.src;
-                      img3.onload=function(){
-                        if (img3.width / img3.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag3.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag3.style.height = document.body.clientHeight + "px";
-                          imageTag3.style.marginLeft = -(document.body.clientHeight * img3.width / img3.height - document.body.clientWidth) / 2 + "px";
                         }
                       };
                   </script>
@@ -261,7 +241,7 @@
   
 
   <div class="intro-navigate">
-      <p class="navigater-list">
+      <div class="navigater-list">
         
           <a id="beautifont" class="main-nav-link" href="/">Home</a>
         
@@ -273,8 +253,27 @@
         
           <a id="beautifont" class="main-nav-link" href="/about">About</a>
         
-        <!-- <a  id="beautifont" class="main-nav-link">
-          <div id="search-form-wrap">
+
+        
+          <div class="main-nav-wrapper">
+            <a id="beautifont" class="main-nav-link" href="/like">Like</a>
+
+            <div class="drop-content">
+              
+                <a id="beautifont" class="main-nav-link" href="/books">Books</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/games">Games</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/songs">Songs</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/movies">Movies</a>
+              
+            </div>
+          </div>
+        
+
+      <!-- <a  id="beautifont" class="main-nav-link">
+        <div id="search-form-wrap">
 
     <form class="search-form">
         <input type="text" class="ins-search-input search-form-input" placeholder="" />
@@ -313,8 +312,8 @@
 
 
 </div>
-        </a> -->
-      </p>
+      </a> -->
+    </div>
   </div>
 
 </header>
@@ -327,7 +326,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-Java多线程编程核心技术-5-Timer的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Run-Latent-Diffusion-Model-1-make-it-work-first"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -335,7 +334,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/">Java多线程编程核心技术-5-Timer的使用</a>
+      <a class="article-title" href="/2024/07/30/Run-Latent-Diffusion-Model-1-make-it-work-first/">Run Latent Diffusion Model-1-make it work first</a>
     </h1>
   
 
@@ -343,190 +342,28 @@
     
     <div class="article-meta">
       
-	<a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
-	  <time datetime="2022-04-06T08:31:16.000Z" itemprop="datePublished">2022-04-06</time>
+	<a href="/2024/07/30/Run-Latent-Diffusion-Model-1-make-it-work-first/" class="article-date">
+	  <time datetime="2024-07-30T06:33:10.000Z" itemprop="datePublished">2024-07-30</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          定时器Timer的使用Timer类Timer类的主要作用是设置计划任务，即在指定时间开始执行某一个任务。
-其构造方法如下
-1234567public Timer() &#123;    this("Timer-" + serialNumber());&#125;public Timer(boolean isDaemon) &#123;    this("Timer-" + serialNumber(), isDaemon);&#125;
-即可以自定义该定时器的名称。
-其主要有四个方法：
-
-...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Java多线程编程核心技术-4-Lock对象的使用"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/">Java多线程编程核心技术-4-Lock对象的使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
-	  <time datetime="2022-04-06T02:52:49.000Z" itemprop="datePublished">2022-04-06</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          基本用法Java多线程可以使用synchronized关键字来实现线程间同步，不过JDK 1.5新增加的ReentrantLock类也能达到同样的效果，并且在扩展功能上更加强大，如具有嗅探锁定、多路分支通知等功能。
-ReentrantLock类可以直接new一个ReentranLock。然后再后面的方法中使用该对象的方法来进行同步处理。
-例如：
-1private Lock lock = new ReentrantLock();
-lock()方法lock方法用于锁定当前的ReentrantL...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-4-Lock%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BD%BF%E7%94%A8/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Java多线程编程核心技术-3-线程间通信"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/04/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-3-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">Java多线程编程核心技术-3-线程间通信</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/04/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-3-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" class="article-date">
-	  <time datetime="2022-04-02T02:13:47.000Z" itemprop="datePublished">2022-04-02</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          wait/notify机制不使用wait/notify机制实现线程间通信 之前说过volatile可以实现不同线程的变量的可见性。所以不同线程间通信可以使用volatile变量来进行信息交换。
-示例：
-自定义List类:
-123456789101112package mylist;import java.util.ArrayList;import java.util.List;public class MyList &#123;    volatile private List list ...
-        </p>
-        <p class="article-more-link">
-          <a href="/2022/04/02/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-3-%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-MySQL关键字问题"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/30/MySQL%E5%85%B3%E9%94%AE%E5%AD%97%E9%97%AE%E9%A2%98/">MySQL关键字问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/03/30/MySQL%E5%85%B3%E9%94%AE%E5%AD%97%E9%97%AE%E9%A2%98/" class="article-date">
-	  <time datetime="2022-03-30T07:13:44.000Z" itemprop="datePublished">2022-03-30</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
           
-因为之前排查一个sql错误，看了半天才发现是关键字占用，但是作为属性又没有提示，所以这里记录以下MySQL的所有关键字。
-本来一般的排查方案是将sql复制到UI工具中查看，但是有些UI工具提示并不全（可能是版本问题），比如groups关键字，SQLyog就不会提示。导致一直没有排查出来。
 
-MySQL的关键分为占用或不占用。如果是占用的关键词，那么就不能直接使用。必须添加引号，注意这个引号是 ` ,即英文状态下的波浪号。其他的引号是无法做到消除占用的，包括单引号和双引号。
-如果是不占用的...
+function doDecrypt (pwd, onError) {
+	console.log('in doDecrypt');
+	const txt = document.getElementById('enc_content').innerHTML;
+	let plantext;
+	try {
+		const bytes = CryptoJS.AES.decrypt(txt, pwd);
+		var plaintext = bytes.toString(CryptoJS.enc....
         </p>
         <p class="article-more-link">
-          <a href="/2022/03/30/MySQL%E5%85%B3%E9%94%AE%E5%AD%97%E9%97%AE%E9%A2%98/#more">Read More</a>
+          <a href="/2024/07/30/Run-Latent-Diffusion-Model-1-make-it-work-first/#more">Read More</a>
         </p>
       
     </div>
@@ -545,7 +382,7 @@ MySQL的关键分为占用或不占用。如果是占用的关键词，那么就
 
 
   
-    <article id="post-反射获取私有数据问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-论文学习1-PCANet-A-Simple-Deep-Learning-Baseline-for-Image-Classification"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -553,7 +390,7 @@ MySQL的关键分为占用或不占用。如果是占用的关键词，那么就
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/30/%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE%E9%97%AE%E9%A2%98/">反射获取私有数据问题</a>
+      <a class="article-title" href="/2022/09/23/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A01-PCANet-A-Simple-Deep-Learning-Baseline-for-Image-Classification/">论文学习1-PCANet.A Simple Deep Learning Baseline for Image Classification</a>
     </h1>
   
 
@@ -561,8 +398,130 @@ MySQL的关键分为占用或不占用。如果是占用的关键词，那么就
     
     <div class="article-meta">
       
-	<a href="/2022/03/30/%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE%E9%97%AE%E9%A2%98/" class="article-date">
-	  <time datetime="2022-03-30T07:13:23.000Z" itemprop="datePublished">2022-03-30</time>
+	<a href="/2022/09/23/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A01-PCANet-A-Simple-Deep-Learning-Baseline-for-Image-Classification/" class="article-date">
+	  <time datetime="2022-09-23T02:46:24.000Z" itemprop="datePublished">2022-09-23</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/PCANet/">PCANet</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          结构
+
+在每张图片中选取patch，对patch去除均值。
+
+对这个图片中的patch，进行PCA滤波。
+
+同样再进行一轮PCA滤波。
+
+输出层：对第二层得到图像进行二值化哈希编码，编码位数与第二层的滤波器个数相同。
+公式为：
+　
+　　把原来的图像映射成，0-255，此处一般设置成 8, 函数 H 是一个阶跃函数。, 表示第二层的滤波器个数。
+　　对于第一层的每个输出矩阵，将其分为 B 块，计算统计每个块的直方图信息，然后在将各个块的直方图特征进行级联，最终得到块扩展直方图特征：
+　　
+　...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/09/23/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A01-PCANet-A-Simple-Deep-Learning-Baseline-for-Image-Classification/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-常见的sql调优手段"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/07/11/%E5%B8%B8%E8%A7%81%E7%9A%84sql%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5/">常见的sql调优手段</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/07/11/%E5%B8%B8%E8%A7%81%E7%9A%84sql%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5/" class="article-date">
+	  <time datetime="2022-07-11T08:59:25.000Z" itemprop="datePublished">2022-07-11</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/SQL/">SQL</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          常见手段1. limit分页优化当偏移量特别大时，limit效率会非常低。
+比如：
+SELECT id FROM A LIMIT 1000,10   很快
+SELECT id FROM A LIMIT 90000,10 很慢
+方案一：结合order by使用。
+1select id from A order by id limit 90000,10;
+其原理在于order by会调用索引，所以速度会快的多。
+方案二：结合between...and...，缩小检索范围。
+1select id...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/07/11/%E5%B8%B8%E8%A7%81%E7%9A%84sql%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-记录一次Java文件占用的故障排除"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/07/04/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Java%E6%96%87%E4%BB%B6%E5%8D%A0%E7%94%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/">记录一次Java文件占用的故障排除</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/07/04/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Java%E6%96%87%E4%BB%B6%E5%8D%A0%E7%94%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/" class="article-date">
+	  <time datetime="2022-07-04T07:34:24.000Z" itemprop="datePublished">2022-07-04</time>
 	</a>
 
       
@@ -573,12 +532,26 @@ MySQL的关键分为占用或不占用。如果是占用的关键词，那么就
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          这里记录通过反射访问私有变量并赋值的方法。第一种是最普遍的，可以访问没有公开的私有变量。而后两种似乎有点多余，直接调用方法也行，权当记录一下后两种操作方法吧。
-preUser对象
-1234567891011121314151617181920212223242526272829303132333435363738package reflect;public class User &#123;	private int id;	private String name;	private Stri...
+          起因这个问题是在一个项目中的有一个压缩文件的功能，其服务逻辑比较复杂，如下：
+
+生成压缩文件的路径。
+调用ZipFile进行压缩。
+确保文件夹是否存在，如果不存在就新建。
+看文件是否存在，如果存在就先删除。
+新建ZipFile对象。
+新建ZipParameters对象。
+为zipFile添加文件。
+关闭zipFile文件。
+
+
+为文件生成hash值。
+利用hash值生成新的文件名并重命名。
+
+主要是第4步这里一直不成功，即重命名返回失败。下面就是排查过程
+排除过程文件锁定对于文件的操作失败...
         </p>
         <p class="article-more-link">
-          <a href="/2022/03/30/%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE%E9%97%AE%E9%A2%98/#more">Read More</a>
+          <a href="/2022/07/04/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Java%E6%96%87%E4%BB%B6%E5%8D%A0%E7%94%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/#more">Read More</a>
         </p>
       
     </div>
@@ -597,7 +570,7 @@ preUser对象
 
 
   
-    <article id="post-Java多线程编程核心技术-2-对象及变量的并发访问"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Java中的各种文件压缩、解压方法（更新中~）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -605,7 +578,7 @@ preUser对象
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-2-%E5%AF%B9%E8%B1%A1%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE/">Java多线程编程核心技术-2-对象及变量的并发访问</a>
+      <a class="article-title" href="/2022/07/01/Java%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E3%80%81%E8%A7%A3%E5%8E%8B%E6%96%B9%E6%B3%95%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD~%EF%BC%89/">Java中的各种文件压缩、解压方法（更新中~）</a>
     </h1>
   
 
@@ -613,28 +586,29 @@ preUser对象
     
     <div class="article-meta">
       
-	<a href="/2022/03/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-2-%E5%AF%B9%E8%B1%A1%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE/" class="article-date">
-	  <time datetime="2022-03-30T01:17:31.000Z" itemprop="datePublished">2022-03-30</time>
+	<a href="/2022/07/01/Java%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E3%80%81%E8%A7%A3%E5%8E%8B%E6%96%B9%E6%B3%95%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD~%EF%BC%89/" class="article-date">
+	  <time datetime="2022-07-01T08:08:32.000Z" itemprop="datePublished">2022-07-01</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          在上一篇文章Java多线程编程核心技术-1-多线程技术基础中，提到了共享变量造成的非线程安全问题。
-本文就是为了解决非线程安全的相关问题。
-synchronized同步方法关键字synchronized可用来保障原子性、可见性和有序性。
-但是在学习synchronized之前，我们必须明确一点：
-synchronized锁住的是对象。即使是synchronized方法。
-线程安全问题和解决方案就像前一文中提到的，只有多线程共享的变量才会面临线程安全问题。
-即定义在线程类中并且被多个实例化为...
+          Note：本文的工具都开源在GitHub的JUtils上。
+ZIP压缩zipOutputStream方式压缩这个方式是最基础的方式，是Java底层给出的一种流方案。
+其压缩方式步骤如下：
+
+新建一个ZipOutputStream，其参数接收一个OutputStream，一般是新建一个FileOutputStream。
+循环获取要压缩的文件/文件夹，调用putEntry函数进行流的写入。
+putEntry的过程如下：
+如果是文件夹，则将其设为基础目录，然后递归调用putEntry来压缩该文件...
         </p>
         <p class="article-more-link">
-          <a href="/2022/03/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-2-%E5%AF%B9%E8%B1%A1%E5%8F%8A%E5%8F%98%E9%87%8F%E7%9A%84%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE/#more">Read More</a>
+          <a href="/2022/07/01/Java%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E3%80%81%E8%A7%A3%E5%8E%8B%E6%96%B9%E6%B3%95%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD~%EF%BC%89/#more">Read More</a>
         </p>
       
     </div>
@@ -653,7 +627,7 @@ synchronized锁住的是对象。即使是synchronized方法。
 
 
   
-    <article id="post-Java多线程编程核心技术-1-多线程技术基础"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Spring事务使用以及要点"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -661,7 +635,7 @@ synchronized锁住的是对象。即使是synchronized方法。
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/29/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-1-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/">Java多线程编程核心技术-1-多线程技术基础</a>
+      <a class="article-title" href="/2022/06/22/Spring%E4%BA%8B%E5%8A%A1%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E8%A6%81%E7%82%B9/">Spring事务使用以及要点</a>
     </h1>
   
 
@@ -669,24 +643,30 @@ synchronized锁住的是对象。即使是synchronized方法。
     
     <div class="article-meta">
       
-	<a href="/2022/03/29/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-1-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/" class="article-date">
-	  <time datetime="2022-03-29T04:06:39.000Z" itemprop="datePublished">2022-03-29</time>
+	<a href="/2022/06/22/Spring%E4%BA%8B%E5%8A%A1%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E8%A6%81%E7%82%B9/" class="article-date">
+	  <time datetime="2022-06-22T11:23:05.000Z" itemprop="datePublished">2022-06-22</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/">Java多线程编程核心技术</a>
+    <a class="article-category-link" href="/categories/Sprin/">-Sprin</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          使用多线程Java的JDK实现多线程编程主要有两种方式：一种是继承Thread类，另一种是实现Runnable接口。
-继承Thread类直接继承Thread类，然后重写其run方法就可以得到一个新的线程类。
-12345678public class MyThread extends Thread&#123;        @override    public void run()&#123;        super.run();        System.out.println("M...
+          5种隔离级别MySQL有4种隔离级别：
+
+读未提交内容（read-uncommitted）：
+在该隔离级别中，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。
+该隔离级别会出现的问题是：脏读(Dirty Read)，即读取到了未提交的数据。
+
+读取提交内容（read-committed）
+这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。
+该隔离级别会出现的...
         </p>
         <p class="article-more-link">
-          <a href="/2022/03/29/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-1-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80/#more">Read More</a>
+          <a href="/2022/06/22/Spring%E4%BA%8B%E5%8A%A1%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E8%A6%81%E7%82%B9/#more">Read More</a>
         </p>
       
     </div>
@@ -705,7 +685,7 @@ synchronized锁住的是对象。即使是synchronized方法。
 
 
   
-    <article id="post-hibernate-validator基本使用"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-requestWrapper的用法"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -713,7 +693,7 @@ synchronized锁住的是对象。即使是synchronized方法。
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/28/hibernate-validator%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">hibernate validator基本使用</a>
+      <a class="article-title" href="/2022/06/22/requestWrapper%E7%9A%84%E7%94%A8%E6%B3%95/">requestWrapper的用法</a>
     </h1>
   
 
@@ -721,24 +701,24 @@ synchronized锁住的是对象。即使是synchronized方法。
     
     <div class="article-meta">
       
-	<a href="/2022/03/28/hibernate-validator%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="article-date">
-	  <time datetime="2022-03-28T09:57:42.000Z" itemprop="datePublished">2022-03-28</time>
+	<a href="/2022/06/22/requestWrapper%E7%9A%84%E7%94%A8%E6%B3%95/" class="article-date">
+	  <time datetime="2022-06-22T11:22:39.000Z" itemprop="datePublished">2022-06-22</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/hibernate-validator/">hibernate validator</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          引入Spring-bootspring-boot-starter-web就包含了hibernate validator。
-1234&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;&lt;/dependency&gt;
-spring MVC12345&lt;de...
+          定义requestWrapper实际上是一种装饰器模式的类。该类位于javax.servlet.http下，也是Java官方提供的包，与HttpServletRequest等位于同一个包下。他本身并没有任何功能，其会直接调用包装类的的方法。
+作用该类的主要作用就是提供给开发者一个自定义request的父类。由于其功能是直接调用包装类，所以开发者可以直接继承该类，然后自定义改变原来request中的默认方法。
+为什么不直接实现一个类似的包装类？由于request存在很多的方法，开发者并不知道...
         </p>
         <p class="article-more-link">
-          <a href="/2022/03/28/hibernate-validator%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/#more">Read More</a>
+          <a href="/2022/06/22/requestWrapper%E7%9A%84%E7%94%A8%E6%B3%95/#more">Read More</a>
         </p>
       
     </div>
@@ -757,7 +737,7 @@ spring MVC12345&lt;de...
 
 
   
-    <article id="post-git常见场景与冲突处理"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-SpringMVC参数解析全解与JSON属性分解"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -765,7 +745,7 @@ spring MVC12345&lt;de...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/27/git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%86%B2%E7%AA%81%E5%A4%84%E7%90%86/">git常见场景与冲突处理</a>
+      <a class="article-title" href="/2022/06/21/SpringMVC%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%85%A8%E8%A7%A3%E4%B8%8EJSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3/">SpringMVC参数解析全解与JSON属性分解</a>
     </h1>
   
 
@@ -773,26 +753,33 @@ spring MVC12345&lt;de...
     
     <div class="article-meta">
       
-	<a href="/2022/03/27/git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%86%B2%E7%AA%81%E5%A4%84%E7%90%86/" class="article-date">
-	  <time datetime="2022-03-27T07:51:19.000Z" itemprop="datePublished">2022-03-27</time>
+	<a href="/2022/06/21/SpringMVC%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%85%A8%E8%A7%A3%E4%B8%8EJSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3/" class="article-date">
+	  <time datetime="2022-06-21T02:46:02.000Z" itemprop="datePublished">2022-06-21</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/git/">git</a>
+    <a class="article-category-link" href="/categories/SpringMVC/">SpringMVC</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          常见场景暂存区确认暂存区1234// 增加所有文件到暂存区$ git add .// 增加指定文件到暂存区$ git add [filename]
-撤销暂存区12345// 取消所有最新的暂存区文件$ git reset HEAD .// 取消缓存区最新的指定文件$ git reset HEAD REAMDME.md
-注意该命令的参数HEAD是要被恢复的版本, 一般选择HEAD, 即恢复到最新的HEAD。
-下面撤销commit也使用该命令。
-提交确认提交12// 进行一次提交并附加消息'm...
+          PRE-HTTP请求结构
+实例
+处理函数处理函数可以通过多种方式定义，其最主要还是通过注解方式，即@RequestMapping方式。Spring为不同的HTTP方法提供了简化的注解，分别如下：
+
+@GetMapping
+@PostMapping
+@PutMapping
+@DeleteMapping
+@PatchMapping
+
+另外还可以在WebConfig中手动配置，但这种方法用得不多，这里就不再赘述。
+处理函数接受的参数处理函数由于本质上还是由SpringMVC来调用，因此Sprin...
         </p>
         <p class="article-more-link">
-          <a href="/2022/03/27/git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%86%B2%E7%AA%81%E5%A4%84%E7%90%86/#more">Read More</a>
+          <a href="/2022/06/21/SpringMVC%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%85%A8%E8%A7%A3%E4%B8%8EJSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3/#more">Read More</a>
         </p>
       
     </div>
@@ -811,7 +798,7 @@ spring MVC12345&lt;de...
 
 
   
-    <article id="post-shiro与spring的集成"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-SpringSecurity认证流程梳理"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -819,7 +806,7 @@ spring MVC12345&lt;de...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/">shiro、spring和JWT的集成</a>
+      <a class="article-title" href="/2022/06/02/SpringSecurity%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/">SpringSecurity结构梳理</a>
     </h1>
   
 
@@ -827,25 +814,80 @@ spring MVC12345&lt;de...
     
     <div class="article-meta">
       
-	<a href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/" class="article-date">
-	  <time datetime="2022-03-25T06:44:44.000Z" itemprop="datePublished">2022-03-25</time>
+	<a href="/2022/06/02/SpringSecurity%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/" class="article-date">
+	  <time datetime="2022-06-02T07:44:11.000Z" itemprop="datePublished">2022-06-02</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Shiro/">Shiro</a>
+    <a class="article-category-link" href="/categories/SpringSecurity/">SpringSecurity</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          XML配置1. 配置web.xml
-配置springShiro.xml文件读取
-1234&lt;context-param&gt;  &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;  &lt;param-value&gt;classpath:applicationContext.xml classpath:springShiro.xml&lt;/param-value&gt;&lt;/context-param&gt;
-...
+          整体结构Spring Security整体是基于Servlet的Filter机制。简单来说，其就是将一系列的Filter组合起来，然后建立一定的机制来管理这些Filter；并且为特定的Filter提供一定的配套类来达成一定的功能，比如认证的Filter，CSRF的Filter等。
+下面是对其管理机制的一些简单介绍
+FilterChainServlet的Filter的执行过程，类似于函数的调用过程。
+即当一个请求从客户端发送到Server的时候，在到达对应的Servlet处理之前，都会调用提...
         </p>
         <p class="article-more-link">
-          <a href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/#more">Read More</a>
+          <a href="/2022/06/02/SpringSecurity%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-idea注释模板配置"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/05/24/idea%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF%E9%85%8D%E7%BD%AE/">idea注释模板配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/05/24/idea%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF%E9%85%8D%E7%BD%AE/" class="article-date">
+	  <time datetime="2022-05-24T15:09:30.000Z" itemprop="datePublished">2022-05-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/idea/">idea</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          类头注释settings-&gt;File and Code Templates-&gt;class
+然后在上面填上想要的内容，一个模板如下：
+123456/** * @Auther: MichaelWang * @Date: $&#123;DATE&#125; $&#123;HOUR&#125;:$&#123;MINUTE&#125; * @Description: $&#123;NAME&#125; * @Version 1.0.0 */
+其中内置变量如下：
+
+$[PACKAGE_NA...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/05/24/idea%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF%E9%85%8D%E7%BD%AE/#more">Read More</a>
         </p>
       
     </div>
@@ -868,7 +910,7 @@ spring MVC12345&lt;de...
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -883,7 +925,7 @@ spring MVC12345&lt;de...
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -1040,7 +1082,7 @@ spring MVC12345&lt;de...
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

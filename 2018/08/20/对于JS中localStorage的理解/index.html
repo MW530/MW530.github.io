@@ -17,6 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/08/20/%E5%AF%B9%E4%BA%8EJS%E4%B8%ADlocalStorage%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="前言最近在开发博客的过程中，遇到了数据储存的问题，由于我服务器中还未安装sql，加上我对数据库的操作还不是很熟悉，所以先把数据放入了localStorage中，所以我就具体了解了一下这个本地数据库。 正文前端的存储数据的三种方式前端一般数据存储的方式有三种：  cookies sessionStorage localStorage">
+<meta property="og:locale">
 <meta property="article:published_time" content="2018-08-20T07:13:20.000Z">
 <meta property="article:modified_time" content="2018-08-20T08:36:46.437Z">
 <meta property="article:author" content="Michael Wang">
@@ -74,7 +75,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -368,7 +369,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前端的存储数据的三种方式"><span class="nav-number">2.1.</span> <span class="nav-text">前端的存储数据的三种方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体localStorage的解析"><span class="nav-number">2.2.</span> <span class="nav-text">具体localStorage的解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#localStorage的优势与局限"><span class="nav-number">2.2.1.</span> <span class="nav-text">localStorage的优势与局限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优势"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局限"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">局限</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#localStorage的使用"><span class="nav-number">2.2.2.</span> <span class="nav-text">localStorage的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#判断浏览器是否支持-localStorage属性"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">判断浏览器是否支持 localStorage属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#localStorage的写入"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">localStorage的写入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#localStorage的读取"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">localStorage的读取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#localStorage的删改"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">localStorage的删改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于存储的数据仅为string的解决办法（JSON数据类型转换）"><span class="nav-number">2.2.3.</span> <span class="nav-text">关于存储的数据仅为string的解决办法（JSON数据类型转换）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E7%9A%84%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">前端的存储数据的三种方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93localStorage%E7%9A%84%E8%A7%A3%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text">具体localStorage的解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#localStorage%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8E%E5%B1%80%E9%99%90"><span class="nav-number">2.2.1.</span> <span class="nav-text">localStorage的优势与局限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8A%BF"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%80%E9%99%90"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">局限</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#localStorage%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">2.2.2.</span> <span class="nav-text">localStorage的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%B5%8F%E8%A7%88%E5%99%A8%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81-localStorage%E5%B1%9E%E6%80%A7"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">判断浏览器是否支持 localStorage属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#localStorage%E7%9A%84%E5%86%99%E5%85%A5"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">localStorage的写入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#localStorage%E7%9A%84%E8%AF%BB%E5%8F%96"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">localStorage的读取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#localStorage%E7%9A%84%E5%88%A0%E6%94%B9"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">localStorage的删改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%AD%98%E5%82%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BB%85%E4%B8%BAstring%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%EF%BC%88JSON%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%EF%BC%89"><span class="nav-number">2.2.3.</span> <span class="nav-text">关于存储的数据仅为string的解决办法（JSON数据类型转换）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol>
     
     </div>
   </aside>
@@ -383,7 +384,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -540,7 +541,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

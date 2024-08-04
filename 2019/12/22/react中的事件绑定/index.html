@@ -11,12 +11,13 @@
   
   
   
-  <meta name="description" content="遇到的问题最近想试一下React，之前一直用Vue在写东西。稍微看了几篇教程后，就开始写，能够基本运行起来，可能是因为项目比较简单吧。但是也遇到了几个问题，首先就是React的事件绑定问题： 我第一次的写法是： 12345handleEvent()&amp;#123;	console.log(&quot;test&quot;)&amp;#125;&lt;Button onClick&#x3D;&quot;handleEvent&quot;&gt; &lt;&#x2F;Bu">
+  <meta name="description" content="遇到的问题最近想试一下React，之前一直用Vue在写东西。稍微看了几篇教程后，就开始写，能够基本运行起来，可能是因为项目比较简单吧。但是也遇到了几个问题，首先就是React的事件绑定问题： 我第一次的写法是： 12345handleEvent()&#123;	console.log(&quot;test&quot;)&#125;&lt;Button onClick&#x3D;&quot;handleEvent&quot;&gt; &lt;&#x2F;Bu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="react中的事件绑定">
 <meta property="og:url" content="http://yoursite.com/2019/12/22/react%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="遇到的问题最近想试一下React，之前一直用Vue在写东西。稍微看了几篇教程后，就开始写，能够基本运行起来，可能是因为项目比较简单吧。但是也遇到了几个问题，首先就是React的事件绑定问题： 我第一次的写法是： 12345handleEvent()&amp;#123;	console.log(&quot;test&quot;)&amp;#125;&lt;Button onClick&#x3D;&quot;handleEvent&quot;&gt; &lt;&#x2F;Bu">
+<meta property="og:description" content="遇到的问题最近想试一下React，之前一直用Vue在写东西。稍微看了几篇教程后，就开始写，能够基本运行起来，可能是因为项目比较简单吧。但是也遇到了几个问题，首先就是React的事件绑定问题： 我第一次的写法是： 12345handleEvent()&#123;	console.log(&quot;test&quot;)&#125;&lt;Button onClick&#x3D;&quot;handleEvent&quot;&gt; &lt;&#x2F;Bu">
+<meta property="og:locale">
 <meta property="article:published_time" content="2019-12-22T08:39:36.000Z">
 <meta property="article:modified_time" content="2019-12-22T09:51:52.269Z">
 <meta property="article:author" content="Michael Wang">
@@ -75,7 +76,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -336,11 +337,11 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2020/01/04/2019%E5%B9%B4%E7%9A%84%E6%88%91%EF%BC%8C21%E5%B2%81%E7%9A%84%E4%BA%BA%E7%94%9F/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/01/05/Vue%E4%B8%AD%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%9B%B4%E6%96%B0data%E5%AF%BC%E8%87%B4%E6%95%B0%E6%8D%AE%E5%8F%98%E4%B8%BA%E9%9D%9E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          2019年的我，21岁的人生
+          Vue中异步请求更新data导致数据变为非响应式的问题
         
       </div>
     </a>
@@ -362,7 +363,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#遇到的问题"><span class="nav-number">1.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#this的指向问题"><span class="nav-number">1.1.</span> <span class="nav-text">this的指向问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数传参的问题"><span class="nav-number">1.2.</span> <span class="nav-text">函数传参的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#折腾一下"><span class="nav-number">1.2.1.</span> <span class="nav-text">折腾一下</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取事件对象event"><span class="nav-number">1.3.</span> <span class="nav-text">获取事件对象event</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last"><span class="nav-number">2.</span> <span class="nav-text">Last</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#this%E7%9A%84%E6%8C%87%E5%90%91%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">this的指向问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">函数传参的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%98%E8%85%BE%E4%B8%80%E4%B8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">折腾一下</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1event"><span class="nav-number">1.3.</span> <span class="nav-text">获取事件对象event</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last"><span class="nav-number">2.</span> <span class="nav-text">Last</span></a></li></ol>
     
     </div>
   </aside>
@@ -377,7 +378,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -534,7 +535,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

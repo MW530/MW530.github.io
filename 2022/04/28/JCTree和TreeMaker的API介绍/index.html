@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java编译相关的jctree和treemaker的api介绍 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JCTreeTreeMaker编译" />
+  
+  
+  
+  
+  <meta name="description" content="关于编译原理在文章深入理解JVM3-1-程序编译与代码优化-前端编译与优化中，其中介绍了javac的编译原理。其中简要流程如下：  准备过程：初始化插入式注解处理器。 解析与填充符号表过程 词法、语法分析：将源代码的字符流转变为标记集合，构造出抽象语法树。 填充符号表：产生符号地址和符号信息。   插入式注解处理器的注解处理过程：插入式注解处理器的执行阶段。 分析与字节码生成过程 标注检查：对语法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java编译相关的JCTree和TreeMaker的API介绍">
+<meta property="og:url" content="http://yoursite.com/2022/04/28/JCTree%E5%92%8CTreeMaker%E7%9A%84API%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="关于编译原理在文章深入理解JVM3-1-程序编译与代码优化-前端编译与优化中，其中介绍了javac的编译原理。其中简要流程如下：  准备过程：初始化插入式注解处理器。 解析与填充符号表过程 词法、语法分析：将源代码的字符流转变为标记集合，构造出抽象语法树。 填充符号表：产生符号地址和符号信息。   插入式注解处理器的注解处理过程：插入式注解处理器的执行阶段。 分析与字节码生成过程 标注检查：对语法">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/Java%E7%BC%96%E8%AF%91%E7%9B%B8%E5%85%B3%E7%9A%84JCTree%E5%92%8CTreeMaker%E7%9A%84API%E4%BB%8B%E7%BB%8D/Tree%E7%BB%A7%E6%89%BF%E5%9B%BE.jpg">
+<meta property="article:published_time" content="2022-04-28T14:47:14.000Z">
+<meta property="article:modified_time" content="2022-05-02T13:56:54.061Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="JCTree">
+<meta property="article:tag" content="TreeMaker">
+<meta property="article:tag" content="编译">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/Java%E7%BC%96%E8%AF%91%E7%9B%B8%E5%85%B3%E7%9A%84JCTree%E5%92%8CTreeMaker%E7%9A%84API%E4%BB%8B%E7%BB%8D/Tree%E7%BB%A7%E6%89%BF%E5%9B%BE.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-JCTree和TreeMaker的API介绍" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Java编译相关的JCTree和TreeMaker的API介绍
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/28/JCTree%E5%92%8CTreeMaker%E7%9A%84API%E4%BB%8B%E7%BB%8D/" class="article-date">
+	  <time datetime="2022-04-28T14:47:14.000Z" itemprop="datePublished">2022-04-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E7%BC%96%E8%AF%91/">编译</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="关于编译原理"><a href="#关于编译原理" class="headerlink" title="关于编译原理"></a>关于编译原理</h1><p>在文章<a href="https://www.mw530.cn/2022/04/28/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM3-1-%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E4%B8%8E%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96-%E5%89%8D%E7%AB%AF%E7%BC%96%E8%AF%91%E4%B8%8E%E4%BC%98%E5%8C%96/" target="_blank" rel="noopener">深入理解JVM3-1-程序编译与代码优化-前端编译与优化</a>中，其中介绍了javac的编译原理。其中简要流程如下：</p>
+<ol>
+<li>准备过程：初始化插入式注解处理器。</li>
+<li>解析与填充符号表过程<ol>
+<li>词法、语法分析：将源代码的字符流转变为标记集合，构造出<strong>抽象语法树</strong>。</li>
+<li>填充符号表：产生符号地址和符号信息。</li>
+</ol>
+</li>
+<li>插入式注解处理器的注解处理过程：插入式注解处理器的执行阶段。</li>
+<li>分析与字节码生成过程<ol>
+<li>标注检查：对语法的静态信息进行检查。</li>
+<li>数据流及控制流分析：对程序动态运行过程进行检查。</li>
+<li>解语法糖：将简化代码编写的语法糖还原为原有的形式。</li>
+<li>字节码生成：将前面各个步骤所生成的信息转化成字节码。</li>
+</ol>
+</li>
+</ol>
+<p>而下面的两个API就是关于抽象语法树，javac给出了注释处理器（processAnnotations）可以让我们读取生成的语法树节点，也干预抽象语法树的生成，我们可以在其中进行更改。</p>
+<p><strong>但是首先值得注意的是：下面的两个系类API都是Java私有。并不对外公开，也就是说要使用这些API，必须自行引入。并且要承担其随时改变的风险。</strong></p>
+<h1 id="JCTree"><a href="#JCTree" class="headerlink" title="JCTree"></a>JCTree</h1><p>JCTree是语法树元素的基类。其解析出的所有抽象语法树节点都继承自该节点。但是我们在自定义节点时，值得注意的说，我们并不能直接newJCTree节点。因为树节点总是在一个语境中，有其对应的结构。其中的pos属性就用于代表该节点在该父节点中的位置。所以JCTree的逻辑是，必须用另一组<code>TreeMaker</code>API并依赖父级节点才能进行新建。</p>
+<p>下面介绍JCTree的子类，其包含了所有Java的构成元素。</p>
+<h3 id="常用节点"><a href="#常用节点" class="headerlink" title="常用节点"></a>常用节点</h3><h4 id="AnnotatedTypeTree"><a href="#AnnotatedTypeTree" class="headerlink" title="AnnotatedTypeTree"></a>AnnotatedTypeTree</h4><p>指被注释修饰的<strong>类型</strong>。</p>
+<p>如下面的s和d：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@annotationType</span> String s</span><br><span class="line"><span class="meta">@annotationType</span> ( arguments ) Date d</span><br></pre></td></tr></table></figure>
+<p>其可以用在变量申明中，也可以用在方法参数中。</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="meta">@annotationType</span> <span class="keyword">private</span> String s;</span><br><span class="line">	<span class="meta">@annotationType</span> ( arguments ) <span class="keyword">private</span> Date d;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setS</span><span class="params">(@annotationType String s)</span></span>&#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AnnotationTree"><a href="#AnnotationTree" class="headerlink" title="AnnotationTree"></a>AnnotationTree</h4><p>注释树节点。</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@annotationType</span></span><br><span class="line"><span class="meta">@annotationType</span>(arguments)</span><br></pre></td></tr></table></figure>
+<h4 id="ArrayAccessTree"><a href="#ArrayAccessTree" class="headerlink" title="ArrayAccessTree"></a>ArrayAccessTree</h4><p>数组访问表达式的树节点。</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<h4 id="ArrayTypeTree"><a href="#ArrayTypeTree" class="headerlink" title="ArrayTypeTree"></a>ArrayTypeTree</h4><p>数组类型的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[]</span><br></pre></td></tr></table></figure>
+<h4 id="AssignmentTree"><a href="#AssignmentTree" class="headerlink" title="AssignmentTree"></a>AssignmentTree</h4><p>赋值表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">variable = expression</span><br><span class="line"><span class="keyword">var</span> = <span class="number">123</span></span><br></pre></td></tr></table></figure>
+<h4 id="BinaryTree"><a href="#BinaryTree" class="headerlink" title="BinaryTree"></a>BinaryTree</h4><p>二元表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">leftOperand operator rightOperand</span><br><span class="line"><span class="number">1</span> + <span class="number">2</span></span><br><span class="line"><span class="number">3</span> * <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>#### </p>
+<h4 id="BlockTree"><a href="#BlockTree" class="headerlink" title="BlockTree"></a>BlockTree</h4><p>语句块的树节点（一般指被花括号包围的语句块）。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123; &#125;</span><br><span class="line"></span><br><span class="line">&#123; statements &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> &#123; statements &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="BreakTree"><a href="#BreakTree" class="headerlink" title="BreakTree"></a>BreakTree</h4><p>break语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">break</span> label ;</span><br></pre></td></tr></table></figure>
+<h4 id="CaseTree"><a href="#CaseTree" class="headerlink" title="CaseTree"></a>CaseTree</h4><p>switch语句或表达式中一个case的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> expression :</span><br><span class="line">	statements</span><br><span class="line"></span><br><span class="line"><span class="keyword">default</span> :</span><br><span class="line">	statements</span><br></pre></td></tr></table></figure>
+<h4 id="CatchTree"><a href="#CatchTree" class="headerlink" title="CatchTree"></a>CatchTree</h4><p>try语句中catch块的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">catch</span> ( parameter )</span><br><span class="line">    block</span><br></pre></td></tr></table></figure>
+<h4 id="ClassTree"><a href="#ClassTree" class="headerlink" title="ClassTree"></a>ClassTree</h4><p>类、接口、枚举、记录或注释类型声明的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">modifiers <span class="class"><span class="keyword">class</span> <span class="title">simpleName</span> <span class="title">typeParameters</span></span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">extendsClause</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">implementsClause</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    members</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="CompoundAssignmentTree"><a href="#CompoundAssignmentTree" class="headerlink" title="CompoundAssignmentTree"></a>CompoundAssignmentTree</h4><p>用于<strong>复合赋值</strong>操作符的树节点。使用getKind确定操作符的类型。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">variable operator expression</span><br></pre></td></tr></table></figure>
+<p>注意与简单赋值操作符区别在于操作符不仅仅是<code>=</code>。</p>
+<h4 id="ConditionalExpressionTree"><a href="#ConditionalExpressionTree" class="headerlink" title="ConditionalExpressionTree"></a>ConditionalExpressionTree</h4><p>三目运算符<code>?:</code>的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">condition ? trueExpression : falseExpression</span><br></pre></td></tr></table></figure>
+<h4 id="ContinueTree"><a href="#ContinueTree" class="headerlink" title="ContinueTree"></a>ContinueTree</h4><p>continue语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">continue</span>;</span><br><span class="line"><span class="keyword">continue</span> label ;</span><br></pre></td></tr></table></figure>
+<h4 id="DoWhileLoopTree"><a href="#DoWhileLoopTree" class="headerlink" title="DoWhileLoopTree"></a>DoWhileLoopTree</h4><p><code>do...while</code>语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line">    statement</span><br><span class="line"><span class="keyword">while</span> ( expression );</span><br></pre></td></tr></table></figure>
+<h4 id="EnhancedForLoopTree"><a href="#EnhancedForLoopTree" class="headerlink" title="EnhancedForLoopTree"></a>EnhancedForLoopTree</h4><p>增强for循环语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ( variable : expression )</span><br><span class="line">    statement</span><br></pre></td></tr></table></figure>
+<h4 id="ExpressionStatementTree"><a href="#ExpressionStatementTree" class="headerlink" title="ExpressionStatementTree"></a>ExpressionStatementTree</h4><p>表达式语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expression ;</span><br></pre></td></tr></table></figure>
+<h4 id="ForLoopTree"><a href="#ForLoopTree" class="headerlink" title="ForLoopTree"></a>ForLoopTree</h4><p>基本的for循环语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ( initializer ; condition ; update )</span><br><span class="line">    statement</span><br></pre></td></tr></table></figure>
+<h4 id="IdentifierTree"><a href="#IdentifierTree" class="headerlink" title="IdentifierTree"></a>IdentifierTree</h4><p>标识符表达式的树节点。比较基本的树节点。比如用来在二元表达式中作为操作符左右的变量表示。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name</span><br></pre></td></tr></table></figure>
+<h4 id="IfTree"><a href="#IfTree" class="headerlink" title="IfTree"></a>IfTree</h4><p>if语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( condition )</span><br><span class="line">   thenStatement</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( condition )</span><br><span class="line">    thenStatement</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    elseStatement</span><br></pre></td></tr></table></figure>
+<h4 id="ImportTree"><a href="#ImportTree" class="headerlink" title="ImportTree"></a>ImportTree</h4><p>用于导入声明的树节点。（包括静态import）</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> qualifiedIdentifier ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">import</span> qualifiedIdentifier ;</span><br></pre></td></tr></table></figure>
+<h4 id="InstanceOfTree"><a href="#InstanceOfTree" class="headerlink" title="InstanceOfTree"></a>InstanceOfTree</h4><p>instanceof表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expression <span class="keyword">instanceof</span> type</span><br></pre></td></tr></table></figure>
+<h4 id="LambdaExpressionTree"><a href="#LambdaExpressionTree" class="headerlink" title="LambdaExpressionTree"></a>LambdaExpressionTree</h4><p>lambda表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">()-&gt;&#123;&#125;</span><br><span class="line">(List&lt;String&gt; ls)-&gt;ls.size()</span><br><span class="line">(x,y)-&gt; &#123; <span class="keyword">return</span> x + y; &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="LambdaExpressionTree-BodyKind"><a href="#LambdaExpressionTree-BodyKind" class="headerlink" title="LambdaExpressionTree.BodyKind"></a>LambdaExpressionTree.BodyKind</h4><p>lambda表达式的的body类型。</p>
+<p>Lambda表达式有两种形式:</p>
+<ul>
+<li>expression  lambda：主体是一个表达式。</li>
+<li>statement lambdas：主题是一个块。</li>
+</ul>
+<h4 id="LiteralTree"><a href="#LiteralTree" class="headerlink" title="LiteralTree"></a>LiteralTree</h4><p>字面表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">value</span><br><span class="line"><span class="keyword">int</span> a = <span class="number">123</span>; <span class="comment">//中的123</span></span><br></pre></td></tr></table></figure>
+<h4 id="MemberReferenceTree"><a href="#MemberReferenceTree" class="headerlink" title="MemberReferenceTree"></a>MemberReferenceTree</h4><p>成员引用表达式的树节点。</p>
+<p>一般用在函数式接口的位置，可与lambda表达式混用。</p>
+<p>例如：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expression # [ identifier | new ]</span><br><span class="line">String#hashCode</span><br></pre></td></tr></table></figure>
+<p>注意这里的<code>#</code>与<code>::</code>一致，都可以表示方法引用。</p>
+<p>如：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String::hashCode</span><br><span class="line">String#hashCode</span><br></pre></td></tr></table></figure>
+<p>都表示String类的hashcode方法引用。其可以像lambda表达式一样传递。</p>
+<h4 id="MemberReferenceTree-ReferenceMode"><a href="#MemberReferenceTree-ReferenceMode" class="headerlink" title="MemberReferenceTree.ReferenceMode"></a>MemberReferenceTree.ReferenceMode</h4><p>有两种成员引用:</p>
+<ul>
+<li>方法引用。</li>
+<li>构造器引用。</li>
+</ul>
+<h4 id="MemberSelectTree"><a href="#MemberSelectTree" class="headerlink" title="MemberSelectTree"></a>MemberSelectTree</h4><p>成员访问表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expression . identifier</span><br><span class="line">obj.prop</span><br></pre></td></tr></table></figure>
+<h4 id="MethodInvocationTree"><a href="#MethodInvocationTree" class="headerlink" title="MethodInvocationTree"></a>MethodInvocationTree</h4><p>方法调用表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">identifier ( arguments )</span><br><span class="line"><span class="keyword">this</span> . <span class="function">typeArguments <span class="title">identifier</span> <span class="params">( arguments )</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="MethodTree"><a href="#MethodTree" class="headerlink" title="MethodTree"></a>MethodTree</h4><p>方法或注释类型元素声明的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">modifiers typeParameters type name</span><br><span class="line">    ( parameters )</span><br><span class="line">    body</span><br><span class="line"></span><br><span class="line"><span class="function">modifiers type <span class="title">name</span> <span class="params">()</span> <span class="keyword">default</span> defaultValue</span></span><br></pre></td></tr></table></figure>
+<h4 id="ModifiersTree"><a href="#ModifiersTree" class="headerlink" title="ModifiersTree"></a>ModifiersTree</h4><p>用于修饰符(包括声明的注释)的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">flags</span><br><span class="line"></span><br><span class="line">flags annotations</span><br><span class="line">    </span><br><span class="line"><span class="keyword">public</span> </span><br><span class="line"><span class="keyword">final</span></span><br></pre></td></tr></table></figure>
+<h4 id="NewArrayTree"><a href="#NewArrayTree" class="headerlink" title="NewArrayTree"></a>NewArrayTree</h4><p>用于创建数组新实例的表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> type dimensions initializers</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> type dimensions [ ] initializers</span><br><span class="line">    </span><br><span class="line"><span class="keyword">new</span> <span class="keyword">int</span>[] a</span><br><span class="line"><span class="keyword">new</span> <span class="keyword">int</span> a[]</span><br></pre></td></tr></table></figure>
+<h4 id="NewClassTree"><a href="#NewClassTree" class="headerlink" title="NewClassTree"></a>NewClassTree</h4><p>声明类的<strong>新实例</strong>的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> identifier ( )</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> identifier ( arguments )</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="function">typeArguments <span class="title">identifier</span> <span class="params">( arguments )</span></span></span><br><span class="line"><span class="function">classBody</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">enclosingExpression.new <span class="title">identifier</span> <span class="params">( arguments )</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="ParameterizedTypeTree"><a href="#ParameterizedTypeTree" class="headerlink" title="ParameterizedTypeTree"></a>ParameterizedTypeTree</h4><p>类型参数的类型表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type &lt; typeArguments &gt;</span><br></pre></td></tr></table></figure>
+<h4 id="PrimitiveTypeTree"><a href="#PrimitiveTypeTree" class="headerlink" title="PrimitiveTypeTree"></a>PrimitiveTypeTree</h4><p>基本类型的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">primitiveTypeKind</span><br><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;	<span class="comment">//中的int</span></span><br></pre></td></tr></table></figure>
+<h4 id="ReturnTree"><a href="#ReturnTree" class="headerlink" title="ReturnTree"></a>ReturnTree</h4><p>return语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span>;</span><br><span class="line"><span class="keyword">return</span> expression;</span><br></pre></td></tr></table></figure>
+<h4 id="StatementTree"><a href="#StatementTree" class="headerlink" title="StatementTree"></a>StatementTree</h4><p>用作不同类型语句的基类的树节点。</p>
+<h4 id="SwitchExpressionTree"><a href="#SwitchExpressionTree" class="headerlink" title="SwitchExpressionTree"></a>SwitchExpressionTree</h4><p>switch表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> ( expression ) &#123;</span><br><span class="line">        cases</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="SwitchTree"><a href="#SwitchTree" class="headerlink" title="SwitchTree"></a>SwitchTree</h4><p>switch语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> ( expression ) &#123;</span><br><span class="line">        cases</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="SynchronizedTree"><a href="#SynchronizedTree" class="headerlink" title="SynchronizedTree"></a>SynchronizedTree</h4><p>synchronized语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> ( expression )</span><br><span class="line">    block</span><br></pre></td></tr></table></figure>
+<h4 id="ThrowTree"><a href="#ThrowTree" class="headerlink" title="ThrowTree"></a>ThrowTree</h4><p>抛出语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">throw</span> expression;</span><br></pre></td></tr></table></figure>
+<h4 id="TryTree"><a href="#TryTree" class="headerlink" title="TryTree"></a>TryTree</h4><p>try语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">    block</span><br><span class="line">catches</span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">    finallyBlock</span><br></pre></td></tr></table></figure>
+<h4 id="TypeCastTree"><a href="#TypeCastTree" class="headerlink" title="TypeCastTree"></a>TypeCastTree</h4><p>类型转换表达式的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">( type ) expression</span><br></pre></td></tr></table></figure>
+<h4 id="TypeParameterTree"><a href="#TypeParameterTree" class="headerlink" title="TypeParameterTree"></a>TypeParameterTree</h4><p>类型参数的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name</span><br><span class="line"></span><br><span class="line">name extends bounds</span><br><span class="line"></span><br><span class="line">annotations name</span><br></pre></td></tr></table></figure>
+<h4 id="VariableTree"><a href="#VariableTree" class="headerlink" title="VariableTree"></a>VariableTree</h4><p>用于变量声明的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">modifiers type name initializer ;</span><br><span class="line">modifiers type qualified-name.<span class="keyword">this</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> a = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="WhileLoopTree"><a href="#WhileLoopTree" class="headerlink" title="WhileLoopTree"></a>WhileLoopTree</h4><p>一个while循环语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ( condition )</span><br><span class="line">  statement</span><br></pre></td></tr></table></figure>
+<h3 id="其他节点"><a href="#其他节点" class="headerlink" title="其他节点"></a>其他节点</h3><h3 id="AssertTree"><a href="#AssertTree" class="headerlink" title="AssertTree"></a>AssertTree</h3><p>断言树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">assert</span> condition ;</span><br><span class="line"><span class="keyword">assert</span> condition : detail ;</span><br></pre></td></tr></table></figure>
+<h3 id="BindingPatternTree"><a href="#BindingPatternTree" class="headerlink" title="BindingPatternTree"></a>BindingPatternTree</h3><p>预览特性，可能不稳定。</p>
+<h3 id="CaseLabelTree"><a href="#CaseLabelTree" class="headerlink" title="CaseLabelTree"></a>CaseLabelTree</h3><p>预览特性，可能不稳定。</p>
+<h3 id="CompoundAssignmentTree-1"><a href="#CompoundAssignmentTree-1" class="headerlink" title="CompoundAssignmentTree"></a>CompoundAssignmentTree</h3><p>表示普通编译单元和模块编译单元的抽象语法树。</p>
+<h3 id="DefaultCaseLabelTree"><a href="#DefaultCaseLabelTree" class="headerlink" title="DefaultCaseLabelTree"></a>DefaultCaseLabelTree</h3><p>预览特性，可能不稳定。</p>
+<p>一个case标号，在case中标记default (null, default)。</p>
+<h3 id="DirectiveTree"><a href="#DirectiveTree" class="headerlink" title="DirectiveTree"></a>DirectiveTree</h3><p>模块树中所有指令的超类型。该指令一般指在<code>module-info.java</code>中的指令。</p>
+<h3 id="EmptyStatementTree"><a href="#EmptyStatementTree" class="headerlink" title="EmptyStatementTree"></a>EmptyStatementTree</h3><p>一个空(跳过)语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">;</span><br></pre></td></tr></table></figure>
+<h3 id="ErroneousTree"><a href="#ErroneousTree" class="headerlink" title="ErroneousTree"></a>ErroneousTree</h3><p>用来代替一个畸形的表达式的树节点。</p>
+<h3 id="ExportsTree"><a href="#ExportsTree" class="headerlink" title="ExportsTree"></a>ExportsTree</h3><p>模块声明中’exports’指令的树节点。</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exports</span> <span class="keyword">package</span>-name;</span><br><span class="line"><span class="keyword">exports</span> <span class="keyword">package</span>-name to <span class="keyword">module</span>-name;</span><br></pre></td></tr></table></figure>
+<h3 id="ExpressionTree"><a href="#ExpressionTree" class="headerlink" title="ExpressionTree"></a>ExpressionTree</h3><p>预览特性，可能不稳定。</p>
+<p>用作不同类型表达式的基类的树节点。</p>
+<h3 id="GuardedPatternTree"><a href="#GuardedPatternTree" class="headerlink" title="GuardedPatternTree"></a>GuardedPatternTree</h3><p>预览特性，可能不稳定。</p>
+<p>守护模式树。</p>
+<h3 id="IntersectionTypeTree"><a href="#IntersectionTypeTree" class="headerlink" title="IntersectionTypeTree"></a>IntersectionTypeTree</h3><p>转换表达式中交集类型的树节点。</p>
+<h3 id="LabeledStatementTree"><a href="#LabeledStatementTree" class="headerlink" title="LabeledStatementTree"></a>LabeledStatementTree</h3><p>带label的表达式的树节点。一般和带label的break语句一起使用。</p>
+<h3 id="LineMap"><a href="#LineMap" class="headerlink" title="LineMap"></a>LineMap</h3><p>提供在编译单元的字符位置和行号之间进行转换的方法。</p>
+<p>其包含以下方法：</p>
+<ul>
+<li>getColumnNumber：查找字符位置的列。</li>
+<li>getLineNumber：查找包含位置的行;行终止字符在它终止的行上。</li>
+<li>getPosition：找到对应于(行，列)的位置。</li>
+<li>getStartPosition：查找一行的起始位置。</li>
+</ul>
+<h3 id="ModuleTree"><a href="#ModuleTree" class="headerlink" title="ModuleTree"></a>ModuleTree</h3><p>模块声明的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">annotations</span><br><span class="line">    [open] <span class="keyword">module</span> <span class="keyword">module</span>-name &#123;</span><br><span class="line">    directives</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ModuleTree-ModuleKind"><a href="#ModuleTree-ModuleKind" class="headerlink" title="ModuleTree.ModuleKind"></a>ModuleTree.ModuleKind</h3><p>模块的类型。</p>
+<h3 id="OpensTree"><a href="#OpensTree" class="headerlink" title="OpensTree"></a>OpensTree</h3><p>模块声明中’open ‘指令的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opens   <span class="keyword">package</span>-name;</span><br><span class="line">opens   <span class="keyword">package</span>-name to <span class="keyword">module</span>-name;</span><br></pre></td></tr></table></figure>
+<h3 id="PackageTree"><a href="#PackageTree" class="headerlink" title="PackageTree"></a>PackageTree</h3><p>表示包声明的树节点。</p>
+<h3 id="ParenthesizedPatternTree"><a href="#ParenthesizedPatternTree" class="headerlink" title="ParenthesizedPatternTree"></a>ParenthesizedPatternTree</h3><p>预览特性，可能不稳定。</p>
+<p>圆括号模式的树节点。</p>
+<h3 id="ParenthesizedTree"><a href="#ParenthesizedTree" class="headerlink" title="ParenthesizedTree"></a>ParenthesizedTree</h3><p>用于圆括号表达式的树节点。注意:解析器不会保留圆括号。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">( expression )</span><br></pre></td></tr></table></figure>
+<h3 id="PatternTree"><a href="#PatternTree" class="headerlink" title="PatternTree"></a>PatternTree</h3><p>预览特性，可能不稳定。</p>
+<p>用作不同类型模式的基类的树节点。</p>
+<h3 id="ProvidesTree"><a href="#ProvidesTree" class="headerlink" title="ProvidesTree"></a>ProvidesTree</h3><p>‘ providers ‘指令在模块声明中的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">provides service-name with implementation-name;</span><br></pre></td></tr></table></figure>
+<h3 id="RequiresTree"><a href="#RequiresTree" class="headerlink" title="RequiresTree"></a>RequiresTree</h3><p>‘require ‘指令在模块声明中的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">requires</span> <span class="keyword">module</span>-name;</span><br><span class="line"><span class="keyword">requires</span> <span class="keyword">static</span> <span class="keyword">module</span>-name;</span><br><span class="line"><span class="keyword">requires</span> transitive <span class="keyword">module</span>-name;</span><br></pre></td></tr></table></figure>
+<h3 id="Scope（作用域）"><a href="#Scope（作用域）" class="headerlink" title="Scope（作用域）"></a>Scope（作用域）</h3><p>用于决定本地可以用程序元素的接口，这些元素可能是本地变量或者import。在创建元素时，Scope与给定的程序位置相关联;例如，树节点。这个位置可以用来推断一个封闭的方法和/或类。</p>
+<p>Scope本身不包含与包含其位置的方法和类的参数、方法和字段相对应的元素的详细信息。但是，这些元素可以从外围元素中确定。</p>
+<p>Scope可以包含在封闭作用域中。最外层Scope包含那些通过”star import”声明可用的元素;其中的作用域包含编译单元的顶级元素，包括任何命名导入。</p>
+<h3 id="UnionTypeTree"><a href="#UnionTypeTree" class="headerlink" title="UnionTypeTree"></a>UnionTypeTree</h3><p>多包变量声明中用于union类型表达式的树节点。</p>
+<h3 id="UsesTree"><a href="#UsesTree" class="headerlink" title="UsesTree"></a>UsesTree</h3><p>在模块声明中用于’uses’指令的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uses service-name;</span><br></pre></td></tr></table></figure>
+<h3 id="WildcardTree"><a href="#WildcardTree" class="headerlink" title="WildcardTree"></a>WildcardTree</h3><p>通配符类型参数的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?</span><br><span class="line"></span><br><span class="line">? extends bound</span><br><span class="line"></span><br><span class="line">? <span class="keyword">super</span> bound</span><br></pre></td></tr></table></figure>
+<h3 id="YieldTree"><a href="#YieldTree" class="headerlink" title="YieldTree"></a>YieldTree</h3><p>yield语句的树节点。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yield expression ;</span><br></pre></td></tr></table></figure>
+<h2 id="Blocks-Statements"><a href="#Blocks-Statements" class="headerlink" title="Blocks, Statements"></a>Blocks, Statements</h2><ul>
+<li><p>Blocks是一个Statements序列、局部变量声明语句、局部类和大括号内的接口声明。</p>
+</li>
+<li><p>Statements也是Statements的序列。其由多种类型，比如</p>
+<ul>
+<li><p>空语句：空语句什么也不做。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EmptyStatement:</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>标签语句：语句可以有标签前缀。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LabeledStatement:</span><br><span class="line">	Identifier : Statement</span><br><span class="line">LabeledStatementNoShortIf:</span><br><span class="line">	Identifier : StatementNoShortIf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>表达式语句：某些类型的表达式可以通过后跟分号作为语句来使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ExpressionStatement:</span><br><span class="line">	StatementExpression ;</span><br><span class="line">StatementExpression:</span><br><span class="line">    Assignment</span><br><span class="line">    PreIncrementExpression</span><br><span class="line">    PreDecrementExpression</span><br><span class="line">    PostIncrementExpression</span><br><span class="line">    PostDecrementExpression</span><br><span class="line">    MethodInvocation</span><br><span class="line">    ClassInstanceCreationExpression</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>if语句:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">IfThenStatement:</span><br><span class="line">	<span class="keyword">if</span> ( Expression ) Statement</span><br><span class="line">IfThenElseStatement:</span><br><span class="line">	<span class="keyword">if</span> ( Expression ) StatementNoShortIf <span class="keyword">else</span> Statement</span><br><span class="line">IfThenElseStatementNoShortIf:</span><br><span class="line">	<span class="keyword">if</span> ( Expression ) StatementNoShortIf <span class="keyword">else</span> StatementNoShortIf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>if - then - else语句</p>
+</li>
+<li><p>断言语句</p>
+</li>
+<li><p>switch语句</p>
+</li>
+<li><p>while语句</p>
+</li>
+<li><p>do语句</p>
+</li>
+<li><p>for语句</p>
+</li>
+<li><p>增强for循环语句</p>
+</li>
+<li><p>break语句</p>
+</li>
+<li><p>continue语句</p>
+</li>
+<li><p>return语句</p>
+</li>
+<li><p>throw语句</p>
+</li>
+<li><p>synchronized 语句</p>
+</li>
+<li><p>try语句</p>
+</li>
+<li><p>yield语句</p>
+</li>
+<li><p>无法到达语句（Unreachable Statements）：如果语句由于无法访问而无法执行，则为编译时错误。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>具体见<a href="https://docs.oracle.com/javase/specs/jls/se18/html/jls-14.html#jls-14.1" target="_blank" rel="noopener">Java Language Specification</a>。</p>
+<p>其继承关系如下：</p>
+<p><img src="/images/Java编译相关的JCTree和TreeMaker的API介绍/Tree继承图.jpg" alt="Tree继承图"></p>
+<h1 id="TreeMaker"><a href="#TreeMaker" class="headerlink" title="TreeMaker"></a>TreeMaker</h1><p>既然上面说到抽象语法树节点必须依赖一个context，则无法直接new。所以就有了TreeMaker，用来在指定下文中来新建抽象语法树节点。</p>
+<h2 id="instance-Context-context"><a href="#instance-Context-context" class="headerlink" title="instance(Context context)"></a><code>instance(Context context)</code></h2><p>该方法用于获取TreeMaker实例。其中context可以通过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Context context = ((JavacProcessingEnvironment) processingEnv).getContext();</span><br></pre></td></tr></table></figure>
+<p>来获取。</p>
+<h2 id="at"><a href="#at" class="headerlink" title="at"></a><code>at</code></h2><p>这个函数是用来改变当前树节点在context的位置。并不会产生新的树节点。源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Reassign current position.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeMaker <span class="title">at</span><span class="params">(<span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.pos = pos;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Modifiers-long-flags"><a href="#Modifiers-long-flags" class="headerlink" title="Modifiers(long flags)"></a><code>Modifiers(long flags)</code></h2><p>用于新建一个标识符。其中入参<code>flags</code>可以用枚举类型<code>com.sun.tools.javac.code.Flags</code>，且支持拼接（枚举值经过精心设计）。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">treeMaker.Modifiers(Flags.PUBLIC + Flags.STATIC + Flags.FINAL);</span><br></pre></td></tr></table></figure>
+<h2 id="Import-JCTree-qualid-boolean-importStatic"><a href="#Import-JCTree-qualid-boolean-importStatic" class="headerlink" title="Import(JCTree qualid, boolean importStatic)"></a><code>Import(JCTree qualid, boolean importStatic)</code></h2><p>用来新建一个Import语句。其中qualid是要引入的类。</p>
+<h2 id="ClassDef"><a href="#ClassDef" class="headerlink" title="ClassDef"></a><code>ClassDef</code></h2><p>用来新建一个类语句，所有参数如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">JCClassDecl <span class="title">ClassDef</span><span class="params">(JCModifiers mods,							// 修饰符</span></span></span><br><span class="line"><span class="function"><span class="params">                     Name name,									// 类的名字</span></span></span><br><span class="line"><span class="function"><span class="params">                     List&lt;JCTypeParameter&gt; typarams,			// 类型参数，如&lt;T&gt;</span></span></span><br><span class="line"><span class="function"><span class="params">                     JCExpression extending,					// 继承的类，extends T</span></span></span><br><span class="line"><span class="function"><span class="params">                     List&lt;JCExpression&gt; implementing,			// 实现的接口</span></span></span><br><span class="line"><span class="function"><span class="params">                     List&lt;JCTree&gt; defs)</span></span>;						<span class="comment">// 类中的具体语句，如类型声明或者方法声明，所以是一个List</span></span><br></pre></td></tr></table></figure>
+<h2 id="MethodDef"><a href="#MethodDef" class="headerlink" title="MethodDef"></a><code>MethodDef</code></h2><p>用来新建一个犯法语句，所有参数如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">JCMethodDecl <span class="title">MethodDef</span><span class="params">(JCModifiers mods,						// 修饰符</span></span></span><br><span class="line"><span class="function"><span class="params">                       Name name,								// 方法的名字</span></span></span><br><span class="line"><span class="function"><span class="params">                       JCExpression restype,					// 返回类型</span></span></span><br><span class="line"><span class="function"><span class="params">                       List&lt;JCTypeParameter&gt; typarams,			// 类型参数列表，如&lt;T&gt;</span></span></span><br><span class="line"><span class="function"><span class="params">                       JCVariableDecl recvparam,				// receiver type，好像实际上没啥用</span></span></span><br><span class="line"><span class="function"><span class="params">                       List&lt;JCVariableDecl&gt; params,				// 参数列表</span></span></span><br><span class="line"><span class="function"><span class="params">                       List&lt;JCExpression&gt; thrown,				// 抛出错误的列表</span></span></span><br><span class="line"><span class="function"><span class="params">                       JCBlock body,							// 方法体</span></span></span><br><span class="line"><span class="function"><span class="params">                       JCExpression defaultValue)</span></span>;				<span class="comment">// 默认方法，如interface中的默认实现</span></span><br></pre></td></tr></table></figure>
+<h2 id="VarDef-JCModifiers-mods-Name-name-JCExpression-vartype-JCExpression-init"><a href="#VarDef-JCModifiers-mods-Name-name-JCExpression-vartype-JCExpression-init" class="headerlink" title="VarDef(JCModifiers mods, Name name, JCExpression vartype, JCExpression init)"></a><code>VarDef(JCModifiers mods, Name name, JCExpression vartype, JCExpression init)</code></h2><p>用来新建一个变量。</p>
+<p>参数意义如下：</p>
+<ul>
+<li>mods：修饰符</li>
+<li>name：变量名</li>
+<li>vartype：变量类型</li>
+<li>init：初始化</li>
+</ul>
+<h2 id="Skip"><a href="#Skip" class="headerlink" title="Skip"></a><code>Skip</code></h2><p>用来新建一个<code>;</code>语句块，没有参数。</p>
+<h2 id="Block-long-flags-List-lt-JCStatement-gt-stats"><a href="#Block-long-flags-List-lt-JCStatement-gt-stats" class="headerlink" title="Block(long flags, List&lt;JCStatement&gt; stats)"></a><code>Block(long flags, List&lt;JCStatement&gt; stats)</code></h2><p>用来新建一个块语句。</p>
+<p>参数意义如下：</p>
+<ul>
+<li>flags：访问标志</li>
+<li>stats：语句列表</li>
+</ul>
+<h2 id="DoLoop-JCStatement-body-JCExpression-cond"><a href="#DoLoop-JCStatement-body-JCExpression-cond" class="headerlink" title="DoLoop(JCStatement body, JCExpression cond)"></a><code>DoLoop(JCStatement body, JCExpression cond)</code></h2><p>用来新建一个<code>do...while</code>语句。</p>
+<p>参数意义如下：</p>
+<ul>
+<li>body：循环体的语句</li>
+<li>cond：循环条件</li>
+</ul>
+<h2 id="JCWhileLoop-WhileLoop-JCExpression-cond-JCStatement-body"><a href="#JCWhileLoop-WhileLoop-JCExpression-cond-JCStatement-body" class="headerlink" title="JCWhileLoop WhileLoop(JCExpression cond, JCStatement body)"></a><code>JCWhileLoop WhileLoop(JCExpression cond, JCStatement body)</code></h2><p>用来新建一个<code>while</code>循环。</p>
+<p>参数意义如下：</p>
+<ul>
+<li>cond：循环条件。</li>
+<li>body：循环体语句。</li>
+</ul>
+<h2 id="ForLoop"><a href="#ForLoop" class="headerlink" title="ForLoop"></a>ForLoop</h2><p>用来新建一个for循环。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">JCForLoop <span class="title">ForLoop</span><span class="params">(List&lt;JCStatement&gt; init,					// 循环初始化</span></span></span><br><span class="line"><span class="function"><span class="params">                  JCExpression cond,						// 循环条件</span></span></span><br><span class="line"><span class="function"><span class="params">                  List&lt;JCExpressionStatement&gt; step,				// 循环的变化语句</span></span></span><br><span class="line"><span class="function"><span class="params">                  JCStatement body)</span></span>;						<span class="comment">// 循环体</span></span><br></pre></td></tr></table></figure>
+<h2 id="JCEnhancedForLoop-ForeachLoop-JCVariableDecl-var-JCExpression-expr-JCStatement-body"><a href="#JCEnhancedForLoop-ForeachLoop-JCVariableDecl-var-JCExpression-expr-JCStatement-body" class="headerlink" title="JCEnhancedForLoop ForeachLoop(JCVariableDecl var, JCExpression expr, JCStatement body)"></a>JCEnhancedForLoop ForeachLoop(JCVariableDecl var, JCExpression expr, JCStatement body)</h2><p>用来新建一个增强for循环。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>var：每次循环的单个变量</li>
+<li>expr：被循环的变量</li>
+<li>body：循环体</li>
+</ul>
+<h2 id="JCLabeledStatement-Labelled-Name-label-JCStatement-body"><a href="#JCLabeledStatement-Labelled-Name-label-JCStatement-body" class="headerlink" title="JCLabeledStatement Labelled(Name label, JCStatement body)"></a><code>JCLabeledStatement Labelled(Name label, JCStatement body)</code></h2><p>用来新建一个标记块。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>label：标签名</li>
+<li>body：块体</li>
+</ul>
+<h2 id="public-JCSwitch-Switch-JCExpression-selector-List-lt-JCCase-gt-cases"><a href="#public-JCSwitch-Switch-JCExpression-selector-List-lt-JCCase-gt-cases" class="headerlink" title="public JCSwitch Switch(JCExpression selector, List&lt;JCCase&gt; cases)"></a><code>public JCSwitch Switch(JCExpression selector, List&lt;JCCase&gt; cases)</code></h2><p>用来新建一个Switch语句。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>selector： switch语句中被判断的表达式</li>
+<li>cases：switch语句的cases</li>
+</ul>
+<h2 id="public-JCCase-Case-JCExpression-pat-List-lt-JCStatement-gt-stats"><a href="#public-JCCase-Case-JCExpression-pat-List-lt-JCStatement-gt-stats" class="headerlink" title="public JCCase Case(JCExpression pat, List&lt;JCStatement&gt; stats)"></a><code>public JCCase Case(JCExpression pat, List&lt;JCStatement&gt; stats)</code></h2><p>用来新建一个case语句。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>pat：case语句的条件表达式</li>
+<li>stats：符合条件时的语句块</li>
+</ul>
+<h2 id="public-JCSynchronized-Synchronized-JCExpression-lock-JCBlock-body"><a href="#public-JCSynchronized-Synchronized-JCExpression-lock-JCBlock-body" class="headerlink" title="public JCSynchronized Synchronized(JCExpression lock, JCBlock body)"></a><code>public JCSynchronized Synchronized(JCExpression lock, JCBlock body)</code></h2><p>用来新建一个synchronized语句。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>lock：同步锁的对象</li>
+<li>body：synchronized的语句块</li>
+</ul>
+<h2 id="Try"><a href="#Try" class="headerlink" title="Try"></a>Try</h2><p>用来新建一个try语句。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> JCTry <span class="title">Try</span><span class="params">(List&lt;JCTree&gt; resources,				// <span class="keyword">try</span>-resource语句中的资源列表</span></span></span><br><span class="line"><span class="function"><span class="params">                     JCBlock body,						// <span class="keyword">try</span>的主体语句块</span></span></span><br><span class="line"><span class="function"><span class="params">                     List&lt;JCCatch&gt; catchers,			// <span class="keyword">try</span>对应的<span class="keyword">catch</span>语句列表</span></span></span><br><span class="line"><span class="function"><span class="params">                     JCBlock finalizer)</span> 				<span class="comment">// finally语句</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="public-JCCatch-Catch-JCVariableDecl-param-JCBlock-body"><a href="#public-JCCatch-Catch-JCVariableDecl-param-JCBlock-body" class="headerlink" title="public JCCatch Catch(JCVariableDecl param, JCBlock body)"></a><code>public JCCatch Catch(JCVariableDecl param, JCBlock body)</code></h2><p>用来新建一个catch语句。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>param：catch语句的参数</li>
+<li>body：catch语句的主体语句块</li>
+</ul>
+<h2 id="Conditional"><a href="#Conditional" class="headerlink" title="Conditional"></a>Conditional</h2><p>用来新建一个三目表达式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> JCConditional <span class="title">Conditional</span><span class="params">(JCExpression cond,				// 条件判断</span></span></span><br><span class="line"><span class="function"><span class="params">                                 JCExpression thenpart,			// 结果为真的语句</span></span></span><br><span class="line"><span class="function"><span class="params">                                 JCExpression elsepart)</span>			<span class="comment">// 结果为假的语句</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="public-JCIf-If-JCExpression-cond-JCStatement-thenpart-JCStatement-elsepart"><a href="#public-JCIf-If-JCExpression-cond-JCStatement-thenpart-JCStatement-elsepart" class="headerlink" title="public JCIf If(JCExpression cond, JCStatement thenpart, JCStatement elsepart)"></a><code>public JCIf If(JCExpression cond, JCStatement thenpart, JCStatement elsepart)</code></h2><p>用来新建一个if语句。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>cond：if条件语句</li>
+<li>thenpart：if的语句块</li>
+<li>elsepart：else的语句块</li>
+</ul>
+<h2 id="JCExpressionStatement-Exec-JCExpression-expr"><a href="#JCExpressionStatement-Exec-JCExpression-expr" class="headerlink" title="JCExpressionStatement Exec(JCExpression expr)"></a><code>JCExpressionStatement Exec(JCExpression expr)</code></h2><p>用来创建一个可执行语句。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>expr：要执行的语句。</li>
+</ul>
+<p><strong>例如，TreeMaker.Apply以及TreeMaker.Assign就需要外面包一层TreeMaker.Exec来获得一个JCExpressionStatement</strong></p>
+<h2 id="public-JCBreak-Break-Name-label"><a href="#public-JCBreak-Break-Name-label" class="headerlink" title="public JCBreak Break(?Name label)"></a><code>public JCBreak Break(?Name label)</code></h2><p>用来创建一个break语句，可以是带标签的。</p>
+<h2 id="public-JCContinue-Continue-Name-label"><a href="#public-JCContinue-Continue-Name-label" class="headerlink" title="public JCContinue Continue(?Name label)"></a><code>public JCContinue Continue(?Name label)</code></h2><p>用来创建一个continue语句，可以是带标签的。</p>
+<h2 id="public-JCReturn-Return-JCExpression-expr"><a href="#public-JCReturn-Return-JCExpression-expr" class="headerlink" title="public JCReturn Return(JCExpression expr)"></a><code>public JCReturn Return(JCExpression expr)</code></h2><p>用来创建一个return语句，expr是要返回的表达式。</p>
+<h2 id="public-JCThrow-Throw-JCExpression-expr"><a href="#public-JCThrow-Throw-JCExpression-expr" class="headerlink" title="public JCThrow Throw(JCExpression expr)"></a><code>public JCThrow Throw(JCExpression expr)</code></h2><p>用来新建一个throw语句，expr是要抛出的错误表达式。</p>
+<h2 id="NewClass"><a href="#NewClass" class="headerlink" title="NewClass"></a>NewClass</h2><p>用来新建一个新的类实例化，如<code>new A()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> JCNewClass <span class="title">NewClass</span><span class="params">(JCExpression encl,					// 作用域，一般是在顶层，可以通getEnclosingExpression函数来获取</span></span></span><br><span class="line"><span class="function"><span class="params">                           List&lt;JCExpression&gt; typeargs,			// 类型参数列表</span></span></span><br><span class="line"><span class="function"><span class="params">                           JCExpression clazz,					// </span></span></span><br><span class="line"><span class="function"><span class="params">                           List&lt;JCExpression&gt; args,				// 实例化时需要的构造器参数</span></span></span><br><span class="line"><span class="function"><span class="params">                           JCClassDecl def)</span>						<span class="comment">//  要实例化的类的定义</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="NewArray"><a href="#NewArray" class="headerlink" title="NewArray"></a>NewArray</h2><p>用来创建一个数组。例如，<code>new int[10][10]{1,2,3}</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> JCNewArray <span class="title">NewArray</span><span class="params">(JCExpression elemtype,		// 数组对的类型</span></span></span><br><span class="line"><span class="function"><span class="params">                         List&lt;JCExpression&gt; dims,		// 数组的维度列表</span></span></span><br><span class="line"><span class="function"><span class="params">                         List&lt;JCExpression&gt; elems)</span>		<span class="comment">// 数组的元素列表</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="public-JCLambda-Lambda-List-lt-JCVariableDecl-gt-params-JCTree-body"><a href="#public-JCLambda-Lambda-List-lt-JCVariableDecl-gt-params-JCTree-body" class="headerlink" title="public JCLambda Lambda(List&lt;JCVariableDecl&gt; params,JCTree body)"></a><code>public JCLambda Lambda(List&lt;JCVariableDecl&gt; params,JCTree body)</code></h2><p>用来创建一个lambda表达式。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>params：参数</li>
+<li>body：lambda表达式的方法体</li>
+</ul>
+<h2 id="public-JCAssign-Assign-JCExpression-lhs-JCExpression-rhs"><a href="#public-JCAssign-Assign-JCExpression-lhs-JCExpression-rhs" class="headerlink" title="public JCAssign Assign(JCExpression lhs, JCExpression rhs)"></a><code>public JCAssign Assign(JCExpression lhs, JCExpression rhs)</code></h2><p>用来创建一个赋值表达式，如例<code>a = b</code></p>
+<p>其参数意义如下：</p>
+<ul>
+<li>lhs：左侧的表示</li>
+<li>rhs：右侧的表示</li>
+</ul>
+<h2 id="public-JCAssignOp-Assignop-JCTree-Tag-opcode-JCTree-lhs-JCTree-rhs"><a href="#public-JCAssignOp-Assignop-JCTree-Tag-opcode-JCTree-lhs-JCTree-rhs" class="headerlink" title="public JCAssignOp Assignop(JCTree.Tag opcode, JCTree lhs, JCTree rhs)"></a><code>public JCAssignOp Assignop(JCTree.Tag opcode, JCTree lhs, JCTree rhs)</code></h2><p>用来创建一个复合赋值运算符。例如：<code>a += b</code>或<code>c-= d</code>等操作。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>opcode：操作符</li>
+<li>lhs：左侧表达式</li>
+<li>rhs：右侧表达式</li>
+</ul>
+<h2 id="public-JCBinary-Binary-JCTree-Tag-opcode-JCExpression-lhs-JCExpression-rhs"><a href="#public-JCBinary-Binary-JCTree-Tag-opcode-JCExpression-lhs-JCExpression-rhs" class="headerlink" title="public JCBinary Binary(JCTree.Tag opcode, JCExpression lhs, JCExpression rhs)"></a><code>public JCBinary Binary(JCTree.Tag opcode, JCExpression lhs, JCExpression rhs)</code></h2><p>创建一个二元操作符。如<code>a - b</code>或<code>c + d</code>。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>opcode：操作符</li>
+<li>lhs：左侧表达式</li>
+<li>rhs：右侧表达式</li>
+</ul>
+<h2 id="public-JCTypeCast-TypeCast-JCTree-clazz-JCExpression-expr"><a href="#public-JCTypeCast-TypeCast-JCTree-clazz-JCExpression-expr" class="headerlink" title="public JCTypeCast TypeCast(JCTree clazz, JCExpression expr)"></a><code>public JCTypeCast TypeCast(JCTree clazz, JCExpression expr)</code></h2><p>创建一个类型强转。如<code>(int)c</code>。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>clazz：要转换的类型</li>
+<li>expr：要转换的变量</li>
+</ul>
+<h2 id="public-JCArrayAccess-Indexed-JCExpression-indexed-JCExpression-index"><a href="#public-JCArrayAccess-Indexed-JCExpression-indexed-JCExpression-index" class="headerlink" title="public JCArrayAccess Indexed(JCExpression indexed, JCExpression index)"></a><code>public JCArrayAccess Indexed(JCExpression indexed, JCExpression index)</code></h2><p>创建一个根据数组下标获取语句，如<code>arr[0]</code>。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>indexed：被获取的数组表达式</li>
+<li>index：数组下标</li>
+</ul>
+<h2 id="public-JCFieldAccess-Select-JCExpression-selected-Name-selector"><a href="#public-JCFieldAccess-Select-JCExpression-selected-Name-selector" class="headerlink" title="public JCFieldAccess Select(JCExpression selected, Name selector)"></a><code>public JCFieldAccess Select(JCExpression selected, Name selector)</code></h2><p>创建一个对象获取语句，如<code>obj.prop</code>。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>selected：被选择的对象</li>
+<li>selector：要选择的对象属性</li>
+</ul>
+<h2 id="public-JCIdent-Ident-Name-name"><a href="#public-JCIdent-Ident-Name-name" class="headerlink" title="public JCIdent Ident(Name name)"></a><code>public JCIdent Ident(Name name)</code></h2><p>创建一个标识符语句。例如：<code>a = 10</code>中的a。</p>
+<h2 id="public-JCLiteral-Literal-TypeTag-tag-Object-value"><a href="#public-JCLiteral-Literal-TypeTag-tag-Object-value" class="headerlink" title="public JCLiteral Literal(TypeTag tag, Object value)"></a><code>public JCLiteral Literal(TypeTag tag, Object value)</code></h2><p>创建一个字面量表达式。如<code>String a = &#39;10&#39;</code>中的<code>&#39;10&#39;</code>。</p>
+<p>其参数意义如下：</p>
+<ul>
+<li>tag：字面量表达式的类型</li>
+<li>value：字面量表达式的值</li>
+</ul>
+<h2 id="Apply"><a href="#Apply" class="headerlink" title="Apply"></a><code>Apply</code></h2><p>创建一个方法调用。如<code>method1(10)</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> JCMethodInvocation <span class="title">Apply</span><span class="params">(List&lt;JCExpression&gt; typeargs,	// 类型参数列表</span></span></span><br><span class="line"><span class="function"><span class="params">                                JCExpression fn,				// 函数</span></span></span><br><span class="line"><span class="function"><span class="params">                                List&lt;JCExpression&gt; args)</span>		<span class="comment">// 函数的参数</span></span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/04/28/JCTree和TreeMaker的API介绍/" target="_blank" title="Java编译相关的JCTree和TreeMaker的API介绍">http://yoursite.com/2022/04/28/JCTree和TreeMaker的API介绍/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/05/06/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM4-1-%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          深入理解JVM4-1-高效并发-Java内存模型与线程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/28/javac%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0%E5%8F%82%E8%80%83/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">javac命令参数参考</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">关于编译原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JCTree"><span class="nav-number">2.</span> <span class="nav-text">JCTree</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%8A%82%E7%82%B9"><span class="nav-number">2.0.1.</span> <span class="nav-text">常用节点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AnnotatedTypeTree"><span class="nav-number">2.0.1.1.</span> <span class="nav-text">AnnotatedTypeTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AnnotationTree"><span class="nav-number">2.0.1.2.</span> <span class="nav-text">AnnotationTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ArrayAccessTree"><span class="nav-number">2.0.1.3.</span> <span class="nav-text">ArrayAccessTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ArrayTypeTree"><span class="nav-number">2.0.1.4.</span> <span class="nav-text">ArrayTypeTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AssignmentTree"><span class="nav-number">2.0.1.5.</span> <span class="nav-text">AssignmentTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BinaryTree"><span class="nav-number">2.0.1.6.</span> <span class="nav-text">BinaryTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BlockTree"><span class="nav-number">2.0.1.7.</span> <span class="nav-text">BlockTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BreakTree"><span class="nav-number">2.0.1.8.</span> <span class="nav-text">BreakTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CaseTree"><span class="nav-number">2.0.1.9.</span> <span class="nav-text">CaseTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CatchTree"><span class="nav-number">2.0.1.10.</span> <span class="nav-text">CatchTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ClassTree"><span class="nav-number">2.0.1.11.</span> <span class="nav-text">ClassTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CompoundAssignmentTree"><span class="nav-number">2.0.1.12.</span> <span class="nav-text">CompoundAssignmentTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ConditionalExpressionTree"><span class="nav-number">2.0.1.13.</span> <span class="nav-text">ConditionalExpressionTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ContinueTree"><span class="nav-number">2.0.1.14.</span> <span class="nav-text">ContinueTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DoWhileLoopTree"><span class="nav-number">2.0.1.15.</span> <span class="nav-text">DoWhileLoopTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EnhancedForLoopTree"><span class="nav-number">2.0.1.16.</span> <span class="nav-text">EnhancedForLoopTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ExpressionStatementTree"><span class="nav-number">2.0.1.17.</span> <span class="nav-text">ExpressionStatementTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ForLoopTree"><span class="nav-number">2.0.1.18.</span> <span class="nav-text">ForLoopTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IdentifierTree"><span class="nav-number">2.0.1.19.</span> <span class="nav-text">IdentifierTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IfTree"><span class="nav-number">2.0.1.20.</span> <span class="nav-text">IfTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ImportTree"><span class="nav-number">2.0.1.21.</span> <span class="nav-text">ImportTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#InstanceOfTree"><span class="nav-number">2.0.1.22.</span> <span class="nav-text">InstanceOfTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LambdaExpressionTree"><span class="nav-number">2.0.1.23.</span> <span class="nav-text">LambdaExpressionTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LambdaExpressionTree-BodyKind"><span class="nav-number">2.0.1.24.</span> <span class="nav-text">LambdaExpressionTree.BodyKind</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LiteralTree"><span class="nav-number">2.0.1.25.</span> <span class="nav-text">LiteralTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MemberReferenceTree"><span class="nav-number">2.0.1.26.</span> <span class="nav-text">MemberReferenceTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MemberReferenceTree-ReferenceMode"><span class="nav-number">2.0.1.27.</span> <span class="nav-text">MemberReferenceTree.ReferenceMode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MemberSelectTree"><span class="nav-number">2.0.1.28.</span> <span class="nav-text">MemberSelectTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MethodInvocationTree"><span class="nav-number">2.0.1.29.</span> <span class="nav-text">MethodInvocationTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MethodTree"><span class="nav-number">2.0.1.30.</span> <span class="nav-text">MethodTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ModifiersTree"><span class="nav-number">2.0.1.31.</span> <span class="nav-text">ModifiersTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NewArrayTree"><span class="nav-number">2.0.1.32.</span> <span class="nav-text">NewArrayTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NewClassTree"><span class="nav-number">2.0.1.33.</span> <span class="nav-text">NewClassTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ParameterizedTypeTree"><span class="nav-number">2.0.1.34.</span> <span class="nav-text">ParameterizedTypeTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PrimitiveTypeTree"><span class="nav-number">2.0.1.35.</span> <span class="nav-text">PrimitiveTypeTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReturnTree"><span class="nav-number">2.0.1.36.</span> <span class="nav-text">ReturnTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StatementTree"><span class="nav-number">2.0.1.37.</span> <span class="nav-text">StatementTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SwitchExpressionTree"><span class="nav-number">2.0.1.38.</span> <span class="nav-text">SwitchExpressionTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SwitchTree"><span class="nav-number">2.0.1.39.</span> <span class="nav-text">SwitchTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SynchronizedTree"><span class="nav-number">2.0.1.40.</span> <span class="nav-text">SynchronizedTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ThrowTree"><span class="nav-number">2.0.1.41.</span> <span class="nav-text">ThrowTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TryTree"><span class="nav-number">2.0.1.42.</span> <span class="nav-text">TryTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TypeCastTree"><span class="nav-number">2.0.1.43.</span> <span class="nav-text">TypeCastTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TypeParameterTree"><span class="nav-number">2.0.1.44.</span> <span class="nav-text">TypeParameterTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VariableTree"><span class="nav-number">2.0.1.45.</span> <span class="nav-text">VariableTree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WhileLoopTree"><span class="nav-number">2.0.1.46.</span> <span class="nav-text">WhileLoopTree</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E8%8A%82%E7%82%B9"><span class="nav-number">2.0.2.</span> <span class="nav-text">其他节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AssertTree"><span class="nav-number">2.0.3.</span> <span class="nav-text">AssertTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BindingPatternTree"><span class="nav-number">2.0.4.</span> <span class="nav-text">BindingPatternTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CaseLabelTree"><span class="nav-number">2.0.5.</span> <span class="nav-text">CaseLabelTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CompoundAssignmentTree-1"><span class="nav-number">2.0.6.</span> <span class="nav-text">CompoundAssignmentTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DefaultCaseLabelTree"><span class="nav-number">2.0.7.</span> <span class="nav-text">DefaultCaseLabelTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DirectiveTree"><span class="nav-number">2.0.8.</span> <span class="nav-text">DirectiveTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EmptyStatementTree"><span class="nav-number">2.0.9.</span> <span class="nav-text">EmptyStatementTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ErroneousTree"><span class="nav-number">2.0.10.</span> <span class="nav-text">ErroneousTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ExportsTree"><span class="nav-number">2.0.11.</span> <span class="nav-text">ExportsTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ExpressionTree"><span class="nav-number">2.0.12.</span> <span class="nav-text">ExpressionTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GuardedPatternTree"><span class="nav-number">2.0.13.</span> <span class="nav-text">GuardedPatternTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IntersectionTypeTree"><span class="nav-number">2.0.14.</span> <span class="nav-text">IntersectionTypeTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LabeledStatementTree"><span class="nav-number">2.0.15.</span> <span class="nav-text">LabeledStatementTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LineMap"><span class="nav-number">2.0.16.</span> <span class="nav-text">LineMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ModuleTree"><span class="nav-number">2.0.17.</span> <span class="nav-text">ModuleTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ModuleTree-ModuleKind"><span class="nav-number">2.0.18.</span> <span class="nav-text">ModuleTree.ModuleKind</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpensTree"><span class="nav-number">2.0.19.</span> <span class="nav-text">OpensTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PackageTree"><span class="nav-number">2.0.20.</span> <span class="nav-text">PackageTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ParenthesizedPatternTree"><span class="nav-number">2.0.21.</span> <span class="nav-text">ParenthesizedPatternTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ParenthesizedTree"><span class="nav-number">2.0.22.</span> <span class="nav-text">ParenthesizedTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PatternTree"><span class="nav-number">2.0.23.</span> <span class="nav-text">PatternTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ProvidesTree"><span class="nav-number">2.0.24.</span> <span class="nav-text">ProvidesTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequiresTree"><span class="nav-number">2.0.25.</span> <span class="nav-text">RequiresTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scope%EF%BC%88%E4%BD%9C%E7%94%A8%E5%9F%9F%EF%BC%89"><span class="nav-number">2.0.26.</span> <span class="nav-text">Scope（作用域）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UnionTypeTree"><span class="nav-number">2.0.27.</span> <span class="nav-text">UnionTypeTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UsesTree"><span class="nav-number">2.0.28.</span> <span class="nav-text">UsesTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WildcardTree"><span class="nav-number">2.0.29.</span> <span class="nav-text">WildcardTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#YieldTree"><span class="nav-number">2.0.30.</span> <span class="nav-text">YieldTree</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blocks-Statements"><span class="nav-number">2.1.</span> <span class="nav-text">Blocks, Statements</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeMaker"><span class="nav-number">3.</span> <span class="nav-text">TreeMaker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#instance-Context-context"><span class="nav-number">3.1.</span> <span class="nav-text">instance(Context context)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#at"><span class="nav-number">3.2.</span> <span class="nav-text">at</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Modifiers-long-flags"><span class="nav-number">3.3.</span> <span class="nav-text">Modifiers(long flags)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Import-JCTree-qualid-boolean-importStatic"><span class="nav-number">3.4.</span> <span class="nav-text">Import(JCTree qualid, boolean importStatic)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ClassDef"><span class="nav-number">3.5.</span> <span class="nav-text">ClassDef</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MethodDef"><span class="nav-number">3.6.</span> <span class="nav-text">MethodDef</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VarDef-JCModifiers-mods-Name-name-JCExpression-vartype-JCExpression-init"><span class="nav-number">3.7.</span> <span class="nav-text">VarDef(JCModifiers mods, Name name, JCExpression vartype, JCExpression init)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skip"><span class="nav-number">3.8.</span> <span class="nav-text">Skip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Block-long-flags-List-lt-JCStatement-gt-stats"><span class="nav-number">3.9.</span> <span class="nav-text">Block(long flags, List&lt;JCStatement&gt; stats)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DoLoop-JCStatement-body-JCExpression-cond"><span class="nav-number">3.10.</span> <span class="nav-text">DoLoop(JCStatement body, JCExpression cond)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JCWhileLoop-WhileLoop-JCExpression-cond-JCStatement-body"><span class="nav-number">3.11.</span> <span class="nav-text">JCWhileLoop WhileLoop(JCExpression cond, JCStatement body)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ForLoop"><span class="nav-number">3.12.</span> <span class="nav-text">ForLoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JCEnhancedForLoop-ForeachLoop-JCVariableDecl-var-JCExpression-expr-JCStatement-body"><span class="nav-number">3.13.</span> <span class="nav-text">JCEnhancedForLoop ForeachLoop(JCVariableDecl var, JCExpression expr, JCStatement body)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JCLabeledStatement-Labelled-Name-label-JCStatement-body"><span class="nav-number">3.14.</span> <span class="nav-text">JCLabeledStatement Labelled(Name label, JCStatement body)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCSwitch-Switch-JCExpression-selector-List-lt-JCCase-gt-cases"><span class="nav-number">3.15.</span> <span class="nav-text">public JCSwitch Switch(JCExpression selector, List&lt;JCCase&gt; cases)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCCase-Case-JCExpression-pat-List-lt-JCStatement-gt-stats"><span class="nav-number">3.16.</span> <span class="nav-text">public JCCase Case(JCExpression pat, List&lt;JCStatement&gt; stats)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCSynchronized-Synchronized-JCExpression-lock-JCBlock-body"><span class="nav-number">3.17.</span> <span class="nav-text">public JCSynchronized Synchronized(JCExpression lock, JCBlock body)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Try"><span class="nav-number">3.18.</span> <span class="nav-text">Try</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCCatch-Catch-JCVariableDecl-param-JCBlock-body"><span class="nav-number">3.19.</span> <span class="nav-text">public JCCatch Catch(JCVariableDecl param, JCBlock body)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conditional"><span class="nav-number">3.20.</span> <span class="nav-text">Conditional</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCIf-If-JCExpression-cond-JCStatement-thenpart-JCStatement-elsepart"><span class="nav-number">3.21.</span> <span class="nav-text">public JCIf If(JCExpression cond, JCStatement thenpart, JCStatement elsepart)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JCExpressionStatement-Exec-JCExpression-expr"><span class="nav-number">3.22.</span> <span class="nav-text">JCExpressionStatement Exec(JCExpression expr)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCBreak-Break-Name-label"><span class="nav-number">3.23.</span> <span class="nav-text">public JCBreak Break(?Name label)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCContinue-Continue-Name-label"><span class="nav-number">3.24.</span> <span class="nav-text">public JCContinue Continue(?Name label)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCReturn-Return-JCExpression-expr"><span class="nav-number">3.25.</span> <span class="nav-text">public JCReturn Return(JCExpression expr)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCThrow-Throw-JCExpression-expr"><span class="nav-number">3.26.</span> <span class="nav-text">public JCThrow Throw(JCExpression expr)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NewClass"><span class="nav-number">3.27.</span> <span class="nav-text">NewClass</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NewArray"><span class="nav-number">3.28.</span> <span class="nav-text">NewArray</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCLambda-Lambda-List-lt-JCVariableDecl-gt-params-JCTree-body"><span class="nav-number">3.29.</span> <span class="nav-text">public JCLambda Lambda(List&lt;JCVariableDecl&gt; params,JCTree body)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCAssign-Assign-JCExpression-lhs-JCExpression-rhs"><span class="nav-number">3.30.</span> <span class="nav-text">public JCAssign Assign(JCExpression lhs, JCExpression rhs)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCAssignOp-Assignop-JCTree-Tag-opcode-JCTree-lhs-JCTree-rhs"><span class="nav-number">3.31.</span> <span class="nav-text">public JCAssignOp Assignop(JCTree.Tag opcode, JCTree lhs, JCTree rhs)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCBinary-Binary-JCTree-Tag-opcode-JCExpression-lhs-JCExpression-rhs"><span class="nav-number">3.32.</span> <span class="nav-text">public JCBinary Binary(JCTree.Tag opcode, JCExpression lhs, JCExpression rhs)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCTypeCast-TypeCast-JCTree-clazz-JCExpression-expr"><span class="nav-number">3.33.</span> <span class="nav-text">public JCTypeCast TypeCast(JCTree clazz, JCExpression expr)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCArrayAccess-Indexed-JCExpression-indexed-JCExpression-index"><span class="nav-number">3.34.</span> <span class="nav-text">public JCArrayAccess Indexed(JCExpression indexed, JCExpression index)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCFieldAccess-Select-JCExpression-selected-Name-selector"><span class="nav-number">3.35.</span> <span class="nav-text">public JCFieldAccess Select(JCExpression selected, Name selector)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCIdent-Ident-Name-name"><span class="nav-number">3.36.</span> <span class="nav-text">public JCIdent Ident(Name name)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-JCLiteral-Literal-TypeTag-tag-Object-value"><span class="nav-number">3.37.</span> <span class="nav-text">public JCLiteral Literal(TypeTag tag, Object value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apply"><span class="nav-number">3.38.</span> <span class="nav-text">Apply</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

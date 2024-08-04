@@ -17,6 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/08/13/%E4%BB%A3%E7%A0%81%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%881%EF%BC%89UI%E8%AE%BE%E8%AE%A1/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="前言本来早该写这个博客，因为前一段时间一直在学习各种框架，为这个开发做准备。所以一直拖到现在才开始这个系列的文章，估计这个系列文章会持续4-5期，来写下我开发这个网站的全过程。我会尽力开发到理想状态，具体效果在月底估计会出来。">
+<meta property="og:locale">
 <meta property="og:image" content="https://s1.ax1x.com/2018/08/13/Pg819e.png">
 <meta property="og:image" content="https://s1.ax1x.com/2018/08/13/Pg8MtO.png">
 <meta property="og:image" content="https://s1.ax1x.com/2018/08/13/Pg88cd.png">
@@ -80,7 +81,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -321,7 +322,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UI设计"><span class="nav-number">2.1.</span> <span class="nav-text">UI设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主页界面"><span class="nav-number">2.1.1.</span> <span class="nav-text">主页界面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在底部没有采用过多的装饰，作者权限以及在有条件下可以开发一个浏览人数（图片上未展示）。"><span class="nav-number">2.2.</span> <span class="nav-text">在底部没有采用过多的装饰，作者权限以及在有条件下可以开发一个浏览人数（图片上未展示）。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文章界面"><span class="nav-number">2.2.1.</span> <span class="nav-text">文章界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后台界面"><span class="nav-number">2.2.2.</span> <span class="nav-text">后台界面</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UI%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.1.</span> <span class="nav-text">UI设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E9%A1%B5%E7%95%8C%E9%9D%A2"><span class="nav-number">2.1.1.</span> <span class="nav-text">主页界面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E5%BA%95%E9%83%A8%E6%B2%A1%E6%9C%89%E9%87%87%E7%94%A8%E8%BF%87%E5%A4%9A%E7%9A%84%E8%A3%85%E9%A5%B0%EF%BC%8C%E4%BD%9C%E8%80%85%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8A%E5%9C%A8%E6%9C%89%E6%9D%A1%E4%BB%B6%E4%B8%8B%E5%8F%AF%E4%BB%A5%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%E6%B5%8F%E8%A7%88%E4%BA%BA%E6%95%B0%EF%BC%88%E5%9B%BE%E7%89%87%E4%B8%8A%E6%9C%AA%E5%B1%95%E7%A4%BA%EF%BC%89%E3%80%82"><span class="nav-number">2.2.</span> <span class="nav-text">在底部没有采用过多的装饰，作者权限以及在有条件下可以开发一个浏览人数（图片上未展示）。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E7%95%8C%E9%9D%A2"><span class="nav-number">2.2.1.</span> <span class="nav-text">文章界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E5%8F%B0%E7%95%8C%E9%9D%A2"><span class="nav-number">2.2.2.</span> <span class="nav-text">后台界面</span></a></li></ol></li></ol></li></ol>
     
     </div>
   </aside>
@@ -336,7 +337,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -493,7 +494,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

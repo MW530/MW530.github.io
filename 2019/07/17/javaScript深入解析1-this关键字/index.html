@@ -17,8 +17,9 @@
 <meta property="og:url" content="http://yoursite.com/2019/07/17/javaScript%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%901-this%E5%85%B3%E9%94%AE%E5%AD%97/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="前言花了三天时间粗略看完了《你不知道的JavaScript》下部，这一部分介绍了ES6的部分内容（本书出版时ES7,8）的部分特性还未推出，因为之前已经学过ES6，所以这一遍只是温习和关注细节，感觉除了新增的特征，迭代器应该是最重要的部分，因为ES6的很多特性都用到了迭代器，包括 扩展运算符(spread)‘[…]’，泛数组的迭代(for..of循环，keys(),values(),entries">
+<meta property="og:locale">
 <meta property="article:published_time" content="2019-07-17T03:44:15.000Z">
-<meta property="article:modified_time" content="2021-03-08T03:38:53.592Z">
+<meta property="article:modified_time" content="2022-07-06T02:57:08.780Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="javaScript">
 <meta property="article:tag" content="this关键字">
@@ -74,7 +75,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -207,7 +208,7 @@
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>花了三天时间粗略看完了《你不知道的JavaScript》下部，这一部分介绍了ES6的部分内容（本书出版时ES7,8）的部分特性还未推出，因为之前已经学过ES6，所以这一遍只是温习和关注细节，感觉除了新增的特征，<strong>迭代器</strong>应该是最重要的部分，因为ES6的很多特性都用到了迭代器，包括 <strong>扩展运算符(spread)‘[…]’</strong>，泛数组的迭代(for..of循环，keys(),values(),entries()等等),其次就是Promise，这个特性用的也很多，特别是在异步操作上，配合生成器(function */)，迭代器(iterator),就是<strong>async异步函数</strong>的底层实现。</p>
 <h1 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于this</h1><p>this关键字作为JavaScript开发者必须理解的概念之一，其实并没有那么高深。</p>
-<h2 id="what"><a href="#what" class="headerlink" title="what"></a>what</h2><p>Q：什么是this？<br>A：this代表的是函数运行的上下文环境。<br><a id="more"></a><br>Detail：</p>
+<h2 id="what"><a href="#what" class="headerlink" title="what"></a>what</h2><p>Q：什么是this？<br>A：this代表的是函数运行的上下文环境。<br>Detail：</p>
 <p>在所有语言中，都有一个<strong>调用栈</strong>的概念，即函数被哪个对象所调用（注意JavaScript中对象的概念，几乎所有的方法，参数都有一个宿主对象，其中顶层对象在浏览器中window，在node中则为global）。所以我们再执行一个函数或调用一个变量时，默认是带有一个顶层对象前缀的，不过由于我们所有的代码都在该对象中，则可以省略，不信可以试一下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">console</span>.log(num);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.num);</span><br></pre></td></tr></table></figure>
 <p>没错，它们的结果都是0。</p>
@@ -398,7 +399,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于this"><span class="nav-number">2.</span> <span class="nav-text">关于this</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#what"><span class="nav-number">2.1.</span> <span class="nav-text">what</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#why-amp-where"><span class="nav-number">3.</span> <span class="nav-text">why &amp; where</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#how"><span class="nav-number">4.</span> <span class="nav-text">how</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优先级"><span class="nav-number">4.1.</span> <span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#箭头函数-gt"><span class="nav-number">4.2.</span> <span class="nav-text">箭头函数 &#x3D;&gt;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last"><span class="nav-number">5.</span> <span class="nav-text">Last</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Ethis"><span class="nav-number">2.</span> <span class="nav-text">关于this</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#what"><span class="nav-number">2.1.</span> <span class="nav-text">what</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#why-amp-where"><span class="nav-number">3.</span> <span class="nav-text">why &amp; where</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#how"><span class="nav-number">4.</span> <span class="nav-text">how</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">4.1.</span> <span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0-gt"><span class="nav-number">4.2.</span> <span class="nav-text">箭头函数 &#x3D;&gt;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last"><span class="nav-number">5.</span> <span class="nav-text">Last</span></a></li></ol>
     
     </div>
   </aside>
@@ -413,7 +414,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -570,7 +571,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

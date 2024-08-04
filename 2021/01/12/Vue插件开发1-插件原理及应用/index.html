@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>vue插件开发1-插件原理即应用 | My Wonderland</title>
+  <title>vue插件开发1-插件原理以及应用 | My Wonderland</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   <meta name="keywords" content="Vue插件开发dragWindow" />
@@ -11,17 +11,18 @@
   
   
   
-  <meta name="description" content="原理简介 插件通常用来为 Vue 添加全局功能。-Vue官网  我觉得广义上的插件，实际上就是一些可以复用的功能或组件的封装。 首先分析Vue源码： 12345678910111213141516171819202122232425&#x2F;&#x2F;src-&gt;core-&gt;instance-&gt;index.jsimport &amp;#123; initMixin &amp;#125; from &#39;.&#x2F;init&#39;">
+  <meta name="description" content="原理简介 插件通常用来为 Vue 添加全局功能。-Vue官网  我觉得广义上的插件，实际上就是一些可以复用的功能或组件的封装。 首先分析Vue源码： 12345678910111213141516171819202122232425&#x2F;&#x2F;src-&gt;core-&gt;instance-&gt;index.jsimport &#123; initMixin &#125; from &#39;.&#x2F;init&#39;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue插件开发1-插件原理即应用">
-<meta property="og:url" content="http://yoursite.com/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8D%B3%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:title" content="Vue插件开发1-插件原理以及应用">
+<meta property="og:url" content="http://yoursite.com/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="原理简介 插件通常用来为 Vue 添加全局功能。-Vue官网  我觉得广义上的插件，实际上就是一些可以复用的功能或组件的封装。 首先分析Vue源码： 12345678910111213141516171819202122232425&#x2F;&#x2F;src-&gt;core-&gt;instance-&gt;index.jsimport &amp;#123; initMixin &amp;#125; from &#39;.&#x2F;init&#39;">
+<meta property="og:description" content="原理简介 插件通常用来为 Vue 添加全局功能。-Vue官网  我觉得广义上的插件，实际上就是一些可以复用的功能或组件的封装。 首先分析Vue源码： 12345678910111213141516171819202122232425&#x2F;&#x2F;src-&gt;core-&gt;instance-&gt;index.jsimport &#123; initMixin &#125; from &#39;.&#x2F;init&#39;">
+<meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/images/vue%E6%8F%92%E4%BB%B6/vue%E6%8F%92%E4%BB%B61-1.png">
 <meta property="og:image" content="http://yoursite.com/images/vue%E6%8F%92%E4%BB%B6/vue%E6%8F%92%E4%BB%B61-2.png">
 <meta property="og:image" content="http://yoursite.com/images/vue%E6%8F%92%E4%BB%B6/vue%E6%8F%92%E4%BB%B61-3.png">
 <meta property="article:published_time" content="2021-01-12T06:45:27.000Z">
-<meta property="article:modified_time" content="2021-01-14T13:49:55.819Z">
+<meta property="article:modified_time" content="2022-08-06T03:15:45.976Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Vue插件开发">
 <meta property="article:tag" content="dragWindow">
@@ -78,7 +79,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -176,7 +177,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Vue插件开发1-插件原理即应用" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-Vue插件开发1-插件原理及应用" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -184,7 +185,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Vue插件开发1-插件原理即应用
+      Vue插件开发1-插件原理以及应用
     </h1>
   
 
@@ -192,7 +193,7 @@
     
     <div class="article-meta">
       
-	<a href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8D%B3%E5%BA%94%E7%94%A8/" class="article-date">
+	<a href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/" class="article-date">
 	  <time datetime="2021-01-12T06:45:27.000Z" itemprop="datePublished">2021-01-12</time>
 	</a>
 
@@ -216,7 +217,7 @@
 <p>首先分析Vue源码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//src-&gt;core-&gt;instance-&gt;index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; initMixin &#125; <span class="keyword">from</span> <span class="string">'./init'</span></span><br><span class="line"><span class="keyword">import</span> &#123; stateMixin &#125; <span class="keyword">from</span> <span class="string">'./state'</span></span><br><span class="line"><span class="keyword">import</span> &#123; renderMixin &#125; <span class="keyword">from</span> <span class="string">'./render'</span></span><br><span class="line"><span class="keyword">import</span> &#123; eventsMixin &#125; <span class="keyword">from</span> <span class="string">'./events'</span></span><br><span class="line"><span class="keyword">import</span> &#123; lifecycleMixin &#125; <span class="keyword">from</span> <span class="string">'./lifecycle'</span></span><br><span class="line"><span class="keyword">import</span> &#123; warn &#125; <span class="keyword">from</span> <span class="string">'../util/index'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Vue</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp;</span><br><span class="line">    !(<span class="keyword">this</span> <span class="keyword">instanceof</span> Vue)</span><br><span class="line">  ) &#123;</span><br><span class="line">    warn(<span class="string">'Vue is a constructor and should be called with the `new` keyword'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">this</span>._init(options)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">initMixin(Vue)</span><br><span class="line">stateMixin(Vue)</span><br><span class="line">eventsMixin(Vue)</span><br><span class="line">lifecycleMixin(Vue)</span><br><span class="line">renderMixin(Vue)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Vue</span><br></pre></td></tr></table></figure>
 <p>我们可以法Vue实例最初是一个函数，然后在其上挂载各种属性。作为函数，我们就可以为其直接添加属性，或者向其<code>prototype</code>上添加参数。</p>
-<p>Vue的插件通常包括一下几种：</p>
+<p>Vue的插件通常包括以下几种：</p>
 <ol>
 <li><p>添加全局方法或者 property。如：<a href="https://github.com/karol-f/vue-custom-element" target="_blank" rel="noopener">vue-custom-element</a></p>
 <p>注册代码：</p>
@@ -267,9 +268,9 @@
 <p>Vue.js 官方提供的一些插件 (例如 <code>vue-router</code>) 在检测到 <code>Vue</code> 是可访问的全局变量时会自动调用 <code>Vue.use()</code>。然而在像 CommonJS 这样的模块环境中，你应该始终显式地调用 <code>Vue.use()</code>：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用 Browserify 或 webpack 提供的 CommonJS 模块环境时</span></span><br><span class="line"><span class="keyword">var</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>)</span><br><span class="line"><span class="keyword">var</span> VueRouter = <span class="built_in">require</span>(<span class="string">'vue-router'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要忘了调用此方法</span></span><br><span class="line">Vue.use(VueRouter)</span><br></pre></td></tr></table></figure>
 <p><em>另外，全局样式表的引入需要直接在<code>main.js</code>中<code>import</code>，这样的css样式也会被全局注册，会影响所有的组件。</em></p>
-<h2 id="开发插件"><a href="#开发插件" class="headerlink" title="开发插件"></a>开发插件</h2><p><code>Vue</code>插件打开发其实很简单，最关键的就是其必须要暴露一个<code>install</code>方法。这个方法的第一个参数是 <code>Vue</code> 构造器，第二个参数是一个可选的选项对象：</p>
+<h2 id="开发插件"><a href="#开发插件" class="headerlink" title="开发插件"></a>开发插件</h2><p><code>Vue</code>插件开发其实很简单，最关键的就是其必须要暴露一个<code>install</code>方法。这个方法的第一个参数是 <code>Vue</code> 构造器，第二个参数是一个可选的选项对象：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">MyPlugin.install = <span class="function"><span class="keyword">function</span> (<span class="params">Vue, options</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 1. 添加全局方法或 property</span></span><br><span class="line">  Vue.myGlobalMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 逻辑...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2. 添加全局资源</span></span><br><span class="line">  Vue.directive(<span class="string">'my-directive'</span>, &#123;</span><br><span class="line">    bind (el, binding, vnode, oldVnode) &#123;</span><br><span class="line">      <span class="comment">// 逻辑...</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">  &#125;)</span><br><span class="line">  Vue.component(<span class="string">'my-component'</span>, Mcomponent)   <span class="comment">//常用</span></span><br><span class="line">  Vue.filter(<span class="string">'my-filter'</span>, Mfilter)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3. 注入组件选项</span></span><br><span class="line">  Vue.mixin(&#123;</span><br><span class="line">    created: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 逻辑...</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 4. 添加实例方法</span></span><br><span class="line">  Vue.prototype.$myMethod = <span class="function"><span class="keyword">function</span> (<span class="params">methodOptions</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 逻辑...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> MyPlugin</span><br></pre></td></tr></table></figure>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>根据上面的原理，我们只需要遵顼插件定义和使用的规则即可，其目录解构并不重要，但是为了规范，可以新建一个<code>plugin</code>用来存储插件文件，插件的目录解构可以自定义。另外，项目直接使用<code>vue-cli</code>生成一个普通的项目即可。</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>根据上面的原理，我们只需要遵循插件定义和使用的规则即可，其目录解构并不重要，但是为了规范，可以新建一个<code>plugin</code>用来存储插件文件，插件的目录解构可以自定义。另外，项目直接使用<code>vue-cli</code>生成一个普通的项目即可。</p>
 <p><img src="\images\vue插件\vue插件1-1.png" alt="目录结构"></p>
 <p>可以看到，在<code>index.js</code>文件中，我们定义了<code>install</code>函数，并在<code>Vue</code>的<code>prototype</code>上挂载了一个函数和一个方法，同时，也注册了一个全局的组件<code>dwin</code>。最后将该对象导出。</p>
 <p><img src="\images\vue插件\vue插件1-2.png" alt="main.js"></p>
@@ -305,7 +306,7 @@ var a = new Donate({
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/01/12/Vue插件开发1-插件原理即应用/" target="_blank" title="Vue插件开发1-插件原理即应用">http://yoursite.com/2021/01/12/Vue插件开发1-插件原理即应用/</a>
+          <a href="/2021/01/12/Vue插件开发1-插件原理及应用/" target="_blank" title="Vue插件开发1-插件原理以及应用">http://yoursite.com/2021/01/12/Vue插件开发1-插件原理及应用/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -377,7 +378,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原理"><span class="nav-number">1.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用插件"><span class="nav-number">1.2.</span> <span class="nav-text">使用插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发插件"><span class="nav-number">1.3.</span> <span class="nav-text">开发插件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用"><span class="nav-number">2.</span> <span class="nav-text">应用</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">使用插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">开发插件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">应用</span></a></li></ol>
     
     </div>
   </aside>
@@ -392,7 +393,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -549,7 +550,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

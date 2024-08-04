@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mybatis动态sql和resultmap | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="MyBatis动态SQLresultMap" />
+  
+  
+  
+  
+  <meta name="description" content="动态SQLmybatis动态SQL可以根据Java变量的不同动态拼接SQL，其本质就是按照我们每次向接口中传入的变量和我们指定的规则来帮助我们拼接SQL语句，简化了SQL语句的编写。 其主要有以下几组标签，其语义与在Java中相同：  if choose (when, otherwise) trim (where, set) foreach  ifif即条件判断，一般多用于where后的判断。 例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis动态SQL和resultMap">
+<meta property="og:url" content="http://yoursite.com/2022/04/15/MyBatis%E5%8A%A8%E6%80%81SQL%E5%92%8CresultMap/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="动态SQLmybatis动态SQL可以根据Java变量的不同动态拼接SQL，其本质就是按照我们每次向接口中传入的变量和我们指定的规则来帮助我们拼接SQL语句，简化了SQL语句的编写。 其主要有以下几组标签，其语义与在Java中相同：  if choose (when, otherwise) trim (where, set) foreach  ifif即条件判断，一般多用于where后的判断。 例">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-04-15T13:28:12.000Z">
+<meta property="article:modified_time" content="2022-04-20T15:04:45.791Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="MyBatis">
+<meta property="article:tag" content="动态SQL">
+<meta property="article:tag" content="resultMap">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-MyBatis动态SQL和resultMap" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      MyBatis动态SQL和resultMap
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/15/MyBatis%E5%8A%A8%E6%80%81SQL%E5%92%8CresultMap/" class="article-date">
+	  <time datetime="2022-04-15T13:28:12.000Z" itemprop="datePublished">2022-04-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/MyBatis/">MyBatis</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h1><p>mybatis动态SQL可以根据<strong>Java变量</strong>的不同动态拼接SQL，其本质就是按照我们每次向接口中传入的变量和我们指定的规则来帮助我们拼接SQL语句，简化了SQL语句的编写。</p>
+<p>其主要有以下几组标签，其语义与在Java中相同：</p>
+<ul>
+<li><code>if</code></li>
+<li><code>choose (when, otherwise)</code></li>
+<li><code>trim (where, set)</code></li>
+<li><code>foreach</code></li>
+</ul>
+<h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><p>if即条件判断，一般多用于where后的判断。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="findActiveBlogWithTitleLike" resultType="Blog"&gt;</span><br><span class="line">  <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG</span><br><span class="line">  <span class="keyword">WHERE</span> state = <span class="string">'ACTIVE'</span></span><br><span class="line">  &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"title != null"</span>&gt;</span><br><span class="line">    <span class="keyword">AND</span> title <span class="keyword">like</span> <span class="comment">#&#123;title&#125;</span></span><br><span class="line">  &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>这里只有当<code>title != null</code>成立的时候，其内部的语句<code>AND title like #{title}</code>才会添加到SQL语句中。</p>
+<h2 id="choose、when、otherwise"><a href="#choose、when、otherwise" class="headerlink" title="choose、when、otherwise"></a>choose、when、otherwise</h2><p>这一组标签类似于Java中的switch语句或者<code>if...else if...else</code>语句。</p>
+<p>即当会依次检验<code>when</code>是否满足，如果一个满足就按该语句拼接；如果都不满足，就按照<code>otherwise</code>来拼接。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="findActiveBlogLike"</span><br><span class="line">     resultType="Blog"&gt;</span><br><span class="line">  <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG <span class="keyword">WHERE</span> state = ‘ACTIVE’</span><br><span class="line">  &lt;<span class="keyword">choose</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">when</span> <span class="keyword">test</span>=<span class="string">"title != null"</span>&gt;</span><br><span class="line">      <span class="keyword">AND</span> title <span class="keyword">like</span> <span class="comment">#&#123;title&#125;</span></span><br><span class="line">    &lt;/<span class="keyword">when</span>&gt;</span><br><span class="line">    &lt;<span class="keyword">when</span> <span class="keyword">test</span>=<span class="string">"author != null and author.name != null"</span>&gt;</span><br><span class="line">      <span class="keyword">AND</span> author_name <span class="keyword">like</span> <span class="comment">#&#123;author.name&#125;</span></span><br><span class="line">    &lt;/<span class="keyword">when</span>&gt;</span><br><span class="line">    &lt;otherwise&gt;</span><br><span class="line">      <span class="keyword">AND</span> featured = <span class="number">1</span></span><br><span class="line">    &lt;/otherwise&gt;</span><br><span class="line">  &lt;/<span class="keyword">choose</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>这里当<code>title != null</code>满足的时候，就按第一个when拼接，后面的都不再执行；否则检验<code>author != null and author.name != null</code>，如果满足，则按该<code>when</code>拼接，否则就直接按<code>otherwise</code>来拼接。</p>
+<h2 id="where、trim、set"><a href="#where、trim、set" class="headerlink" title="where、trim、set"></a>where、trim、set</h2><h3 id="where"><a href="#where" class="headerlink" title="where"></a>where</h3><p>这一组标签是为了解决前面标签存在的问题。</p>
+<p>有下面的sql：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="findActiveBlogLike"</span><br><span class="line">     resultType="Blog"&gt;</span><br><span class="line">  <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG</span><br><span class="line">  <span class="keyword">WHERE</span></span><br><span class="line">  &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"state != null"</span>&gt;</span><br><span class="line">    state = <span class="comment">#&#123;state&#125;</span></span><br><span class="line">  &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">  &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"title != null"</span>&gt;</span><br><span class="line">    <span class="keyword">AND</span> title <span class="keyword">like</span> <span class="comment">#&#123;title&#125;</span></span><br><span class="line">  &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">  &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"author != null and author.name != null"</span>&gt;</span><br><span class="line">    <span class="keyword">AND</span> author_name <span class="keyword">like</span> <span class="comment">#&#123;author.name&#125;</span></span><br><span class="line">  &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>现在思考，</p>
+<ol>
+<li><p>假设<code>state != null</code>、<code>title != null</code>、<code>author != null and author.name != null</code>都验证失败，则SQL语句拼接为如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG</span><br><span class="line"><span class="keyword">WHERE</span></span><br></pre></td></tr></table></figure>
+<p>很明显这是一个错误的SQL。</p>
+</li>
+<li><p>假设<code>state != null</code>验证失败，但<code>title != null</code>和<code>author != null and author.name != null</code>验证成功，则SQL语句拼接如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line"><span class="keyword">AND</span> title <span class="keyword">like</span> <span class="comment">#&#123;title&#125;</span></span><br><span class="line"><span class="keyword">AND</span> author_name <span class="keyword">like</span> <span class="comment">#&#123;author.name&#125;</span></span><br></pre></td></tr></table></figure>
+<p>很明显，这也是一个错误的SQL。</p>
+</li>
+</ol>
+<p>而<code>where</code>标签就是为了解决这两种情况，其特点如下：</p>
+<ul>
+<li>如果条件都不满足，则自动去掉<code>WHERE</code>关键字。</li>
+<li>如果第一个条件不满足，则自动去掉<code>AND</code>、<code>OR</code>关键字。</li>
+</ul>
+<p>将上面的改写如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="findActiveBlogLike"</span><br><span class="line">     resultType="Blog"&gt;</span><br><span class="line">  <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG</span><br><span class="line">  &lt;<span class="keyword">where</span>&gt;</span><br><span class="line">      &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"state != null"</span>&gt;</span><br><span class="line">        state = <span class="comment">#&#123;state&#125;</span></span><br><span class="line">      &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">      &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"title != null"</span>&gt;</span><br><span class="line">        <span class="keyword">AND</span> title <span class="keyword">like</span> <span class="comment">#&#123;title&#125;</span></span><br><span class="line">      &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">      &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"author != null and author.name != null"</span>&gt;</span><br><span class="line">        <span class="keyword">AND</span> author_name <span class="keyword">like</span> <span class="comment">#&#123;author.name&#125;</span></span><br><span class="line">      &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">  &lt;/<span class="keyword">where</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>如此上面两种情况分别生成的SQL如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG</span><br><span class="line"><span class="keyword">WHERE</span> title <span class="keyword">like</span> <span class="comment">#&#123;title&#125;</span></span><br><span class="line"><span class="keyword">AND</span> author_name <span class="keyword">like</span> <span class="comment">#&#123;author.name&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p>与where一样，set关键字如果直接拼接也会面临问题。</p>
+<p>有下面的sql：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;update&gt;</span><br><span class="line"><span class="keyword">UPDATE</span> Author <span class="keyword">SET</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"username != null"</span>&gt;username=<span class="comment">#&#123;username&#125;,&lt;/if&gt;</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"password != null"</span>&gt;<span class="keyword">password</span>=<span class="comment">#&#123;password&#125;,&lt;/if&gt;</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"email != null"</span>&gt;email=<span class="comment">#&#123;email&#125;,&lt;/if&gt;</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"bio != null"</span>&gt;bio=<span class="comment">#&#123;bio&#125;&lt;/if&gt;</span></span><br><span class="line">         <span class="keyword">WHERE</span> <span class="keyword">id</span>=<span class="comment">#&#123;id&#125;</span></span><br><span class="line">&lt;/<span class="keyword">update</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>现在思考，假如只有<code>bio != null</code>验证失败，其他都成功，则拼接的SQL如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> Author <span class="keyword">SET</span> username = <span class="comment">#&#123;username&#125;, password=#&#123;password&#125;, email=#&#123;email&#125;, WHERE id=#&#123;id&#125;</span></span><br></pre></td></tr></table></figure>
+<p>很明显，这也是一个错误的SQL，因为多了一个逗号<code>,</code>。</p>
+<p>而set标签就是为了解决该问题而生的。</p>
+<p>其操作为：会自动去掉后缀的都好<code>,</code>。</p>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;update&gt;</span><br><span class="line"><span class="keyword">UPDATE</span> Author</span><br><span class="line">	&lt;<span class="keyword">set</span>&gt;</span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"username != null"</span>&gt;username=<span class="comment">#&#123;username&#125;,&lt;/if&gt;</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"password != null"</span>&gt;<span class="keyword">password</span>=<span class="comment">#&#123;password&#125;,&lt;/if&gt;</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"email != null"</span>&gt;email=<span class="comment">#&#123;email&#125;,&lt;/if&gt;</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"bio != null"</span>&gt;bio=<span class="comment">#&#123;bio&#125;&lt;/if&gt;</span></span><br><span class="line">         <span class="keyword">WHERE</span> <span class="keyword">id</span>=<span class="comment">#&#123;id&#125;</span></span><br><span class="line">      &lt;/<span class="keyword">set</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">update</span>&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="trim"><a href="#trim" class="headerlink" title="trim"></a>trim</h3><p>该标签与Java中意思一致，即去前缀或后缀，不同的是，Java中只能去除空格，而这里可以自定义要去除的对象以及哪个关键字的前后缀。</p>
+<blockquote>
+<p>实际上上面的where标签和set标签都是trim标签的特殊情况，因为上面的本质就是前后缀的问题。</p>
+</blockquote>
+<p>例如要实现上面where标签的功能。</p>
+<p>其代码就如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="findActiveBlogLike"</span><br><span class="line">     resultType="Blog"&gt;</span><br><span class="line">  <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG</span><br><span class="line">  &lt;<span class="keyword">trim</span> prefix=<span class="string">"where"</span> prefixOverrides=<span class="string">"AND |OR"</span>&gt;		</span><br><span class="line">      &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"state != null"</span>&gt;</span><br><span class="line">        state = <span class="comment">#&#123;state&#125;</span></span><br><span class="line">      &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">      &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"title != null"</span>&gt;</span><br><span class="line">        <span class="keyword">AND</span> title <span class="keyword">like</span> <span class="comment">#&#123;title&#125;</span></span><br><span class="line">      &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">      &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"author != null and author.name != null"</span>&gt;</span><br><span class="line">        <span class="keyword">AND</span> author_name <span class="keyword">like</span> <span class="comment">#&#123;author.name&#125;</span></span><br><span class="line">      &lt;/<span class="keyword">if</span>&gt;</span><br><span class="line">  &lt;/<span class="keyword">trim</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>其属性有以下四个：</p>
+<ul>
+<li>prefix：前缀</li>
+<li>prefixOverrides：要去除的前缀</li>
+<li>suffix：后缀</li>
+<li>prefixOverrides：要去除的后缀</li>
+</ul>
+<p>即prefix和suffix分别会被加到语句中，而prefixOverrides和prefixOverrides会被去掉。</p>
+<p>再例如update语句中去除拼接时的<code>,</code>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;update&gt;</span><br><span class="line">	<span class="keyword">UPDATE</span> Author</span><br><span class="line">	&lt;<span class="keyword">trim</span> prefix=<span class="string">"SET"</span> prefixOverrides=<span class="string">","</span>&gt;</span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"username != null"</span>&gt;username=<span class="comment">#&#123;username&#125;,&lt;/if&gt;</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"password != null"</span>&gt;<span class="keyword">password</span>=<span class="comment">#&#123;password&#125;,&lt;/if&gt;</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"email != null"</span>&gt;email=<span class="comment">#&#123;email&#125;,&lt;/if&gt;</span></span><br><span class="line">          &lt;<span class="keyword">if</span> <span class="keyword">test</span>=<span class="string">"bio != null"</span>&gt;bio=<span class="comment">#&#123;bio&#125;&lt;/if&gt;</span></span><br><span class="line">	&lt;/<span class="keyword">trim</span>&gt;</span><br><span class="line">	<span class="keyword">WHERE</span> <span class="keyword">id</span>=<span class="comment">#&#123;id&#125;</span></span><br><span class="line">&lt;/<span class="keyword">update</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>本例中，则会自动加上SET，并且会去掉后缀<code>,</code>。</p>
+<h3 id="foreach"><a href="#foreach" class="headerlink" title="foreach"></a>foreach</h3><p>与Java一致，该标签用于遍历接口传入的<strong>集合</strong>（<code>List, Array, Map</code>）。</p>
+<p>其包含以下属性：</p>
+<ul>
+<li>collection： 表示迭代集合的名称</li>
+<li>item： 表示本次迭代获取的元素，若collection为List、Set或者数组，则表示其中的元素；若collection为map，则代表key-value的value，该参数为必选</li>
+<li>open：表示该语句以什么开始，最常用的是左括弧<code>(</code>，注意:mybatis会将该字符拼接到整体的sql语句之前，并且只拼接一次，该参数为可选项</li>
+<li>close：表示该语句以什么结束，最常用的是右括弧<code>)</code>，注意:mybatis会将该字符拼接到整体的sql语句之后，该参数为可选项</li>
+<li>separator：mybatis会在每次迭代后给sql语句append上separator属性指定的字符，一般为逗号<code>,</code>，该参数为可选项</li>
+<li>index： 在list、Set和数组中,index表示当前迭代的位置，在map中，index代指是元素的key，该参数是可选项。</li>
+</ul>
+<p>由于包含多个元素，所以其一般和IN一起用，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="queryUserByIdsList"  resultType="user"&gt;</span><br><span class="line">		<span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span></span><br><span class="line">		&lt;<span class="keyword">where</span>&gt; <span class="keyword">id</span> <span class="keyword">in</span> </span><br><span class="line">			&lt;foreach collection=<span class="string">"list"</span> item=<span class="string">"item"</span> <span class="keyword">open</span>=<span class="string">"("</span> <span class="keyword">close</span>=<span class="string">")"</span> separator=<span class="string">","</span>&gt;</span><br><span class="line">				<span class="comment">#&#123;item&#125;</span></span><br><span class="line">			&lt;/foreach&gt;</span><br><span class="line">		&lt;/<span class="keyword">where</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>补充：该标签也可以配合mybaits的函数<code>split</code>，将一个字段分割，然后每个部分依次再拼接。</p>
+<p>如tags是按<code>id1;id2;id3</code>这样拼接的：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="queryUserByIdsList"  resultType="user"&gt;</span><br><span class="line">		<span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span></span><br><span class="line">		&lt;<span class="keyword">where</span>&gt; <span class="keyword">id</span> <span class="keyword">in</span> </span><br><span class="line">			&lt;foreach collection=<span class="string">"tags.split(';')"</span> item=<span class="string">"item"</span> <span class="keyword">open</span>=<span class="string">"("</span> <span class="keyword">close</span>=<span class="string">")"</span> separator=<span class="string">","</span>&gt;</span><br><span class="line">				<span class="comment">#&#123;item&#125;</span></span><br><span class="line">			&lt;/foreach&gt;</span><br><span class="line">		&lt;/<span class="keyword">where</span>&gt;</span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><p>bind标签允许我们创建一个变量，并将其绑定到当前的上下文。</p>
+<p>如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="selectBlogsLike" resultType="Blog"&gt;</span><br><span class="line">  &lt;bind name="pattern" value="'%' + _parameter.getTitle() + '%'" /&gt;</span><br><span class="line">  <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> BLOG</span><br><span class="line">  <span class="keyword">WHERE</span> title <span class="keyword">LIKE</span> <span class="comment">#&#123;pattern&#125;</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h2><h3 id="多参数的接口"><a href="#多参数的接口" class="headerlink" title="多参数的接口"></a>多参数的接口</h3><p>一般我们再定义接口的时候只有一个参数，但是当有多个参数的时候，mybatis的行为就与我们直觉的不太相同。</p>
+<p>因为只有一个参数<code>var</code>的时候，我们使用<code>#{name}</code>取值时，实际上是取<code>var.name</code>属性。但是当具有多个参数时，这种方法就明显有歧义的。</p>
+<p>因此其默认行为改为：</p>
+<ul>
+<li>将参数自动命名为<code>paramX</code>（X为参数的序号-从1开始）。</li>
+<li>也可以直接通过<code>#{X}</code>来获取第X个参数-从0开始。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="selectUser" resultMap="UserResultMap"&gt;</span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span></span><br><span class="line">    <span class="keyword">where</span> user_name = <span class="comment">#&#123;param1&#125; and dept_id = #&#123;param2&#125;</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="keyword">select</span> <span class="keyword">id</span>=<span class="string">"selectUser"</span> resultMap=<span class="string">"UserResultMap"</span>&gt;</span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span></span><br><span class="line">    <span class="keyword">where</span> user_name = <span class="comment">#&#123;0&#125; and dept_id = #&#123;1&#125;</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>这两种都不直观，更好的解决办法是，通过注解<code>@Param</code>来为其命名。</p>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">selectUser</span><span class="params">(@Param(<span class="string">"userName"</span>)</span> String name, <span class="keyword">int</span> @<span class="title">Param</span><span class="params">(<span class="string">"deptId"</span>)</span> deptId)</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="selectUser" resultMap="UserResultMap"&gt;</span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span></span><br><span class="line">    <span class="keyword">where</span> user_name = <span class="comment">#&#123;userName&#125; and dept_id = #&#123;deptId&#125;</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>或者将其封装到map或Java bean中。</p>
+<h3 id="mybatis内置参数"><a href="#mybatis内置参数" class="headerlink" title="mybatis内置参数"></a><span id="_parameter">mybatis内置参数</span></h3><p>mybatis内置了几个参数：</p>
+<ul>
+<li><p><code>_parameter</code>：所有参数，如果为单参数，则其就为该参数；如果是多参数，就会将其封装为一个map。</p>
+<ul>
+<li>第二种情况可以直接通过<code>.</code>来获取属性值，如<code>_parameter.uId</code></li>
+</ul>
+</li>
+<li><p><code>_databaseId</code>：用户所指定的对应的数据库厂商标识。需要再mybaits配置文件中进行配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">databaseIdProvider</span> <span class="attr">type</span>=<span class="string">"DB_VENDOR"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"MySQL"</span> <span class="attr">value</span>=<span class="string">"mysql"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--//多个数据库提供商配置...--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">databaseIdProvider</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>（一般用的不多）</p>
+</li>
+<li><p><code>#{value}</code>：当参数只有一个的时候，该参数可以直接使用<code>#{value}</code>来引用，（也可以使用参数名字来引入）。这个一般配合<code>resultMap</code>的嵌套查询，因为其参数的名字没法指定。</p>
+</li>
+</ul>
+<h1 id="resultMap"><a href="#resultMap" class="headerlink" title="resultMap"></a>resultMap</h1><p>resultMap可以让我们将数据库中的字段与Java对象中的属性按照指定的方法匹配起来，mybatis将会自动按照该匹配进行封装。</p>
+<p>例如：</p>
+<p>1、Java对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> myId;</span><br><span class="line">    <span class="keyword">private</span> String myName;</span><br><span class="line">    <span class="keyword">private</span> String myHobby;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、表字段：</p>
+<ul>
+<li>id</li>
+<li>name</li>
+<li>hobby</li>
+</ul>
+<p>此时要将其对应起来，自动就无能为力了，需要我们编写resultMap来手动匹配：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;resultMap  id="userResultMap" type="user"&gt;</span><br><span class="line">  &lt;id property="myId" column="id" /&gt;</span><br><span class="line">  &lt;result property="myName" column="name"/&gt;</span><br><span class="line">  &lt;result property="myHobby" column="hobby"/&gt;</span><br><span class="line">&lt;/resultMap&gt;</span><br></pre></td></tr></table></figure>
+<p>然后再sql中使用该resultMap：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="selectUsers" resultMap="userResultMap"&gt;</span><br><span class="line">  <span class="keyword">select</span> <span class="keyword">id</span>, <span class="keyword">name</span>, hobby</span><br><span class="line">  <span class="keyword">from</span> <span class="keyword">users</span></span><br><span class="line">  <span class="keyword">where</span> <span class="keyword">id</span> = <span class="comment">#&#123;id&#125;</span></span><br><span class="line">&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>如此就能完成对应工作。</p>
+<h3 id="半自动匹配"><a href="#半自动匹配" class="headerlink" title="半自动匹配"></a>半自动匹配</h3><p>如果我们表中和对象中只有部分不匹配，则可以只手动编写不匹配的，然后将<code>autoMapping</code>设置为<code>true</code>。</p>
+<h3 id="高级匹配"><a href="#高级匹配" class="headerlink" title="高级匹配"></a>高级匹配</h3><p>resultMap不光可以完成简单字段的匹配，也可以完成对象和集合的匹配。</p>
+<p>例如：</p>
+<p>1、User对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String hobby;</span><br><span class="line">    <span class="keyword">private</span> Person mentor;</span><br><span class="line">    <span class="keyword">private</span> Person[] friends;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    Person对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、表</p>
+<ul>
+<li>users：<ul>
+<li>id</li>
+<li>name</li>
+<li>mentor</li>
+<li>friends</li>
+</ul>
+</li>
+<li>persons:<ul>
+<li>id</li>
+<li>fId</li>
+<li>name</li>
+</ul>
+</li>
+</ul>
+<p>3、resultMap</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resultMap</span>  <span class="attr">id</span>=<span class="string">"userResultMap"</span> <span class="attr">type</span>=<span class="string">"user"</span> <span class="attr">autoMapping</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">association</span> <span class="attr">property</span>=<span class="string">"mentor"</span> <span class="attr">javaType</span>=<span class="string">"Person"</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"MId"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"name"</span> <span class="attr">column</span>=<span class="string">"MName"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">association</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">collection</span> <span class="attr">property</span>=<span class="string">"friends"</span>  <span class="attr">javaType</span>=<span class="string">"Person"</span> &gt;</span></span><br><span class="line">    	 <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"FId"</span> /&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"name"</span> <span class="attr">column</span>=<span class="string">"FName"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collection</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>4、SQL</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findUser"</span> <span class="attr">resultType</span>=<span class="string">"user"</span>&gt;</span></span><br><span class="line">	SELECT userT.id as id, userT.name as name, userT.hobby as hobby, </span><br><span class="line">    mentorT.id = MId, mentorT.name = MName, </span><br><span class="line">    friendsT.id = FId, friendsT.name = FName</span><br><span class="line">    FROM users userT left outer join persons personsT ON userT.mentor = mentorT.id</span><br><span class="line">    left outer join firends friendsT ON userT.id = friendsT.fId</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样就能自动装配好其对象和集合属性。</p>
+<h3 id="嵌套查询"><a href="#嵌套查询" class="headerlink" title="嵌套查询"></a>嵌套查询</h3><p>有时候Java实体中的属性不能简单的通过表的连接来查询，需要更加复杂的查询。例如将一张表中的某个字段分割过后，使用分割后的元素进行查询，此时除了使用较为复杂的存储过程外，还可以使用<code>resultMap</code>中的<code>sql</code>属性来配置子查询。</p>
+<p>如：</p>
+<p>1、User对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String hobby;</span><br><span class="line">    <span class="keyword">private</span> Person[] friends;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    Person对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、表（与上一致）</p>
+<p>注意此时数据库中users表的friends是按照<code>frinedId1;frinedId2;frinedId3</code>这样存储的。</p>
+<p>3、resultMap</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resultMap</span>  <span class="attr">id</span>=<span class="string">"userResultMap"</span> <span class="attr">type</span>=<span class="string">"user"</span> <span class="attr">autoMapping</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">collection</span> <span class="attr">property</span>=<span class="string">"friends"</span>  <span class="attr">javaType</span>=<span class="string">"Person"</span> <span class="attr">sql</span>=<span class="string">"_findPerson"</span>  <span class="attr">autoMapping</span>=<span class="string">"true"</span>/&gt;</span>  <span class="comment">&lt;!--由于获取的字段名字相同了，所以可以直接自动匹配了--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>4、SQL</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findUser"</span> <span class="attr">resultType</span>=<span class="string">"user"</span>&gt;</span></span><br><span class="line">    SELECT id, name, friends FROM users</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"_findPerson"</span> <span class="attr">resultType</span>=<span class="string">"person"</span>&gt;</span></span><br><span class="line">    SELECT id, name FROM friends WHERE id IN </span><br><span class="line">    <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"_parameter.split(';')"</span> <span class="attr">separator</span>=<span class="string">","</span> <span class="attr">open</span>=<span class="string">"("</span> <span class="attr">close</span>=<span class="string">")"</span> <span class="attr">item</span>=<span class="string">"itemId"</span>&gt;</span></span><br><span class="line">        #&#123;itemId&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>值得注意的是这里的<code>_parameter</code>，就如<a href="#_parameter">上面</a>说的，此时相当于也是一个接口，但是我们并不是直接传参，所以并不知道具体的参数名字，则<code>_parameter</code>就可以直接使用了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/04/15/MyBatis动态SQL和resultMap/" target="_blank" title="MyBatis动态SQL和resultMap">http://yoursite.com/2022/04/15/MyBatis动态SQL和resultMap/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM2-1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A7%E8%A1%8C%E5%AD%90%E7%B3%BB%E7%BB%9F-%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          深入理解JVM2-1-虚拟机执行子系统-类文件结构
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/06/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-5-Timer%E7%9A%84%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java多线程编程核心技术-5-Timer的使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81SQL"><span class="nav-number">1.</span> <span class="nav-text">动态SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#if"><span class="nav-number">1.1.</span> <span class="nav-text">if</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#choose%E3%80%81when%E3%80%81otherwise"><span class="nav-number">1.2.</span> <span class="nav-text">choose、when、otherwise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#where%E3%80%81trim%E3%80%81set"><span class="nav-number">1.3.</span> <span class="nav-text">where、trim、set</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#where"><span class="nav-number">1.3.1.</span> <span class="nav-text">where</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set"><span class="nav-number">1.3.2.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#trim"><span class="nav-number">1.3.3.</span> <span class="nav-text">trim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#foreach"><span class="nav-number">1.3.4.</span> <span class="nav-text">foreach</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bind"><span class="nav-number">1.4.</span> <span class="nav-text">bind</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A"><span class="nav-number">1.5.</span> <span class="nav-text">补充：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%8F%82%E6%95%B0%E7%9A%84%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.5.1.</span> <span class="nav-text">多参数的接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mybatis%E5%86%85%E7%BD%AE%E5%8F%82%E6%95%B0"><span class="nav-number">1.5.2.</span> <span class="nav-text">mybatis内置参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#resultMap"><span class="nav-number">2.</span> <span class="nav-text">resultMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%8C%B9%E9%85%8D"><span class="nav-number">2.0.1.</span> <span class="nav-text">半自动匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E5%8C%B9%E9%85%8D"><span class="nav-number">2.0.2.</span> <span class="nav-text">高级匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.0.3.</span> <span class="nav-text">嵌套查询</span></a></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

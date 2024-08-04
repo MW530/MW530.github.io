@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java中的各种文件压缩、解压方法（更新中~） | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Java文件压缩" />
+  
+  
+  
+  
+  <meta name="description" content="Note：本文的工具都开源在GitHub的JUtils上。 ZIP压缩zipOutputStream方式压缩这个方式是最基础的方式，是Java底层给出的一种流方案。 其压缩方式步骤如下：  新建一个ZipOutputStream，其参数接收一个OutputStream，一般是新建一个FileOutputStream。 循环获取要压缩的文件&#x2F;文件夹，调用putEntry函数进行流的写入。 putEn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的各种文件压缩、解压方法（更新中~）">
+<meta property="og:url" content="http://yoursite.com/2022/07/01/Java%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E3%80%81%E8%A7%A3%E5%8E%8B%E6%96%B9%E6%B3%95%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD~%EF%BC%89/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="Note：本文的工具都开源在GitHub的JUtils上。 ZIP压缩zipOutputStream方式压缩这个方式是最基础的方式，是Java底层给出的一种流方案。 其压缩方式步骤如下：  新建一个ZipOutputStream，其参数接收一个OutputStream，一般是新建一个FileOutputStream。 循环获取要压缩的文件&#x2F;文件夹，调用putEntry函数进行流的写入。 putEn">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-07-01T08:08:32.000Z">
+<meta property="article:modified_time" content="2022-07-06T07:23:14.376Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="文件压缩">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Java中的各种文件压缩、解压方法（更新中~）" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Java中的各种文件压缩、解压方法（更新中~）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/07/01/Java%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E3%80%81%E8%A7%A3%E5%8E%8B%E6%96%B9%E6%B3%95%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD~%EF%BC%89/" class="article-date">
+	  <time datetime="2022-07-01T08:08:32.000Z" itemprop="datePublished">2022-07-01</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Note：本文的工具都开源在GitHub的<a href="https://github.com/MW530/JUtils" target="_blank" rel="noopener">JUtils</a>上。</p>
+<h1 id="ZIP压缩"><a href="#ZIP压缩" class="headerlink" title="ZIP压缩"></a>ZIP压缩</h1><h2 id="zipOutputStream方式"><a href="#zipOutputStream方式" class="headerlink" title="zipOutputStream方式"></a>zipOutputStream方式</h2><h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><p>这个方式是最基础的方式，是Java底层给出的一种流方案。</p>
+<p>其压缩方式步骤如下：</p>
+<ol>
+<li>新建一个<code>ZipOutputStream</code>，其参数接收一个<code>OutputStream</code>，一般是新建一个FileOutputStream。</li>
+<li>循环获取要压缩的文件/文件夹，调用putEntry函数进行流的写入。</li>
+<li>putEntry的过程如下：<ol>
+<li>如果是文件夹，则将其设为基础目录，然后递归调用putEntry来压缩该文件夹下的文件。</li>
+<li>如果是文件，则使用基础目录拼接后将该entry放入流中。</li>
+</ol>
+</li>
+<li>设置压缩级别。</li>
+<li>flush、close这个流。</li>
+</ol>
+<p>值得注意的有：</p>
+<ul>
+<li>文件夹的处理，即递归的获取子文件夹，然后进行压缩。</li>
+<li>entry的名字则自带了文件夹目录层级，即<code>xxx/aaaa.jpg</code>则会在压缩包中新建一个xxx的文件夹，并把<code>aaa.jpg</code>放入其中。</li>
+</ul>
+<p>具体如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>  2022/7/4</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> fileUrls中，文件只会取文件名，文件夹则只会取最内层文件夹的名字。但子文件夹和其下的子文件就会递归压缩了。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Param</span> fileInfos:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Param</span> compressionLevel:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Param</span> filePath:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">zipFilesByZipStream</span><span class="params">(ArrayList&lt;String&gt; fileUrls, Integer compressionLevel, String filePath)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="comment">// 判断外围文件夹是否存在，如果不存在则创建</span></span><br><span class="line">    <span class="keyword">if</span>(fileUrls == <span class="keyword">null</span> || filePath.length() == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span>  <span class="keyword">new</span> RuntimeException(<span class="string">"文件列表不能为空！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    String filePathWithoutName = FileUtils.getOuterFolderPath(filePath);</span><br><span class="line">    File pathFile = <span class="keyword">new</span> File(filePathWithoutName);</span><br><span class="line">    <span class="keyword">if</span>(!pathFile.exists())&#123;</span><br><span class="line">        pathFile.mkdirs();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断源文件存在，则删除</span></span><br><span class="line">    File tempFile = <span class="keyword">new</span> File(filePath);</span><br><span class="line">    <span class="keyword">if</span>(tempFile.exists())&#123;</span><br><span class="line">        tempFile.delete();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ZipOutputStream zipOutputStream = <span class="keyword">new</span> ZipOutputStream(<span class="keyword">new</span> FileOutputStream(filePath), Charset.forName(<span class="string">"GBK"</span>));</span><br><span class="line">    <span class="keyword">for</span> (String url : fileUrls) &#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(url);</span><br><span class="line">        putEntry(zipOutputStream, file, <span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    zipOutputStream.setLevel(compressionLevel);</span><br><span class="line">    zipOutputStream.flush();</span><br><span class="line">    zipOutputStream.close();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">putEntry</span><span class="params">(ZipOutputStream zipOutputStream, File file, String basePath)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (file.isDirectory())&#123;</span><br><span class="line">        File[] files = file.listFiles();</span><br><span class="line">        <span class="keyword">for</span> (File subFile : files) &#123;</span><br><span class="line">            putEntry(zipOutputStream, subFile, basePath + File.separator + file.getName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        ZipEntry entry = <span class="keyword">new</span> ZipEntry(basePath + File.separator + file.getName());</span><br><span class="line">        entry.setSize(file.length());</span><br><span class="line">        zipOutputStream.putNextEntry(entry);</span><br><span class="line">        <span class="keyword">byte</span>[] fileByte = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) file.length()];</span><br><span class="line">        FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">        fileInputStream.read(fileByte);</span><br><span class="line">        zipOutputStream.write(fileByte);</span><br><span class="line">        zipOutputStream.flush();</span><br><span class="line">        fileInputStream.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>解压的过程就比较简单了，因为不涉及递归获取文件。其过程如下：</p>
+<ol>
+<li>只需要不断调用<code>getNextEntry</code>方法，获取entry，判断其为文件夹还是文件：<ol>
+<li>如果是文件夹，则结合基础目录，拼接新目录并新建该文件夹。</li>
+<li>如果是文件，则结合基础目录，拼接新文件目录，然后读取流中的文件并写入该文件。</li>
+</ol>
+</li>
+<li>关闭Entry、关闭流。</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">extractZipByStream</span><span class="params">(String zipPath)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    File zipFile = <span class="keyword">new</span> File(zipPath);</span><br><span class="line">    String newOuterPath = zipFile.getParent() + File.separator + zipFile.getName().split(<span class="string">"\\."</span>)[<span class="number">0</span>];</span><br><span class="line">    File newOuterFolder = <span class="keyword">new</span> File(newOuterPath);</span><br><span class="line">    <span class="keyword">if</span>(!newOuterFolder.exists())&#123;</span><br><span class="line">        newOuterFolder.mkdirs();</span><br><span class="line">    &#125;</span><br><span class="line">    ZipInputStream zipInputStream = <span class="keyword">new</span> ZipInputStream(<span class="keyword">new</span> FileInputStream(zipPath), Charset.forName(<span class="string">"GBK"</span>));</span><br><span class="line">    ZipEntry entry = zipInputStream.getNextEntry();</span><br><span class="line">    <span class="keyword">while</span>(entry != <span class="keyword">null</span>)&#123;</span><br><span class="line">        String newPath = newOuterPath + File.separator + entry.getName();</span><br><span class="line">        File file =  <span class="keyword">new</span> File(newPath);</span><br><span class="line">        <span class="keyword">if</span>(entry.isDirectory())&#123;</span><br><span class="line">            file.mkdirs();</span><br><span class="line">            <span class="comment">//文件</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            String parent = file.getParent();</span><br><span class="line">            File outerFolder = <span class="keyword">new</span> File(parent);</span><br><span class="line">            <span class="keyword">if</span> (!outerFolder.exists())&#123;</span><br><span class="line">                outerFolder.mkdirs();</span><br><span class="line">            &#125;</span><br><span class="line">            file.createNewFile();</span><br><span class="line">            <span class="keyword">byte</span>[] buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            BufferedOutputStream bufferedInputStream =  <span class="keyword">new</span> BufferedOutputStream(<span class="keyword">new</span> FileOutputStream(file));</span><br><span class="line">            <span class="keyword">int</span> len;</span><br><span class="line">            <span class="keyword">while</span> ((len = zipInputStream.read(buff, <span class="number">0</span> ,<span class="number">1024</span>)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                bufferedInputStream.write(buff, <span class="number">0</span>, len);</span><br><span class="line">            &#125;</span><br><span class="line">            zipInputStream.read(buff);</span><br><span class="line">            bufferedInputStream.flush();</span><br><span class="line">            bufferedInputStream.close();</span><br><span class="line">        &#125;</span><br><span class="line">        entry = zipInputStream.getNextEntry();</span><br><span class="line">    &#125;</span><br><span class="line">    zipInputStream.closeEntry();</span><br><span class="line">    zipInputStream.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h3><ol>
+<li><p><code>entry.getSize()</code>：这个接口返回对应entry未压缩时的大小。<strong>但是其可能是未知的</strong>，所以不能通过该属性来新建byte数组。</p>
+</li>
+<li><p>文件流读取：就像上面说的，<code>entry.getSize()</code>可能是未知的。所以流读取的时候，应当采用先初始化一个固定大小的数组，然后调用read时传入该数组的大小，这里是1024。但是read会返回当次读取的字节长度，如果小于1024，则返回该次的大小，否则就是传入的大小（1024）。</p>
+</li>
+<li><p>还得注意中文，如果文件中含有中文，那必须在新建流的时候，传入第二个编码参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ZipInputStream zipInputStream = <span class="keyword">new</span> ZipInputStream(<span class="keyword">new</span> FileInputStream(zipPath), Charset.forName(<span class="string">"GBK"</span>));</span><br><span class="line"></span><br><span class="line">ZipInputStream zipInputStream = <span class="keyword">new</span> ZipInputStream(<span class="keyword">new</span> FileInputStream(zipPath), Charset.forName(<span class="string">"GBK"</span>));</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="ZipFile方式"><a href="#ZipFile方式" class="headerlink" title="ZipFile方式"></a>ZipFile方式</h2><p>ZipFile类可以用来读取zip文件，其实本质上还是利用<code>ZipInputStream</code>，所以其只可以用来解压缩文件。但是由于其对压缩包的每个文件都进行拆解，所以相较于直接用<code>ZipInputStream</code>，会简单一点（但也只是一点）。</p>
+<p><code>ZipFile</code>有一个<code>entries()</code>方法，可以获取所有的元素。然后遍历整个所有的entries。与<code>ZipInputStream</code>不同的就是，可以通过entries对象获取单个<code>inputStream</code>，就不存在自己看分割长度的问题。</p>
+<p>具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>  2022/7/6</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 通过Java自带的ZipFile类实现文件解压缩</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Param</span> zipPath: 压缩文件目标地址</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span>  <span class="title">extractZipFileByZipFile</span><span class="params">(String zipPath)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    File NativeZipFile = <span class="keyword">new</span> File(zipPath);</span><br><span class="line">    String newOuterPath = NativeZipFile.getParent() + File.separator + NativeZipFile.getName().split(<span class="string">"\\."</span>)[<span class="number">0</span>];</span><br><span class="line">    ZipFile zipFile = <span class="keyword">new</span> ZipFile(zipPath);</span><br><span class="line">    Enumeration&lt;? extends ZipEntry&gt; entries = zipFile.entries();</span><br><span class="line">    <span class="keyword">for</span> (Iterator&lt;? extends ZipEntry&gt; it = entries.asIterator(); it.hasNext(); ) &#123;</span><br><span class="line">        ZipEntry zipEntry = it.next();</span><br><span class="line">        String newPath = newOuterPath + File.separator + zipEntry.getName();</span><br><span class="line">        File file =  <span class="keyword">new</span> File(newPath);</span><br><span class="line">        <span class="keyword">if</span>(zipEntry.isDirectory())&#123;</span><br><span class="line">            file.mkdirs();</span><br><span class="line">            <span class="comment">//文件</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            String parent = file.getParent();</span><br><span class="line">            File outerFolder = <span class="keyword">new</span> File(parent);</span><br><span class="line">            <span class="keyword">if</span> (!outerFolder.exists())&#123;</span><br><span class="line">                outerFolder.mkdirs();</span><br><span class="line">            &#125;</span><br><span class="line">            file.createNewFile();</span><br><span class="line">            InputStream inputStream = zipFile.getInputStream(zipEntry);</span><br><span class="line">            FileOutputStream fileOutputStream = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">            fileOutputStream.write(inputStream.readAllBytes());</span><br><span class="line">            fileOutputStream.flush();</span><br><span class="line">            fileOutputStream.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="zip4j方式"><a href="#zip4j方式" class="headerlink" title="zip4j方式"></a>zip4j方式</h2><p>Zip4j是用于zip文件或流的最全面的Java库。最重要的是：zip4j是唯一一个支持压缩文件加密的工具。像上面提到的<code>ZipOutputStream</code>并不支持加密。并且zip4j的API很简单。如果不是，一般就不需要封装了，可以直接用。</p>
+<p>下面还是给出一个简单的封装，主要是将其功能封装在了多个重载函数中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span>  2022/7/6</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> 通过zip4j进行无密码的压缩</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> zipPath: 压缩文件目标地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> fileUrls: 被压缩文件的列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> compressLevel:  压缩率</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compressZipFileByZip4j</span><span class="params">(String zipPath, ArrayList&lt;String&gt; fileUrls, CompressionLevel compressLevel)</span> <span class="keyword">throws</span> ZipException </span>&#123;</span><br><span class="line">        net.lingala.zip4j.ZipFile zipFile = <span class="keyword">new</span> net.lingala.zip4j.ZipFile(zipPath);</span><br><span class="line">        _compressZipFileByZip4j(zipFile, fileUrls, compressLevel);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span>  2022/7/6</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> 通过zip4j进行有密码压缩</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> zipPath: 压缩文件目标的地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> fileUrls: 要被压缩的文件列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> compressLevel: 压缩率</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> password: 密码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compressZipFileByZip4j</span><span class="params">(String zipPath, ArrayList&lt;String&gt; fileUrls, CompressionLevel compressLevel, @NotNull String password)</span> <span class="keyword">throws</span> ZipException </span>&#123;</span><br><span class="line">        net.lingala.zip4j.ZipFile zipFile = <span class="keyword">new</span> net.lingala.zip4j.ZipFile(zipPath, password.toCharArray());</span><br><span class="line">        _compressZipFileByZip4j(zipFile, fileUrls, compressLevel);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span>  2022/7/6</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> 通过zip4j进行无密码压缩，然后重命名被压缩的文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> zipPath: 压缩文件目标的地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> fileUrls: 要被压缩的文件列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> compressLevel: 压缩率</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> renames: 重命名map，&lt;originalName, newName&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compressZipFileByZip4j</span><span class="params">(String zipPath, ArrayList&lt;String&gt; fileUrls, CompressionLevel compressLevel, Map&lt;String, String&gt; renames)</span> <span class="keyword">throws</span> ZipException </span>&#123;</span><br><span class="line">        net.lingala.zip4j.ZipFile zipFile = <span class="keyword">new</span> net.lingala.zip4j.ZipFile(zipPath);</span><br><span class="line">        _compressZipFileByZip4j(zipFile, fileUrls, compressLevel);</span><br><span class="line">        zipFile.renameFiles(renames);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span>  2022/7/6 通过zip4j进行有密码压缩，然后重命名被压缩的文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> zipPath: 压缩文件目标的地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> fileUrls: 要被压缩的文件列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> compressLevel: 压缩率</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> password: 密码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> renames: 重命名map，&lt;originalName, newName&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compressZipFileByZip4j</span><span class="params">(String zipPath, ArrayList&lt;String&gt; fileUrls, CompressionLevel compressLevel, @NotNull String password, Map&lt;String, String&gt; renames)</span> <span class="keyword">throws</span> ZipException </span>&#123;</span><br><span class="line">        net.lingala.zip4j.ZipFile zipFile = <span class="keyword">new</span> net.lingala.zip4j.ZipFile(zipPath, password.toCharArray());</span><br><span class="line">        _compressZipFileByZip4j(zipFile, fileUrls, compressLevel);</span><br><span class="line">        zipFile.renameFiles(renames);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span>  2022/7/6</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> 通过zip4j进行无密码解压</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> zipPath: 压缩文件目标的地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> targetPath: 解压释放目标地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">extractZipFileByZip4j</span><span class="params">(String zipPath, String targetPath)</span> <span class="keyword">throws</span> ZipException </span>&#123;</span><br><span class="line">        net.lingala.zip4j.ZipFile zipFile = <span class="keyword">new</span> net.lingala.zip4j.ZipFile(zipPath);</span><br><span class="line">        zipFile.extractAll(targetPath);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span>  2022/7/6</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> 通过zip4j进行有密码解压</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> zipPath: 压缩文件目标的地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> targetPath: 解压释放目标地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> password: 密码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">extractZipFileByZip4j</span><span class="params">(String zipPath, String targetPath, @NotNull String password)</span> <span class="keyword">throws</span> ZipException </span>&#123;</span><br><span class="line">        net.lingala.zip4j.ZipFile zipFile = <span class="keyword">new</span> net.lingala.zip4j.ZipFile(zipPath, password.toCharArray());</span><br><span class="line">        zipFile.extractAll(targetPath);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span>  2022/7/6</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> 通过zip4j进行无密码解压，并且只解压给出列表的文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> zipPath: 压缩文件目标的地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> targetPath: 解压释放目标地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> extractFiles: 要解压的地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">extractZipFileByZip4j</span><span class="params">(String zipPath, String targetPath, List&lt;String&gt; extractFiles)</span> <span class="keyword">throws</span> ZipException </span>&#123;</span><br><span class="line">        net.lingala.zip4j.ZipFile zipFile = <span class="keyword">new</span> net.lingala.zip4j.ZipFile(zipPath);</span><br><span class="line">        <span class="keyword">for</span> (String extractFile : extractFiles) &#123;</span><br><span class="line">            zipFile.extractFile(extractFile, targetPath);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> MichaelWang</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span>  2022/7/6</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> 通过zip4j进行有密码解压，并且只解压给出列表的文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> zipPath: 压缩文件目标的地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> targetPath: 解压释放目标地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> password: 密码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span> extractFiles: 要解压的地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Return</span> void</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Version</span> 1.0.0</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">extractZipFileByZip4j</span><span class="params">(String zipPath, String targetPath, @NotNull String password, List&lt;String&gt; extractFiles)</span> <span class="keyword">throws</span> ZipException </span>&#123;</span><br><span class="line">        net.lingala.zip4j.ZipFile zipFile = <span class="keyword">new</span> net.lingala.zip4j.ZipFile(zipPath, password.toCharArray());</span><br><span class="line">        <span class="keyword">for</span> (String extractFile : extractFiles) &#123;</span><br><span class="line">            zipFile.extractFile(extractFile, targetPath);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/07/01/Java中的各种文件压缩、解压方法（更新中~）/" target="_blank" title="Java中的各种文件压缩、解压方法（更新中~）">http://yoursite.com/2022/07/01/Java中的各种文件压缩、解压方法（更新中~）/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/04/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Java%E6%96%87%E4%BB%B6%E5%8D%A0%E7%94%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          记录一次Java文件占用的故障排除
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/06/22/Spring%E4%BA%8B%E5%8A%A1%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E8%A6%81%E7%82%B9/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Spring事务使用以及要点</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ZIP%E5%8E%8B%E7%BC%A9"><span class="nav-number">1.</span> <span class="nav-text">ZIP压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#zipOutputStream%E6%96%B9%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">zipOutputStream方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9"><span class="nav-number">1.1.1.</span> <span class="nav-text">压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91"><span class="nav-number">1.1.3.</span> <span class="nav-text">遇到的坑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZipFile%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">ZipFile方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zip4j%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">zip4j方式</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

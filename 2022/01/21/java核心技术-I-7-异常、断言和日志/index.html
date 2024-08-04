@@ -11,19 +11,22 @@
   
   
   
-  <meta name="description" content="异常分类在Java程序设计语言中，所有异常对象都是派生于Throwable类的一个类示例。  继承关系图如下： ![错误类继承]images\java核心技术\错误类继承.jpg) 可以看到Throwable异常被分为两大类：  Error：表示Java运行时系统的内部错误和资源耗尽错误。 Exception：程序运行的异常，一般我们能操作的都是这种错误。  RuntimeException 一般">
+  <meta name="description" content="异常分类在Java程序设计语言中，所有异常对象都是派生于Throwable类的一个类实例。  继承关系图如下：  可以看到Throwable异常被分为两大类：  Error：表示Java运行时系统的内部错误和资源耗尽错误。 Exception：程序运行的异常，一般我们能操作的都是这种错误。  RuntimeException 一般是编程错误导致的。 派生于RuntimeException的异常包括">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java核心技术-I-7-异常、断言和日志">
 <meta property="og:url" content="http://yoursite.com/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="异常分类在Java程序设计语言中，所有异常对象都是派生于Throwable类的一个类示例。  继承关系图如下： ![错误类继承]images\java核心技术\错误类继承.jpg) 可以看到Throwable异常被分为两大类：  Error：表示Java运行时系统的内部错误和资源耗尽错误。 Exception：程序运行的异常，一般我们能操作的都是这种错误。  RuntimeException 一般">
+<meta property="og:description" content="异常分类在Java程序设计语言中，所有异常对象都是派生于Throwable类的一个类实例。  继承关系图如下：  可以看到Throwable异常被分为两大类：  Error：表示Java运行时系统的内部错误和资源耗尽错误。 Exception：程序运行的异常，一般我们能操作的都是这种错误。  RuntimeException 一般是编程错误导致的。 派生于RuntimeException的异常包括">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/%E9%94%99%E8%AF%AF%E7%B1%BB%E7%BB%A7%E6%89%BF.jpg">
 <meta property="article:published_time" content="2022-01-21T03:36:02.000Z">
-<meta property="article:modified_time" content="2022-01-21T10:38:30.878Z">
+<meta property="article:modified_time" content="2022-09-04T10:38:03.240Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Java核心技术">
 <meta property="article:tag" content="异常、断言和日志">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/%E9%94%99%E8%AF%AF%E7%B1%BB%E7%BB%A7%E6%89%BF.jpg">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -75,7 +78,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -206,9 +209,9 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="异常分类"><a href="#异常分类" class="headerlink" title="异常分类"></a>异常分类</h1><p>在Java程序设计语言中，所有异常对象都是派生于<code>Throwable</code>类的一个类示例。 </p>
+        <h1 id="异常分类"><a href="#异常分类" class="headerlink" title="异常分类"></a>异常分类</h1><p>在Java程序设计语言中，所有异常对象都是派生于<code>Throwable</code>类的一个类实例。 </p>
 <p>继承关系图如下：</p>
-<p>![错误类继承]images\java核心技术\错误类继承.jpg)</p>
+<p><img src="\images\java核心技术\错误类继承.jpg" alt="错误类继承"></p>
 <p>可以看到Throwable异常被分为两大类：</p>
 <ul>
 <li><code>Error</code>：表示Java运行时系统的内部错误和资源耗尽错误。</li>
@@ -248,7 +251,7 @@
 </ul>
 <p>所以我们也可以这样定义</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test.mw.ExceptionTest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyException</span> <span class="keyword">extends</span> <span class="title">Exception</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyException</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyException</span><span class="params">(String message, Throwable cause)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(message, cause);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyException</span><span class="params">(String message)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(message);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyException</span><span class="params">(Throwable cause)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(cause);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="捕获异常"><a href="#捕获异常" class="headerlink" title="捕获异常"></a>捕获异常</h2><p>如果发生了某个异常，但没有任何地方捕获这个异常，程序就会停止，并且惠子啊控制面板上打印一个消息：包括这个异常的信息和调用堆栈。</p>
+<h2 id="捕获异常"><a href="#捕获异常" class="headerlink" title="捕获异常"></a>捕获异常</h2><p>如果发生了某个异常，但没有任何地方捕获这个异常，程序就会停止，并且会在控制面板上打印一个消息：包括这个异常的信息和调用堆栈。</p>
 <h3 id="捕获异常-1"><a href="#捕获异常-1" class="headerlink" title="捕获异常"></a>捕获异常</h3><p>可以通过</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="comment">// normal code</span></span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">    <span class="comment">// code for handling the exception</span></span><br><span class="line">&#125;finaly&#123;</span><br><span class="line">    <span class="comment">// code need to be execeuted anyway</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>来捕获异常，其含义如下：</p>
@@ -275,18 +278,18 @@
 <h3 id="try…with-Resource语句"><a href="#try…with-Resource语句" class="headerlink" title="try…with-Resource语句"></a>try…with-Resource语句</h3><p>有时我们需要在try语句中打开一些资源，并且最后必须关闭，我们通常会使用<code>finally</code>语句来实现。如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    source.open();</span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">    <span class="comment">///handle</span></span><br><span class="line">&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    source.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在Java7之后，可以用<code>try...with-Resource</code>语句来关闭资源，前提是这个资源实现了<code>AutoCloseable</code>接口。格式如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>(Resource res = ...)&#123;</span><br><span class="line">    <span class="comment">//res is include in the scope</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>(Resource res = ...)&#123;</span><br><span class="line">    <span class="comment">//res is accessible in the scope</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在try语句退出之后，会自动调用<code>res.close()</code>。</p>
 <p>也可以指定多个资源：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>(Resource res1 = <span class="keyword">new</span> Resource();</span><br><span class="line">    Resource res2 = <span class="keyword">new</span> Resource();</span><br><span class="line">   )&#123;</span><br><span class="line">    <span class="comment">//res1 and res2 is include in the scope</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="使用异常的技巧"><a href="#使用异常的技巧" class="headerlink" title="使用异常的技巧"></a>使用异常的技巧</h2><ol>
 <li>异常处理不能代替简单的判断：即能用<code>if</code>判断是否出现异常的，就不直接用异常。</li>
 <li>不要过分的细化异常。</li>
-<li>不要只捕获<code>Exception</code>或者<code>Throwable</code>，因为这对代码阅读并不友好，无法直接判断可能出现的错误。</li>
+<li><strong>不要只捕获<code>Exception</code>或者<code>Throwable</code>，因为这对代码阅读并不友好，无法直接判断可能出现的错误。</strong></li>
 <li>不要对异常进行静默处理。即<code>catch</code>必须做点什么，而不是仅捕获，什么都不做。</li>
-<li>并不一定要捕获所有异常，有时候抛出到外层是更好的选择（可以在外层做统一处理）。</li>
+<li><strong>并不一定要捕获所有异常，有时候抛出到外层是更好的选择（可以在外层做统一处理）。</strong></li>
 </ol>
-<h1 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h1><p>有时候我们需要在测试期间加入一些判断，如果条件不成立，则退出程序。但是在正式版本中，将会删除这部分代码，这是很麻烦的。</p>
+<h1 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h1><p>有时候我们需要在<strong>测试期间</strong>加入一些判断，如果条件不成立，则退出程序。但是在正式版本中，将会删除这部分代码，这是很麻烦的。</p>
 <p>所以引入了断言机制，其格式如下：</p>
 <ol>
 <li><code>assert conditon;</code>：如果condition为false，则退出程序，并抛出<code>AssertionError</code>。</li>
@@ -296,7 +299,7 @@
 <p>启用断言需要加上vm关键字：<code>-ea</code>或者<code>-enableassertions</code>。</p>
 <p>也可以使用<code>-desableassertions</code>或<code>-da</code>来禁止断言。</p>
 <p>idea或eclipse中可以在环境参数中配置。</p>
-<p>启用或禁用断言是类加载器的功能。断言被禁用时，类加载器会去除断言代码，因此不会降低陈旭运行时的代码。</p>
+<p>启用或禁用断言是类加载器的功能。断言被禁用时，类加载器会去除断言代码，因此不会降低程序运行时的代码。</p>
 <h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><p>在Java程序中，我们经常需要打印中间信息。</p>
 <p>我们通常使用<code>System.out.print</code>来进行打印。</p>
 <p>但是其具有很多缺点。相较于直接输出，日志API有以下 优点：</p>
@@ -409,7 +412,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#异常分类"><span class="nav-number">1.</span> <span class="nav-text">异常分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抛出异常"><span class="nav-number">1.1.</span> <span class="nav-text">抛出异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建异常类"><span class="nav-number">1.2.</span> <span class="nav-text">创建异常类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#捕获异常"><span class="nav-number">1.3.</span> <span class="nav-text">捕获异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#捕获异常-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">捕获异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#再次抛出异常"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">再次抛出异常</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#try…with-Resource语句"><span class="nav-number">1.3.2.</span> <span class="nav-text">try…with-Resource语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用异常的技巧"><span class="nav-number">1.4.</span> <span class="nav-text">使用异常的技巧</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#断言"><span class="nav-number">2.</span> <span class="nav-text">断言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启用断言"><span class="nav-number">2.0.1.</span> <span class="nav-text">启用断言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志"><span class="nav-number">3.</span> <span class="nav-text">日志</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E5%88%86%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">异常分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-number">1.1.</span> <span class="nav-text">抛出异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%BC%82%E5%B8%B8%E7%B1%BB"><span class="nav-number">1.2.</span> <span class="nav-text">创建异常类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8"><span class="nav-number">1.3.</span> <span class="nav-text">捕获异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">捕获异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%8D%E6%AC%A1%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">再次抛出异常</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#try%E2%80%A6with-Resource%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.3.2.</span> <span class="nav-text">try…with-Resource语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%BC%82%E5%B8%B8%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="nav-number">1.4.</span> <span class="nav-text">使用异常的技巧</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%AD%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">断言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E6%96%AD%E8%A8%80"><span class="nav-number">2.0.1.</span> <span class="nav-text">启用断言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%A5%E5%BF%97"><span class="nav-number">3.</span> <span class="nav-text">日志</span></a></li></ol>
     
     </div>
   </aside>
@@ -424,7 +427,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -581,7 +584,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

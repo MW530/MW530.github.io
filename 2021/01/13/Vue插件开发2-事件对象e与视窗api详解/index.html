@@ -17,10 +17,11 @@
 <meta property="og:url" content="http://yoursite.com/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="事件参数 首先Vue没有对事件对象做修改，所以在Vue中的事件对象仍然与原生一样。 其对象属性具体又分为4类： 鼠标 &#x2F; 键盘属性   属性 描述     altKey 返回当事件被触发时，”ALT” 是否被按下。   button 返回当事件被触发时，哪个鼠标按钮被点击。一个数字，表示鼠标事件发生时按下的鼠标按钮。可能的值：0：鼠标左键1：车轮按钮或中间按钮（如果有）2：鼠标右键注意： Inte">
+<meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/images/vue%E6%8F%92%E4%BB%B6/vue%E6%8F%92%E4%BB%B62-1.png">
 <meta property="og:image" content="http://yoursite.com/images/vue%E6%8F%92%E4%BB%B6/vue%E6%8F%92%E4%BB%B62-2.png">
 <meta property="article:published_time" content="2021-01-13T03:57:39.000Z">
-<meta property="article:modified_time" content="2021-01-21T02:09:25.631Z">
+<meta property="article:modified_time" content="2022-08-07T03:04:13.885Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Vue插件">
 <meta property="article:tag" content="事件参数">
@@ -77,7 +78,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -220,11 +221,11 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_altkey.asp" target="_blank" rel="noopener">altKey</a></td>
+<td style="text-align:left">altKey</td>
 <td style="text-align:left">返回当事件被触发时，”ALT” 是否被按下。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_button.asp" target="_blank" rel="noopener">button</a></td>
+<td style="text-align:left">button</td>
 <td style="text-align:left">返回当事件被触发时，哪个鼠标按钮被点击。<br /><br />一个数字，表示鼠标事件发生时按下的鼠标按钮。可能的值：<br/>0：鼠标左键<br/>1：车轮按钮或中间按钮（如果有）<br/>2：鼠标右键<br/>注意： Internet Explorer 8和更早版本具有不同的返回值：<br/>1：鼠标左键<br/>2：鼠标右键<br/>4：车轮按钮或中间按钮（如果有）<br/>注意：对于左侧配置的鼠标，返回值会反转</td>
 </tr>
 <tr>
@@ -232,35 +233,35 @@
 <td style="text-align:left"><strong>buttons</strong>属性返回一个数字，指示触发鼠标事件时按下了哪些鼠标按钮或鼠标按钮。<br /><br />一个数字，表示鼠标事件发生时按下的一个或多个鼠标按钮。如果按下多个按钮，则组合这些值以产生新数字（例如，如果按下左按钮（1）和右按钮（2），则返回值为1 + 2，即3） 。可能的值：1：鼠标左键2：鼠标右键4：滚轮按钮或中间按钮8：第四个鼠标按钮（通常是“浏览器返回”按钮）16：第五个鼠标按钮（通常是“浏览器转发”按钮）注意：对于左侧配置的鼠标，返回值会反转</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_clientx.asp" target="_blank" rel="noopener">clientX</a></td>
+<td style="text-align:left">clientX</td>
 <td style="text-align:left">返回当事件被触发时，鼠标指针的水平坐标。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_clienty.asp" target="_blank" rel="noopener">clientY</a></td>
+<td style="text-align:left">clientY</td>
 <td style="text-align:left">返回当事件被触发时，鼠标指针的垂直坐标。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_ctrlkey.asp" target="_blank" rel="noopener">ctrlKey</a></td>
+<td style="text-align:left">ctrlKey</td>
 <td style="text-align:left">返回当事件被触发时，”CTRL” 键是否被按下。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_metakey.asp" target="_blank" rel="noopener">metaKey</a></td>
+<td style="text-align:left">metaKey</td>
 <td style="text-align:left">返回当事件被触发时，”meta” 键是否被按下。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_relatedtarget.asp" target="_blank" rel="noopener">relatedTarget</a></td>
+<td style="text-align:left">relatedTarget</td>
 <td style="text-align:left">返回与事件的目标节点相关的节点。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_screenx.asp" target="_blank" rel="noopener">screenX</a></td>
+<td style="text-align:left">screenX</td>
 <td style="text-align:left">返回当某个事件被触发时，鼠标指针的水平坐标。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_screeny.asp" target="_blank" rel="noopener">screenY</a></td>
+<td style="text-align:left">screenY</td>
 <td style="text-align:left">返回当某个事件被触发时，鼠标指针的垂直坐标。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_shiftkey.asp" target="_blank" rel="noopener">shiftKey</a></td>
+<td style="text-align:left">shiftKey</td>
 <td style="text-align:left">返回当事件被触发时，”SHIFT” 键是否被按下。</td>
 </tr>
 </tbody>
@@ -319,31 +320,31 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_bubbles.asp" target="_blank" rel="noopener">bubbles</a></td>
+<td style="text-align:left">bubbles</td>
 <td style="text-align:left">返回布尔值，指示事件是否是起泡事件类型。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_cancelable.asp" target="_blank" rel="noopener">cancelable</a></td>
+<td style="text-align:left">cancelable</td>
 <td style="text-align:left">返回布尔值，指示事件是否拥有可取消的默认动作。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_currenttarget.asp" target="_blank" rel="noopener">currentTarget</a></td>
+<td style="text-align:left">currentTarget</td>
 <td style="text-align:left">返回其事件监听器触发该事件的元素。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_eventphase.asp" target="_blank" rel="noopener">eventPhase</a></td>
+<td style="text-align:left">eventPhase</td>
 <td style="text-align:left">返回事件传播的当前阶段。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_target.asp" target="_blank" rel="noopener">target</a></td>
+<td style="text-align:left">target</td>
 <td style="text-align:left">返回触发此事件的元素（事件的目标节点）。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_timestamp.asp" target="_blank" rel="noopener">timeStamp</a></td>
+<td style="text-align:left">timeStamp</td>
 <td style="text-align:left">返回事件生成的日期和时间。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_type.asp" target="_blank" rel="noopener">type</a></td>
+<td style="text-align:left">type</td>
 <td style="text-align:left">返回当前 Event 对象表示的事件的名称。</td>
 </tr>
 </tbody>
@@ -359,15 +360,15 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_initevent.asp" target="_blank" rel="noopener">initEvent()</a></td>
+<td style="text-align:left">initEvent()</td>
 <td style="text-align:left">初始化新创建的 Event 对象的属性。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_preventdefault.asp" target="_blank" rel="noopener">preventDefault()</a></td>
+<td style="text-align:left">preventDefault()</td>
 <td style="text-align:left">通知浏览器不要执行与事件关联的默认动作。</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.w3school.com.cn/htmldom/event_stoppropagation.asp" target="_blank" rel="noopener">stopPropagation()</a></td>
+<td style="text-align:left">stopPropagation()</td>
 <td style="text-align:left">不再派发事件。</td>
 </tr>
 </tbody>
@@ -386,7 +387,7 @@
 </li>
 </ol>
 </li>
-<li><p><code>detail</code>：<strong>detail</strong>属性返回一个包含事件详细信息的数字。在<a href="https://www.jc2182.com/javascript-html-dom-onclick-event/2339.html" target="_blank" rel="noopener">onclick</a>和<a href="https://www.jc2182.com/javascript-html-dom-ondblclick-event/2341.html" target="_blank" rel="noopener">ondblclick</a>上使用时，该数字表示当前的点击次数。在<a href="https://www.jc2182.com/javascript-html-dom-onmousedown-event/2342.html" target="_blank" rel="noopener">onmousedown</a>和<a href="https://www.jc2182.com/javascript-html-dom-onmouseup-event/2348.html" target="_blank" rel="noopener">onmouseup</a>上使用时，该数字表示当前点击次数加1。</p>
+<li><p><code>detail</code>：<strong>detail</strong>属性返回一个包含事件详细信息的数字。在onclick和ondblclick上使用时，该数字表示当前的点击次数。在onmousedown和onmouseup上使用时，该数字表示当前点击次数加1。</p>
 </li>
 <li><p><code>isTrusted</code>：isTrusted事件属性返回一个布尔值，指示事件是否可信。<br>注意：在Chrome，Firefox和Opera中，如果事件由用户调用，则该事件是受信任的，如果由脚本调用，则不受信任。在IE中，除了使用<code>createEvent()</code>方法创建的事件之外，所有事件都是可信任的。</p>
 </li>
@@ -425,7 +426,7 @@
 </li>
 </ol>
 </li>
-<li><p>DOM元素还带有一下一组（4个）属性：</p>
+<li><p>DOM元素还带有以下一组（4个）属性：</p>
 <ol>
 <li><code>offsetLeft</code>：返回元素相对于父级元素的左侧偏移量</li>
 <li><code>offsetTop</code>：返回元素相对于父级元素的左侧偏移量</li>
@@ -532,9 +533,9 @@ var a = new Donate({
     </a>
   
   
-    <a href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8D%B3%E5%BA%94%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Vue插件开发1-插件原理即应用</div>
+      <div class="article-nav-title">Vue插件开发1-插件原理以及应用</div>
     </a>
   
 </nav>
@@ -548,7 +549,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#事件参数"><span class="nav-number">1.</span> <span class="nav-text">事件参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#鼠标-键盘属性"><span class="nav-number">1.1.</span> <span class="nav-text">鼠标 &#x2F; 键盘属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IE-属性"><span class="nav-number">1.2.</span> <span class="nav-text">IE 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准-Event-属性"><span class="nav-number">1.3.</span> <span class="nav-text">标准 Event 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准-Event-方法"><span class="nav-number">1.4.</span> <span class="nav-text">标准 Event 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数详解"><span class="nav-number">1.5.</span> <span class="nav-text">参数详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视窗相关参数"><span class="nav-number">1.6.</span> <span class="nav-text">视窗相关参数</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%8F%82%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">事件参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87-%E9%94%AE%E7%9B%98%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">鼠标 &#x2F; 键盘属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IE-%E5%B1%9E%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">IE 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%87%86-Event-%E5%B1%9E%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">标准 Event 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%87%86-Event-%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">标准 Event 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.5.</span> <span class="nav-text">参数详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%86%E7%AA%97%E7%9B%B8%E5%85%B3%E5%8F%82%E6%95%B0"><span class="nav-number">1.6.</span> <span class="nav-text">视窗相关参数</span></a></li></ol></li></ol>
     
     </div>
   </aside>
@@ -563,7 +564,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -720,7 +721,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

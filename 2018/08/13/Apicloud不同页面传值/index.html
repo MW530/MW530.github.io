@@ -17,6 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/08/13/Apicloud%E4%B8%8D%E5%90%8C%E9%A1%B5%E9%9D%A2%E4%BC%A0%E5%80%BC/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="前言 标准开头，前一段时间因为需要开发一个简单的app,所以接触了一下Apicloud,因为没有native应用的开发知识，所以采用了Apicloud的web应用开发。其中不同页面的传值问题我具体研究一段时间，因为之前一直传值不成功。  正文方法一：api.execScript">
+<meta property="og:locale">
 <meta property="og:image" content="http://wx4.sinaimg.cn/mw690/0060lm7Tly1fu8e0x3j5hj30ci02xdg1.jpg">
 <meta property="article:published_time" content="2018-08-13T11:00:52.000Z">
 <meta property="article:modified_time" content="2018-08-13T13:26:24.749Z">
@@ -75,7 +76,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -383,7 +384,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法一：api-execScript"><span class="nav-number">2.1.</span> <span class="nav-text">方法一：api.execScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法：api-addEventListener-amp-amp-api-sendEvent"><span class="nav-number">2.2.</span> <span class="nav-text">方法：api.addEventListener&amp;&amp;api.sendEvent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法三-api-LocalStorage"><span class="nav-number">2.3.</span> <span class="nav-text">方法三 :api.LocalStorage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法四-：api-openWin-amp-api-openFrame-amp-api-openFrameGroup"><span class="nav-number">2.4.</span> <span class="nav-text">方法四 ：api.openWin&amp;api.openFrame&amp;api.openFrameGroup</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9Aapi-execScript"><span class="nav-number">2.1.</span> <span class="nav-text">方法一：api.execScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%EF%BC%9Aapi-addEventListener-amp-amp-api-sendEvent"><span class="nav-number">2.2.</span> <span class="nav-text">方法：api.addEventListener&amp;&amp;api.sendEvent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89-api-LocalStorage"><span class="nav-number">2.3.</span> <span class="nav-text">方法三 :api.LocalStorage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%9B%9B-%EF%BC%9Aapi-openWin-amp-api-openFrame-amp-api-openFrameGroup"><span class="nav-number">2.4.</span> <span class="nav-text">方法四 ：api.openWin&amp;api.openFrame&amp;api.openFrameGroup</span></a></li></ol></li></ol>
     
     </div>
   </aside>
@@ -398,7 +399,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -555,7 +556,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

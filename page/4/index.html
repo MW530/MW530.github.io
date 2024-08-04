@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Something is going happen if you try to fight for it!">
+<meta property="og:locale">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Life">
 <meta name="twitter:card" content="summary">
@@ -65,7 +66,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -148,27 +149,6 @@
                         } else {
                           imageTag2.style.height = document.body.clientHeight + "px";
                           imageTag2.style.marginLeft = -(document.body.clientHeight * img2.width / img2.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img3" src="https://source.unsplash.com/collection/954550/1920x1080">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img3 = new Image();
-                      var imageTag3 = document.getElementById("carousel-img3");
-                      img3.src = imageTag3.src;
-                      img3.onload=function(){
-                        if (img3.width / img3.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag3.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag3.style.height = document.body.clientHeight + "px";
-                          imageTag3.style.marginLeft = -(document.body.clientHeight * img3.width / img3.height - document.body.clientWidth) / 2 + "px";
                         }
                       };
                   </script>
@@ -261,7 +241,7 @@
   
 
   <div class="intro-navigate">
-      <p class="navigater-list">
+      <div class="navigater-list">
         
           <a id="beautifont" class="main-nav-link" href="/">Home</a>
         
@@ -273,8 +253,27 @@
         
           <a id="beautifont" class="main-nav-link" href="/about">About</a>
         
-        <!-- <a  id="beautifont" class="main-nav-link">
-          <div id="search-form-wrap">
+
+        
+          <div class="main-nav-wrapper">
+            <a id="beautifont" class="main-nav-link" href="/like">Like</a>
+
+            <div class="drop-content">
+              
+                <a id="beautifont" class="main-nav-link" href="/books">Books</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/games">Games</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/songs">Songs</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/movies">Movies</a>
+              
+            </div>
+          </div>
+        
+
+      <!-- <a  id="beautifont" class="main-nav-link">
+        <div id="search-form-wrap">
 
     <form class="search-form">
         <input type="text" class="ins-search-input search-form-input" placeholder="" />
@@ -313,8 +312,8 @@
 
 
 </div>
-        </a> -->
-      </p>
+      </a> -->
+    </div>
   </div>
 
 </header>
@@ -327,7 +326,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-java核心技术-I-9-集合"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-git常见场景与冲突处理"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -335,7 +334,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-9-%E9%9B%86%E5%90%88/">java核心技术-I-9-集合</a>
+      <a class="article-title" href="/2022/03/27/git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%86%B2%E7%AA%81%E5%A4%84%E7%90%86/">git常见场景与冲突处理</a>
     </h1>
   
 
@@ -343,29 +342,26 @@
     
     <div class="article-meta">
       
-	<a href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-9-%E9%9B%86%E5%90%88/" class="article-date">
-	  <time datetime="2022-01-24T03:12:49.000Z" itemprop="datePublished">2022-01-24</time>
+	<a href="/2022/03/27/git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%86%B2%E7%AA%81%E5%A4%84%E7%90%86/" class="article-date">
+	  <time datetime="2022-03-27T07:51:19.000Z" itemprop="datePublished">2022-03-27</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Java/">Java</a>
+    <a class="article-category-link" href="/categories/git/">git</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          Java集合框架集合接口与实现分离Java集合类库也将接口与实现分离。
-Collection接口在Java类库中，集合类的基本接口是Collection接口。这个接口有两个基本方法：
-
-boolean add(E element);
-Iterator&lt;E&gt; ietrator();
-
-迭代器Iterator接口包含4个方法：
-123456public interface Interface&lt;E&gt;&#123;  E next();  boolean hasNext();...
+          常见场景暂存区确认暂存区1234// 增加所有文件到暂存区$ git add .// 增加指定文件到暂存区$ git add [filename]
+撤销暂存区12345// 取消所有最新的暂存区文件$ git reset HEAD .// 取消缓存区最新的指定文件$ git reset HEAD REAMDME.md
+注意该命令的参数HEAD是要被恢复的版本, 一般选择HEAD, 即恢复到最新的HEAD。
+下面撤销commit也使用该命令。
+提交确认提交12// 进行一次提交并附加消息'm...
         </p>
         <p class="article-more-link">
-          <a href="/2022/01/24/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-9-%E9%9B%86%E5%90%88/#more">Read More</a>
+          <a href="/2022/03/27/git%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E4%B8%8E%E5%86%B2%E7%AA%81%E5%A4%84%E7%90%86/#more">Read More</a>
         </p>
       
     </div>
@@ -384,7 +380,7 @@ Iterator&lt;E&gt; ietrator();
 
 
   
-    <article id="post-java核心技术-I-8-泛型程序设计"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-shiro与spring的集成"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -392,7 +388,7 @@ Iterator&lt;E&gt; ietrator();
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-8-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">java核心技术-I-8-泛型程序设计</a>
+      <a class="article-title" href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/">shiro、spring和JWT的集成</a>
     </h1>
   
 
@@ -400,26 +396,77 @@ Iterator&lt;E&gt; ietrator();
     
     <div class="article-meta">
       
-	<a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-8-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" class="article-date">
-	  <time datetime="2022-01-21T10:43:21.000Z" itemprop="datePublished">2022-01-21</time>
+	<a href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/" class="article-date">
+	  <time datetime="2022-03-25T06:44:44.000Z" itemprop="datePublished">2022-03-25</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Jav/">Jav</a>
+    <a class="article-category-link" href="/categories/Shiro/">Shiro</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          泛型简介泛型实际上就是类型参数。即事先不确定参数类型，而在调用时传入对应参数类型才确定其类型。
-在泛型出现之前，一般是使用多态来实现，即使用Object来接受所有参数，确定就是接收到参数后需要强转。
-定义泛型类泛型类（generic type）就是一个或多个类型变量的类。
+          XML配置1. 配置web.xml
+配置springShiro.xml文件读取
+1234&lt;context-param&gt;  &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;  &lt;param-value&gt;classpath:applicationContext.xml classpath:springShiro.xml&lt;/param-value&gt;&lt;/context-param&gt;
+...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/03/25/shiro%E4%B8%8Espring%E7%9A%84%E9%9B%86%E6%88%90/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-springMVC中404错误的拦截"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/03/25/springMVC%E4%B8%AD404%E9%94%99%E8%AF%AF%E7%9A%84%E6%8B%A6%E6%88%AA/">springMVC中404错误的拦截</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/03/25/springMVC%E4%B8%AD404%E9%94%99%E8%AF%AF%E7%9A%84%E6%8B%A6%E6%88%AA/" class="article-date">
+	  <time datetime="2022-03-25T06:44:24.000Z" itemprop="datePublished">2022-03-25</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/SpringMVC/">SpringMVC</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          SpringMVC统一错误处理该功能可以直接通过SpringMVC的@RestControllerAdvice注解搭配@ExceptionHandler来处理。
 例如：
-1234567891011121314151617181920212223242526272829303132package test.mw.ExceptionTest;public class Pair&lt;...
+123456789101112131415161718192021222324@RestControllerAdvicepublic class ExceptionResponseAdvice &#123;    @ExceptionHandler(IndexOutOfBoundsException.class)    p...
         </p>
         <p class="article-more-link">
-          <a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-8-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/#more">Read More</a>
+          <a href="/2022/03/25/springMVC%E4%B8%AD404%E9%94%99%E8%AF%AF%E7%9A%84%E6%8B%A6%E6%88%AA/#more">Read More</a>
         </p>
       
     </div>
@@ -438,7 +485,7 @@ Iterator&lt;E&gt; ietrator();
 
 
   
-    <article id="post-java核心技术-I-7-异常、断言和日志"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-MySQL与Java中的日期API"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -446,7 +493,7 @@ Iterator&lt;E&gt; ietrator();
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/">java核心技术-I-7-异常、断言和日志</a>
+      <a class="article-title" href="/2022/03/25/MySQL%E4%B8%8EJava%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9FAPI/">MySQL与Java中的日期API</a>
     </h1>
   
 
@@ -454,33 +501,23 @@ Iterator&lt;E&gt; ietrator();
     
     <div class="article-meta">
       
-	<a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/" class="article-date">
-	  <time datetime="2022-01-21T03:36:02.000Z" itemprop="datePublished">2022-01-21</time>
+	<a href="/2022/03/25/MySQL%E4%B8%8EJava%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9FAPI/" class="article-date">
+	  <time datetime="2022-03-25T06:42:31.000Z" itemprop="datePublished">2022-03-25</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Java/">Java</a>
+    <a class="article-category-link" href="/categories/%E6%97%A5%E6%9C%9FAPI/">日期API</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          异常分类在Java程序设计语言中，所有异常对象都是派生于Throwable类的一个类示例。 
-继承关系图如下：
-![错误类继承]images\java核心技术\错误类继承.jpg)
-可以看到Throwable异常被分为两大类：
-
-Error：表示Java运行时系统的内部错误和资源耗尽错误。
-Exception：程序运行的异常，一般我们能操作的都是这种错误。
-
-RuntimeException 一般是编程错误导致的。
-派生于RuntimeException的异常包括以下问题：
-
-错误的强制转...
+          相关问题：问题：Java系统中采用了localDateTime类型的数据，MySQL数据库中采用了DateTime类型。但是存储之后再取出来发现数据不一致，即秒之后的毫秒部分变成了000000。
+原因：MySQL的DateTime没有设置长度，则默认为不包含小数部分。即只存储’YYYY-MM-DD hh:mm:ss’，小数部分是不会被存储的，小数部分会被丢弃。但原始的localDateTime是包含小数部分的，即到微秒部分：10^-6s。所以存储后取出来的数据就损失了小于秒部分，所以小数点...
         </p>
         <p class="article-more-link">
-          <a href="/2022/01/21/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-7-%E5%BC%82%E5%B8%B8%E3%80%81%E6%96%AD%E8%A8%80%E5%92%8C%E6%97%A5%E5%BF%97/#more">Read More</a>
+          <a href="/2022/03/25/MySQL%E4%B8%8EJava%E4%B8%AD%E7%9A%84%E6%97%A5%E6%9C%9FAPI/#more">Read More</a>
         </p>
       
     </div>
@@ -499,7 +536,7 @@ RuntimeException 一般是编程错误导致的。
 
 
   
-    <article id="post-java核心技术-I-6-接口、lambda表达式与内部类"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-深入理解JVM1-2.2-自动内存管理-垃圾收集器与内存分配策略（垃圾收集器及其选择）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -507,7 +544,7 @@ RuntimeException 一般是编程错误导致的。
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/20/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-6-%E6%8E%A5%E5%8F%A3%E3%80%81lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%86%85%E9%83%A8%E7%B1%BB/">java核心技术-I-6-接口、lambda表达式与内部类</a>
+      <a class="article-title" href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/">深入理解JVM1-2.2-自动内存管理-垃圾收集器与内存分配策略（垃圾收集器及其选择）</a>
     </h1>
   
 
@@ -515,29 +552,24 @@ RuntimeException 一般是编程错误导致的。
     
     <div class="article-meta">
       
-	<a href="/2022/01/20/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-6-%E6%8E%A5%E5%8F%A3%E3%80%81lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%86%85%E9%83%A8%E7%B1%BB/" class="article-date">
-	  <time datetime="2022-01-20T02:33:47.000Z" itemprop="datePublished">2022-01-20</time>
+	<a href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/" class="article-date">
+	  <time datetime="2022-03-16T01:47:27.000Z" itemprop="datePublished">2022-03-16</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Java/">Java</a>
+    <a class="article-category-link" href="/categories/JVM/">JVM</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          接口接口的概念接口不是类，而是希望符合这个接口的类的一组需求。接口不能实例化。
-注意：
+          经典垃圾收集器垃圾收集器是对垃圾收集算法的实现，由于《Java虚拟机规范》中并没有明确垃圾收集器的实现细节。所以不同的厂商对于垃圾收集器都有不同的实现。而这里的经典垃圾收集器主要针对的是JDK 7 Update 4 之后JDK11正式发布之前，Oracle JDK中的HotSpot虚拟机所包含的全部可用的垃圾收集器。下图是各款经典垃圾收集器之间的关系：
 
-接口中方法会默认指定为public abstract。
-接口中的方法可以有实现，需加default关键字，使其作为该方法的默认实现（jdk1.8）。
-接口中有静态方法和方法体（jdk1.8）。
-接口中允许将方法定义为 private，使得某些复用的代码不会把方法暴露出去。（jdk1.9）。
-接口中的变量会被默认指定为public static final。（且只能为public，private会报错）...
+这里的垃圾收集器都有各自不同的优缺点，还没有出现一个没有短板的收集器，因此后续的工作实际上是根据工作场景选择合适的垃圾收集器。（希望以后...
         </p>
         <p class="article-more-link">
-          <a href="/2022/01/20/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-6-%E6%8E%A5%E5%8F%A3%E3%80%81lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%86%85%E9%83%A8%E7%B1%BB/#more">Read More</a>
+          <a href="/2022/03/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.2-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%8F%8A%E5%85%B6%E9%80%89%E6%8B%A9%EF%BC%89/#more">Read More</a>
         </p>
       
     </div>
@@ -556,7 +588,7 @@ RuntimeException 一般是编程错误导致的。
 
 
   
-    <article id="post-java核心技术-I-5-继承"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-深入理解JVM1-2.1-自动内存管理-垃圾收集器与内存分配策略（垃圾收集算法和HostSpot算法细节）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -564,7 +596,7 @@ RuntimeException 一般是编程错误导致的。
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/19/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-5-%E7%BB%A7%E6%89%BF/">Java核心技术-I-5-继承</a>
+      <a class="article-title" href="/2022/03/14/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95%E5%92%8CHostSpot%E7%AE%97%E6%B3%95%E7%BB%86%E8%8A%82%EF%BC%89/">深入理解JVM1-2.1-自动内存管理-垃圾收集器与内存分配策略（垃圾收集算法和HostSpot算法细节）</a>
     </h1>
   
 
@@ -572,28 +604,29 @@ RuntimeException 一般是编程错误导致的。
     
     <div class="article-meta">
       
-	<a href="/2022/01/19/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-5-%E7%BB%A7%E6%89%BF/" class="article-date">
-	  <time datetime="2022-01-19T02:20:34.000Z" itemprop="datePublished">2022-01-19</time>
+	<a href="/2022/03/14/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95%E5%92%8CHostSpot%E7%AE%97%E6%B3%95%E7%BB%86%E8%8A%82%EF%BC%89/" class="article-date">
+	  <time datetime="2022-03-14T04:27:04.000Z" itemprop="datePublished">2022-03-14</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Java/">Java</a>
+    <a class="article-category-link" href="/categories/JVM/">JVM</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          类，超类和子类定义子类使用以下格式表示继承。
-123public class A&#123;&#125;public class B extends A&#123;&#125;
-即，使用关键字extends表示继承关系。
+          垃圾收集器与内存分配策略对象死亡判定在堆里存放着几乎所有的Java对象，垃圾收集器在对堆进行回收的前，必须先对堆中的对象进行判定，哪些对象是活的，哪些对象是死的。
+引用计数算法引用计数法是一种很经典的计数算法，即为每个对象添加一个引用计数器，当有一个地方引用它时，计数器的值就加一；当引用失效的时候，计数器的值就减一。任何时刻计数器为零的对象就是不可能再被使用的对象。
+优点
+原理简单。
+判定效率高。
 
-A被被称为超类（super class）、父类（parent class）或基类（base class）。
-B被称为子类（subclass）、派生类（derived class）和孩子类（child class）。
-由于子类继承并父类且可以扩展，所以子类一般比父类有更多...
+缺点
+单纯的引用技术很难解决循环引用的问题。即A-&gt;B，B-&gt;A。则A，B对象...
         </p>
         <p class="article-more-link">
-          <a href="/2022/01/19/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-5-%E7%BB%A7%E6%89%BF/#more">Read More</a>
+          <a href="/2022/03/14/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-2.1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%88%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95%E5%92%8CHostSpot%E7%AE%97%E6%B3%95%E7%BB%86%E8%8A%82%EF%BC%89/#more">Read More</a>
         </p>
       
     </div>
@@ -612,7 +645,7 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
 
 
   
-    <article id="post-java核心技术-I-4-对象与类"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-深入理解JVM1-1-自动内存管理-Java内存区域与内存溢出异常"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -620,7 +653,7 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/08/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-4-%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/">Java核心技术-I-4-对象与类</a>
+      <a class="article-title" href="/2022/03/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/">深入理解JVM1-1-自动内存管理-Java内存区域与内存溢出异常</a>
     </h1>
   
 
@@ -628,31 +661,26 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
     
     <div class="article-meta">
       
-	<a href="/2022/01/08/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-4-%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/" class="article-date">
-	  <time datetime="2022-01-08T05:30:48.000Z" itemprop="datePublished">2022-01-08</time>
+	<a href="/2022/03/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/" class="article-date">
+	  <time datetime="2022-03-11T06:32:20.000Z" itemprop="datePublished">2022-03-11</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Java/">Java</a>
+    <a class="article-category-link" href="/categories/JVM/">JVM</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          面向对象程序设计概述类类是构建对象的模板或蓝图。由类构造(construct)对象的过程被称为创建类的实例(instance)。
-封装是指不能让类中的方法直接访问其他类的实例字段。程序只能通过对象得到方法与对象数据进行交互。（这些实例字段就是这个对象的当前状态）
-对象对象的3个主要特征
+          Java内存区域与内存溢出异常运行时数据区域Java虚拟机在执行Java程序的过程中会把管理的内存划分为若干个不同的数据区域。
+具体如下图。
 
-对象的行为（behavior）：有哪些方法。
-对象的状态（state）：有哪些实例属性。
-对象的标识（identity）：对象的标识（内存中的地址表示）。
-
-类与类之间的关系
-依赖(“uses-a”)：A...
+Java堆Java堆（Java Heap）是虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时启动。此内存区域的唯一目的就是存放内存实例，Java世界里几乎所有的对象实例都在这里分配。
+Java堆是垃圾收集器管理的内存区域，因此其也被称为GC堆。从内存回收的角度来看，由于现代垃圾收集器大部分都基于分代收集理论，...
         </p>
         <p class="article-more-link">
-          <a href="/2022/01/08/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-4-%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/#more">Read More</a>
+          <a href="/2022/03/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM1-1-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86-Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E5%BC%82%E5%B8%B8/#more">Read More</a>
         </p>
       
     </div>
@@ -671,7 +699,7 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
 
 
   
-    <article id="post-java核心技术-I-3-Java的基本程序设计结构"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-git学习5-补丁"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -679,7 +707,7 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2022/01/05/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-3-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84/">Java核心技术-I-3-Java的基本程序设计结构</a>
+      <a class="article-title" href="/2022/02/27/git%E5%AD%A6%E4%B9%A05-%E8%A1%A5%E4%B8%81/">git学习5-补丁</a>
     </h1>
   
 
@@ -687,34 +715,22 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
     
     <div class="article-meta">
       
-	<a href="/2022/01/05/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-3-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84/" class="article-date">
-	  <time datetime="2022-01-05T12:42:15.000Z" itemprop="datePublished">2022-01-05</time>
+	<a href="/2022/02/27/git%E5%AD%A6%E4%B9%A05-%E8%A1%A5%E4%B8%81/" class="article-date">
+	  <time datetime="2022-02-27T12:40:33.000Z" itemprop="datePublished">2022-02-27</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Java/">Java</a>
+    <a class="article-category-link" href="/categories/git/">git</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          注释注释分为3类：
-
-单行注释：//其后的部分被视为注释。
-1Sysout.out.print("context") //annotation
-
-多行注释：/* xxx */内的xxx被视为注释，可以包含多行。
-12345/*	annotation1	annotation2	annotation3*/
-
-文档注释型：这种注释以/**开始，以*/结束，这种注释可以用来自动生成文档。
-12345/**	annotation1	annotation2	annotation3*/
-
-
-数据类型Ja...
+          补丁apply12345678git apply [--stat] [--numstat] [--summary] [--check] [--index | --intent-to-add] [--3way]	  [--apply] [--no-add] [--build-fake-ancestor=&lt;file&gt;] [-R | --reverse]	  [--allow-binary-replacement | --binary] [--reject] [-z]	  [-p&l...
         </p>
         <p class="article-more-link">
-          <a href="/2022/01/05/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-I-3-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84/#more">Read More</a>
+          <a href="/2022/02/27/git%E5%AD%A6%E4%B9%A05-%E8%A1%A5%E4%B8%81/#more">Read More</a>
         </p>
       
     </div>
@@ -733,7 +749,7 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
 
 
   
-    <article id="post-ssm配置文件随记"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-git学习4-共享和更新项目"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -741,7 +757,7 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/12/25/ssm%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%9A%8F%E8%AE%B0/">ssm配置文件随记</a>
+      <a class="article-title" href="/2022/02/27/git%E5%AD%A6%E4%B9%A04-%E5%85%B1%E4%BA%AB%E5%92%8C%E6%9B%B4%E6%96%B0%E9%A1%B9%E7%9B%AE/">git学习4-共享和更新项目</a>
     </h1>
   
 
@@ -749,25 +765,24 @@ B被称为子类（subclass）、派生类（derived class）和孩子类（chil
     
     <div class="article-meta">
       
-	<a href="/2021/12/25/ssm%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%9A%8F%E8%AE%B0/" class="article-date">
-	  <time datetime="2021-12-25T10:44:25.000Z" itemprop="datePublished">2021-12-25</time>
+	<a href="/2022/02/27/git%E5%AD%A6%E4%B9%A04-%E5%85%B1%E4%BA%AB%E5%92%8C%E6%9B%B4%E6%96%B0%E9%A1%B9%E7%9B%AE/" class="article-date">
+	  <time datetime="2022-02-27T12:39:49.000Z" itemprop="datePublished">2022-02-27</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/SSM/">SSM</a>
+    <a class="article-category-link" href="/categories/git/">git</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          这里简单记录一下SSM里的各种配置文件，简单记录一下，作为基础。注意，xml中某些配置是有顺序要求的。
-web.xml
-引入约束：约束是作为其子标签的编写规范，可以作为提示和规范。
-12345&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;&lt;web-app xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;X...
+          共享和更新项目fetch从一个或多个存储库中获取分支和/或标记(统称为“refs”)，以及完成其历史记录所需的对象。关联远程仓库的分支将会被更新。（即将远程仓库的文件同步到本地）
+默认情况下，任何指向历史记录的标签也会被获取;其效果是获取指向您感兴趣的分支的标记。此默认行为可以通过使用--tags或--no-tags选项或配置remote.&lt;name&gt;. tagopt。通过使用显式获取标记的refspec，也可以获取不指向您感兴趣的分支的标记。
+git fetch可以从单个指定...
         </p>
         <p class="article-more-link">
-          <a href="/2021/12/25/ssm%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%9A%8F%E8%AE%B0/#more">Read More</a>
+          <a href="/2022/02/27/git%E5%AD%A6%E4%B9%A04-%E5%85%B1%E4%BA%AB%E5%92%8C%E6%9B%B4%E6%96%B0%E9%A1%B9%E7%9B%AE/#more">Read More</a>
         </p>
       
     </div>
@@ -786,7 +801,7 @@ web.xml
 
 
   
-    <article id="post-float最全最根本解析"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-git学习3-分支与合并"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -794,7 +809,7 @@ web.xml
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/">float最全最根本解析</a>
+      <a class="article-title" href="/2022/02/27/git%E5%AD%A6%E4%B9%A03-%E5%88%86%E6%94%AF%E4%B8%8E%E5%90%88%E5%B9%B6/">git学习3-分支与合并</a>
     </h1>
   
 
@@ -802,80 +817,22 @@ web.xml
     
     <div class="article-meta">
       
-	<a href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/" class="article-date">
-	  <time datetime="2021-10-16T12:55:21.000Z" itemprop="datePublished">2021-10-16</time>
+	<a href="/2022/02/27/git%E5%AD%A6%E4%B9%A03-%E5%88%86%E6%94%AF%E4%B8%8E%E5%90%88%E5%B9%B6/" class="article-date">
+	  <time datetime="2022-02-27T12:39:21.000Z" itemprop="datePublished">2022-02-27</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/CSS/">CSS</a>
+    <a class="article-category-link" href="/categories/git/">git</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          前置知识要想真正得用好浮动，以及清除浮动。必须首先要理解几个概念作为前置知识。
-Normal flow （正常流）这个名词在国内一般被翻译为文档流，这个被很多人吐槽，就不再说了。
-这个正常流就是我们HTML初始的流模型。也就是整个文档内，如果你不添加其他属性（浮动和绝对定位）那么整个文档就属于正常流。
-格式化上下文（formatting context）一个格式化上下文（下文称FC）就是一系列相关的元素排布的环境。不同的FC有不同的排布规则。
-正常流中的一个盒子模型，都必然属于一个格式化上...
+          分支与合并branch123456789101112131415git branch [--color[=&lt;when&gt;] | --no-color] [--show-current]	[-v [--abbrev=&lt;n&gt; | --no-abbrev]]	[--column[=&lt;options&gt;] | --no-column] [--sort=&lt;key&gt;]	[--merged [&lt;commit&gt;]] [--no-merged [&lt...
         </p>
         <p class="article-more-link">
-          <a href="/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Vue首屏优化全解析"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/10/16/Vue%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E5%85%A8%E8%A7%A3%E6%9E%90/">Vue首屏优化全解析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/10/16/Vue%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E5%85%A8%E8%A7%A3%E6%9E%90/" class="article-date">
-	  <time datetime="2021-10-16T07:00:24.000Z" itemprop="datePublished">2021-10-16</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          Vue首屏优化全解析打开GZIP直接打包称为xxx.gz文件在前端打包过程中即生成gz文件可以减少部署服务器的打包过程，可以减少服务器的性能压力，提高响应时间。
-使用webpack插件CompressionWebpackPlugin来实现gzip打包。
-在vue项目根目录新建webpack.config.js来增加webpack配置。
-下面是一个基本配置，具体详细见其文档。
-123456789101112131415161718192021222324252627282930const C...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/10/16/Vue%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E5%85%A8%E8%A7%A3%E6%9E%90/#more">Read More</a>
+          <a href="/2022/02/27/git%E5%AD%A6%E4%B9%A03-%E5%88%86%E6%94%AF%E4%B8%8E%E5%90%88%E5%B9%B6/#more">Read More</a>
         </p>
       
     </div>
@@ -898,7 +855,7 @@ Normal flow （正常流）这个名词在国内一般被翻译为文档流，�
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -913,7 +870,7 @@ Normal flow （正常流）这个名词在国内一般被翻译为文档流，�
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -1070,7 +1027,7 @@ Normal flow （正常流）这个名词在国内一般被翻译为文档流，�
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

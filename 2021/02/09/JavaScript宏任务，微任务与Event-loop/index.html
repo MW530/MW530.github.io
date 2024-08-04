@@ -17,6 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2021/02/09/JavaScript%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1%E4%B8%8EEvent-loop/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="浏览器进程（chrome）chrome中有5个主要进程：  浏览器进程（Browser Process）：顶层进程，负责浏览器各进程工作，Tab外的工作由它负责。 UI Thread：负责浏览器按钮、地址栏。 storage Thread：负责文件访问。   渲染器进程（Renderer Process）：浏览器内核，负责Tab内的所有工作。 Main Thread ：构建dom树 -&gt; 加">
+<meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/images/event-loop/%E5%90%8C%E6%AD%A5-%E5%BC%82%E6%AD%A5.jpg">
 <meta property="og:image" content="http://yoursite.com/images/event-loop/event-loop.png">
 <meta property="og:image" content="http://yoursite.com/images/event-loop/%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C.png">
@@ -79,7 +80,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -459,7 +460,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#浏览器进程（chrome）"><span class="nav-number">1.</span> <span class="nav-text">浏览器进程（chrome）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Main线程"><span class="nav-number">1.1.</span> <span class="nav-text">Main线程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript单线程"><span class="nav-number">2.</span> <span class="nav-text">JavaScript单线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#同步与异步"><span class="nav-number">2.1.</span> <span class="nav-text">同步与异步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行栈（Execution-Stack）"><span class="nav-number">2.2.</span> <span class="nav-text">执行栈（Execution Stack）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件表格（Event-Table）"><span class="nav-number">2.3.</span> <span class="nav-text">事件表格（Event Table）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件队列（Event-queue）"><span class="nav-number">2.4.</span> <span class="nav-text">事件队列（Event queue）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Event-loop"><span class="nav-number">3.</span> <span class="nav-text">Event-loop</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-Living-Standard"><span class="nav-number">3.1.</span> <span class="nav-text">HTML Living Standard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-Living-Standard-1"><span class="nav-number">3.2.</span> <span class="nav-text">HTML Living Standard</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#宏任务、微任务"><span class="nav-number">4.</span> <span class="nav-text">宏任务、微任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#几个简单例子"><span class="nav-number">4.1.</span> <span class="nav-text">几个简单例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定时器、Promise"><span class="nav-number">4.1.1.</span> <span class="nav-text">定时器、Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定时器、Promise、async"><span class="nav-number">4.1.2.</span> <span class="nav-text">定时器、Promise、async</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%9B%E7%A8%8B%EF%BC%88chrome%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">浏览器进程（chrome）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Main%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">Main线程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript%E5%8D%95%E7%BA%BF%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">JavaScript单线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5"><span class="nav-number">2.1.</span> <span class="nav-text">同步与异步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E6%A0%88%EF%BC%88Execution-Stack%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">执行栈（Execution Stack）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E8%A1%A8%E6%A0%BC%EF%BC%88Event-Table%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">事件表格（Event Table）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E9%98%9F%E5%88%97%EF%BC%88Event-queue%EF%BC%89"><span class="nav-number">2.4.</span> <span class="nav-text">事件队列（Event queue）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Event-loop"><span class="nav-number">3.</span> <span class="nav-text">Event-loop</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-Living-Standard"><span class="nav-number">3.1.</span> <span class="nav-text">HTML Living Standard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-Living-Standard-1"><span class="nav-number">3.2.</span> <span class="nav-text">HTML Living Standard</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8F%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text">宏任务、微任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E7%AE%80%E5%8D%95%E4%BE%8B%E5%AD%90"><span class="nav-number">4.1.</span> <span class="nav-text">几个简单例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E3%80%81Promise"><span class="nav-number">4.1.1.</span> <span class="nav-text">定时器、Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E3%80%81Promise%E3%80%81async"><span class="nav-number">4.1.2.</span> <span class="nav-text">定时器、Promise、async</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol>
     
     </div>
   </aside>
@@ -474,7 +475,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -631,7 +632,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

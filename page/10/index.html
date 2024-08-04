@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/page/10/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Something is going happen if you try to fight for it!">
+<meta property="og:locale">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Life">
 <meta name="twitter:card" content="summary">
@@ -65,7 +66,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -148,27 +149,6 @@
                         } else {
                           imageTag2.style.height = document.body.clientHeight + "px";
                           imageTag2.style.marginLeft = -(document.body.clientHeight * img2.width / img2.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img3" src="https://source.unsplash.com/collection/954550/1920x1080">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img3 = new Image();
-                      var imageTag3 = document.getElementById("carousel-img3");
-                      img3.src = imageTag3.src;
-                      img3.onload=function(){
-                        if (img3.width / img3.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag3.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag3.style.height = document.body.clientHeight + "px";
-                          imageTag3.style.marginLeft = -(document.body.clientHeight * img3.width / img3.height - document.body.clientWidth) / 2 + "px";
                         }
                       };
                   </script>
@@ -261,7 +241,7 @@
   
 
   <div class="intro-navigate">
-      <p class="navigater-list">
+      <div class="navigater-list">
         
           <a id="beautifont" class="main-nav-link" href="/">Home</a>
         
@@ -273,8 +253,27 @@
         
           <a id="beautifont" class="main-nav-link" href="/about">About</a>
         
-        <!-- <a  id="beautifont" class="main-nav-link">
-          <div id="search-form-wrap">
+
+        
+          <div class="main-nav-wrapper">
+            <a id="beautifont" class="main-nav-link" href="/like">Like</a>
+
+            <div class="drop-content">
+              
+                <a id="beautifont" class="main-nav-link" href="/books">Books</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/games">Games</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/songs">Songs</a>
+              
+                <a id="beautifont" class="main-nav-link" href="/movies">Movies</a>
+              
+            </div>
+          </div>
+        
+
+      <!-- <a  id="beautifont" class="main-nav-link">
+        <div id="search-form-wrap">
 
     <form class="search-form">
         <input type="text" class="ins-search-input search-form-input" placeholder="" />
@@ -313,8 +312,8 @@
 
 
 </div>
-        </a> -->
-      </p>
+      </a> -->
+    </div>
   </div>
 
 </header>
@@ -327,7 +326,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-CSS3过渡与动画"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Promise的实现"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -335,7 +334,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/11/18/CSS3%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB/">CSS3过渡与动画</a>
+      <a class="article-title" href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/">Promise的实现</a>
     </h1>
   
 
@@ -343,60 +342,8 @@
     
     <div class="article-meta">
       
-	<a href="/2019/11/18/CSS3%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB/" class="article-date">
-	  <time datetime="2019-11-18T13:13:17.000Z" itemprop="datePublished">2019-11-18</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          CSS3-过渡 CSS3中，我们为了添加某种效果可以从一种样式转变到另一个的时候，无需使用Flash动画或JavaScript。 使用transition属性，CSS3会自动为属性的变化来添加过渡样式。这个属性一般可以用在:hoevr :active等伪元素切换。
-transition也是一个复合属性：
-1234tag&#123;    transition:transition-property ransition-duration transition-timing-function ...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/11/18/CSS3%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-函数的防抖与节流以及一些重要的函数模式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/11/17/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E7%9A%84%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F/">函数的防抖与节流以及一些重要的函数模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/11/17/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E7%9A%84%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F/" class="article-date">
-	  <time datetime="2019-11-17T12:25:01.000Z" itemprop="datePublished">2019-11-17</time>
+	<a href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="article-date">
+	  <time datetime="2021-02-04T05:03:48.000Z" itemprop="datePublished">2021-02-04</time>
 	</a>
 
       
@@ -407,13 +354,30 @@ transition也是一个复合属性：
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          防抖（debounce）在学习单片机开发时，按键防抖非常重要，我们必须使用一定的方法来进行防抖，否则会造成一次按键按键的多次触发的情况。而在JavaScript中，同样会有这样的问题，即在用户进行持续性的操作时，在用户大概率完成后，在进行后续操作（请求服务器，浏览器渲染等）。如果不进行防抖操作，会导致服务器或浏览器的性能浪费。
-其具体定义：在第一次触发事件时，不立即执行函数，而是给出一个期限值比如200ms，然后：
-- 如果在一段时间内没有再次触发滚动事件，那么就执行函数
-- 如果在一段时...
+          前面已经写过一篇文章来理解Promise及其使用方法，这里尝试来模拟Promise。
+要求根据Promise/A+原理，有以下几个点需要遵守：
+
+Promise有一个Promise States，其有三种状态：
+
+pending：初始状态，可以转化为fulfilled，rejected。
+fulfilled：
+需要一个value作为结果。
+不能转化为其他状态。
+
+
+rejected：
+需要一个reason作为一个原因。
+不能转化为其他状态。
+
+
+
+
+必须要一个then方法，接受两个参数
+
+...
         </p>
         <p class="article-more-link">
-          <a href="/2019/11/17/%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%BA%9B%E9%87%8D%E8%A6%81%E7%9A%84%E5%87%BD%E6%95%B0%E6%A8%A1%E5%BC%8F/#more">Read More</a>
+          <a href="/2021/02/04/Promise%E7%9A%84%E5%AE%9E%E7%8E%B0/#more">Read More</a>
         </p>
       
     </div>
@@ -432,7 +396,7 @@ transition也是一个复合属性：
 
 
   
-    <article id="post-Vue中局部修改组件样式"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-全面理解JavaScript作用域与闭包"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -440,7 +404,7 @@ transition也是一个复合属性：
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/11/17/Vue%E4%B8%AD%E5%B1%80%E9%83%A8%E4%BF%AE%E6%94%B9%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F/">Vue中局部修改组件样式</a>
+      <a class="article-title" href="/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/">全面理解JavaScript作用域与闭包</a>
     </h1>
   
 
@@ -448,28 +412,32 @@ transition也是一个复合属性：
     
     <div class="article-meta">
       
-	<a href="/2019/11/17/Vue%E4%B8%AD%E5%B1%80%E9%83%A8%E4%BF%AE%E6%94%B9%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F/" class="article-date">
-	  <time datetime="2019-11-17T11:52:19.000Z" itemprop="datePublished">2019-11-17</time>
+	<a href="/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/" class="article-date">
+	  <time datetime="2021-01-31T09:26:46.000Z" itemprop="datePublished">2021-01-31</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          Vue如何修改子组件样式在使用element-ui或者i-view这些第三方样式库时，我们有时会想只在某一个组件中局部修改库中的样式而部影响全局样式。
-首先我们需要打开控制器找到对应组件的CSS样式的类名或者id
-有以下几种方式
-不在style样式上添加scope属性&lt;template&gt;
-    &lt;div class=&quot;father&quot;&gt;
-        &lt;el-input&gt;&lt;/el-input&gt;
-    &lt;/div&...
+          作用域pre：块语句块语句（或其他语言的复合语句）用于组合零个或多个语句。该块由一对大括号界定，可以是labelled：
+块语句会生成一个块级作用域，生成块级作用域包含两种方法：
+
+使用任意声明符号（’’, var,let,const）在函数中会生成一个块级作用域。
+
+使用let,const在任何块语句中生成一个块级作用域。
+注意：var在非函数的块语句中不会生成一个块级作用域。
+
+
+介绍中都会使用var来进行举例，在变量声明中会对let和const进行说明。
+介绍变量的简单说作用域就是在...
         </p>
         <p class="article-more-link">
-          <a href="/2019/11/17/Vue%E4%B8%AD%E5%B1%80%E9%83%A8%E4%BF%AE%E6%94%B9%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F/#more">Read More</a>
+          <a href="/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/#more">Read More</a>
         </p>
       
     </div>
@@ -488,7 +456,7 @@ transition也是一个复合属性：
 
 
   
-    <article id="post-CSS3-转换"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-bind-call-apply的用法及实现"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -496,7 +464,7 @@ transition也是一个复合属性：
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/11/05/CSS3-%E8%BD%AC%E6%8D%A2/">CSS3-转换</a>
+      <a class="article-title" href="/2021/01/27/bind-call-apply%E7%9A%84%E7%94%A8%E6%B3%95%E5%8F%8A%E5%AE%9E%E7%8E%B0/">bind,call,apply的用法及实现</a>
     </h1>
   
 
@@ -504,29 +472,28 @@ transition也是一个复合属性：
     
     <div class="article-meta">
       
-	<a href="/2019/11/05/CSS3-%E8%BD%AC%E6%8D%A2/" class="article-date">
-	  <time datetime="2019-11-05T01:23:39.000Z" itemprop="datePublished">2019-11-05</time>
+	<a href="/2021/01/27/bind-call-apply%E7%9A%84%E7%94%A8%E6%B3%95%E5%8F%8A%E5%AE%9E%E7%8E%B0/" class="article-date">
+	  <time datetime="2021-01-27T09:57:04.000Z" itemprop="datePublished">2021-01-27</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          CSS3中的转换CSS3中的转换可以形成简单的动画，对于页面的小优化有点金的效果。
-CSS3中的转换都在transform属性中定义，在该属性中定义其他函数来进行不同的转换。
-CSS3的2D转换translate()该函数接受两个参数，分别是其x，y轴的偏移量，右下为正方向。
-transform:translate(50px,100px);
-将原元素向右、下移动50px、100px。
-如果只填一个参数，则默认为x轴偏移。
-transform:translate(50px);
-向x轴移动50...
+          bindbind() 方法创建一个新的函数，在 bind() 被调用时，这个新函数的 this 被指定为 bind() 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。
+参数thisArg
+调用绑定函数时作为 this 参数传递给目标函数的值。 
+
+如果使用new运算符构造绑定函数，则忽略该值。
+当使用 bind 在 setTimeout 中创建一个函数（作为回调提供）时，作为 thisArg 传递的任何原始值都将转换为 object。
+如果 bind 函数的参数列表为空，或者t...
         </p>
         <p class="article-more-link">
-          <a href="/2019/11/05/CSS3-%E8%BD%AC%E6%8D%A2/#more">Read More</a>
+          <a href="/2021/01/27/bind-call-apply%E7%9A%84%E7%94%A8%E6%B3%95%E5%8F%8A%E5%AE%9E%E7%8E%B0/#more">Read More</a>
         </p>
       
     </div>
@@ -545,7 +512,7 @@ transform:translate(50px);
 
 
   
-    <article id="post-CSS3-文本效果和字体"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-JavaScript中数组与对象的遍历方法"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -553,7 +520,7 @@ transform:translate(50px);
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/11/04/CSS3-%E6%96%87%E6%9C%AC%E6%95%88%E6%9E%9C%E5%92%8C%E5%AD%97%E4%BD%93/">CSS3-文本效果和字体</a>
+      <a class="article-title" href="/2021/01/26/JavaScript%E4%B8%AD%E6%95%B0%E7%BB%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95/">JavaScript中数组与对象的遍历方法</a>
     </h1>
   
 
@@ -561,49 +528,23 @@ transform:translate(50px);
     
     <div class="article-meta">
       
-	<a href="/2019/11/04/CSS3-%E6%96%87%E6%9C%AC%E6%95%88%E6%9E%9C%E5%92%8C%E5%AD%97%E4%BD%93/" class="article-date">
-	  <time datetime="2019-11-04T07:26:39.000Z" itemprop="datePublished">2019-11-04</time>
+	<a href="/2021/01/26/JavaScript%E4%B8%AD%E6%95%B0%E7%BB%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95/" class="article-date">
+	  <time datetime="2021-01-26T05:48:19.000Z" itemprop="datePublished">2021-01-26</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          CSS3中的文字效果及字体CSS3本来规定了较多的文字属性，但是大部分没有被实现，所以只介绍已经被实现的属性。
-text-shadowtext-shadow用于创建一个文字阴影，其参数如下：
-
-
-
-参数
-说明
-
-
-
-
-&lt;offset-x&gt;
-x轴的偏移量
-
-
-&lt;offset-y&gt;
-y轴的偏移量
-
-
-&lt;blur-radius&gt;
-模糊半径
-
-
-
-example1:
-text-shadow: 5px 5px 5px #FF0000;
-
-text-shadow案例...
+          数组for循环最传统的方法，按下标存取，也是最高效的方法
+123456789101112let arr = [1,2,3,4]for(let i = 0; i &lt; arr.length; i++)&#123;    console.log(arr[i])&#125;//1，2，3，4//不用每次计算len，更加高效for(let i = 0, let len = arr.length; i &lt; len; i++)&#123;    console.log(arr[i])&#12...
         </p>
         <p class="article-more-link">
-          <a href="/2019/11/04/CSS3-%E6%96%87%E6%9C%AC%E6%95%88%E6%9E%9C%E5%92%8C%E5%AD%97%E4%BD%93/#more">Read More</a>
+          <a href="/2021/01/26/JavaScript%E4%B8%AD%E6%95%B0%E7%BB%84%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E6%B3%95/#more">Read More</a>
         </p>
       
     </div>
@@ -622,7 +563,7 @@ text-shadow案例...
 
 
   
-    <article id="post-CSS3-背景"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-flex布局与grid布局简介"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -630,7 +571,7 @@ text-shadow案例...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/10/29/CSS3-%E8%83%8C%E6%99%AF/">CSS3-背景</a>
+      <a class="article-title" href="/2021/01/24/flex%E5%B8%83%E5%B1%80%E4%B8%8Egrid%E5%B8%83%E5%B1%80%E7%AE%80%E4%BB%8B/">flex布局与grid布局简介</a>
     </h1>
   
 
@@ -638,34 +579,24 @@ text-shadow案例...
     
     <div class="article-meta">
       
-	<a href="/2019/10/29/CSS3-%E8%83%8C%E6%99%AF/" class="article-date">
-	  <time datetime="2019-10-29T01:48:59.000Z" itemprop="datePublished">2019-10-29</time>
+	<a href="/2021/01/24/flex%E5%B8%83%E5%B1%80%E4%B8%8Egrid%E5%B8%83%E5%B1%80%E7%AE%80%E4%BB%8B/" class="article-date">
+	  <time datetime="2021-01-24T07:45:23.000Z" itemprop="datePublished">2021-01-24</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
+    <a class="article-category-link" href="/categories/%E5%B8%83%E5%B1%80/">布局</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          backgroundCSS中，background是一个符合属性，是以下单属性的符合属性：
-
-background-color
-background-position
-background-size
-background-repeat
-background-origin
-background-clip
-background-attachment
-background-image
-
-其格式如下
-background:bg-color bg-image position/bg-size bg-...
+          flex布局flex布局可以更加简洁的实现之前使用浮动和绝对布局实现的一些布局。特别是item的展示界面等。
+首先应该明确一个概念，这个概念在grid布局中也存在，就是container与item，即被布局的元素被称为item，包围这些item的元素即为container。在flex布局中，item的大小要自己设置。
+flex布局相对于grid布局，简单许多，它是按照轴线的方式进行布局，按照item其规定一个主轴线main axis（默认为水平），然后对应的即为交叉轴cross axis（...
         </p>
         <p class="article-more-link">
-          <a href="/2019/10/29/CSS3-%E8%83%8C%E6%99%AF/#more">Read More</a>
+          <a href="/2021/01/24/flex%E5%B8%83%E5%B1%80%E4%B8%8Egrid%E5%B8%83%E5%B1%80%E7%AE%80%E4%BB%8B/#more">Read More</a>
         </p>
       
     </div>
@@ -684,7 +615,7 @@ background:bg-color bg-image position/bg-size bg-...
 
 
   
-    <article id="post-CSS3-边框"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Vue插件开发4-插件的打包与引用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -692,7 +623,7 @@ background:bg-color bg-image position/bg-size bg-...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/10/19/CSS3-%E8%BE%B9%E6%A1%86/">CSS3-边框</a>
+      <a class="article-title" href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%914-%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E5%8C%85%E4%B8%8E%E5%BC%95%E7%94%A8/">Vue插件开发4-插件的打包与引用</a>
     </h1>
   
 
@@ -700,36 +631,33 @@ background:bg-color bg-image position/bg-size bg-...
     
     <div class="article-meta">
       
-	<a href="/2019/10/19/CSS3-%E8%BE%B9%E6%A1%86/" class="article-date">
-	  <time datetime="2019-10-19T14:09:49.000Z" itemprop="datePublished">2019-10-19</time>
+	<a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%914-%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E5%8C%85%E4%B8%8E%E5%BC%95%E7%94%A8/" class="article-date">
+	  <time datetime="2021-01-13T04:10:05.000Z" itemprop="datePublished">2021-01-13</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/CSS3/">CSS3</a>
+    <a class="article-category-link" href="/categories/Vue%E6%8F%92%E4%BB%B6/">Vue插件</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          引言之所以想到重学CSS3，是因为最近在看《CSS揭秘》一书时，在发现原来CSS3的内容有很多当时没有深入去琢磨，只是简单学习了其基础用法。下面就通过其一些高级用法来深入的研究一下CSS3的内容。
-该内容分为：
+          Vue插件的打包还是犯了一个最基础的错误，本来插件打包Vue-CLI官网给出了说明，而我还在苦苦百度。百度上的教程都是几年前的，全是照搬一套。
+具体过程就是：
 
-边框
-背景
-文本效果
-字体
-2D、3D转换
-过渡
-动画
-多列、用户界面（盒尺寸、轮廓）
-媒体查询
+按照Vue插件开发1-插件原理即应用编写一个插件。
 
-CSS边框border-radiusborder-radius参数解析该属性与padding、margin相同，可以有1、2、3、4个值，所以复习一次：
-Example1: bor...
+使用命令vue-cli-service build --target lib --name myLib [entry]
+
+myLib就是你的插件名字，主要是JS文件的命名。
+[entry]是你的文件入口文件，即导出install函数文件
+
+
+执行该命令就会生成打包完成的js文件...
         </p>
         <p class="article-more-link">
-          <a href="/2019/10/19/CSS3-%E8%BE%B9%E6%A1%86/#more">Read More</a>
+          <a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%914-%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E5%8C%85%E4%B8%8E%E5%BC%95%E7%94%A8/#more">Read More</a>
         </p>
       
     </div>
@@ -748,7 +676,7 @@ Example1: bor...
 
 
   
-    <article id="post-javaee之spring框架总结"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Vue插件开发3-拖动窗口的优化"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -756,7 +684,7 @@ Example1: bor...
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/09/javaee%E4%B9%8Bspring%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/">javaee之spring框架总结</a>
+      <a class="article-title" href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%913-%E6%8B%96%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E4%BC%98%E5%8C%96/">Vue插件开发3-简单拖动窗口的优化</a>
     </h1>
   
 
@@ -764,27 +692,28 @@ Example1: bor...
     
     <div class="article-meta">
       
-	<a href="/2019/08/09/javaee%E4%B9%8Bspring%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/" class="article-date">
-	  <time datetime="2019-08-09T08:36:31.000Z" itemprop="datePublished">2019-08-09</time>
+	<a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%913-%E6%8B%96%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E4%BC%98%E5%8C%96/" class="article-date">
+	  <time datetime="2021-01-13T04:02:08.000Z" itemprop="datePublished">2021-01-13</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaEE/">JavaEE</a>
+    <a class="article-category-link" href="/categories/Vue%E6%8F%92%E4%BB%B6/">Vue插件</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          前言spring作为目前最流行，应用最广泛的后端框架，它有着许多优点与特色，比如应用它IOC（控制翻转）的功能以及spring内部的封装，可以与hibernate，struts进行整合，这里只是简单的介绍其主要功能。
+          思路思路一中心思想：首先算出首次拖动窗口距视窗的上面和左面的距离，然后计算出每次鼠标的偏移量（可正可负）。然后将其相加，就可得到新的偏移量。
+代码思路：
 
-springIOCIOC内部原理IOC内部使用了映射的原理：
-&lt;bean id = &quot;userService&quot; class=&quot;cn.itcast.UserService&quot;/&gt;
-内部原理如下：
-//解析dom4j解析xml文...
+设置一个变量，用于标记鼠标是否按下。
+mousedown钩子函数中记录下此时的clientX1,clientY1,offsetX,offsetY。
+mousemove钩子函数中记录下次此时的clientX2,clientY2，然后计算两组量：
+拖动之前拖动框距文档边框的距离left1 = clientX1 - offsetX，top1 ...
         </p>
         <p class="article-more-link">
-          <a href="/2019/08/09/javaee%E4%B9%8Bspring%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/#more">Read More</a>
+          <a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%913-%E6%8B%96%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E4%BC%98%E5%8C%96/#more">Read More</a>
         </p>
       
     </div>
@@ -803,7 +732,7 @@ springIOCIOC内部原理IOC内部使用了映射的原理：
 
 
   
-    <article id="post-javaee之hibernate框架总结"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Vue插件开发2-事件对象e与视窗api详解"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -811,7 +740,7 @@ springIOCIOC内部原理IOC内部使用了映射的原理：
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/08/javaee%E4%B9%8Bhibernate%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/">javaee之hibernate框架总结</a>
+      <a class="article-title" href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/">Vue插件开发2-事件对象e与视窗api详解</a>
     </h1>
   
 
@@ -819,29 +748,39 @@ springIOCIOC内部原理IOC内部使用了映射的原理：
     
     <div class="article-meta">
       
-	<a href="/2019/08/08/javaee%E4%B9%8Bhibernate%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/" class="article-date">
-	  <time datetime="2019-08-08T10:09:11.000Z" itemprop="datePublished">2019-08-08</time>
+	<a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/" class="article-date">
+	  <time datetime="2021-01-13T03:57:39.000Z" itemprop="datePublished">2021-01-13</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaEE/">JavaEE</a>
+    <a class="article-category-link" href="/categories/Vue%E6%8F%92%E4%BB%B6/">Vue插件</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          前言Hibernate目前使用的还是比较多，虽然不及mybatis。
-Hibernate概述Hibernate工作在javaEE三层结构中的dao层，对数据库进行crud操作，其核心思想是orm（object relational mapping，对象关系映射），并且Hibernate支持多种查询方式，包括HQL，QBC,SQL三种方式。
+          事件参数
+首先Vue没有对事件对象做修改，所以在Vue中的事件对象仍然与原生一样。
+其对象属性具体又分为4类：
+鼠标 / 键盘属性
 
-orm
-让实体类和数据库表进行一一对应关系
-让实体类首先和数据库表对应
-让实体类属性 和 表里面字段对应
-不需要直接操作数据库表，而操作表对应实体类对...
+
+属性
+描述
+
+
+
+
+altKey
+返回当事件被触发时，”ALT” 是否被按下。
+
+
+button
+返回当事件被触发时，哪个鼠标按钮被点击。一个数字，表示鼠标事件发生时按下的鼠标按钮。可能的值：0：鼠标左键1：车轮按钮或中间按钮（如果有）2：鼠标右键注意： Internet Explorer 8和更早版本具有不同的返回值：1：鼠标左键2：鼠标右键4：车轮按钮...
         </p>
         <p class="article-more-link">
-          <a href="/2019/08/08/javaee%E4%B9%8Bhibernate%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/#more">Read More</a>
+          <a href="/2021/01/13/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%912-%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1e%E4%B8%8E%E8%A7%86%E7%AA%97api%E8%AF%A6%E8%A7%A3/#more">Read More</a>
         </p>
       
     </div>
@@ -860,7 +799,7 @@ orm
 
 
   
-    <article id="post-javaee之struts框架总结"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-Vue插件开发1-插件原理及应用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -868,7 +807,7 @@ orm
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/08/08/javaee%E4%B9%8Bstruts%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/">javaee之struts框架总结</a>
+      <a class="article-title" href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/">Vue插件开发1-插件原理以及应用</a>
     </h1>
   
 
@@ -876,27 +815,79 @@ orm
     
     <div class="article-meta">
       
-	<a href="/2019/08/08/javaee%E4%B9%8Bstruts%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/" class="article-date">
-	  <time datetime="2019-08-08T00:32:52.000Z" itemprop="datePublished">2019-08-08</time>
+	<a href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/" class="article-date">
+	  <time datetime="2021-01-12T06:45:27.000Z" itemprop="datePublished">2021-01-12</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/JavaEE/">JavaEE</a>
+    <a class="article-category-link" href="/categories/Vue%E6%8F%92%E4%BB%B6/">Vue插件</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          前言最近在了解后端开发框架，所以先从SSH（Struts，Spring，Hibernate）开始，因为在企业级开发中SSH任然在使用，所以还是有必要了解一下，后面再详细学习SSM（Spring MVC，Spring，mybatis），目前互联网企业中大多都在使用SSM。
+          原理简介
+插件通常用来为 Vue 添加全局功能。-Vue官网
 
-这一期先介绍struts。
-strutsstruts介绍struts是一个工作在表示层，负责与JSP页面实现交互，将用户的请求委派给相应的Action处理。
-配置过滤器在web-app内添加如下内容：
-&lt;filte...
+我觉得广义上的插件，实际上就是一些可以复用的功能或组件的封装。
+首先分析Vue源码：
+12345678910111213141516171819202122232425//src-&gt;core-&gt;instance-&gt;index.jsimport &#123; initMixin &#125; from './init'import &#123; stateMixin &#125; from './state'i...
         </p>
         <p class="article-more-link">
-          <a href="/2019/08/08/javaee%E4%B9%8Bstruts%E6%A1%86%E6%9E%B6%E6%80%BB%E7%BB%93/#more">Read More</a>
+          <a href="/2021/01/12/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%911-%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-TypeScript特点2"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/">TypeScript特点2</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/" class="article-date">
+	  <time datetime="2021-01-10T06:40:17.000Z" itemprop="datePublished">2021-01-10</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/TypeScript/">TypeScript</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          类型兼容性TS中的类型兼容性是基于结构子类型的。结构类型是一种只使用其成员来描述类型的方式。 与Java不同，Java的强制转换是基于继承的，只有有继承关系的对象才可以进行转换。
+即只要对象中的成员有包含关系，则可以进行类型转换。如，
+1234567891011interface Named &#123;    name: string;&#125;class Person &#123;    name: string;&#125;let p: Named;// OK, because o...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/01/10/TypeScript%E7%89%B9%E7%82%B92/#more">Read More</a>
         </p>
       
     </div>
@@ -919,7 +910,7 @@ strutsstruts介绍struts是一个工作在表示层，负责与JSP页面实现�
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/9/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/11/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/9/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/11/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -934,7 +925,7 @@ strutsstruts介绍struts是一个工作在表示层，负责与JSP页面实现�
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -1091,7 +1082,7 @@ strutsstruts介绍struts是一个工作在表示层，负责与JSP页面实现�
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

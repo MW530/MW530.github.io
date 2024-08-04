@@ -11,14 +11,15 @@
   
   
   
-  <meta name="description" content="JavaScript数组复习一下数组，发现有些方法都忘记了 定义数组的方式 采用直接量创建  var MyArray &#x3D; [];&#x2F;&#x2F;创建空数组  var MyArray &#x3D; [1,2,3];&#x2F;&#x2F;创建数字型数组  var MyArray &#x3D; [“A”,”B”,”C”];&#x2F;&#x2F;创建字符型数组  var MyArray &#x3D; [{id:1},{id:2},{id:3}];&#x2F;&#x2F;创建对象型数组    采用构造函">
+  <meta name="description" content="JavaScript数组复习一下数组，发现有些方法都忘记了 定义数组的方式 采用直接量创建  var MyArray &#x3D; [];&#x2F;&#x2F;创建空数组  var MyArray &#x3D; [1,2,3];&#x2F;&#x2F;创建数字型数组  var MyArray &#x3D; [“A”,”B”,”C”];&#x2F;&#x2F;创建字符型数组  var MyArray &#x3D; [{id:1},{id:2},{id:3}];&#x2F;&#x2F;创建对象型数组  采用构造函数创">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript数组">
 <meta property="og:url" content="http://yoursite.com/2018/10/26/JavaScript%E6%95%B0%E7%BB%84/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="JavaScript数组复习一下数组，发现有些方法都忘记了 定义数组的方式 采用直接量创建  var MyArray &#x3D; [];&#x2F;&#x2F;创建空数组  var MyArray &#x3D; [1,2,3];&#x2F;&#x2F;创建数字型数组  var MyArray &#x3D; [“A”,”B”,”C”];&#x2F;&#x2F;创建字符型数组  var MyArray &#x3D; [{id:1},{id:2},{id:3}];&#x2F;&#x2F;创建对象型数组    采用构造函">
+<meta property="og:description" content="JavaScript数组复习一下数组，发现有些方法都忘记了 定义数组的方式 采用直接量创建  var MyArray &#x3D; [];&#x2F;&#x2F;创建空数组  var MyArray &#x3D; [1,2,3];&#x2F;&#x2F;创建数字型数组  var MyArray &#x3D; [“A”,”B”,”C”];&#x2F;&#x2F;创建字符型数组  var MyArray &#x3D; [{id:1},{id:2},{id:3}];&#x2F;&#x2F;创建对象型数组  采用构造函数创">
+<meta property="og:locale">
 <meta property="article:published_time" content="2018-10-25T16:22:49.000Z">
-<meta property="article:modified_time" content="2018-10-26T13:48:01.919Z">
+<meta property="article:modified_time" content="2022-07-27T07:26:15.030Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="数组">
 <meta property="article:tag" content="javaScript">
@@ -74,7 +75,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -213,8 +214,6 @@
 <p> var MyArray = [“A”,”B”,”C”];//创建字符型数组</p>
 <p> var MyArray = [{id:1},{id:2},{id:3}];//创建对象型数组</p>
 </li>
-</ol>
-<ol start="2">
 <li><p>采用构造函数创建</p>
 <p> var MyArray = new Array();<br> MyArray[0] = 0;<br> MyArray[1] = “A”;</p>
 <p> var MyArray = new Array(5);</p>
@@ -228,70 +227,22 @@
 <p>描述：返回对创建此对象的数组函数的<strong>引用</strong>。</p>
 <p>应用1：用于判断元素类型</p>
 <p>exp：</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var test=new Array();
-
-if (test.constructor==Array)
-{
-document.write(&quot;This is an Array&quot;);
-}
-if (test.constructor==Boolean)
-{
-document.write(&quot;This is a Boolean&quot;);
-}
-if (test.constructor==Date)
-{
-document.write(&quot;This is a Date&quot;);
-}
-if (test.constructor==String)
-{
-document.write(&quot;This is a String&quot;);
-}
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> test=<span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (test.constructor==<span class="built_in">Array</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">document</span>.write(<span class="string">"This is an Array"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (test.constructor==<span class="built_in">Boolean</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">document</span>.write(<span class="string">"This is a Boolean"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (test.constructor==<span class="built_in">Date</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">document</span>.write(<span class="string">"This is a Date"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (test.constructor==<span class="built_in">String</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">document</span>.write(<span class="string">"This is a String"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>This is an Array
 </code></pre><p>应用2：用于获取构造函数的原形</p>
 <p>exp:</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-function employee(name,job,born)
-{
-this.name=name;
-this.job=job;
-this.born=born;
-}
-
-var bill=new employee(&quot;Bill Gates&quot;,&quot;Engineer&quot;,1985);
-
-document.write(bill.constructor);
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
-<pre><code>function employee(name, job, born)
-{this.name = name; this.job = job; this.born = born;}
-</code></pre><ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">employee</span>(<span class="params">name,job,born</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name=name;</span><br><span class="line">    <span class="keyword">this</span>.job=job;</span><br><span class="line">    <span class="keyword">this</span>.born=born;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bill=<span class="keyword">new</span> employee(<span class="string">"Bill Gates"</span>,<span class="string">"Engineer"</span>,<span class="number">1985</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(bill.constructor);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">employee</span>(<span class="params">name, job, born</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name; </span><br><span class="line">    <span class="keyword">this</span>.job = job; </span><br><span class="line">    <span class="keyword">this</span>.born = born;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
 <li>length</li>
 </ul>
 <p>描述：设置或返回数组中元素的数目</p>
 <p>应用：设置或返回数组中元素的数目</p>
 <p>exp：</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(3)
-arr[0] = &quot;John&quot;
-arr[1] = &quot;Andy&quot;
-arr[2] = &quot;Wendy&quot;
-
-document.write(&quot;Original length: &quot; + arr.length)
-document.write(&quot;&lt;br /&gt;&quot;)
-
-arr.length=5
-document.write(&quot;New length: &quot; + arr.length)
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"Andy"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Wendy"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(<span class="string">"Original length: "</span> + arr.length)</span><br><span class="line"><span class="built_in">document</span>.write(<span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"></span><br><span class="line">arr.length=<span class="number">5</span></span><br><span class="line"><span class="built_in">document</span>.write(<span class="string">"New length: "</span> + arr.length)</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>Original length: 3
 New length: 5
 </code></pre><ul>
@@ -300,51 +251,16 @@ New length: 5
 <p>描述：使您有能力向对象添加属性和方法</p>
 <p>应用：向对象添加属性和方法</p>
 <p>exp:<br>    <script type="text/javascript"></p>
-<pre><code>//定义一个employee对象
-function employee(name,job,born)
-{
-this.name=name;
-this.job=job;
-this.born=born;
-}
-
-//实例化一个employee
-var bill=new employee(&quot;Bill Gates&quot;,&quot;Engineer&quot;,1985);
-
-employee.prototype.salary=null;
-bill.salary=20000;
-
-document.write(bill.salary);
-
-&lt;/script&gt;
-</code></pre><p><strong>值得注意的是：prototyp是面向对象编程的重要属性。在W3C的解释中，可以知道函数也是一个对向（具体函数与对象的关系后续再详细讨论），每个函数对象都具有一个子对象prototype。Prototype 表示了该函数的原型，prototype表示了一个类的属性的集合。当通过new来生成一个类的对象时，prototype对象的属性就会成为实例化对象的属性。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个employee对象</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">employee</span>(<span class="params">name,job,born</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">this</span>.name=name;</span><br><span class="line"><span class="keyword">this</span>.job=job;</span><br><span class="line"><span class="keyword">this</span>.born=born;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//实例化一个employee</span></span><br><span class="line"><span class="keyword">var</span> bill=<span class="keyword">new</span> employee(<span class="string">"Bill Gates"</span>,<span class="string">"Engineer"</span>,<span class="number">1985</span>);</span><br><span class="line"></span><br><span class="line">employee.prototype.salary=<span class="literal">null</span>;</span><br><span class="line">bill.salary=<span class="number">20000</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(bill.salary);</span><br></pre></td></tr></table></figure>
+<p><strong>值得注意的是：prototyp是面向对象编程的重要属性。在W3C的解释中，可以知道函数也是一个对向（具体函数与对象的关系后续再详细讨论），每个函数对象都具有一个子对象prototype。Prototype 表示了该函数的原型，prototype表示了一个类的属性的集合。当通过new来生成一个类的对象时，prototype对象的属性就会成为实例化对象的属性。</strong></p>
 <h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><ul>
 <li>contact()</li>
 </ul>
 <p>描述：连接两个或更多的数组，并返回结果</p>
 <p>应用：连接n个数组</p>
 <p>exp:</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(3)
-arr[0] = &quot;George&quot;
-arr[1] = &quot;John&quot;
-arr[2] = &quot;Thomas&quot;
-
-var arr2 = new Array(3)
-arr2[0] = &quot;James&quot;
-arr2[1] = &quot;Adrew&quot;
-arr2[2] = &quot;Martin&quot;
-
-var arr3 = new Array(2)
-arr3[0] = &quot;William&quot;
-arr3[1] = &quot;Franklin&quot;
-
-//执行连接操作
-document.write(arr.concat(arr2,arr3))
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr2 = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br><span class="line">arr2[<span class="number">0</span>] = <span class="string">"James"</span></span><br><span class="line">arr2[<span class="number">1</span>] = <span class="string">"Adrew"</span></span><br><span class="line">arr2[<span class="number">2</span>] = <span class="string">"Martin"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr3 = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">2</span>)</span><br><span class="line">arr3[<span class="number">0</span>] = <span class="string">"William"</span></span><br><span class="line">arr3[<span class="number">1</span>] = <span class="string">"Franklin"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//执行连接操作</span></span><br><span class="line"><span class="built_in">document</span>.write(arr.concat(arr2,arr3))</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>George,John,Thomas,James,Adrew,Martin,William,Franklin
 </code></pre><ul>
 <li>join()</li>
@@ -352,17 +268,8 @@ document.write(arr.concat(arr2,arr3))
 <p>描述：把数组的所有元素放入一个字符串。元素通过指定的分隔符进行分隔</p>
 <p>应用：创建一个数组，然后把它的所有元素放入一个字符串</p>
 <p>exp:</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(3)
-arr[0] = &quot;George&quot;
-arr[1] = &quot;John&quot;
-arr[2] = &quot;Thomas&quot;
-
-document.write(arr.join(&quot;.&quot;))
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr.join(<span class="string">"."</span>))</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>George.John.Thomas
 </code></pre><p><strong>注意：join(separator)中separator为间隔符，若为空择默认为逗号。</strong></p>
 <ul>
@@ -371,25 +278,8 @@ document.write(arr.join(&quot;.&quot;))
 <p>描述：pop() 方法将删除 arrayObject 的最后一个元素，把数组长度减 1，并且<strong>返回它删除的元素的值</strong>。如果数组已经为空，则 pop() 不改变数组，并返回 undefined 值</p>
 <p>应用：创建一个数组，然后删除数组的最后一个元素</p>
 <p>exp:</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(3)
-arr[0] = &quot;George&quot;
-arr[1] = &quot;John&quot;
-arr[2] = &quot;Thomas&quot;
-
-document.write(arr)
-
-document.write(&quot;&lt;br /&gt;&quot;)
-
-document.write(arr.pop())
-
-document.write(&quot;&lt;br /&gt;&quot;)
-
-document.write(arr)
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr)</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(<span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr.pop())</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(<span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr)</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>George,John,Thomas
 Thomas
 George,John
@@ -405,19 +295,8 @@ newelement2（可选）- 要添加的第二个元素
 newelementX（可选）- 要添加的第X个元素
 </code></pre><p>应用：创建一个数组，并通过添加一个元素来改变其长度</p>
 <p>exp:</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(3)
-arr[0] = &quot;George&quot;
-arr[1] = &quot;John&quot;
-arr[2] = &quot;Thomas&quot;
-
-document.write(arr + &quot;&lt;br /&gt;&quot;)
-document.write(arr.push(&quot;James&quot;) + &quot;&lt;br /&gt;&quot;)
-document.write(arr)
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr.push(<span class="string">"James"</span>) + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr)</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>George,John,Thomas
 4
 George,John,Thomas,James
@@ -427,18 +306,8 @@ George,John,Thomas,James
 <p>描述：用于颠倒数组中元素的顺序（该方法会改变原来的数组，而不会创建新的数组）</p>
 <p>应用：创建一个数组，然后颠倒其元素的顺序</p>
 <p>exp:</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(3)
-arr[0] = &quot;George&quot;
-arr[1] = &quot;John&quot;
-arr[2] = &quot;Thomas&quot;
-
-document.write(arr + &quot;&lt;br /&gt;&quot;)
-document.write(arr.reverse())
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr.reverse())</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>George,John,Thomas
 Thomas,John,George
 </code></pre><ul>
@@ -447,19 +316,8 @@ Thomas,John,George
 <p>描述:用于把数组的第一个元素从其中删除，并返回第一个元素的值(如果数组是空的，那么 shift() 方法将不进行任何操作，返回 undefined 值。请注意，该方法不创建新数组，而是直接修改原有的 arrayObject)</p>
 <p>应用：创建一个数组，并删除数组的第一个元素。请注意，这也将改变数组的长度</p>
 <p>exp:</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(3)
-arr[0] = &quot;George&quot;
-arr[1] = &quot;John&quot;
-arr[2] = &quot;Thomas&quot;
-
-document.write(arr + &quot;&lt;br /&gt;&quot;)
-document.write(arr.shift() + &quot;&lt;br /&gt;&quot;)
-document.write(arr)
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr.shift() + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr)</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>George,John,Thomas
 George
 John,Thomas
@@ -473,24 +331,8 @@ John,Thomas
 <p><strong>请注意，该方法并不会修改数组，而是返回一个子数组。如果想删除数组中的一段元素，应该使用方法 Array.splice()。</strong></p>
 <p>应用：创建一个新数组，然后显示从其中选取的元素</p>
 <p>exp:</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(6)
-arr[0] = &quot;George&quot;
-arr[1] = &quot;John&quot;
-arr[2] = &quot;Thomas&quot;
-arr[3] = &quot;James&quot;
-arr[4] = &quot;Adrew&quot;
-arr[5] = &quot;Martin&quot;
-
-document.write(arr + &quot;&lt;br /&gt;&quot;)
-
-//截取数组的2-4位（注意数组下标从0开始）
-document.write(arr.slice(2,4) + &quot;&lt;br /&gt;&quot;)
-document.write(arr)
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">6</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"James"</span></span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"Adrew"</span></span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"Martin"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//截取数组的2-4位（注意数组下标从0开始）</span></span><br><span class="line"><span class="built_in">document</span>.write(arr.slice(<span class="number">2</span>,<span class="number">4</span>) + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr)</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>George,John,Thomas,James,Adrew,Martin
 Thomas,James
 George,John,Thomas,James,Adrew,Martin
@@ -506,44 +348,13 @@ George,John,Thomas,James,Adrew,Martin
 <p>若 a 小于 b，在排序后的数组中 a 应该出现在 b 之前，则返回一个小于 0 的值。<br>若 a 等于 b，则返回 0。<br>若 a 大于 b，则返回一个大于 0 的值。</p>
 <p>应用：创建一个数组，并按字母顺序进行排序</p>
 <p>exp1：</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(6)
-arr[0] = &quot;George&quot;
-arr[1] = &quot;John&quot;
-arr[2] = &quot;Thomas&quot;
-arr[3] = &quot;James&quot;
-arr[4] = &quot;Adrew&quot;
-arr[5] = &quot;Martin&quot;
-
-document.write(arr + &quot;&lt;br /&gt;&quot;)
-document.write(arr.sort())
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">6</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"James"</span></span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"Adrew"</span></span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"Martin"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr.sort())</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>George,John,Thomas,James,Adrew,Martin
 Adrew,George,James,John,Martin,Thomas
 </code></pre><p>exp2:实现对多位数的排序（利用排序函数作为参数）</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-function sortNumber(a,b)
-{
-return a - b
-}
-
-var arr = new Array(6)
-arr[0] = &quot;10&quot;
-arr[1] = &quot;5&quot;
-arr[2] = &quot;40&quot;
-arr[3] = &quot;25&quot;
-arr[4] = &quot;1000&quot;
-arr[5] = &quot;1&quot;
-
-document.write(arr + &quot;&lt;br /&gt;&quot;)
-document.write(arr.sort(sortNumber))
-
-&lt;/script&gt;
-</code></pre><p><strong>如果不写该函数作为参数，只会对多位数的第一位以ASCII码进行排序，无法实现多位数排序</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortNumber</span>(<span class="params">a,b</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">return</span> a - b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">6</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"10"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"5"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"40"</span></span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"25"</span></span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"1000"</span></span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"1"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr.sort(sortNumber))</span><br></pre></td></tr></table></figure>
+<p><strong>如果不写该函数作为参数，只会对多位数的第一位以ASCII码进行排序，无法实现多位数排序</strong></p>
 <ul>
 <li>splice()</li>
 </ul>
@@ -554,62 +365,17 @@ document.write(arr.sort(sortNumber))
 <p><strong>请注意，splice() 方法与 slice() 方法的作用是不同的，splice() 方法会直接对数组进行修改。</strong></p>
 <p>应用：</p>
 <p>exp1:创建一个新数组，并向其添加/删除一个元素</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
-
-var arr = new Array(6)
-arr[0] = &quot;George&quot;
-arr[1] = &quot;John&quot;
-arr[2] = &quot;Thomas&quot;
-arr[3] = &quot;James&quot;
-arr[4] = &quot;Adrew&quot;
-arr[5] = &quot;Martin&quot;
-
-document.write(arr + &quot;&lt;br /&gt;&quot;)
-//从第二个位置修改，&quot;howmany&quot;参数为0择不删除，第三个参数为要添加的元素
-arr.splice(2,0,&quot;William&quot;)
-document.write(arr + &quot;&lt;br /&gt;&quot;)
-
-&lt;/script&gt;
-</code></pre><p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">6</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"James"</span></span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"Adrew"</span></span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"Martin"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="comment">//从第二个位置修改，"howmany"参数为0择不删除，第三个参数为要添加的元素</span></span><br><span class="line">arr.splice(<span class="number">2</span>,<span class="number">0</span>,<span class="string">"William"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
 <pre><code>George,John,Thomas,James,Adrew,Martin
 George,John,William,Thomas,James,Adrew,Martin
 </code></pre><p>exp2：删除位于 index 2 的元素，并添加一个新元素来替代被删除的元素</p>
-<script type="text/javascript">
-
-    var arr = new Array(6)
-    arr[0] = "George"
-    arr[1] = "John"
-    arr[2] = "Thomas"
-    arr[3] = "James"
-    arr[4] = "Adrew"
-    arr[5] = "Martin"
-
-    document.write(arr + "<br />")
-    arr.splice(2,1,"William")
-    document.write(arr)
-
-    </script>
-
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">6</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"James"</span></span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"Adrew"</span></span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"Martin"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line">arr.splice(<span class="number">2</span>,<span class="number">1</span>,<span class="string">"William"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr)</span><br></pre></td></tr></table></figure>
 <p>输出：</p>
 <pre><code>George,John,Thomas,James,Adrew,Martin
 George,John,William,James,Adrew,Martin
 </code></pre><p>exp3:删除从 index 2 (“Thomas”) 开始的三个元素，并添加一个新元素 (“William”) 来替代被删除的元素</p>
-<script type="text/javascript">
-
-    var arr = new Array(6)
-    arr[0] = "George"
-    arr[1] = "John"
-    arr[2] = "Thomas"
-    arr[3] = "James"
-    arr[4] = "Adrew"
-    arr[5] = "Martin"
-
-    document.write(arr + "<br />")
-    arr.splice(2,3,"William")
-    document.write(arr)
-
-    </script>
-
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">6</span>)</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"James"</span></span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"Adrew"</span></span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"Martin"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line">arr.splice(<span class="number">2</span>,<span class="number">3</span>,<span class="string">"William"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr)</span><br></pre></td></tr></table></figure>
 <p>输出：<br>    George,John,Thomas,James,Adrew,Martin<br>    George,John,William,Martin</p>
 <ul>
 <li>unshift</li>
@@ -624,19 +390,7 @@ George,John,William,James,Adrew,Martin
 <p><strong>请注意，unshift() 方法无法在 Internet Explorer 中正确地工作！</strong></p>
 <p>应用：创建一个数组，并把一个元素添加到数组的开头，并返回数组的新长度</p>
 <p>exp:</p>
-<script type="text/javascript">
-
-    var arr = new Array()
-    arr[0] = "George"
-    arr[1] = "John"
-    arr[2] = "Thomas"
-
-    document.write(arr + "<br />")
-    document.write(arr.unshift("William") + "<br />")
-    document.write(arr)
-
-    </script>
-
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>()</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span></span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span></span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.write(arr + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr.unshift(<span class="string">"William"</span>) + <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"><span class="built_in">document</span>.write(arr)</span><br></pre></td></tr></table></figure>
 <p>输出：</p>
 <pre><code>George,John,Thomas
 4
@@ -747,7 +501,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript数组"><span class="nav-number">1.</span> <span class="nav-text">JavaScript数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义数组的方式"><span class="nav-number">1.1.</span> <span class="nav-text">定义数组的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性"><span class="nav-number">1.2.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">1.3.</span> <span class="nav-text">说明</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript%E6%95%B0%E7%BB%84"><span class="nav-number">1.</span> <span class="nav-text">JavaScript数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E6%95%B0%E7%BB%84%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">定义数组的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">属性</span></a></li></ol></li></ol>
     
     </div>
   </aside>
@@ -762,7 +516,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -919,7 +673,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

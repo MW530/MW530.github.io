@@ -17,11 +17,12 @@
 <meta property="og:url" content="http://yoursite.com/2021/04/27/NodeJS%E5%AD%A6%E4%B9%A03-%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="V8的内存分配在一般的后端开发语言中，在基本的内存使用上没有什么限制，然而在Node中通过JavaScript使用内存时就会发现只能使用部分内存（64位系统下约为1.4GB，32位系统下约为0.7GB），在这样的限制下，将会导致Node无法直接操作大内存对象。比如无法将一个2GB的文件读入内存中进行字符串分析处理，即使物理内存大于2GB，这样在单个Node进程的情况下，计算机的内存资源无法得到充足">
+<meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/images/Node-JS%E7%9A%84%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/V8%E5%A0%86%E7%BB%93%E6%9E%84.jpg">
 <meta property="og:image" content="http://yoursite.com/images/Node-JS%E7%9A%84%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/mark-sweep.jpg">
 <meta property="og:image" content="http://yoursite.com/images/Node-JS%E7%9A%84%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6/mark-compact.jpg">
 <meta property="article:published_time" content="2021-04-27T01:13:46.000Z">
-<meta property="article:modified_time" content="2021-04-27T06:15:49.426Z">
+<meta property="article:modified_time" content="2022-08-13T14:12:28.280Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Node.js">
 <meta property="article:tag" content="内存控制">
@@ -78,7 +79,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -217,12 +218,12 @@
 <p>但是注意，这个参数在运行中是无法改变的，一旦启动，内存分配就无法改变，这一点，确实限制了Node的发挥。</p>
 <h1 id="V8的垃圾回收机制"><a href="#V8的垃圾回收机制" class="headerlink" title="V8的垃圾回收机制"></a>V8的垃圾回收机制</h1><p>之前在分析闭包的那篇文章中，<a href="https://michaelwang.top/2021/01/31/%E5%85%A8%E9%9D%A2%E7%90%86%E8%A7%A3JavaScript%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/" target="_blank" rel="noopener">全面理解JavaScript作用域与闭包</a>，虽然详细分析了V8的内存结构，但是并没有详细分析垃圾回收机制,这里详细看一下。</p>
 <h2 id="V8主要的垃圾回收算法"><a href="#V8主要的垃圾回收算法" class="headerlink" title="V8主要的垃圾回收算法"></a>V8主要的垃圾回收算法</h2><p>V8的垃圾回收策略主要基于分布式垃圾回收机制。在自动垃圾回收的演变过程中，人们发现暂时没有一种垃圾回收算法能够胜任所有的场景。因为在实际应用中，对象的生存周期长短不一，不同的算法只能针对特定情况具有最好的效果。为此，统计学在垃圾回收算法中产生了较大的作用，现在的垃圾回收算法按对象的存活时间将内存的垃圾回收进行不同的分代。然后分别对不同的内存施以更高效的算法。</p>
-<h3 id="V8的内存分代"><a href="#V8的内存分代" class="headerlink" title="V8的内存分代"></a>V8的内存分代</h3><p>在V8中，主要讲内存分为新生代和老生代两代。新生代中的对象为存活时间较短的对象，老生代中的对象主要为存活时间较长或或者常驻内存的对象。</p>
+<h3 id="V8的内存分代"><a href="#V8的内存分代" class="headerlink" title="V8的内存分代"></a>V8的内存分代</h3><p>在V8中，主要将内存分为新生代和老生代两代。新生代中的对象为存活时间较短的对象，老生代中的对象主要为存活时间较长或或者常驻内存的对象。</p>
 <p>所以V8的堆的整体大小就是新生代所用内存空间加上老生代的内存空间。前面提到的改变Node的内存限制就是用以改变新生代和老生代的内存空间的大小。</p>
 <h3 id="Scavenge算法"><a href="#Scavenge算法" class="headerlink" title="Scavenge算法"></a>Scavenge算法</h3><p>在分代的基础上，新生代中的对象主要是通过Scavenge算法进行垃圾回收的。在Scavenge的具体实现中，主要采用了Cheney算法，该算法由C.J.Cheney于1970年首次发表在ACM论文上。</p>
-<p>Cheney算法是一种采用复制的方法实现的垃圾回收算法。它讲堆的内存一分为二，每一部分空间成为semispace。在这两个semispace中，只有一个处于使用中，另一个处于空闲中。处于使用状态的semispace称为From空间，处于闲置状态的空间称为To空间。当我们分配对象时，先是在From空间进行分配。当开始机型垃圾回收时，会检查From空间中的存活对象，这些存活对象将被复制到To空间中，二非存活对象占用的空间将会被释放。完成复制后，From空间和To空间的角色发生对换。简而言之，在垃圾回收的工程中，就是通过讲存活对象在两个semispace空间之间进行复制。</p>
+<p>Cheney算法是一种采用复制的方法实现的垃圾回收算法。它将堆的内存一分为二，每一部分空间称为semispace。在这两个semispace中，只有一个处于使用中，另一个处于空闲中。处于使用状态的semispace称为From空间，处于闲置状态的空间称为To空间。当我们分配对象时，先是在From空间进行分配。当开始机型垃圾回收时，会检查From空间中的存活对象，这些存活对象将被复制到To空间中，而非存活对象占用的空间将会被释放。完成复制后，From空间和To空间的角色发生对换。简而言之，在垃圾回收的工程中，就是通过将存活对象在两个semispace空间之间进行复制。</p>
 <p>Scavenge的缺点是只能使用堆内存的一半，这是由划分空间和复制机制决定的。但是Scavenge由于只复制存活的对象，并且对于生命周期短的场景只占少部分，所以它在时间效率上有优异的表现。</p>
-<p>由于Scavenge是典型的空间换时间的算法，所以无法大规模的应用到所有的垃圾回收机制中。但是可以发现，Scavenge非常适合应用在新生代中，因为新生代中对象的生命周期较短，恰恰适合这个算法。所以，V8的堆内存分配应当如下：</p>
+<p>由于Scavenge是典型的空间换时间的算法，所以无法大规模地应用到所有的垃圾回收机制中。但是可以发现，Scavenge非常适合应用在新生代中，因为新生代中对象的生命周期较短，恰恰适合这个算法。所以，V8的堆内存分配应当如下：</p>
 <p><img src="\images\Node-JS的内存控制\V8堆结构.jpg" alt="V8堆结构"></p>
 <p>实际使用的堆是新生代的两个semispace空间大小和老生代所使用的内存大小之和。</p>
 <h4 id="新生代向老生代的转换"><a href="#新生代向老生代的转换" class="headerlink" title="新生代向老生代的转换"></a>新生代向老生代的转换</h4><p>在V8中，在两种情况下，新生代的对象会转变为老生代的对象（对象晋升）：</p>
@@ -235,9 +236,9 @@
 <li>存活的对象较多，复制存活对象的效率会降低。</li>
 <li>浪费另一半内存的弊端在这个就先会放大。</li>
 </ol>
-<p>为此，V8再老生代中主要采用了Mark-Sweep和Mark-Compact相结合的方式进行垃圾回收。</p>
-<h4 id="Mark-Sweep"><a href="#Mark-Sweep" class="headerlink" title="Mark-Sweep"></a>Mark-Sweep</h4><p>Mark-Sweep即标记清楚，它分为标记和清楚两个阶段。其核心在于，Mark-Sweep再标记阶段遍历堆中的所有对象，并标记活着的对象，再随后的清楚阶段中，只清楚没有被标记的对象。</p>
-<p>可以看出，Scavenge中只复制或者的对象，而Mark-Sweep只清除死亡的对象。</p>
+<p>为此，V8在老生代中主要采用了Mark-Sweep和Mark-Compact相结合的方式进行垃圾回收。</p>
+<h4 id="Mark-Sweep"><a href="#Mark-Sweep" class="headerlink" title="Mark-Sweep"></a>Mark-Sweep</h4><p>Mark-Sweep即标记清楚，它分为标记和清楚两个阶段。其核心在于，Mark-Sweep再标记阶段遍历堆中的所有对象，并标记活着的对象，在随后的清楚阶段中，只清楚没有被标记的对象。</p>
+<p>可以看出，Scavenge中只复制标记的对象，而Mark-Sweep只清除死亡的对象。</p>
 <p>而活对象在新生代中只占小部分，死对象在老生代只占较少部分，所以这两种算法刚好能够发挥最大性能。示意图如下（黑色表示死亡的对象）：</p>
 <p><img src="\images\Node-JS的内存控制\mark-sweep.jpg" alt="mark-sweep"></p>
 <h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><p>Mark-Sweep最大问题在于一次标记清除回收后，内存空间会出现不连续的状态。这种内存碎片会对后面的内存分配造成问题，因为可能会出现需要分配一个大对象的情况，这时所有的碎片空间都无法完成此次分配，就提前触发垃圾回收，而这次回收是不必要的。</p>
@@ -282,7 +283,7 @@
 </tbody>
 </table>
 <p>具体上，V8主要使用Mark-Sweep，在空间不足以对从新生代晋升过来的对象进行分配时才使用Mark-Compact。</p>
-<h4 id="Incremental-Marking"><a href="#Incremental-Marking" class="headerlink" title="Incremental Marking"></a>Incremental Marking</h4><p>为了避免出现JavaScript逻辑与垃圾回收器看到的不一致的情况，垃圾回收的3种基本算法都要讲应该逻辑暂停下来，带执行完毕垃圾回收后再恢复执行应用的逻辑，这种行为被称为”全停顿“（stop-the-world）。在V8的分布式垃圾回收中，一次小垃圾的回收只影响新生代，由于新生代默认配置得比较少，且存活对象较多，全堆垃圾回收（full垃圾回收）得标记、清理、整理等动作造成得停顿就会比较可怕，需要设法改善。</p>
+<h4 id="Incremental-Marking"><a href="#Incremental-Marking" class="headerlink" title="Incremental Marking"></a>Incremental Marking</h4><p>为了避免出现JavaScript逻辑与垃圾回收器看到的不一致的情况，垃圾回收的3种基本算法都要将应该逻辑暂停下来，待执行完毕垃圾回收后再恢复执行应用的逻辑，这种行为被称为”全停顿“（stop-the-world）。在V8的分布式垃圾回收中，一次小垃圾的回收只影响新生代，由于新生代默认配置得比较少，且存活对象较多，全堆垃圾回收（full垃圾回收）的标记、清理、整理等动作造成得停顿就会比较可怕，需要设法改善。</p>
 <p>为了降低全堆垃圾回收带来的停顿时间，V8先从标记阶段入手，将原本要一口气停顿完成的动作改为增量标记（incremental marking），也就是将回收的时间拆分为多个小”步进“，每做完一个”步进“，就让JavaScript应用逻辑执行一会，垃圾回收与应用逻辑交替执行直到标记阶段完成。</p>
 <p>经过改进，垃圾回收的最大停顿时间可以减少到原来的1/6左右。</p>
 <p>V8后续还引入了延迟清理（lazy sweeping）与增量式整理（incremental compaction），让清理与整理的动作也变为增量式的。同时还引入了并行标记和并行清理，进一步利用多核性能降低每次的停顿动作。 </p>
@@ -299,7 +300,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --prof-process isolate-0xnnnnnnnnnnnn-v8.log &gt; processed.txt</span><br></pre></td></tr></table></figure>
 <p>生成profile文件，下面是例子（部分）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Statistical profiling result from .\isolate-000001A24906A4A0-14888-v8.log, (4214 ticks, 0 unaccounted, 0 excluded).</span><br><span class="line"></span><br><span class="line"> [Shared libraries]:</span><br><span class="line">   ticks  total  nonlib   name</span><br><span class="line">   4141   98.3%          C:\Windows\SYSTEM32\ntdll.dll</span><br><span class="line">     71    1.7%          C:\Program Files\nodejs\node.exe</span><br><span class="line"></span><br><span class="line"> [JavaScript]:</span><br><span class="line">   ticks  total  nonlib   name</span><br><span class="line">      1    0.0%   50.0%  LazyCompile: *resolve path.js:130:10</span><br><span class="line">      1    0.0%   50.0%  LazyCompile: *nextPart fs.js:1433:31</span><br><span class="line"></span><br><span class="line"> [C++]:</span><br><span class="line">   ticks  total  nonlib   name</span><br><span class="line"></span><br><span class="line"> [Summary]:</span><br><span class="line">   ticks  total  nonlib   name</span><br><span class="line">      2    0.0%  100.0%  JavaScript</span><br><span class="line">      0    0.0%    0.0%  C++</span><br><span class="line">      9    0.2%  450.0%  GC</span><br><span class="line">   4212  100.0%          Shared libraries</span><br></pre></td></tr></table></figure>
-<p>也可以采用其他第三方工具进行分析，具体不在细讲。</p>
+<p>也可以采用其他第三方工具进行分析，具体不再细讲。</p>
 <h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>V8的这些限制在浏览器端看起来很合理，一个页面很少能占用超多2GB内存，但是在服务端，这就显得捉襟见肘了，为此，Node开发了<code>Buffer</code>，<code>Stream</code>等模块，来弥补V8的不足，后面会陆续详解。</p>
 <h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>本文大部分参考《深入浅出nodejs》以及<a href="https://nodejs.org/" target="_blank" rel="noopener">Node</a>官网</p>
 
@@ -402,7 +403,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#V8的内存分配"><span class="nav-number">1.</span> <span class="nav-text">V8的内存分配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原因"><span class="nav-number">1.0.1.</span> <span class="nav-text">原因</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V8的垃圾回收机制"><span class="nav-number">2.</span> <span class="nav-text">V8的垃圾回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#V8主要的垃圾回收算法"><span class="nav-number">2.1.</span> <span class="nav-text">V8主要的垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#V8的内存分代"><span class="nav-number">2.1.1.</span> <span class="nav-text">V8的内存分代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scavenge算法"><span class="nav-number">2.1.2.</span> <span class="nav-text">Scavenge算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新生代向老生代的转换"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">新生代向老生代的转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mark-Sweep-amp-Mark-Compact"><span class="nav-number">2.1.3.</span> <span class="nav-text">Mark-Sweep &amp; Mark-Compact</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mark-Sweep"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">Mark-Sweep</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">2.1.3.1.1.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mark-Compact"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">Mark-Compact</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Incremental-Marking"><span class="nav-number">2.1.3.3.</span> <span class="nav-text">Incremental Marking</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看日志"><span class="nav-number">2.2.</span> <span class="nav-text">查看日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决办法"><span class="nav-number">3.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引用"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#V8%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="nav-number">1.</span> <span class="nav-text">V8的内存分配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.0.1.</span> <span class="nav-text">原因</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#V8%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">V8的垃圾回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#V8%E4%B8%BB%E8%A6%81%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">V8主要的垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#V8%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E4%BB%A3"><span class="nav-number">2.1.1.</span> <span class="nav-text">V8的内存分代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scavenge%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.2.</span> <span class="nav-text">Scavenge算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E7%94%9F%E4%BB%A3%E5%90%91%E8%80%81%E7%94%9F%E4%BB%A3%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">新生代向老生代的转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mark-Sweep-amp-Mark-Compact"><span class="nav-number">2.1.3.</span> <span class="nav-text">Mark-Sweep &amp; Mark-Compact</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mark-Sweep"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">Mark-Sweep</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">2.1.3.1.1.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mark-Compact"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">Mark-Compact</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Incremental-Marking"><span class="nav-number">2.1.3.3.</span> <span class="nav-text">Incremental Marking</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="nav-number">2.2.</span> <span class="nav-text">查看日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol>
     
     </div>
   </aside>
@@ -417,7 +418,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -574,7 +575,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

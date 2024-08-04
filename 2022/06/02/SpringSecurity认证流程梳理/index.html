@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>springsecurity结构梳理 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="SpringSecurity认证" />
+  
+  
+  
+  
+  <meta name="description" content="整体结构Spring Security整体是基于Servlet的Filter机制。简单来说，其就是将一系列的Filter组合起来，然后建立一定的机制来管理这些Filter；并且为特定的Filter提供一定的配套类来达成一定的功能，比如认证的Filter，CSRF的Filter等。 下面是对其管理机制的一些简单介绍 FilterChainServlet的Filter的执行过程，类似于函数的调用过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringSecurity结构梳理">
+<meta property="og:url" content="http://yoursite.com/2022/06/02/SpringSecurity%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="整体结构Spring Security整体是基于Servlet的Filter机制。简单来说，其就是将一系列的Filter组合起来，然后建立一定的机制来管理这些Filter；并且为特定的Filter提供一定的配套类来达成一定的功能，比如认证的Filter，CSRF的Filter等。 下面是对其管理机制的一些简单介绍 FilterChainServlet的Filter的执行过程，类似于函数的调用过程。">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/SpringSecurity%E7%BB%93%E6%9E%84%E6%A2%B3%E7%90%86/Filter%E6%B5%81%E7%A8%8B.jpg">
+<meta property="og:image" content="http://yoursite.com/images/SpringSecurity%E7%BB%93%E6%9E%84%E6%A2%B3%E7%90%86/Servlet%E5%86%85%E7%9C%8B%E5%88%B0%E7%9A%84Filter.jpg">
+<meta property="og:image" content="http://yoursite.com/images/SpringSecurity%E7%BB%93%E6%9E%84%E6%A2%B3%E7%90%86/DelegatingFilterProxy%E4%BB%A3%E7%90%86%E4%BA%86FilterChainProxy.jpg">
+<meta property="og:image" content="http://yoursite.com/images/SpringSecurity%E7%BB%93%E6%9E%84%E6%A2%B3%E7%90%86/FilterChainProxy%E4%BB%A3%E7%90%86%E7%9A%84Filter.jpg">
+<meta property="og:image" content="http://yoursite.com/images/SpringSecurity%E7%BB%93%E6%9E%84%E6%A2%B3%E7%90%86/securitycontextholder.png">
+<meta property="og:image" content="http://yoursite.com/images/SpringSecurity%E7%BB%93%E6%9E%84%E6%A2%B3%E7%90%86/providermanager.png">
+<meta property="article:published_time" content="2022-06-02T07:44:11.000Z">
+<meta property="article:modified_time" content="2022-06-05T08:53:45.353Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="SpringSecurity">
+<meta property="article:tag" content="认证">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/SpringSecurity%E7%BB%93%E6%9E%84%E6%A2%B3%E7%90%86/Filter%E6%B5%81%E7%A8%8B.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-SpringSecurity认证流程梳理" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      SpringSecurity结构梳理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/06/02/SpringSecurity%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/" class="article-date">
+	  <time datetime="2022-06-02T07:44:11.000Z" itemprop="datePublished">2022-06-02</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/SpringSecurity/">SpringSecurity</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h1><p>Spring Security整体是基于Servlet的Filter机制。简单来说，其就是将一系列的Filter组合起来，然后建立一定的机制来管理这些Filter；并且为特定的Filter提供一定的配套类来达成一定的功能，比如认证的Filter，CSRF的Filter等。</p>
+<p>下面是对其管理机制的一些简单介绍</p>
+<h2 id="FilterChain"><a href="#FilterChain" class="headerlink" title="FilterChain"></a><code>FilterChain</code></h2><p>Servlet的Filter的执行过程，类似于函数的调用过程。</p>
+<p>即当一个请求从客户端发送到Server的时候，在到达对应的Servlet处理之前，都会调用提前的设定的对应Filter。并且这些Filter会按照调用栈执行，并且会按照调用的顺序再返回，由第一个Filter来执行response。</p>
+<p>其流程图如下：</p>
+<p><img src="/images/SpringSecurity结构梳理/Filter流程.jpg" alt="Filter流程"></p>
+<p>值得注意的是，SpringMVC就是基于Servelt的，其基本原理为，建立一个名为<code>DispatcherServlet</code>的servlet来接受所有的请求，然后再在SpringMVC应用内为其映射对应的Controller请求函数。</p>
+<p>而上面整个过程中用的Filter就构成了一个链式的结构，其又被称为Filter链（<code>FilterChain</code>）。</p>
+<h2 id="DelegatingFilterProxy"><a href="#DelegatingFilterProxy" class="headerlink" title="DelegatingFilterProxy"></a><code>DelegatingFilterProxy</code></h2><p>这个类实际上是为Spring上下文和Servlet之间提供了一个桥梁。即一般来说，我们为Servlet注册上下文的时候，Spring上下文并不一定启动了，所以在Filter中无法感知到Spring应用，并且这些Filter也是用户自己new出来的，可以说是违背了Spring应用中IOC的核心，即把类的构造权交由Spring容器来做，而不是自己手动新建。</p>
+<p>所以该类就是为了解决这个问题，从名字就可以看出，这是一个具有代理功能的类。即一个<code>DelegatingFilterProxy</code>代理一个真实的Filter，并且被代理的这个类是在Spring容器中的。代理类中提供了从容器中查找的对应真实Filter的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initFilterBean</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>.delegateMonitor) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.delegate == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.targetBeanName == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">this</span>.targetBeanName = <span class="keyword">this</span>.getFilterName();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            WebApplicationContext wac = <span class="keyword">this</span>.findWebApplicationContext();</span><br><span class="line">            <span class="keyword">if</span> (wac != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">this</span>.delegate = <span class="keyword">this</span>.initDelegate(wac);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和调用真实Filter的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">invokeDelegate</span><span class="params">(Filter delegate, ServletRequest request, ServletResponse response, FilterChain filterChain)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    delegate.doFilter(request, response, filterChain);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以一般的用法就是，在Spring容器中定义对应的Filter，然后再向Servlet容器中注册一个自己新建的<code>DelegatingFilterProxy</code>类实例，该实例就会自动查找并调用Spring容器中的Filter。</p>
+<p>如新建的<code>DelegatingFilterProxy</code>的doFilter方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// Lazily get Filter that was registered as a Spring Bean</span></span><br><span class="line">	<span class="comment">// For the example in DelegatingFilterProxy </span></span><br><span class="line">delegate</span><br><span class="line"> is an instance of Bean Filter0</span><br><span class="line">	Filter delegate = getFilterBean(someBeanName);</span><br><span class="line">	<span class="comment">// delegate work to the Spring Bean</span></span><br><span class="line">	delegate.doFilter(request, response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用这种代理机制的另一个好处就是延迟加载，实际上还是克服了无法将容器对象注册为标准Filter的缺点。因为Filter需要在应用启动的时候就注册，但此时Spring容器可能并没有初始化好，那么就是无法进行注册的。则借用代理，在需要时加载，那么在需要的时候一般就已经初始化好了（因为请求都发送过来了）。</p>
+<h3 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h3><p>实际上该类很简单，一共就180行代码。</p>
+<p>这里其实也为我们经常遇到的一个问题提供了解决思路，即：在Filter中如果需要使用Spring容器中的对象，该怎么拿到？或者更宽泛一点：在Spring容器可能还没有初始化完成时（还比如interceptor种），我们又需要使用容器中的对象，该怎么使用？一个典型的场景就是：在Filter中需要使用redis，除非自己手写一个RedisTemplate，但Spring-Redis实际上已经新建好并且注入到Spring容器中，只需要我们取出来就好了，这种情况下，自己再去新建就显得没有必要了。</p>
+<p>那么这里我们就可以使用其中的API，通过request来获取对应的Spring上下文，并以此来获取容器的对象来进行使用。值得注意的是，这里的使用也是延迟的，即获取和使用都是在请求到来时才进行，因为容器的初始化在之后才进行的。（例如，如果将上下文的获取，容器中对象中的获取放到Filter的构造器中，那就肯定得不到对应的对象，因为那时容器还没有初始化，获取的必定为null。）</p>
+<p>一个简单的实例如下（从request获取存储在Spring上下文中的RedisUtils对象）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> RedisUtils <span class="title">getInstance</span><span class="params">(HttpServletRequest request)</span></span>&#123;</span><br><span class="line">    WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());</span><br><span class="line">    <span class="keyword">return</span> webApplicationContext.getBean(RedisUtils<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里主要是使用<code>WebApplicationContextUtils</code>工具类。</p>
+<p>再看一下其是如何实现的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Nullable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> WebApplicationContext <span class="title">getWebApplicationContext</span><span class="params">(ServletContext sc)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getWebApplicationContext(sc, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Nullable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> WebApplicationContext <span class="title">getWebApplicationContext</span><span class="params">(ServletContext sc, String attrName)</span> </span>&#123;</span><br><span class="line">    Assert.notNull(sc, <span class="string">"ServletContext must not be null"</span>);</span><br><span class="line">    Object attr = sc.getAttribute(attrName);</span><br><span class="line">    <span class="keyword">if</span> (attr == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (attr <span class="keyword">instanceof</span> RuntimeException) &#123;</span><br><span class="line">        <span class="keyword">throw</span> (RuntimeException)attr;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (attr <span class="keyword">instanceof</span> Error) &#123;</span><br><span class="line">        <span class="keyword">throw</span> (Error)attr;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (attr <span class="keyword">instanceof</span> Exception) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException((Exception)attr);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!(attr <span class="keyword">instanceof</span> WebApplicationContext)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Context attribute is not of type WebApplicationContext: "</span> + attr);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (WebApplicationContext)attr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到其实逻辑很简单，就是从<code>ServletContext</code>通过名字获取<code>WebApplicationContext</code>对象。而且个对象是在应用启动的时候由Spring放进去的。</p>
+<h2 id="FilterChainProxy"><a href="#FilterChainProxy" class="headerlink" title="FilterChainProxy"></a><code>FilterChainProxy</code></h2><p><code>FilterChainProxy</code>实际上相当于Spring Security的<code>DelegatingFilterProxy</code>。即它也是一个代理类，但它与<code>DelegatingFilterProxy</code>不同的点在于：</p>
+<ul>
+<li><code>FilterChainProxy</code>是所有经过Spring Security请求的入口位置，所以其代理的是多个Filter，而不是像<code>DelegatingFilterProxy</code>一样，仅仅代理一个Filter。</li>
+<li><code>FilterChainProxy</code>作为Spring Security的核心Filter，其可以用来做一些其他任务，比如清除<code>SecurityContext</code>防止内存泄露。</li>
+<li><code>FilterChainProxy</code>提供了更灵活的Filter匹配机制，即哪些Filter将在哪些路径中触发。</li>
+</ul>
+<p>简单来说，就是<code>DelegatingFilterProxy</code>代理了<code>FilterChainProxy</code>，而<code>FilterChainProxy</code>又代理一系列的Filter（这些代理就是普通的Spring容器内的对象了）。</p>
+<p>下面是一个简单的例子：</p>
+<ol>
+<li>Servlet内看到的Filter，可以看到第四个就是一个<code>DelegatingFilterProxy</code>，这个类就是Spring Security注册的。</li>
+</ol>
+<p><img src="/images/SpringSecurity结构梳理/Servlet内看到的Filter.jpg" alt="Servlet内看到的Filter"></p>
+<ol start="2">
+<li>可以看到，这个<code>DelegatingFilterProxy</code>代理了一个<code>FilterChainProxy</code>对象。</li>
+</ol>
+<p><img src="/images/SpringSecurity结构梳理/DelegatingFilterProxy代理了FilterChainProxy.jpg" alt="DelegatingFilterProxy代理了FilterChainProxy">    </p>
+<ol start="3">
+<li>该<code>FilterChainProxy</code>又代理了一系列的Filter。</li>
+</ol>
+<p><img src="/images/SpringSecurity结构梳理/FilterChainProxy代理的Filter.jpg" alt="FilterChainProxy代理的Filter"></p>
+<p>所以实际上就是一个套娃的过程。</p>
+<h2 id="Spring-Security中的默认拦截器顺序"><a href="#Spring-Security中的默认拦截器顺序" class="headerlink" title="Spring Security中的默认拦截器顺序"></a>Spring Security中的默认拦截器顺序</h2><ul>
+<li><code>ForceEagerSessionCreationFilter</code></li>
+<li><code>ChannelProcessingFilter</code></li>
+<li><code>WebAsyncManagerIntegrationFilter</code></li>
+<li><code>SecurityContextPersistenceFilter</code></li>
+<li><code>HeaderWriterFilter</code></li>
+<li><code>CorsFilter</code></li>
+<li><code>CsrfFilter</code></li>
+<li><code>LogoutFilter</code></li>
+<li><code>OAuth2AuthorizationRequestRedirectFilter</code></li>
+<li><code>Saml2WebSsoAuthenticationRequestFilter</code></li>
+<li><code>X509AuthenticationFilter</code></li>
+<li><code>AbstractPreAuthenticatedProcessingFilter</code></li>
+<li><code>CasAuthenticationFilter</code></li>
+<li><code>OAuth2LoginAuthenticationFilter</code></li>
+<li><code>Saml2WebSsoAuthenticationFilter</code></li>
+<li><code>UsernamePasswordAuthenticationFilter</code></li>
+<li><code>DefaultLoginPageGeneratingFilter</code></li>
+<li><code>DefaultLogoutPageGeneratingFilter</code></li>
+<li><code>ConcurrentSessionFilter</code></li>
+<li><code>DigestAuthenticationFilter</code></li>
+<li><code>BearerTokenAuthenticationFilter</code></li>
+<li><code>BasicAuthenticationFilter</code></li>
+<li><code>RequestCacheAwareFilter</code></li>
+<li><code>SecurityContextHolderAwareRequestFilter</code></li>
+<li><code>JaasApiIntegrationFilter</code></li>
+<li><code>RememberMeAuthenticationFilter</code></li>
+<li><code>AnonymousAuthenticationFilter</code></li>
+<li><code>OAuth2AuthorizationCodeGrantFilter</code></li>
+<li><code>SessionManagementFilter</code></li>
+<li><code>ExceptionTranslationFilter</code></li>
+<li><code>FilterSecurityInterceptor</code></li>
+<li><code>SwitchUserFilter</code></li>
+</ul>
+<h1 id="认证流程"><a href="#认证流程" class="headerlink" title="认证流程"></a>认证流程</h1><h2 id="SecurityContextHolder"><a href="#SecurityContextHolder" class="headerlink" title="SecurityContextHolder"></a><code>SecurityContextHolder</code></h2><p><code>SecurityContextHolder</code>是Spring认证的核心。它存储了当前被认证的用户信息，其存储的是一个<code>SecurityContext</code>对象。</p>
+<p> Spring Security并不关心如何存储该信息，但是它包含一个值，它被用作当前通过身份验证的用户。</p>
+<p>其结构如下：</p>
+<p><img src="/images/SpringSecurity结构梳理/securitycontextholder.png" alt="securitycontextholder"></p>
+<p>表示用户通过身份验证的最简单方法是直接设置SecurityContextHolder:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SecurityContext context = SecurityContextHolder.createEmptyContext(); </span><br><span class="line">Authentication authentication = <span class="keyword">new</span> TestingAuthenticationToken(<span class="string">"username"</span>, <span class="string">"password"</span>, <span class="string">"ROLE_USER"</span>); </span><br><span class="line">context.setAuthentication(authentication);</span><br><span class="line">SecurityContextHolder.setContext(context);</span><br></pre></td></tr></table></figure>
+<p>获取存储的信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SecurityContext context = SecurityContextHolder.getContext();</span><br><span class="line">Authentication authentication = context.getAuthentication();</span><br><span class="line">String username = authentication.getName();</span><br><span class="line">Object principal = authentication.getPrincipal();</span><br><span class="line">Collection&lt;? extends GrantedAuthority&gt; authorities = authentication.getAuthorities();</span><br></pre></td></tr></table></figure>
+<p>默认情况下，<code>SecurityContextHolder</code>使用<code>ThreadLocal</code>来存储这些细节，这意味着<code>SecurityContext</code>总是对同一个线程中的方法可用，即使<code>SecurityContext</code>没有显式地作为参数传递给那些方法。如果在处理当前主体的请求后清除线程，那么以这种方式使用<code>ThreadLocal</code>是非常安全的。Spring Security的<code>FilterChainProxy</code>确保<code>SecurityContext</code>可以被清除掉。</p>
+<p>在其他的场景中，可能并不适合使用<code>ThreadLocal</code>，比如Swing客户端中，可能希望Java虚拟机中的所有线程使用相同的<code>SecurityContextHolder</code>。</p>
+<p>那么就可以设定<code>SecurityContextHolder</code>的策略，即设置<code>SecurityContextHolder.strategyName</code>。其有4种模式：</p>
+<ul>
+<li>public static final String MODE_THREADLOCAL = “MODE_THREADLOCAL”：默认，即ThreadLocal方式。</li>
+<li>public static final String MODE_INHERITABLETHREADLOCAL = “MODE_INHERITABLETHREADLOCAL”：其所有派生线程共享。</li>
+<li>public static final String MODE_GLOBAL = “MODE_GLOBAL”：所有线程共享上下文。</li>
+</ul>
+<h2 id="SecurityContext"><a href="#SecurityContext" class="headerlink" title="SecurityContext"></a><code>SecurityContext</code></h2><p>其是一个接口，只定义了基本的设置<code>Authentication</code>的方法。但其有一个实现类<code>SecurityContextImpl</code>，但是实现也很简单，只是定义了最基本的<code>Authentication</code>成员变量的get和set方法。该类是实际存储用户数据的类，其将会被存储到<code>SecurityContextHolder</code>中。</p>
+<h2 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication"></a><code>Authentication</code></h2><p>这是一个接口，其含义是真正存储用户认证信息的类，其源代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Source code recreated from a .class file by IntelliJ IDEA</span></span><br><span class="line"><span class="comment">// (powered by FernFlower decompiler)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> org.springframework.security.core;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"><span class="keyword">import</span> java.security.Principal;</span><br><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Authentication</span> <span class="keyword">extends</span> <span class="title">Principal</span>, <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    Collection&lt;? extends GrantedAuthority&gt; getAuthorities();</span><br><span class="line"></span><br><span class="line">    <span class="function">Object <span class="title">getCredentials</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Object <span class="title">getDetails</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Object <span class="title">getPrincipal</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isAuthenticated</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setAuthenticated</span><span class="params">(<span class="keyword">boolean</span> isAuthenticated)</span> <span class="keyword">throws</span> IllegalArgumentException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到很简单，其中的<code>getCredentials</code>是定义的获取用户的的密钥，<code>getPrincipal</code>用来获取用户的名字，而<code>getDetails</code>用于获取其他附加的信息（可由自己定义）。</p>
+<p>由于其是一个接口，必须要有其实现类才能工作，所以在Spring Security内部先定义了一个<code>AbstractAuthenticationToken</code>抽象类实现了一定的功能。</p>
+<p>然后又为不同场景中定义了很多不同的<code>Authentication</code>，这些<code>Authentication</code>都被命名为xxxToken。</p>
+<p>最常见的就是<code>UsernamePasswordAuthenticationToken</code>和<code>AnonymousAuthenticationToken</code>。</p>
+<p>其中<code>AnonymousAuthenticationToken</code>是用来存储账户密码的对象。</p>
+<p>其实现很简单，即四十多行代码，其中principal就是用户名，credentials就是密码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Source code recreated from a .class file by IntelliJ IDEA</span></span><br><span class="line"><span class="comment">// (powered by FernFlower decompiler)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> org.springframework.security.authentication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.GrantedAuthority;</span><br><span class="line"><span class="keyword">import</span> org.springframework.util.Assert;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UsernamePasswordAuthenticationToken</span> <span class="keyword">extends</span> <span class="title">AbstractAuthenticationToken</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">560L</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Object principal;</span><br><span class="line">    <span class="keyword">private</span> Object credentials;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UsernamePasswordAuthenticationToken</span><span class="params">(Object principal, Object credentials)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>((Collection)<span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">this</span>.principal = principal;</span><br><span class="line">        <span class="keyword">this</span>.credentials = credentials;</span><br><span class="line">        <span class="keyword">this</span>.setAuthenticated(<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UsernamePasswordAuthenticationToken</span><span class="params">(Object principal, Object credentials, Collection&lt;? extends GrantedAuthority&gt; authorities)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(authorities);</span><br><span class="line">        <span class="keyword">this</span>.principal = principal;</span><br><span class="line">        <span class="keyword">this</span>.credentials = credentials;</span><br><span class="line">        <span class="keyword">super</span>.setAuthenticated(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getCredentials</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.credentials;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getPrincipal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.principal;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAuthenticated</span><span class="params">(<span class="keyword">boolean</span> isAuthenticated)</span> <span class="keyword">throws</span> IllegalArgumentException </span>&#123;</span><br><span class="line">        Assert.isTrue(!isAuthenticated, <span class="string">"Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead"</span>);</span><br><span class="line">        <span class="keyword">super</span>.setAuthenticated(<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eraseCredentials</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.eraseCredentials();</span><br><span class="line">        <span class="keyword">this</span>.credentials = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>该对象会交给对应类型的<code>ProviderManager</code>来进行认证，并且是更具这个类的类型来选择<code>ProviderManager</code>的类型。</strong></p>
+<h2 id="GrantedAuthority"><a href="#GrantedAuthority" class="headerlink" title="GrantedAuthority"></a><code>GrantedAuthority</code></h2><p>这个类是用来存储用户的权限实例。比如角色和权限。</p>
+<p>一般是从<code>Authentication.getAuthorities()</code>获取。这个对象是对应于特定角色的权限。一般来说是在<code>UserDetailService</code>中装配User对象时一起装配的（比如是从数据库中的RBAC模型获取的）。</p>
+<h2 id="AuthenticationManager"><a href="#AuthenticationManager" class="headerlink" title="AuthenticationManager"></a><code>AuthenticationManager</code></h2><p><code>AuthenticationManager</code>是一个接口，它规定了Spring Security如何进行验证用户。但实际上其只定义了一个<code>authenticate</code>方法，这个方法也是整个认证过程的关键。</p>
+<p>我们可以自己实现<code>AuthenticationManager</code>，但一般都是使用Spring Security自己实现的<code>ProviderManager</code>。</p>
+<h2 id="ProviderManager"><a href="#ProviderManager" class="headerlink" title="ProviderManager"></a><code>ProviderManager</code></h2><p><code>ProviderManager</code>是Spring Security认证的核心类。它是<code>AuthenticationManager</code>的最常见实现类。</p>
+<p>它代理一系列的<code>AuthenticationProvider</code>，<code>AuthenticationProvider</code>是实际进行用户认证的类。每个<code>AuthenticationProvider</code>都有机会表明身份验证应该成功、失败，或者表明它不能做出决定并允许下游的<code>AuthenticationProvider</code>做出决定。如果没有配置<code>AuthenticationProvider</code>实例可以验证,与<code>ProviderNotFoundException</code>认证失败,这是一个特殊<code>AuthenticationException</code>表明<code>ProviderManager</code>没有配置为支持传递给它的身份验证类型（<code>Authentication</code>类型）。</p>
+<p>简单来说就是由<code>ProviderManager</code>代理一系列的<code>AuthenticationProvider</code>，然后当认证请求到来的时候（通常是在Filter中），来调用对应类型的<code>AuthenticationProvider</code>来进行用户的验证。</p>
+<p>其结构如下：</p>
+<p><img src="/images/SpringSecurity结构梳理/providermanager.png" alt="providermanager"></p>
+<p>另外，<code>ProviderManager</code>还允许配置一个可选的父类<code>AuthenticationManager</code>（当然一般也是<code>ProviderManager</code>）。在当前<code>ProviderManager</code>找不到对应<code>AuthenticationProvider</code>的情况下就会调用父类进行验证。</p>
+<h2 id="AuthenticationProvider"><a href="#AuthenticationProvider" class="headerlink" title="AuthenticationProvider"></a><code>AuthenticationProvider</code></h2><p>这个类也是一个十分重要的类，它提供了对不同类型<code>Authentication</code>的具体验证方案。Spring Security也提供了很多具体的验证方案，在Spring Security中，用户密码验证的默认<code>AuthenticationProvider</code>是<code>DaoAuthenticationProvider</code>，它实现了<code>AbstractUserDetailsAuthenticationProvider</code>类。</p>
+<p>其中主要规定了密码加密方式<code>setPasswordEncoder</code>，<code>UserDetailService</code>的获取等方法。</p>
+<p>而我们要自定义自己的验证方式时，也可以自定义<code>AuthenticationProvider</code>。主要就是要实现<code>authenticate</code>方法。</p>
+<p>例如，下面是一个实现邮箱登录的<code>AuthenticationProvider</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EmailCodeAuthenticationProvider</span> <span class="keyword">implements</span> <span class="title">AuthenticationProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> XPanUserEmailDetailsService UuerEmailDetailsService;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> DefaultPreAuthenticationChecks preAuthenticationChecks = <span class="keyword">new</span> DefaultPreAuthenticationChecks();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> HttpServletRequest request;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">EmailCodeAuthenticationProvider</span><span class="params">(XPanUserEmailDetailsService userDetailsService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.UuerEmailDetailsService = userDetailsService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Authentication <span class="title">authenticate</span><span class="params">(Authentication authentication)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">        supports(authentication.getClass());</span><br><span class="line">        EmailCodeAuthenticationToken token = (EmailCodeAuthenticationToken) authentication;</span><br><span class="line">        UserDetails user = UuerEmailDetailsService.loadUserByUserEmail((String) token.getPrincipal());</span><br><span class="line">        HttpServletRequest request = (HttpServletRequest)token.getDetails();</span><br><span class="line">        RedisUtils instance = RedisUtils.getInstance(request);</span><br><span class="line">        String realCode = instance.get((String)authentication.getPrincipal());</span><br><span class="line">        <span class="keyword">if</span>(realCode == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> BadCredentialsException(<span class="string">"验证码已过期！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 验证码是否相同</span></span><br><span class="line">        <span class="keyword">if</span>(!realCode.equals((String) authentication.getCredentials()))&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> BadCredentialsException(<span class="string">"验证码错误！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(user == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InternalAuthenticationServiceException(<span class="string">"无法获取用户信息"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        preAuthenticationChecks.check(user);</span><br><span class="line">        EmailCodeAuthenticationToken res = <span class="keyword">new</span> EmailCodeAuthenticationToken(user, user.getAuthorities());</span><br><span class="line">        res.setDetails(token.getDetails());</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supports</span><span class="params">(Class&lt;?&gt; authentication)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> EmailCodeAuthenticationToken<span class="class">.<span class="keyword">class</span>.<span class="title">isAssignableFrom</span>(<span class="title">authentication</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultPreAuthenticationChecks</span> <span class="keyword">implements</span> <span class="title">UserDetailsChecker</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">DefaultPreAuthenticationChecks</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">check</span><span class="params">(UserDetails user)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!user.isAccountNonLocked()) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> LockedException(<span class="string">"User account is locked"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!user.isEnabled()) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> DisabledException(<span class="string">"User is disabled"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!user.isAccountNonExpired()) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> AccountExpiredException(<span class="string">" User account has expired"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="UserDetailsService"><a href="#UserDetailsService" class="headerlink" title="UserDetailsService"></a>UserDetailsService</h2><p>该接口一般用在<code>AuthenticationProvider</code>类中用来获取用户的完整信息，该接口定义了<code>loadUserByUsername</code>方法用来获取用户的信息。但是如果在自定义的<code>AuthenticationProvider</code>中，就不一定要用实现<code>UserDetailsService</code>的方式来获取用户信息了，也可以直接定义自己的类。（基本的问题就是比如邮箱登录的时候，我们应当是通过邮箱来获取用户，而不是用户名）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/06/02/SpringSecurity认证流程梳理/" target="_blank" title="SpringSecurity结构梳理">http://yoursite.com/2022/06/02/SpringSecurity认证流程梳理/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/06/21/SpringMVC%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%85%A8%E8%A7%A3%E4%B8%8EJSON%E5%B1%9E%E6%80%A7%E5%88%86%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SpringMVC参数解析全解与JSON属性分解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/24/idea%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF%E9%85%8D%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">idea注释模板配置</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">整体结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FilterChain"><span class="nav-number">1.1.</span> <span class="nav-text">FilterChain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DelegatingFilterProxy"><span class="nav-number">1.2.</span> <span class="nav-text">DelegatingFilterProxy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E6%80%9D"><span class="nav-number">1.2.1.</span> <span class="nav-text">反思</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FilterChainProxy"><span class="nav-number">1.3.</span> <span class="nav-text">FilterChainProxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Security%E4%B8%AD%E7%9A%84%E9%BB%98%E8%AE%A4%E6%8B%A6%E6%88%AA%E5%99%A8%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.4.</span> <span class="nav-text">Spring Security中的默认拦截器顺序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">认证流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SecurityContextHolder"><span class="nav-number">2.1.</span> <span class="nav-text">SecurityContextHolder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SecurityContext"><span class="nav-number">2.2.</span> <span class="nav-text">SecurityContext</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Authentication"><span class="nav-number">2.3.</span> <span class="nav-text">Authentication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GrantedAuthority"><span class="nav-number">2.4.</span> <span class="nav-text">GrantedAuthority</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AuthenticationManager"><span class="nav-number">2.5.</span> <span class="nav-text">AuthenticationManager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProviderManager"><span class="nav-number">2.6.</span> <span class="nav-text">ProviderManager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AuthenticationProvider"><span class="nav-number">2.7.</span> <span class="nav-text">AuthenticationProvider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UserDetailsService"><span class="nav-number">2.8.</span> <span class="nav-text">UserDetailsService</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

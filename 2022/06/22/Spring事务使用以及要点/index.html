@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>spring事务使用以及要点 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JavaSpring事务" />
+  
+  
+  
+  
+  <meta name="description" content="5种隔离级别MySQL有4种隔离级别：  读未提交内容（read-uncommitted）： 在该隔离级别中，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。 该隔离级别会出现的问题是：脏读(Dirty Read)，即读取到了未提交的数据。  读取提交内容（read-committed） 这是大多数数据库系统的默认隔离级别（但不是MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring事务使用以及要点">
+<meta property="og:url" content="http://yoursite.com/2022/06/22/Spring%E4%BA%8B%E5%8A%A1%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E8%A6%81%E7%82%B9/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="5种隔离级别MySQL有4种隔离级别：  读未提交内容（read-uncommitted）： 在该隔离级别中，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。 该隔离级别会出现的问题是：脏读(Dirty Read)，即读取到了未提交的数据。  读取提交内容（read-committed） 这是大多数数据库系统的默认隔离级别（但不是MySQL">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-06-22T11:23:05.000Z">
+<meta property="article:modified_time" content="2022-06-29T02:22:44.729Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="事务">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Spring事务使用以及要点" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Spring事务使用以及要点
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/06/22/Spring%E4%BA%8B%E5%8A%A1%E4%BD%BF%E7%94%A8%E4%BB%A5%E5%8F%8A%E8%A6%81%E7%82%B9/" class="article-date">
+	  <time datetime="2022-06-22T11:23:05.000Z" itemprop="datePublished">2022-06-22</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Sprin/">-Sprin</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="5种隔离级别"><a href="#5种隔离级别" class="headerlink" title="5种隔离级别"></a>5种隔离级别</h1><p>MySQL有4种隔离级别：</p>
+<ul>
+<li><p><strong>读未提交内容（read-uncommitted）</strong>：</p>
+<p>在该隔离级别中，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。</p>
+<p>该隔离级别会出现的问题是：脏读(Dirty Read)，即读取到了未提交的数据。</p>
+</li>
+<li><p><strong>读取提交内容（read-committed）</strong></p>
+<p>这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。</p>
+<p>该隔离级别会出现的问题是：不可重复读(Nonrepeatable Read)，即不可重复读意味着我们在同一个事务中执行完全相同的select语句时可能看到不一样的结果。</p>
+<p>导致这种情况的原因可能有：</p>
+<p>1)、有一个交叉的事务有新的commit，导致了数据的改变;</p>
+<p>2)、一个数据库被多个实例操作时,同一事务的其他实例在该实例处理其间可能会有新的commit</p>
+</li>
+<li><p><strong>可重复读（repeatable-read）</strong></p>
+<p>这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。</p>
+<p>不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。</p>
+<p>简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。</p>
+<p>InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
+</li>
+<li><p><strong>可串行化（serializable）</strong></p>
+<p>这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
+<p>在这个级别，可能导致大量的超时现象和锁竞争。</p>
+</li>
+</ul>
+<p>但由于Spring只提供事务的接口，在具体提交事务的时候必须根据不同的数据库系统进行决定。因此Spring提供了一种默认机制，即根据不同的数据库来选择不同的默认隔离机制。这也是Spring默认的隔离级别。</p>
+<h1 id="7种传播机制"><a href="#7种传播机制" class="headerlink" title="7种传播机制"></a>7种传播机制</h1><p>所谓的传播机制，就是在面对事务嵌套的时候，Spring采取的处理措施。其有以下7种机制：</p>
+<ul>
+<li><p><strong>REQUIRED</strong> 这是默认的。表示当前方法必须在一个具有事务的上下文中运行，如有客户端有事务在进行，那么被调用端将在该事务中运行，否则的话重新开启一个事务。（如果被调用端发生异常，那么调用端和被调用端事务都将回滚）</p>
+<p><em>例如，functionA-&gt;functionB，如果functionA是一个事务，functionB也是一个事务并且传播机制为PROPAGATION_REQUIRED，则functionB直接在functionA的事务中运行；那如果functionA不是一个事务，则functionB会新开一个事务。</em></p>
+</li>
+<li><p><strong>REQUIRE_NEW</strong> 表示当前方法必须运行在它自己的事务中。如果存在当前事务，在该方法执行期间，当前事务会被挂起。</p>
+<p>例如，functionA-&gt;functionB，如果functionA是一个事务，functionB也是一个事务并且传播机制为REQUIRE_NEW，则functionB会挂起functionA的事务并且开一个新的事物，直到functionB事物执行完毕；如果functionA不是一个事务，则如果functionB开一个新事务执行。</p>
+</li>
+<li><p><strong>NESTED</strong>  如果当前方法正有一个事务在运行中，则该方法应该运行在一个嵌套事务中，被嵌套的事务可以独立于被封装的事务中进行提交或者回滚。如果封装事务存在，并且外层事务抛出异常回滚，那么内层事务必须回滚，反之，内层事务并不影响外层事务。如果封装事务不存在，则同<code>required</code>的一样。</p>
+</li>
+<li><p><strong>SUPPORTS</strong> 表示当前方法不必需要具有一个事务上下文，但是如果有一个事务的话，它也可以在这个事务中运行。</p>
+</li>
+<li><p><strong>NOT_SUPPORTED</strong> 表示该方法不应该在一个事务中运行。如果有一个事务正在运行，他将在运行期被挂起，直到这个事务提交或者回滚才恢复执行。</p>
+</li>
+<li><p><strong>MANDATORY</strong> 表示当前方法必须在一个事务中运行，如果没有事务，将抛出异常。</p>
+</li>
+<li><p><strong>NEVER</strong> 表示当方法务不应该在一个事务中运行，如果存在一个事务，则抛出异常。</p>
+</li>
+</ul>
+<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><h2 id="XML方式"><a href="#XML方式" class="headerlink" title="XML方式"></a>XML方式</h2><p>xml方式下，需要使用<code>&lt;tx:advice/&gt;</code>标签进行配置。其具体是在<code>&lt;tx:advice/&gt;</code>-&gt;<code>&lt;tx:attributes/&gt;</code>-&gt;<code>&lt;tx:method/&gt;</code>中进行属性配置。</p>
+<p>其属性有以下：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>必须</th>
+<th>默认</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>Yes</td>
+<td></td>
+<td>被该事务关联的方法，可以使用通配符（<em>），如`get</em>`等。</td>
+</tr>
+<tr>
+<td>propagation</td>
+<td>No</td>
+<td>REQUIRED</td>
+<td>事务的传播行为（见上列表）。</td>
+</tr>
+<tr>
+<td>isolation</td>
+<td>No</td>
+<td>DEFAULT</td>
+<td>事务的隔离级别（见上列表）。</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>No</td>
+<td>-1</td>
+<td>事务的超时时间（秒），只有传播行为在REQURED和REQUIRES_NEW时有效。</td>
+</tr>
+<tr>
+<td>read-only</td>
+<td>No</td>
+<td>falsse</td>
+<td>读写事务与只读事务。仅在REQUIRED或REQUIRES_NEW时有效。</td>
+</tr>
+<tr>
+<td>rollback-for</td>
+<td>No</td>
+<td></td>
+<td>触发回滚的错误列表，例如<code>com.foo.MyBusinessException,ServletException</code>。</td>
+</tr>
+<tr>
+<td>no-rollback-for</td>
+<td>No</td>
+<td></td>
+<td>不触发回滚的错误列表，例如<code>com.foo.MyBusinessException,ServletException</code>。</td>
+</tr>
+</tbody>
+</table>
+<p>最后两个属性值得注意的是：Spring事务默认只会对<code>RuntimeException</code>或者<code>Error</code>及其子类进行回滚，其他的异常都不会回滚，只会抛出异常。因此最后两个属性是为了改变这一默认行为的。如遇到IO错误时，Spring事务是不会回滚的，如果需要，则必须配置<code>IOExcetpion</code>。</p>
+<h2 id="注解方式"><a href="#注解方式" class="headerlink" title="注解方式"></a>注解方式</h2><p>注解方式下，使用<code>@Transactional</code>来进行注解的配置。其主要配置都与XML方式属性一致（都含有以上的配置项，不过是以注解属性的形式，横杠写法变为小驼峰写法），主要有以下几个不同的属性，</p>
+<ul>
+<li><code>value</code>：也就是默认值，这个属性可以用来确定使用不同的事务管理器(transaction manager)，即可以在一个应用中使用不同的事物管理器。</li>
+<li><code>transactionManager</code>：与value一致。</li>
+</ul>
+<p>值得注意的是：</p>
+<ul>
+<li><p>该注解可以用在类上，则整个类的方法都会使用该事物管理器进行事物操作。</p>
+</li>
+<li><p>该注解必须是被spring代理的类，否则事务配置无效。</p>
+</li>
+<li><p>非public方法默认是无法进行事物管理的，加上不会报错，只是会无效。如果想要在非public的方法上使用事务，可以使用在配置类（<code>@Configuration</code>）加上<code>@EnableTransactionManagement</code>注解，并且配置一个<code>transactionAttributeSource</code>示例。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Register a custom AnnotationTransactionAttributeSource with the</span><br><span class="line"> * publicMethodsOnly flag set to false to enable support for</span><br><span class="line"> * protected and package-private @Transactional methods in</span><br><span class="line"> * class-based proxies.</span><br><span class="line"> *</span><br><span class="line"> * @see ProxyTransactionManagementConfiguration#transactionAttributeSource()</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Bean</span><br><span class="line">TransactionAttributeSource transactionAttributeSource() &#123;</span><br><span class="line">    return new AnnotationTransactionAttributeSource(false);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是请注意，基于接口的代理中的事务方法必须始终是公共的，并在代理接口中定义。（也就是说，如果spring容器中存储的类型是接口，那么实现类中的事务方法还是必须为公开，并且在接口中进行定义）</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/06/22/Spring事务使用以及要点/" target="_blank" title="Spring事务使用以及要点">http://yoursite.com/2022/06/22/Spring事务使用以及要点/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/01/Java%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E3%80%81%E8%A7%A3%E5%8E%8B%E6%96%B9%E6%B3%95%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD~%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java中的各种文件压缩、解压方法（更新中~）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/06/22/requestWrapper%E7%9A%84%E7%94%A8%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">requestWrapper的用法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#5%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text">5种隔离级别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7%E7%A7%8D%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">7种传播机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XML%E6%96%B9%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">XML方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text">注解方式</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

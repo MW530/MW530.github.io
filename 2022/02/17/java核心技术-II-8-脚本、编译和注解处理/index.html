@@ -17,13 +17,16 @@
 <meta property="og:url" content="http://yoursite.com/2022/02/17/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-II-8-%E8%84%9A%E6%9C%AC%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="Java平台的脚本机制Java平台的脚本API可以使之运行诸如JavaScript和Groovy这样的脚本语言代码。 脚本语言是一种在运行时解释程序文本，从而避免了编译、链接等步骤。其具有以下优势：  便于快速变更，鼓励不断实验。 可以修改运行着的程序的行为。 支持程序用户的定制化。  获取脚本引擎脚本引擎是一个可以执行特定语言编写的脚本的类库。当虚拟机启动的时候，它会发现可以用的脚本引擎。为了枚">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2022/02/17/images/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/%E6%B3%A8%E8%A7%A3%E6%96%B9%E6%B3%95.jpg">
 <meta property="article:published_time" content="2022-02-17T05:16:48.000Z">
-<meta property="article:modified_time" content="2022-02-17T16:09:40.376Z">
+<meta property="article:modified_time" content="2022-05-10T15:06:07.516Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Java核心技术">
 <meta property="article:tag" content="脚本、编译和注解处理">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/02/17/images/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/%E6%B3%A8%E8%A7%A3%E6%96%B9%E6%B3%95.jpg">
   
     <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
   
@@ -75,7 +78,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -395,17 +398,34 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mw;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Annotaiaon1 &#123;</span><br><span class="line">	<span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后我们可以通过以下API获取注解：</p>
 <ol>
-<li><p><code>Annotation[] getAnnotations()</code></p>
+<li><p><code>Annotation[] getAnnotations()</code> ：返回该元素上的所有注解（包括继承的注解）</p>
 </li>
-<li><p><code>Annotation getAnnotation(Class&lt;A&gt; annotationClass)</code></p>
+<li><p><code>Annotation getAnnotation(Class&lt;A&gt; annotationClass)</code>：返回该元素上的对应类别的注解（包括继承的注解）</p>
 </li>
-<li><p><code>Annotation getDeclaredAnnotation(Class&lt;A&gt; annotationClass)</code></p>
+<li><p><code>Annotation getDeclaredAnnotation(Class&lt;A&gt; annotationClass)</code>：返回该元素上的所有注解（不包括继承的注解）</p>
 </li>
-<li><p><code>Annotation getDeclaredAnnotationsByType(Class&lt;A&gt;)</code></p>
+<li><p><code>Annotation getDeclaredAnnotationsByType(Class&lt;A&gt;)</code>：返回该元素上的对应类别的第一个注解（不包括继承的注解）</p>
 </li>
-<li><p><code>Annotation[] getDeclaredAnnotations()</code></p>
+<li><p><code>Annotation[] getDeclaredAnnotations()</code>：返回该元素上的对应类别的所有注解（不包括继承的注解）</p>
 </li>
 </ol>
+<p>实际上上面的方法还要更复杂一些：</p>
+<p><img src="../images/java核心技术/注解方法.jpg" alt="注解方法"></p>
+<p>对于上面的<code>Kind of Presence</code>的解释如下：</p>
+<ul>
+<li>直接出现（directly present）：直接加在该元素的上面得注解。</li>
+<li>间接出现（indirectly present）：加载该元素上的注解中，其中一个注解的的参数是注解A，则该注解被称为间接出现。</li>
+<li>出现（present）：<ul>
+<li>直接出现。</li>
+<li>父类继承的注解。</li>
+</ul>
+</li>
+<li>关联（associated）：<ul>
+<li>直接或者间接出现</li>
+<li>父类继承的注解。</li>
+</ul>
+</li>
+</ul>
 <p>通过这些API我们可以获得<code>Annotation</code>对象。注意这里赋值就直接赋值给我们自定义的注解类型了。在此之前，我们可以通过以下API来判断是否存在对应的注解：</p>
 <ul>
 <li><code>public boolean isAnnotationPresent(Class&lt;? extends Annotation&gt; annotationClass)</code></li>
@@ -518,7 +538,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java平台的脚本机制"><span class="nav-number">1.</span> <span class="nav-text">Java平台的脚本机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取脚本引擎"><span class="nav-number">1.1.</span> <span class="nav-text">获取脚本引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脚本计算和绑定"><span class="nav-number">1.2.</span> <span class="nav-text">脚本计算和绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行脚本"><span class="nav-number">1.3.</span> <span class="nav-text">执行脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从字符串执行脚本"><span class="nav-number">1.3.1.</span> <span class="nav-text">从字符串执行脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从文件执行脚本"><span class="nav-number">1.3.2.</span> <span class="nav-text">从文件执行脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上下文"><span class="nav-number">1.3.3.</span> <span class="nav-text">上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与上下文变量交换"><span class="nav-number">1.3.4.</span> <span class="nav-text">与上下文变量交换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加变量"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">添加变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取变量"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">取变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向输入和输出"><span class="nav-number">1.4.</span> <span class="nav-text">重定向输入和输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用脚本的函数和方法"><span class="nav-number">1.5.</span> <span class="nav-text">调用脚本的函数和方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译脚本"><span class="nav-number">1.6.</span> <span class="nav-text">编译脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译器API"><span class="nav-number">2.</span> <span class="nav-text">编译器API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#调用编译器"><span class="nav-number">2.1.</span> <span class="nav-text">调用编译器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注解"><span class="nav-number">3.</span> <span class="nav-text">注解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用注解"><span class="nav-number">3.1.</span> <span class="nav-text">使用注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注解语法"><span class="nav-number">3.2.</span> <span class="nav-text">注解语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注解接口-注解定义"><span class="nav-number">3.2.1.</span> <span class="nav-text">注解接口-注解定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义注解位置"><span class="nav-number">3.2.2.</span> <span class="nav-text">定义注解位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注解使用"><span class="nav-number">3.2.3.</span> <span class="nav-text">注解使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准注解"><span class="nav-number">3.3.</span> <span class="nav-text">标准注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用于编译的注解"><span class="nav-number">3.4.</span> <span class="nav-text">用于编译的注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用于管理资源注解"><span class="nav-number">3.5.</span> <span class="nav-text">用于管理资源注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元注解"><span class="nav-number">3.6.</span> <span class="nav-text">元注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取注解信息"><span class="nav-number">3.7.</span> <span class="nav-text">获取注解信息</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%B9%B3%E5%8F%B0%E7%9A%84%E8%84%9A%E6%9C%AC%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">Java平台的脚本机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E8%84%9A%E6%9C%AC%E5%BC%95%E6%93%8E"><span class="nav-number">1.1.</span> <span class="nav-text">获取脚本引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%92%8C%E7%BB%91%E5%AE%9A"><span class="nav-number">1.2.</span> <span class="nav-text">脚本计算和绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC"><span class="nav-number">1.3.</span> <span class="nav-text">执行脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC"><span class="nav-number">1.3.1.</span> <span class="nav-text">从字符串执行脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E6%96%87%E4%BB%B6%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC"><span class="nav-number">1.3.2.</span> <span class="nav-text">从文件执行脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-number">1.3.3.</span> <span class="nav-text">上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8F%98%E9%87%8F%E4%BA%A4%E6%8D%A2"><span class="nav-number">1.3.4.</span> <span class="nav-text">与上下文变量交换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%8F%98%E9%87%8F"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">添加变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%96%E5%8F%98%E9%87%8F"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">取变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA"><span class="nav-number">1.4.</span> <span class="nav-text">重定向输入和输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E8%84%9A%E6%9C%AC%E7%9A%84%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">调用脚本的函数和方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%84%9A%E6%9C%AC"><span class="nav-number">1.6.</span> <span class="nav-text">编译脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8API"><span class="nav-number">2.</span> <span class="nav-text">编译器API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E7%BC%96%E8%AF%91%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">调用编译器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">注解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.1.</span> <span class="nav-text">使用注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E8%AF%AD%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">注解语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E6%8E%A5%E5%8F%A3-%E6%B3%A8%E8%A7%A3%E5%AE%9A%E4%B9%89"><span class="nav-number">3.2.1.</span> <span class="nav-text">注解接口-注解定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E4%BD%8D%E7%BD%AE"><span class="nav-number">3.2.2.</span> <span class="nav-text">定义注解位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8"><span class="nav-number">3.2.3.</span> <span class="nav-text">注解使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.3.</span> <span class="nav-text">标准注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E4%BA%8E%E7%BC%96%E8%AF%91%E7%9A%84%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.4.</span> <span class="nav-text">用于编译的注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E4%BA%8E%E7%AE%A1%E7%90%86%E8%B5%84%E6%BA%90%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.5.</span> <span class="nav-text">用于管理资源注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%83%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.6.</span> <span class="nav-text">元注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%B3%A8%E8%A7%A3%E4%BF%A1%E6%81%AF"><span class="nav-number">3.7.</span> <span class="nav-text">获取注解信息</span></a></li></ol></li></ol>
     
     </div>
   </aside>
@@ -533,7 +553,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -690,7 +710,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

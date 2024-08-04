@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>javac命令参数参考 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Javajavac" />
+  
+  
+  
+  
+  <meta name="description" content="参数标准选项是指用来支撑当前开发环境并且会长期支持的参数。与之对应，还有一些非标准的参数，它们可能使用来自定义虚拟机参数或者编译的实现，标准参数以-X开头。 标准参数 -Akey[&#x3D;value]：传递给注解处理器的选项。这些参数不由javac直接编译，而是交给对应的注解处理器来使用。如果有多个key，则使用.分隔。(注意，-A与key之间没有空格，后面有些参数也一样)  -cp path or -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javac命令参数参考">
+<meta property="og:url" content="http://yoursite.com/2022/04/28/javac%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0%E5%8F%82%E8%80%83/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="参数标准选项是指用来支撑当前开发环境并且会长期支持的参数。与之对应，还有一些非标准的参数，它们可能使用来自定义虚拟机参数或者编译的实现，标准参数以-X开头。 标准参数 -Akey[&#x3D;value]：传递给注解处理器的选项。这些参数不由javac直接编译，而是交给对应的注解处理器来使用。如果有多个key，则使用.分隔。(注意，-A与key之间没有空格，后面有些参数也一样)  -cp path or -">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-04-28T08:21:54.000Z">
+<meta property="article:modified_time" content="2022-05-04T06:42:56.894Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="javac">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-javac命令参数参考" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      javac命令参数参考
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/28/javac%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0%E5%8F%82%E8%80%83/" class="article-date">
+	  <time datetime="2022-04-28T08:21:54.000Z" itemprop="datePublished">2022-04-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><p>标准选项是指用来支撑当前开发环境并且会长期支持的参数。与之对应，还有一些非标准的参数，它们可能使用来自定义虚拟机参数或者编译的实现，标准参数以<code>-X</code>开头。</p>
+<h2 id="标准参数"><a href="#标准参数" class="headerlink" title="标准参数"></a>标准参数</h2><ul>
+<li><p>-A<em>key</em>[=value]：传递给注解处理器的选项。这些参数不由javac直接编译，而是交给对应的注解处理器来使用。如果有多个key，则使用<code>.</code>分隔。(<strong>注意，-A与key之间没有空格，后面有些参数也一样</strong>)</p>
+</li>
+<li><p><code>-cp path or -classpath path</code>：设置类查找目录，即从哪里去寻找后面给出的类。这个选项会覆盖<strong>CLASSPATH</strong>环境变量。如果既没有<strong>CLASSPATH</strong>，也没有配置该属性，则会直接在当前目录下进行查找。</p>
+</li>
+<li><p><code>-Djava.ext.dirs=directories</code>：覆盖扩展安装的目录。即用扩展类加载器（Extension Class Loader）加载的类，默认是在&lt;JAVA_HOME&gt;\lib\ext。其中包含</p>
+<ul>
+<li>access-bridge-64.jar</li>
+<li>cldrdata.jar</li>
+<li>dnsns.jar</li>
+<li>jaccess.jar</li>
+<li>…</li>
+</ul>
+<p>如果要自定义（比如添加依赖的时候），就必须把原来的目录也配置上，否则就无法使用这个几个包。</p>
+</li>
+<li><p><code>-Djava.endorsed.dirs=directories</code>：</p>
+<h3 id="java提供了endorsed技术："><a href="#java提供了endorsed技术：" class="headerlink" title="java提供了endorsed技术："></a>java提供了endorsed技术：</h3><p>关于endorsed：可以的简单理解为-Djava.endorsed.dirs指定的目录面放置的jar文件，将有覆盖系统API的功能。可以牵强的理解为，将自己修改后的API打入到JVM指定的启动API中，取而代之。但是能够覆盖的类是有限制的，其中不包括java.lang包中的类。</p>
+<h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><p>比如Java的原生api不能满足需求，假设我们需要修改 ArrayList 类，由于我们的代码都是基于ArrayList做的，那么就必需用到 Javaendorsed 技术，将我们自己的ArrayList，<strong>注意包和类名和java自带的都是一样的</strong>，打包成一个jar包，放入到-Djava.endorsed.dirs指定的目录中，这样我们在使用java的ArrayList的时候就会调用的我们定制的代码中。</p>
+</li>
+</ul>
+<p>​        其默认为<code>$JAVA_HOME/jre/lib/endorsed</code></p>
+<p>​        而这个属性可以修改对应endorsed的目录。</p>
+<ul>
+<li><p><code>-d directory</code>：设置生成的类文件的目标目录。如果目标目录已经存在了，javac就不会创建。如果这个class是当钱包的异步，javac将会将这个类文件放到当前包的映射的对应目录下面（即以当前包为根路径，去使用配置的目录）。如果<code>-d</code>没有指定，javac会将类文件放到Java文件相同的目录中。</p>
+</li>
+<li><p><code>-deprecation</code>：显示已弃用成员或类的每次使用或重写的描述。如果没有-deprecation, javac将显示使用或覆盖已弃用的成员或类的源文件的摘要。-deprecation是-Xlint:deprecation的简写。</p>
+</li>
+<li><p><code>-encoding encoding</code>：设置源文件编码名称，如EUC-JP和UTF-8。如果没有指定-encoding，则使用平台默认转换器。</p>
+</li>
+<li><p><code>-endorseddirs directories</code>：覆盖endorsed的位置。与<code>-Djava.endorsed.dirs=directories</code>作用一样。</p>
+</li>
+<li><p><code>-extdirs directories</code>：覆盖扩展安装的目录。与<code>-Djava.ext.dirs=directories</code>作用一样。</p>
+</li>
+<li><p><code>-g</code>：生成所有调试信息，包括本地变量。默认情况下，只生成行号和源文件信息。</p>
+</li>
+<li><p><code>-g:none</code>：不生成任何调试信息。</p>
+</li>
+<li><p><code>-g:{keyword list}</code>：只生成某些类型的调试信息，由逗号分隔的关键字列表指定。有效的关键词是:</p>
+<ul>
+<li>source：Source file debugging information。</li>
+<li>lines：Line number debugging information。</li>
+<li>vars：Local variable debugging information。</li>
+</ul>
+</li>
+<li><p>-nowarn：禁用警告消息。与<code>-Xlint:none</code>的含义相同。</p>
+</li>
+<li><p><code>-proc: {none,only}</code>：控制是否完成注释处理和/或编译。</p>
+<ul>
+<li><code>-proc:none</code>表示编译时不进行注释处理。</li>
+<li><code>-proc:only</code>表示只进行注释处理，不进行后续编译。</li>
+</ul>
+</li>
+<li><p><code>-processor class1[,class2,class3...]</code>：要运行的注释处理器的名称。这将绕过默认的发现过程（见下）。</p>
+</li>
+<li><p><code>-processorpath path</code>：指定在哪里找到注释处理器;<strong>如果不使用此选项，则将从当前路径中搜索处理器</strong>（即该参数优先级更高）。</p>
+</li>
+<li><p><code>-s dir</code>：一般javac不会生成java源文件，但是在注解处理器中，是可以生成新的Java源文件的。所以这里就是配置该文件生成的目录。</p>
+</li>
+<li><p><code>-source release</code>：指定可接受的源代码版本。其允许的值如下：</p>
+<ul>
+<li>1.3：编译器不支持断言、泛型或Java SE 1.3之后引入的其他语言特性。</li>
+<li>1.4：编译器接受包含断言的代码，这些断言是在Java SE 1.4中引入的。</li>
+<li>1.5：编译器接受包含泛型和Java SE 5中引入的其他语言特性的代码。</li>
+<li>5：与1.5相同。</li>
+<li>6：与1.6相同。</li>
+<li>1.7：这是默认值。编译器接受带有Java SE 7中引入的特性的代码。</li>
+<li>7：与1.7相同。</li>
+</ul>
+</li>
+<li><p><code>-sourcepath sourcepath</code>：指定搜索类或接口定义的源代码路径。与用户类路径一样，源路径条目用分号(;)分隔，可以是目录、JAR归档文件或ZIP归档文件。如果使用包，目录或归档文件中的本地路径名必须反映包名。</p>
+<p>注意:如果也找到了通过类路径找到的类的源代码，则可能需要自动重新编译。</p>
+</li>
+<li><p><code>-Werror</code>：如果出现警告，则终止编译。</p>
+</li>
+<li><p><code>-X</code>：显示非标准选项信息并退出。</p>
+</li>
+</ul>
+<h2 id="交叉编译参数"><a href="#交叉编译参数" class="headerlink" title="交叉编译参数"></a>交叉编译参数</h2><p>默认情况下，类是根据javac附带的平台的引导类和扩展类编译的。但是javac也支持交叉编译，其中类是根据不同Java平台实现的引导程序和扩展类进行编译的。</p>
+<ul>
+<li><code>-target version</code>：生成针对指定虚拟机版本的类文件。类文件将在指定的目标和更高的版本上运行，但不能在VM的较早版本上运行。其取值如下：<ul>
+<li>如果不指定-source，则-target的值为1.7</li>
+<li>如果-source为1.2，则-target的值为1.4</li>
+<li>如果-source为1.3，则-target的值为1.4</li>
+<li>如果-source为1.5，则-target的值为1.7</li>
+<li>如果-source为1.6，则-target的值为1.7</li>
+<li>对于-source的其他值，-target的值为-source的值。</li>
+</ul>
+</li>
+<li><code>-bootclasspath bootclasspath</code>：根据指定的引导类集交叉编译。与用户类路径一样，引导类路径条目用冒号(:)分隔，可以是目录、JAR归档文件或ZIP归档文件。</li>
+</ul>
+<h2 id="非标准参数"><a href="#非标准参数" class="headerlink" title="非标准参数"></a>非标准参数</h2><ul>
+<li><code>-Xbootclasspath/p:path</code>：前置到引导程序类路径。</li>
+<li><code>-Xbootclasspath/a:path</code>：追加到引导程序类路径。</li>
+<li><code>-Xbootclasspath/:path</code>：覆盖引导类文件的位置。</li>
+<li><code>-Xlint</code>：启用所有推荐警告。</li>
+<li><code>-Xlint:all</code>：与<code>-Xlint</code>一样。</li>
+<li><code>-Xlint:none</code>：禁用所有警告。</li>
+<li><code>-Xlint:name</code>：启用警告的名字。</li>
+<li><code>-Xlint:-name</code>：与<code>-Xlint:name</code>一样。</li>
+<li><code>-Xmaxerrs number</code>：设置要打印的最大错误数。</li>
+<li><code>-Xmaxwarns number</code>：设置要打印的警告的最大数量。</li>
+<li><code>-Xstdout filename</code>：将编译器消息发送到指定的文件。默认情况下，编译器消息会进入<code>System.err</code>。</li>
+<li><code>-Xprefer:{newer,source}</code>：指定当找到某个类型的源文件和类文件时读取哪个文件。</li>
+<li><code>-Xpkginfo:{always,legacy,nonempty}</code>：指定对包信息文件的处理。</li>
+<li><code>-Xprint</code>：输出指定类型的文本表示形式，以供调试之用;既不执行注释处理，也不执行编译。输出的格式可能会改变。</li>
+<li><code>-XprintProcessorInfo</code>：打印有关处理器被要求处理哪些注释的信息。</li>
+<li><code>-XprintRounds</code>：打印关于初始和后续注释处理轮的信息。</li>
+</ul>
+<h4 id="可以用Xlint配置的警告"><a href="#可以用Xlint配置的警告" class="headerlink" title="可以用Xlint配置的警告"></a>可以用<code>Xlint</code>配置的警告</h4><ul>
+<li><p>cast：警告不必要和多余的类型转换。</p>
+</li>
+<li><p>classfile：警告有关类文件内容的问题。</p>
+</li>
+<li><p>deprecation：警告使用过时的项目。</p>
+</li>
+<li><p>dep-ann：对使用@deprecated Javadoc注释记录但没有@deprecated注释的项目发出警告。</p>
+</li>
+<li><p>divzero：警告被常量整数0除。</p>
+</li>
+<li><p>empty：警告没有内容的if语句。</p>
+</li>
+<li><p>fallthrough：检查switch块是否有失败的情况，并为任何发现的情况提供警告信息。失败情况是指switch语句块中不包含break语句，使后面的case无法执行。</p>
+</li>
+<li><p>finally：警告不能正常完成的finally子句。</p>
+</li>
+<li><p>options：对与使用命令行选项有关的问题发出警告。</p>
+</li>
+<li><p>overrides：警告有关方法重写的问题。</p>
+</li>
+<li><p>path：警告命令行上无效的路径元素和不存在的路径目录(关于类路径、源路径和其他路径)。</p>
+</li>
+<li><p>processing：警告有关注释处理的问题。 如果有一个具有注释的类，并且使用的注释处理器不能处理该类型的异常，那么编译器将生成此警告。</p>
+</li>
+<li><p>rawtypes：警告对原始类型进行未检查的操作。例如：<code>void countElements(List l) { ... }</code>。</p>
+<p>List是一个原始类型。然而,列表<code>&lt;?&gt;</code>是一个无界通配符参数化类型。因为List是一个参数化接口，所以应该始终指定它的类型参数。在这个示例中，List形式参数是用一个无界通配符(?)作为其形式类型参数指定的，这意味着countElements方法可以接受List接口的任何实例化。</p>
+</li>
+<li><p>serial：对可序列化类（继了Serializable的类）上缺少serialVersionUID定义发出警告。</p>
+</li>
+<li><p>static：警告与使用静态相关的问题。</p>
+</li>
+<li><p>try：警告与使用try块有关的问题，包括try-with-resources语句。例如，以下语句会产生一个警告，因为在try语句中声明的资源ac没有被使用。</p>
+</li>
+<li><p>unchecked：提供更多关于Java语言规范强制要求的未检查转换警告的细节。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List l = <span class="keyword">new</span> ArrayList&lt;Number&gt;();</span><br><span class="line">List&lt;String&gt; ls = l;       <span class="comment">// unchecked warning</span></span><br></pre></td></tr></table></figure>
+<p>类型擦除时，类型<code>ArrayList&lt;Number&gt;</code>和<code>List&lt;String&gt;</code>分别变为ArrayList和List。</p>
+<p>变量ls具有参数化类型<code>List&lt;String&gt;</code>。当l引用的List被赋值给ls时，编译器生成一个未检查的警告;如果l指向<code>List&lt;String&gt;</code>类型，编译器在编译时无法确定，而且知道JVM在运行时也无法确定;它不。因此，会发生堆污染。</p>
+</li>
+<li><p>varargs：警告变量参数(varargs)方法的不安全用法，特别是那些包含不可具体化参数的方法。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayBuilder</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">addToList</span> <span class="params">(List&lt;T&gt; listArg, T... elements)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (T x : elements) &#123;</span><br><span class="line">      listArg.add(x);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译器遇到varargs方法时，它会将varargs形参转换为数组。但是，Java编程语言<strong>不允许创建参数化类型的数组</strong>。在ArrayBuilder方法中。addToList，编译器转换varargs的形参T…将形式参数T[]元素转化为一个数组。然而，由于类型擦除，编译器将varargs形参转换为Object[]元素。因此，存在堆污染的可能性。</p>
+</li>
+</ul>
+<h2 id="不同包中的文件编译"><a href="#不同包中的文件编译" class="headerlink" title="不同包中的文件编译"></a>不同包中的文件编译</h2><p>不同的文件在同一个文件夹下编译时，不需要考虑包名的问题。但是一般我们编写代码时都是在不同的包中，此时的打包方式稍有不同，需要介绍。</p>
+<ol>
+<li><p><code>-cp path</code>，<code>-classpath path</code>：在编译时，所有依赖的class文件都会从这个参数属性中去查找。<strong>可以是目录，jar文件，zip文件（里面都是class文件，javac会自动去zip中查找包名和类）</strong>。还需要注意的是，依赖的类在使用的时候，需要到全类名的最外层文件夹，然后直接使用类的全限定名，如<code>priv.mw.MyClass</code>。</p>
+<p>例如：</p>
+<p>​    abc.java在路径c:\src里面，在任何的目录的都可以执行以下命令来编译。<br>​    javac -classpath c:\classes;c:\jar\abc.jar;c:\zip\abc.zip -sourcepath c:\source\project1\src;c:\source\project2 \lib\src.jar;c:\source\project3\lib\src.zip c:\src\abc.java</p>
+<p>​    表示编译需要c:\classed下面的class文件，c:\jar\abc.jar里面的class文件，c:\zip\abc.zip里面的class文件<br>​    还需要c:\source\project1\src下面的源文件，c:\source\project2 \lib\src.jar里面的源文件，c:\source\project3\lib\src.zip里面的源文件，<br>​    注意：jar，zip里面的源文件不会有什么改动，目录下的源文件，有可能会被重新编译。</p>
+</li>
+<li><p><code>-d directory</code>：参数指定生成的class文件的位置，值得注意的是，生成的class会带上原始的包（即javac会自动创建会src对应的文件夹，但是不会创建<code>-d</code>指定的文件夹，需要我们自行建立）。然后我们在最外侧直接生成类的全限定名即可引用。</p>
+</li>
+<li><code>-sourcepath path</code>：指定Java源代码的目录，我们配置这个目录之后，之后的<code>xxx.java</code>文件就会先该文件夹进行搜索，<strong>值得注意的是，之后的要编译文件的路径就要相对于该文件夹了</strong>。</li>
+</ol>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>就以引出这篇文章的例子：注释处理器。</p>
+<p>初始包结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">annoTest</span><br><span class="line">		src</span><br><span class="line">			main</span><br><span class="line">				java</span><br><span class="line">					annotaions</span><br><span class="line">							ToString.java</span><br><span class="line">					processors</span><br><span class="line">							SingleToString.java</span><br><span class="line">					POJO.java</span><br><span class="line">				resource</span><br><span class="line">             test</span><br><span class="line">		target</span><br></pre></td></tr></table></figure>
+<p>依赖关系为：</p>
+<ul>
+<li><code>POJO.java</code>依赖<code>ToString.java</code></li>
+<li><code>SingleToString.java</code>依赖<code>ToString.java</code></li>
+<li><code>SingleToString.java</code>依赖<code>{JAVA_HOME}/lib/tools.jar</code></li>
+</ul>
+<p>并且由于注解处理器的特殊性，其是先编译，然后在编译<code>POJO.java</code>时使用。</p>
+<p>所以其流程如下：</p>
+<ol>
+<li><p>进入最外层的annoTest目录。</p>
+</li>
+<li><p>编译<code>ToString.java</code>，注意：</p>
+<ol>
+<li>要指定输出class的目录为target。</li>
+<li>指定Java文件时，还是要指定目录。</li>
+</ol>
+<p>命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/MW/.jdks/corretto-1.8.0_312/bin/javac.exe -d target src/main/java/annotaions/ToString.java					<span class="comment"># 直接使用路径</span></span><br><span class="line"></span><br><span class="line">C:/Users/MW/.jdks/corretto-1.8.0_312/bin/javac.exe -d target -sourcepath src src/main/java/annotaions/ToString.java		<span class="comment"># 使用-sourcepath则可以使用全限定名来引用类</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译<code>SingleToString.java</code>，注意：</p>
+<ol>
+<li>要指定输出class的目录为target。</li>
+<li>由于还要依赖<code>{JAVA_HOME}/lib/tools.jar</code>，所以必须要使用<code>-cp</code>来指定该jar。</li>
+<li><code>--encoding utf-8</code>是由于该Java文件中含有中文字符，放置乱码。</li>
+</ol>
+<p>命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/MW/.jdks/corretto-1.8.0_312/bin/javac.exe -d target -cp C:/Users/MW/.jdks/corretto-1.8.0_312/lib/tools.jar  -encoding UTF-8 src/main/java/processors/SingleToString.java					<span class="comment"># 直接使用路径</span></span><br><span class="line"></span><br><span class="line">C:/Users/MW/.jdks/corretto-1.8.0_312/bin/javac.exe -d target  -sourcepath src -cp C:/Users/MW/.jdks/corretto-1.8.0_312/lib/tools.jar  -encoding UTF-8 src/main/java/processors/SingleToString.java				<span class="comment"># 使用-sourcepath则可以使用全限定名来引用类</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="4">
+<li><p>使用注解处理器来编译<code>POJO.java</code>。此时就需要注意了：</p>
+<ol>
+<li>我们需要将<code>target</code>文件夹加入到<code>-cp</code>中，这是因为我们之前编译生成的<code>ToString.class</code>和<code>SingleToString.class</code>都在该目录下。并且，只要加入了该参数，我们在后面使用类的时候，就必须加上类的全限定名（其实在编译器中也是同样的事情，引入了多个<code>-cp</code>，然后import的时候就使用全限定名）。比如在这里的使用就是<code>-processor processors.SingleToString</code>，我们此时在src下，却可以直接使用类的全限定名来引入，其原理正是来自这里。</li>
+<li><code>-processorpath target</code>用来指定注解处理器查找的目录，并且其优先级更高，但由于<code>-cp</code>中已经配置了target，所以可以不用配置的。</li>
+</ol>
+<p>所以命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/MW/.jdks/corretto-1.8.0_312/bin/javac.exe -d target -cp  C:/Users/MW/.jdks/corretto-1.8.0_312/lib/tools.jar;target -encoding UTF-8 -processorpath target -processor processors.SingleToString src/main/java/POJO.java				<span class="comment"># 直接使用路径</span></span><br><span class="line"></span><br><span class="line">C:/Users/MW/.jdks/corretto-1.8.0_312/bin/javac.exe -d target -sourcepath src -cp  C:/Users/MW/.jdks/corretto-1.8.0_312/lib/tools.jar;target -encoding UTF-8 -processorpath target -processor processors.SingleToString src/main/java/POJO.java				<span class="comment"># 直接使用路径</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/04/28/javac命令参数参考/" target="_blank" title="javac命令参数参考">http://yoursite.com/2022/04/28/javac命令参数参考/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/28/JCTree%E5%92%8CTreeMaker%E7%9A%84API%E4%BB%8B%E7%BB%8D/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java编译相关的JCTree和TreeMaker的API介绍
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/28/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM3-2-%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E4%B8%8E%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96-%E5%90%8E%E7%AB%AF%E7%BC%96%E8%AF%91%E4%B8%8E%E4%BC%98%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">深入理解JVM3-2-程序编译与代码优化-后端编译与优化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">标准参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E6%8F%90%E4%BE%9B%E4%BA%86endorsed%E6%8A%80%E6%9C%AF%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">java提供了endorsed技术：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">作用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">交叉编译参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E6%A0%87%E5%87%86%E5%8F%82%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">非标准参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E7%94%A8Xlint%E9%85%8D%E7%BD%AE%E7%9A%84%E8%AD%A6%E5%91%8A"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">可以用Xlint配置的警告</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E5%8C%85%E4%B8%AD%E7%9A%84%E6%96%87%E4%BB%B6%E7%BC%96%E8%AF%91"><span class="nav-number">1.4.</span> <span class="nav-text">不同包中的文件编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">1.4.1.</span> <span class="nav-text">例子</span></a></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

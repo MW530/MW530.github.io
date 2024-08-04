@@ -11,12 +11,13 @@
   
   
   
-  <meta name="description" content="backgroundCSS中，background是一个符合属性，是以下单属性的符合属性：  background-color background-position background-size background-repeat background-origin background-clip background-attachment background-image  其格式如下 ba">
+  <meta name="description" content="backgroundCSS中，background是一个复合属性，是以下单属性的符合属性：  background-color background-position background-size background-repeat background-origin background-clip background-attachment background-image  其格式如下 1b">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS3-背景">
 <meta property="og:url" content="http://yoursite.com/2019/10/29/CSS3-%E8%83%8C%E6%99%AF/index.html">
 <meta property="og:site_name" content="My Wonderland">
-<meta property="og:description" content="backgroundCSS中，background是一个符合属性，是以下单属性的符合属性：  background-color background-position background-size background-repeat background-origin background-clip background-attachment background-image  其格式如下 ba">
+<meta property="og:description" content="backgroundCSS中，background是一个复合属性，是以下单属性的符合属性：  background-color background-position background-size background-repeat background-origin background-clip background-attachment background-image  其格式如下 1b">
+<meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/images/CSS3-%E8%83%8C%E6%99%AF/linear-gradient_position.png">
 <meta property="og:image" content="http://yoursite.com/images/CSS3-%E8%83%8C%E6%99%AF/linear-gradient_ex1.png">
 <meta property="og:image" content="http://yoursite.com/images/CSS3-%E8%83%8C%E6%99%AF/linear-gradient_ex2.png">
@@ -51,7 +52,7 @@
 <meta property="og:image" content="http://yoursite.com/images/CSS3-%E8%83%8C%E6%99%AF/background-attachment_local.gif">
 <meta property="og:image" content="http://yoursite.com/images/CSS3-%E8%83%8C%E6%99%AF/background-attachment_scroll.gif">
 <meta property="article:published_time" content="2019-10-29T01:48:59.000Z">
-<meta property="article:modified_time" content="2019-11-01T10:23:17.505Z">
+<meta property="article:modified_time" content="2022-07-19T02:20:48.397Z">
 <meta property="article:author" content="Michael Wang">
 <meta property="article:tag" content="CSS3">
 <meta property="article:tag" content="background">
@@ -116,7 +117,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -247,7 +248,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="background"><a href="#background" class="headerlink" title="background"></a>background</h1><p>CSS中，background是一个符合属性，是以下单属性的符合属性：</p>
+        <h1 id="background"><a href="#background" class="headerlink" title="background"></a>background</h1><p>CSS中，background是一个复合属性，是以下单属性的符合属性：</p>
 <ul>
 <li>background-color</li>
 <li>background-position</li>
@@ -259,12 +260,12 @@
 <li>background-image</li>
 </ul>
 <p>其格式如下</p>
-<pre><code>background:bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;
-</code></pre><h2 id="background-color"><a href="#background-color" class="headerlink" title="background-color"></a>background-color</h2><p>background-color属性设置一个元素的背景颜色。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background:bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;</span><br></pre></td></tr></table></figure>
+<h2 id="background-color"><a href="#background-color" class="headerlink" title="background-color"></a>background-color</h2><p>background-color属性设置一个元素的背景颜色。</p>
 <p>元素的背景是元素的总大小，包括填充和边界（但不包括边框）。</p>
 <p>example:</p>
-<pre><code>background-color:yellow;
-</code></pre><p>其属性支持以下内容：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-color</span><span class="selector-pseudo">:yellow</span>;</span><br></pre></td></tr></table></figure>
+<p>其属性支持以下内容：</p>
 <ol>
 <li>颜色关键值，如：red,blue…</li>
 <li>Hex颜色值，如：#bbff00…</li>
@@ -286,21 +287,10 @@
 <h3 id="currentColor关键字"><a href="#currentColor关键字" class="headerlink" title="currentColor关键字"></a>currentColor关键字</h3><p>CSS新增了currentColor关键字</p>
 <p>currentColor代表了当前元素被应用上的color颜色值。 使用它可以将当前这个颜色值应用到其他属性上，或者嵌套元素的其他属性上。并且该属性会继承上级属性值。</p>
 <p>example1:</p>
-<pre><code>.box{
-    color:red;
-    background-color:currentColor; //此时currentColor=red;
-    height:100px;
-    width:100px;
-}
-</code></pre><p>exmaple2:</p>
-<pre><code>.fatherBox{
-    color:red;
-}
-
-.sonBox{
-    background-color:currentColor;//此时currentColor继承父级的color属性，为red
-}
-</code></pre><h2 id="background-image"><a href="#background-image" class="headerlink" title="background-image"></a>background-image</h2><p>其属性有以下内容：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">	<span class="attribute">color</span>:red;</span><br><span class="line">	background-color:currentColor; //此时currentColor=red;</span><br><span class="line">	<span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span><br><span class="line">	<span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>exmaple2:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.fatherBox</span>&#123;</span><br><span class="line">	<span class="attribute">color</span>:red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.sonBox</span>&#123;</span><br><span class="line">	background-color:currentColor;//此时currentColor继承父级的color属性，为red</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="background-image"><a href="#background-image" class="headerlink" title="background-image"></a>background-image</h2><p>其属性有以下内容：</p>
 <ol>
 <li>url():该函数接受一个地址作为背景图片的url，可以是本地地址，也可以是网络地址。</li>
 <li>color值：<code>&lt;rgb()&gt; | &lt;rgba()&gt; | &lt;hsl()&gt; | &lt;hsla()&gt; | &lt;hex-color&gt; | &lt;named-color&gt; | currentcolor | &lt;deprecated-system-color&gt;</code></li>
@@ -347,17 +337,14 @@
 <p><img src="\images\CSS3-背景\linear-gradient_stripe1.png" alt="linear-gradient_stripe1"></p>
 <ol start="2">
 <li><p>切角效果</p>
-<pre><code>background: linear-gradient(45deg,red 10%,transparent 10%),
-              linear-gradient(135deg,red 10%,transparent 10%),
-             linear-gradient(-45deg,red 10%,transparent 10%),
-            linear-gradient(-135deg,red 10%,transparent 10%);
-</code></pre></li>
+   <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background</span>: <span class="selector-tag">linear-gradient</span>(45<span class="selector-tag">deg</span>,<span class="selector-tag">red</span> 10%,<span class="selector-tag">transparent</span> 10%),</span><br><span class="line">         	  <span class="selector-tag">linear-gradient</span>(135<span class="selector-tag">deg</span>,<span class="selector-tag">red</span> 10%,<span class="selector-tag">transparent</span> 10%),</span><br><span class="line">        	  <span class="selector-tag">linear-gradient</span>(<span class="selector-tag">-45deg</span>,<span class="selector-tag">red</span> 10%,<span class="selector-tag">transparent</span> 10%),</span><br><span class="line">       	  <span class="selector-tag">linear-gradient</span>(<span class="selector-tag">-135deg</span>,<span class="selector-tag">red</span> 10%,<span class="selector-tag">transparent</span> 10%);</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <p><img src="\images\CSS3-背景\linear-gradient_corner.png" alt="linear-gradient_corner"></p>
 <ol start="3">
 <li><p>折角效果</p>
-<pre><code>background:linear-gradient(-135deg,transparent 51%,rgba(0, 0, 0, 0.178)51%) no-repeat 100% 0 / 6em 6em,
-</code></pre><p>   linear-gradient(-135deg,transparent 10%,rgb(169, 169, 233) 10%);      </p>
+   <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background:linear-gradient(-135deg,transparent 51%,rgba(0, 0, 0, 0.178)51%) no-repeat 100% 0 / 6em 6em,</span><br></pre></td></tr></table></figure>
+<p>   linear-gradient(-135deg,transparent 10%,rgb(169, 169, 233) 10%);      </p>
 </li>
 </ol>
 <p><img src="\images\CSS3-背景\linear-gradient_fold1.png" alt="linear-gradient_fold1"></p>
@@ -437,71 +424,38 @@
 </tbody>
 </table>
 <h4 id="radial-gradient-基本应用"><a href="#radial-gradient-基本应用" class="headerlink" title="radial-gradient()基本应用"></a>radial-gradient()基本应用</h4><p>example1(自己设置半径)：</p>
-<pre><code>background-image: radial-gradient(100px 150px ellipse at 200px 250px,yellow 50%,red 70%);
-  background-repeat: no-repeat;
-</code></pre><p><img src="\images\CSS3-背景\radial-gradient_base1.png" alt="radial-gradient_base1"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> <span class="selector-tag">background-image</span>: <span class="selector-tag">radial-gradient</span>(100<span class="selector-tag">px</span> 150<span class="selector-tag">px</span> <span class="selector-tag">ellipse</span> <span class="selector-tag">at</span> 200<span class="selector-tag">px</span> 250<span class="selector-tag">px</span>,<span class="selector-tag">yellow</span> 50%,<span class="selector-tag">red</span> 70%);</span><br><span class="line"><span class="selector-tag">background-repeat</span>: <span class="selector-tag">no-repeat</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\radial-gradient_base1.png" alt="radial-gradient_base1"></p>
 <p>example2(用关键字)：</p>
-<pre><code>    background-image: radial-gradient(closest-side ellipse at 200px 250px,yellow 50%,red 70%);
-background-repeat: no-repeat;
-</code></pre><p><img src="\images\CSS3-背景\radial-gradient_base2.png" alt="radial-gradient_base2"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    <span class="selector-tag">background-image</span>: <span class="selector-tag">radial-gradient</span>(<span class="selector-tag">closest-side</span> <span class="selector-tag">ellipse</span> <span class="selector-tag">at</span> 200<span class="selector-tag">px</span> 250<span class="selector-tag">px</span>,<span class="selector-tag">yellow</span> 50%,<span class="selector-tag">red</span> 70%);</span><br><span class="line"><span class="selector-tag">background-repeat</span>: <span class="selector-tag">no-repeat</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\radial-gradient_base2.png" alt="radial-gradient_base2"></p>
 <h4 id="radial-gradient-高级应用"><a href="#radial-gradient-高级应用" class="headerlink" title="radial-gradient()高级应用"></a>radial-gradient()高级应用</h4><p>与radial-gradient一样，如果设置两个结束颜色的渐变距离为0或为负值，则可形成径向切割，以此构成多样化的图形。</p>
 <p>如：</p>
 <p>example1(内凹角)</p>
-<pre><code>background: radial-gradient(100px circle at 0 0,transparent 50%,red 50%);
-</code></pre><p><img src="\images\CSS3-背景\radial-gradient_high1.png" alt="radial-gradient_high1"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background</span>: <span class="selector-tag">radial-gradient</span>(100<span class="selector-tag">px</span> <span class="selector-tag">circle</span> <span class="selector-tag">at</span> 0 0,<span class="selector-tag">transparent</span> 50%,<span class="selector-tag">red</span> 50%);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\radial-gradient_high1.png" alt="radial-gradient_high1"></p>
 <p>但是我们一般会想要多个内凹圆角，当我们简单的将多个radial-gradient堆起来就会发现前一个背景无论如何都会把后面的背景给覆盖掉。所以我们最好的办法是结合background-size,backround-position,background-repeat结合起来，形成多个不叠加的背景！</p>
 <p>example2(两个内凹角)</p>
-<pre><code>background: radial-gradient(100px circle at 0 0,transparent 50%,red 50%) no-repeat 0% 100% / 50% 100%,
- radial-gradient(100px circle at 100% 0,transparent 50%,red 50%) no-repeat 100% 100%/ 50% 100%;
-</code></pre><p><img src="\images\CSS3-背景\radial-gradient_high2.png" alt="radial-gradient_high2"></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">background: radial-gradient(100px circle at 0 0,transparent 50%,red 50%) no-repeat 0% 100% / 50% 100%,</span><br><span class="line"> radial-gradient(100px circle at 100% 0,transparent 50%,red 50%) no-repeat 100% 100%/ 50% 100%;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\radial-gradient_high2.png" alt="radial-gradient_high2"></p>
 <p>example3(四个内凹角)</p>
-<pre><code>   background: radial-gradient(100px circle at 0 0,transparent 50%,red 50%) no-repeat 0% 0% / 50% 50%,
-radial-gradient(100px circle at 100% 0,transparent 50%,red 50%) no-repeat 100% 0%/ 50% 50%,
-radial-gradient(100px circle at 0 100%,transparent 50%,red 50%) no-repeat 0% 100%/ 50% 50%,
-radial-gradient(100px circle at 100% 100%,transparent 50%,red 50%) no-repeat 100% 100%/ 50% 50%;
-</code></pre><p><img src="\images\CSS3-背景\radial-gradient_high3.png" alt="radial-gradient_high3"></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   background: radial-gradient(100px circle at 0 0,transparent 50%,red 50%) no-repeat 0% 0% / 50% 50%,</span><br><span class="line">radial-gradient(100px circle at 100% 0,transparent 50%,red 50%) no-repeat 100% 0%/ 50% 50%,</span><br><span class="line">radial-gradient(100px circle at 0 100%,transparent 50%,red 50%) no-repeat 0% 100%/ 50% 50%,</span><br><span class="line">radial-gradient(100px circle at 100% 100%,transparent 50%,red 50%) no-repeat 100% 100%/ 50% 50%;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\radial-gradient_high3.png" alt="radial-gradient_high3"></p>
 <h3 id="repeating-linear-gradient"><a href="#repeating-linear-gradient" class="headerlink" title="repeating-linear-gradient()"></a>repeating-linear-gradient()</h3><p>repeating-linear-gradient() 函数用于创建重复的线性渐变 “图像”。该属性的参数与linear-gradient()相同，所以不在赘述。</p>
 <p>由于可以重复的组成背景图形，因此用处更多，条形背景是一个典型的应用。</p>
 <p>example1:</p>
-<pre><code>background: repeating-linear-gradient(yellow 0%,yellow 10%,black 10%,black 20%);
-</code></pre><p><img src="\images\CSS3-背景\repeat-linear-gradient_high1.png" alt="repeat-linear-gradient_high1"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background</span>: <span class="selector-tag">repeating-linear-gradient</span>(<span class="selector-tag">yellow</span> 0%,<span class="selector-tag">yellow</span> 10%,<span class="selector-tag">black</span> 10%,<span class="selector-tag">black</span> 20%);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\repeat-linear-gradient_high1.png" alt="repeat-linear-gradient_high1"></p>
 <p>example2:</p>
-<pre><code>    background: repeating-linear-gradient(rgba(255, 255, 0, 0.397) 0%,rgba(255, 255, 0, 0.397) 10%,rgba(0, 0, 0, 0.26)
-10%,rgba(0, 0, 0, 0.26) 20%),
-repeating-linear-gradient(to right,rgba(255, 255, 0, 0.397) 0%,rgba(85, 243, 36, 0.397) 10%,rgba(0, 0, 0, 0.26)
-10%,rgba(0, 0, 0, 0.26) 20%);
-</code></pre><p><img src="\images\CSS3-背景\repeat-linear-gradient_high2.png" alt="repeat-linear-gradient_high2"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    <span class="selector-tag">background</span>: <span class="selector-tag">repeating-linear-gradient</span>(<span class="selector-tag">rgba</span>(255, 255, 0, 0<span class="selector-class">.397</span>) 0%,<span class="selector-tag">rgba</span>(255, 255, 0, 0<span class="selector-class">.397</span>) 10%,<span class="selector-tag">rgba</span>(0, 0, 0, 0<span class="selector-class">.26</span>)</span><br><span class="line">10%,<span class="selector-tag">rgba</span>(0, 0, 0, 0<span class="selector-class">.26</span>) 20%),</span><br><span class="line"><span class="selector-tag">repeating-linear-gradient</span>(<span class="selector-tag">to</span> <span class="selector-tag">right</span>,<span class="selector-tag">rgba</span>(255, 255, 0, 0<span class="selector-class">.397</span>) 0%,<span class="selector-tag">rgba</span>(85, 243, 36, 0<span class="selector-class">.397</span>) 10%,<span class="selector-tag">rgba</span>(0, 0, 0, 0<span class="selector-class">.26</span>)</span><br><span class="line">10%,<span class="selector-tag">rgba</span>(0, 0, 0, 0<span class="selector-class">.26</span>) 20%);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\repeat-linear-gradient_high2.png" alt="repeat-linear-gradient_high2"></p>
 <h3 id="repeating-radial-gradient"><a href="#repeating-radial-gradient" class="headerlink" title="repeating-radial-gradient()"></a>repeating-radial-gradient()</h3><p>repeating-radial-gradient()用于创建多个repeating-radial原点辐射。参数与repeating-radial()一致。</p>
 <p>example1:</p>
-<pre><code>    background: repeating-radial-gradient(circle at center, rgb(146, 146, 146) 0, rgb(146, 146, 146) 2%, black
-2%,black 4%);
-</code></pre><p><img src="\images\CSS3-背景\repeat-radial-gradient_high1.png" alt="repeat-radial-gradient_high1"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    <span class="selector-tag">background</span>: <span class="selector-tag">repeating-radial-gradient</span>(<span class="selector-tag">circle</span> <span class="selector-tag">at</span> <span class="selector-tag">center</span>, <span class="selector-tag">rgb</span>(146, 146, 146) 0, <span class="selector-tag">rgb</span>(146, 146, 146) 2%, <span class="selector-tag">black</span></span><br><span class="line">2%,<span class="selector-tag">black</span> 4%);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\repeat-radial-gradient_high1.png" alt="repeat-radial-gradient_high1"></p>
 <h3 id="渐变综合应用"><a href="#渐变综合应用" class="headerlink" title="渐变综合应用"></a>渐变综合应用</h3><p>用渐变生成一个复古胶盘：</p>
-<pre><code>    .box3 {
-  position: relative;
-  margin: 100px;
-  height: 400px;
-  width: 400px;
-  color: cadetblue;
-  border-radius: 50%;
-  background:
-    linear-gradient(30deg, transparent 40%, rgba(42, 41, 40, .85) 40%) no-repeat 100% 0,
-    linear-gradient(60deg, rgba(42, 41, 40, .85) 60%, transparent 60%) no-repeat 0 100%,
-    repeating-radial-gradient(#2a2928, #2a2928 4px, #ada9a0 5px, #2a2928 6px);
-  background-size:50% 100%, 100% 50%, 100% 100%;
-}
-.box3:after{
-   position: absolute;
-   top: 50%; left: 50%;
-   margin: -35px;
-   border: solid 1px #d9a388;
-   width: 68px; height: 68px;
-   border-radius: 50%;
-   box-shadow: 0 0 0 4px #da5b33, inset 0 0 0 27px #da5b33;
-   background: #b5ac9a;
-   content: &apos;&apos;;
-}
-</code></pre><p><img src="\images\CSS3-背景\gradient_summary.png" alt="gradient_summary"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box3</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">color</span>: cadetblue;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">background</span>:</span><br><span class="line">    <span class="built_in">linear-gradient</span>(<span class="number">30deg</span>, transparent <span class="number">40%</span>, rgba(<span class="number">42</span>, <span class="number">41</span>, <span class="number">40</span>, .<span class="number">85</span>) <span class="number">40%</span>) no-repeat <span class="number">100%</span> <span class="number">0</span>,</span><br><span class="line">    <span class="built_in">linear-gradient</span>(<span class="number">60deg</span>, rgba(<span class="number">42</span>, <span class="number">41</span>, <span class="number">40</span>, .<span class="number">85</span>) <span class="number">60%</span>, transparent <span class="number">60%</span>) no-repeat <span class="number">0</span> <span class="number">100%</span>,</span><br><span class="line">    <span class="built_in">repeating-radial-gradient</span>(#<span class="number">2</span>a2928, #<span class="number">2</span>a2928 <span class="number">4px</span>, #ada9a0 <span class="number">5px</span>, #<span class="number">2</span>a2928 <span class="number">6px</span>);</span><br><span class="line">  <span class="attribute">background-size</span>:<span class="number">50%</span> <span class="number">100%</span>, <span class="number">100%</span> <span class="number">50%</span>, <span class="number">100%</span> <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box3</span><span class="selector-pseudo">:after</span>&#123;</span><br><span class="line">   <span class="attribute">position</span>: absolute;</span><br><span class="line">   <span class="attribute">top</span>: <span class="number">50%</span>; <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">   <span class="attribute">margin</span>: -<span class="number">35px</span>;</span><br><span class="line">   <span class="attribute">border</span>: solid <span class="number">1px</span> <span class="number">#d9a388</span>;</span><br><span class="line">   <span class="attribute">width</span>: <span class="number">68px</span>; <span class="attribute">height</span>: <span class="number">68px</span>;</span><br><span class="line">   <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">   <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">4px</span> <span class="number">#da5b33</span>, inset <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">27px</span> <span class="number">#da5b33</span>;</span><br><span class="line">   <span class="attribute">background</span>: <span class="number">#b5ac9a</span>;</span><br><span class="line">   <span class="attribute">content</span>: <span class="string">''</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\gradient_summary.png" alt="gradient_summary"></p>
 <h2 id="background-size"><a href="#background-size" class="headerlink" title="background-size"></a>background-size</h2><p>background-size 设置背景图片大小。图片可以保有其原有的尺寸，或者拉伸到新的尺寸，或者在保持其原有比例的同时缩放到元素的可用空间的尺寸。</p>
 <p>其参数有以下内容：</p>
 <table>
@@ -556,8 +510,6 @@ repeating-linear-gradient(to right,rgba(255, 255, 0, 0.397) 0%,rgba(85, 243, 36,
 <li><p>如果其值为&lt;length&gt;时，则可以分别设置其宽高，如：</p>
 <p> background-size: 50% 25%;</p>
 </li>
-</ol>
-<ol start="2">
 <li><p>如果background有多个值，那么在background-size就可以有多个值，并且与其一一对应。</p>
 <p> background-size: 50% 25%, contain, 3em; //有3个背景图片</p>
 </li>
@@ -622,12 +574,10 @@ repeating-linear-gradient(to right,rgba(255, 255, 0, 0.397) 0%,rgba(85, 243, 36,
 <p><img src="\images\CSS3-背景\background-clip_content-box.png" alt="background-clip_content-box"></p>
 <p><img src="\images\CSS3-背景\background-clip_padding-box.png" alt="background-clip_padding-box"></p>
 <p>example:</p>
-<pre><code>-webkit-background-clip: text;
-color: transparent;
-font-size: 200px;
-</code></pre><p><img src="\images\CSS3-背景\background-clip_text.png" alt="background-clip_text"></p>
-<h2 id="background-position"><a href="#background-position" class="headerlink" title="background-position"></a>background-position</h2><pre><code>background-position 为每一个背景图片设置初始位置。 这个位置是相对于由 background-origin 定义的位置图层的。
-</code></pre><p>参数如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-webkit-background-clip</span>: <span class="selector-tag">text</span>;</span><br><span class="line"><span class="selector-tag">color</span>: <span class="selector-tag">transparent</span>;</span><br><span class="line"><span class="selector-tag">font-size</span>: 200<span class="selector-tag">px</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\background-clip_text.png" alt="background-clip_text"></p>
+<h2 id="background-position"><a href="#background-position" class="headerlink" title="background-position"></a>background-position</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-position</span> 为每一个背景图片设置初始位置。 这个位置是相对于由 <span class="selector-tag">background-origin</span> 定义的位置图层的。</span><br></pre></td></tr></table></figure>
+<p>参数如下：</p>
 <table>
 <thead>
 <tr>
@@ -659,20 +609,20 @@ font-size: 200px;
 </table>
 <p><strong>该属性可以分别用两个值规定x,y的距离</strong></p>
 <p>如：<br>example1：</p>
-<pre><code>background-position：50px 50px;
-</code></pre><p><img src="\images\CSS3-背景\background-position_example1.png" alt="background-position_example1"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-position</span>：50<span class="selector-tag">px</span> 50<span class="selector-tag">px</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\background-position_example1.png" alt="background-position_example1"></p>
 <p>也可以向自己规定的边的距离：</p>
 <p>example2：</p>
-<pre><code>background-position: right 50px bottom 50px;
-</code></pre><p><img src="\images\CSS3-背景\background-position_example2.png" alt="background-position_example2"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-position</span>: <span class="selector-tag">right</span> 50<span class="selector-tag">px</span> <span class="selector-tag">bottom</span> 50<span class="selector-tag">px</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\background-position_example2.png" alt="background-position_example2"></p>
 <p>我们也可以使用关键词center来居中背景：</p>
 <p>example3：</p>
-<pre><code>background-position: center;
-</code></pre><p><img src="\images\CSS3-背景\background-position_example3.png" alt="background-position_example3"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-position</span>: <span class="selector-tag">center</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\background-position_example3.png" alt="background-position_example3"></p>
 <p>如果我们规定一个关键词，另一个关键词则为center：</p>
 <p>example4：</p>
-<pre><code>background-position: left;
-</code></pre><p><img src="\images\CSS3-背景\background-position_example4.png" alt="background-position_example4"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-position</span>: <span class="selector-tag">left</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\background-position_example4.png" alt="background-position_example4"></p>
 <p>如果我们将距离值设置为负值，那么背景就会偏离出容器内部，延时到容器的外部（不会显示出来）。</p>
 <p>example5:</p>
 <p><img src="\images\CSS3-背景\background-position_example5.png" alt="background-position_example5"></p>
@@ -728,15 +678,15 @@ font-size: 200px;
 </table>
 <p><strong>注意round与space的区别</strong></p>
 <p>round通过图片拉伸将容器内部全部填满：</p>
-<pre><code>background-repeat: round;
-</code></pre><p><img src="\images\CSS3-背景\background-repeat_round.png" alt="background-repeat_round"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-repeat</span>: <span class="selector-tag">round</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\background-repeat_round.png" alt="background-repeat_round"></p>
 <p>space将对应数量的背景填入容器，多余的空间将background-color的颜色填充。</p>
-<pre><code>background-repeat: space;
-</code></pre><p><img src="\images\CSS3-背景\background-repeat_space.png" alt="background-repeat_space"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-repeat</span>: <span class="selector-tag">space</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\background-repeat_space.png" alt="background-repeat_space"></p>
 <p><strong>并且我们可以通过双值的方式，分别设置想，x，y上的重复方式</strong></p>
 <p>example1：</p>
-<pre><code>background-repeat: space round;
-</code></pre><p><img src="\images\CSS3-背景\background-repeat_example1.png" alt="background-repeat_example1"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-repeat</span>: <span class="selector-tag">space</span> <span class="selector-tag">round</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="\images\CSS3-背景\background-repeat_example1.png" alt="background-repeat_example1"></p>
 <h2 id="background-attachment"><a href="#background-attachment" class="headerlink" title="background-attachment"></a>background-attachment</h2><p>background-attachment CSS 属性决定背景图像的位置是在视口内固定，还是随着包含它的区块滚动。</p>
 <table>
 <thead>
@@ -766,15 +716,13 @@ font-size: 200px;
 <p><img src="\images\CSS3-背景\background-attachment_local.gif" alt="background-attachment_local"></p>
 <p>scroll效果：当scroll时，当我们滚动容器时，背景图不会改变；而且当容器位置改变时，背景图也没有发送改变（相对于容器），也就是说，此时背景是以容器为基准的。</p>
 <p><img src="\images\CSS3-背景\background-attachment_scroll.gif" alt="background-attachment_scroll"></p>
-<h3 id="给容器添加滚动条"><a href="#给容器添加滚动条" class="headerlink" title="给容器添加滚动条"></a>给容器添加滚动条</h3><pre><code>height:300px;
-width:300px;
-overflow: scroll;
-</code></pre><p>添加此属性后，无论容器的内容是否超过300px，滚动条都会被添加；</p>
+<h3 id="给容器添加滚动条"><a href="#给容器添加滚动条" class="headerlink" title="给容器添加滚动条"></a>给容器添加滚动条</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">height</span><span class="selector-pseudo">:300px</span>;</span><br><span class="line"><span class="selector-tag">width</span><span class="selector-pseudo">:300px</span>;</span><br><span class="line"><span class="selector-tag">overflow</span>: <span class="selector-tag">scroll</span>;</span><br></pre></td></tr></table></figure>
+<p>添加此属性后，无论容器的内容是否超过300px，滚动条都会被添加；</p>
 <p>如果设置：<br>        height:300px;<br>        width:300px;<br>        overflow: auto;</p>
 <p>那么，如果容器的内容超过300px，滚动条才会被添加。</p>
 <p>overflow属性同样是一个复合属性。它是<code>overflow-x</code>,<code>overflow-y</code>两个属性的复合属性。同样的是，overflow可以写两个值：</p>
-<pre><code>overflow: auto scroll;
-</code></pre><p>设置x轴为自动，y轴为添加滚动条时。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">overflow</span>: <span class="selector-tag">auto</span> <span class="selector-tag">scroll</span>;</span><br></pre></td></tr></table></figure>
+<p>设置x轴为自动，y轴为添加滚动条时。</p>
 <h1 id="Last"><a href="#Last" class="headerlink" title="Last"></a>Last</h1><p>背景图这一部分的样式很有意思，特别是渐变那一部分，可以组成很多有趣的图形，不过这一部分内容还是多，需要多看多实践，才能深入掌握！</p>
 
       
@@ -876,7 +824,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#background"><span class="nav-number">1.</span> <span class="nav-text">background</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#background-color"><span class="nav-number">1.1.</span> <span class="nav-text">background-color</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#currentColor关键字"><span class="nav-number">1.1.1.</span> <span class="nav-text">currentColor关键字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-image"><span class="nav-number">1.2.</span> <span class="nav-text">background-image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linear-gradient"><span class="nav-number">1.2.1.</span> <span class="nav-text">linear-gradient()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#radial-gradient"><span class="nav-number">1.2.2.</span> <span class="nav-text">radial-gradient()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#radial-gradient-基本应用"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">radial-gradient()基本应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#radial-gradient-高级应用"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">radial-gradient()高级应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#repeating-linear-gradient"><span class="nav-number">1.2.3.</span> <span class="nav-text">repeating-linear-gradient()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#repeating-radial-gradient"><span class="nav-number">1.2.4.</span> <span class="nav-text">repeating-radial-gradient()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#渐变综合应用"><span class="nav-number">1.2.5.</span> <span class="nav-text">渐变综合应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-size"><span class="nav-number">1.3.</span> <span class="nav-text">background-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-origin"><span class="nav-number">1.4.</span> <span class="nav-text">background-origin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-clip"><span class="nav-number">1.5.</span> <span class="nav-text">background-clip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-position"><span class="nav-number">1.6.</span> <span class="nav-text">background-position</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-repeat"><span class="nav-number">1.7.</span> <span class="nav-text">background-repeat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-attachment"><span class="nav-number">1.8.</span> <span class="nav-text">background-attachment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#给容器添加滚动条"><span class="nav-number">1.8.1.</span> <span class="nav-text">给容器添加滚动条</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last"><span class="nav-number">2.</span> <span class="nav-text">Last</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#background"><span class="nav-number">1.</span> <span class="nav-text">background</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#background-color"><span class="nav-number">1.1.</span> <span class="nav-text">background-color</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#currentColor%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">1.1.1.</span> <span class="nav-text">currentColor关键字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-image"><span class="nav-number">1.2.</span> <span class="nav-text">background-image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linear-gradient"><span class="nav-number">1.2.1.</span> <span class="nav-text">linear-gradient()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#radial-gradient"><span class="nav-number">1.2.2.</span> <span class="nav-text">radial-gradient()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#radial-gradient-%E5%9F%BA%E6%9C%AC%E5%BA%94%E7%94%A8"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">radial-gradient()基本应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#radial-gradient-%E9%AB%98%E7%BA%A7%E5%BA%94%E7%94%A8"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">radial-gradient()高级应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#repeating-linear-gradient"><span class="nav-number">1.2.3.</span> <span class="nav-text">repeating-linear-gradient()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#repeating-radial-gradient"><span class="nav-number">1.2.4.</span> <span class="nav-text">repeating-radial-gradient()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%90%E5%8F%98%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8"><span class="nav-number">1.2.5.</span> <span class="nav-text">渐变综合应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-size"><span class="nav-number">1.3.</span> <span class="nav-text">background-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-origin"><span class="nav-number">1.4.</span> <span class="nav-text">background-origin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-clip"><span class="nav-number">1.5.</span> <span class="nav-text">background-clip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-position"><span class="nav-number">1.6.</span> <span class="nav-text">background-position</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-repeat"><span class="nav-number">1.7.</span> <span class="nav-text">background-repeat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#background-attachment"><span class="nav-number">1.8.</span> <span class="nav-text">background-attachment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%99%E5%AE%B9%E5%99%A8%E6%B7%BB%E5%8A%A0%E6%BB%9A%E5%8A%A8%E6%9D%A1"><span class="nav-number">1.8.1.</span> <span class="nav-text">给容器添加滚动条</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Last"><span class="nav-number">2.</span> <span class="nav-text">Last</span></a></li></ol>
     
     </div>
   </aside>
@@ -891,7 +839,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -1048,7 +996,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

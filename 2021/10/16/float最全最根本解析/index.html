@@ -17,6 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2021/10/16/float%E6%9C%80%E5%85%A8%E6%9C%80%E6%A0%B9%E6%9C%AC%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="My Wonderland">
 <meta property="og:description" content="前置知识要想真正得用好浮动，以及清除浮动。必须首先要理解几个概念作为前置知识。 Normal flow （正常流）这个名词在国内一般被翻译为文档流，这个被很多人吐槽，就不再说了。 这个正常流就是我们HTML初始的流模型。也就是整个文档内，如果你不添加其他属性（浮动和绝对定位）那么整个文档就属于正常流。 格式化上下文（formatting context）一个格式化上下文（下文称FC）就是一系列相关">
+<meta property="og:locale">
 <meta property="article:published_time" content="2021-10-16T12:55:21.000Z">
 <meta property="article:modified_time" content="2021-10-16T16:23:11.762Z">
 <meta property="article:author" content="Michael Wang">
@@ -74,7 +75,7 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 
 
@@ -368,7 +369,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前置知识"><span class="nav-number">1.</span> <span class="nav-text">前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Normal-flow-（正常流）"><span class="nav-number">1.1.</span> <span class="nav-text">Normal flow （正常流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式化上下文（formatting-context）"><span class="nav-number">1.2.</span> <span class="nav-text">格式化上下文（formatting context）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#display属性"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">display属性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#inner-display-type"><span class="nav-number">1.2.0.1.1.</span> <span class="nav-text">inner display type</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#outer-display-type"><span class="nav-number">1.2.0.1.2.</span> <span class="nav-text">outer display type</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BFC-block-formatting-context"><span class="nav-number">1.2.1.</span> <span class="nav-text">BFC(block formatting context)</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Normal-flow-%EF%BC%88%E6%AD%A3%E5%B8%B8%E6%B5%81%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">Normal flow （正常流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%88formatting-context%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">格式化上下文（formatting context）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#display%E5%B1%9E%E6%80%A7"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">display属性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#inner-display-type"><span class="nav-number">1.2.0.1.1.</span> <span class="nav-text">inner display type</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#outer-display-type"><span class="nav-number">1.2.0.1.2.</span> <span class="nav-text">outer display type</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BFC-block-formatting-context"><span class="nav-number">1.2.1.</span> <span class="nav-text">BFC(block formatting context)</span></a></li></ol></li></ol></li></ol>
     
     </div>
   </aside>
@@ -383,7 +384,7 @@ var a = new Donate({
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2013 - 2022 My Wonderland All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -540,7 +541,7 @@ var a = new Donate({
             My Wonderland
           </div>
           <div class="panel-body">
-            Copyright © 2022 Michael Wang All Rights Reserved.
+            Copyright © 2024 Michael Wang All Rights Reserved.
           </div>
         </div>
       </div>

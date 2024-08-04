@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>深入理解jvm2-1-虚拟机执行子系统-类文件结构 | My Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JVM虚拟机执行子系统类文件结构" />
+  
+  
+  
+  
+  <meta name="description" content="类无关性的基石实现语言无关性的基础仍然是虚拟机和字节码存储格式。Java虚拟机不与包括Java语言在内的任何 程序语言绑定，它只与“Class文件”这种特定的二进制文件格式所关联，Class文件中包含了Java虚拟机指令集、符号表以及若干其他辅助信息。 作为一个通用的、与机器无关的执行平 台，任何其他语言的实现者都可以将Java虚拟机作为他们语言的运行基础，以Class文件作为他们产品 的交付媒介">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解JVM2-1-虚拟机执行子系统-类文件结构">
+<meta property="og:url" content="http://yoursite.com/2022/04/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM2-1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A7%E8%A1%8C%E5%AD%90%E7%B3%BB%E7%BB%9F-%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="My Wonderland">
+<meta property="og:description" content="类无关性的基石实现语言无关性的基础仍然是虚拟机和字节码存储格式。Java虚拟机不与包括Java语言在内的任何 程序语言绑定，它只与“Class文件”这种特定的二进制文件格式所关联，Class文件中包含了Java虚拟机指令集、符号表以及若干其他辅助信息。 作为一个通用的、与机器无关的执行平 台，任何其他语言的实现者都可以将Java虚拟机作为他们语言的运行基础，以Class文件作为他们产品 的交付媒介">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8F%90%E4%BE%9B%E7%9A%84%E8%AF%AD%E8%A8%80%E6%97%A0%E5%85%B3%E6%80%A7.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/Class%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/class%E9%83%A8%E5%88%86%E7%89%88%E6%9C%AC%E5%AF%B9%E5%BA%94.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%9A%84%E9%A1%B9%E7%9B%AE%E7%B1%BB%E5%9E%8B.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/CONSTANT_Class_info.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/CONSTANT_Utf8_info.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%B8%B8%E9%87%8F%E6%B1%A01.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%B8%B8%E9%87%8F%E6%B1%A02.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%B8%B8%E9%87%8F%E6%B1%A03.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E8%AE%BF%E9%97%AE%E6%A0%87%E5%BF%97.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E7%B1%BB%E7%B4%A2%E5%BC%95%E8%BF%87%E7%A8%8B.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%AD%97%E6%AE%B5%E8%A1%A8%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%AD%97%E6%AE%B5%E8%AE%BF%E9%97%AE%E6%A0%87%E5%BF%97.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E6%8F%8F%E8%BF%B0%E7%AC%A6%E6%A0%87%E8%AF%86%E5%AD%97%E7%AC%A6%E5%90%AB%E4%B9%89.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E6%96%B9%E6%B3%95%E8%A1%A8%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E6%96%B9%E6%B3%95%E8%AE%BF%E9%97%AE%E6%A0%87%E5%BF%97.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%A7%84%E8%8C%83%E9%A2%84%E5%AE%9A%E4%B9%89%E7%9A%84%E5%B1%9E%E6%80%A71.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%A7%84%E8%8C%83%E9%A2%84%E5%AE%9A%E4%B9%89%E7%9A%84%E5%B1%9E%E6%80%A72.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/%E5%B1%9E%E6%80%A7%E8%A1%A8%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/Code%E5%B1%9E%E6%80%A7%E8%A1%A8%E7%9A%84%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/Exception%E5%B1%9E%E6%80%A7%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8C%87%E4%BB%A4%E9%9B%86%E6%89%80%E6%94%AF%E6%8C%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8C%87%E4%BB%A4%E9%9B%86%E6%89%80%E6%94%AF%E6%8C%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B2.jpg">
+<meta property="article:published_time" content="2022-04-24T01:46:39.000Z">
+<meta property="article:modified_time" content="2022-05-02T13:59:06.175Z">
+<meta property="article:author" content="Michael Wang">
+<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="虚拟机执行子系统">
+<meta property="article:tag" content="类文件结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8F%90%E4%BE%9B%E7%9A%84%E8%AF%AD%E8%A8%80%E6%97%A0%E5%85%B3%E6%80%A7.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="My Wonderland" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-深入理解JVM2-1-虚拟机执行子系统-类文件结构" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      深入理解JVM2-1-虚拟机执行子系统-类文件结构
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/04/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM2-1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A7%E8%A1%8C%E5%AD%90%E7%B3%BB%E7%BB%9F-%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="article-date">
+	  <time datetime="2022-04-24T01:46:39.000Z" itemprop="datePublished">2022-04-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JVM/">JVM</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="类无关性的基石"><a href="#类无关性的基石" class="headerlink" title="类无关性的基石"></a>类无关性的基石</h1><p>实现语言无关性的基础仍然是虚拟机和字节码存储格式。Java虚拟机不与包括Java语言在内的任何 程序语言绑定，它只与“Class文件”这种特定的二进制文件格式所关联，Class文件中包含了Java虚拟机指令集、符号表以及若干其他辅助信息。</p>
+<p>作为一个通用的、与机器无关的执行平 台，任何其他语言的实现者都可以将Java虚拟机作为他们语言的运行基础，以Class文件作为他们产品 的交付媒介。例如，使用Java编译器可以把Java代码编译为存储字节码的Class文件，使用JRuby等其他 语言的编译器一样可以把它们的源程序代码编译成Class文件。虚拟机丝毫不关心Class的来源是什么语<br>言，它与程序语言之间的关系如图所示。</p>
+<p><img src="/images/深入理解JVM/Java虚拟机提供的语言无关性.jpg" alt="Java虚拟机提供的语言无关性"></p>
+<h1 id="Class类文件的结构"><a href="#Class类文件的结构" class="headerlink" title="Class类文件的结构"></a>Class类文件的结构</h1><p>Java技术能够一直保持着非常良好的向后兼容性，Class文件结构的稳定功不可没。</p>
+<blockquote>
+<p>注意：任何一个Class文件都对应着唯一的一个类或接口的定义信息[1]，但是反过来说，类或 接口并不一定都得定义在文件里（譬如类或接口也可以动态生成，直接送入类加载器中）。本章中， 笔者只是通俗地将任意一个有效的类或接口所应当满足的格式称为“Class文件格式”，实际上它完全不需要以磁盘文件的形式存在。</p>
+</blockquote>
+<p>根据《Java虚拟机规范》的规定，Class文件格式采用一种类似于C语言结构体的伪结构来存储数 据，这种伪结构中只有两种数据类型：“无符号数”和“表”。后面的解析都要以这两种数据类型为基础，所以这里笔者必须先解释清楚这两个概念。</p>
+<p>无符号数属于基本的数据类型，以u1、u2、u4、u8来分别代表1个字节、2个字节、4个字节和8个 字节的无符号数，无符号数可以用来描述数字、索引引用、数量值或者按照UTF-8编码构成字符串值。</p>
+<p>表是由多个无符号数或者其他表作为数据项构成的复合数据类型，为了便于区分，所有表的命名都习惯性地以“_info”结尾。表用于描述有层次关系的复合结构的数据，整个Class文件本质上也可以视作是一张表，这张表由表6-1所示的数据项按严格顺序排列构成。</p>
+<p><img src="/images/深入理解JVM/Class结构.jpg" alt="Class结构"></p>
+<p>无论是无符号数还是表，当需要描述同一类型但数量不定的多个数据时，经常会使用一个前置的容量计数器加若干个连续的数据项的形式，这时候称这一系列连续的某一类型的数据为某一类型的“集合”。 </p>
+<p><strong>Class的结构不像XML等描述语言，由于它没有任何分隔符 号，所以在表6-1中的数据项，无论是顺序还是数量，甚至于数据存储的字节序（Byte Ordering，Class 文件中字节序为Big-Endian）这样的细节，都是被严格限定的，哪个字节代表什么含义，长度是多少，先后顺序如何，全部都不允许改变。</strong></p>
+<h2 id="魔数与Class文件的版本"><a href="#魔数与Class文件的版本" class="headerlink" title="魔数与Class文件的版本"></a>魔数与Class文件的版本</h2><h3 id="魔数"><a href="#魔数" class="headerlink" title="魔数"></a>魔数</h3><p>每个Class文件的头4个字节被称为魔数（Magic Number），它的唯一作用是确定这个文件是否为 一个能被虚拟机接受的Class文件。</p>
+<p>不仅是Class文件，很多文件格式标准中都有使用魔数来进行身份识 别的习惯，譬如图片格式，如GIF或者JPEG等在文件头中都存有魔数。使用魔数而不是扩展名来进行 识别主要是基于安全考虑，因为文件扩展名可以随意改动。文件格式的制定者可以自由地选择魔数值，只要这个魔数值还没有被广泛采用过而且不会引起混淆。</p>
+<p>Class文件的魔数取得很有“浪漫气息”， 值为0xCAFEBABE（咖啡宝贝？）。</p>
+<h3 id="Class文件的版本"><a href="#Class文件的版本" class="headerlink" title="Class文件的版本"></a>Class文件的版本</h3><p>紧接着魔数的4个字节存储的是Class文件的版本号：第5和第6个字节是次版本号（Minor Version），第7和第8个字节是主版本号（Major Version）。</p>
+<p>Java的版本号是从45开始的，JDK 1.1之后 的每个JDK大版本发布主版本号向上加1（JDK 1.0～1.1使用了45.0～45.3的版本号），高版本的JDK能 向下兼容以前版本的Class文件，但不能运行以后版本的Class文件，因为《Java虚拟机规范》在Class文 件校验部分明确要求了即使文件格式并未发生任何变化，虚拟机也必须拒绝执行超过其版本号的Class<br>文件。</p>
+<p>例如，JDK 1.1能支持版本号为45.0～45.65535的Class文件，无法执行版本号为46.0以上的Class文 件，而JDK 1.2则能支持45.0～46.65535的Class文件。目前最新的JDK版本为13，可生成的Class文件主<br>版本号最大值为57.0。</p>
+<p>下面是部分版本对应</p>
+<p><img src="/images/深入理解JVM/class部分版本对应.jpg" alt="class部分版本对应"></p>
+<h2 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h2><p>紧接着主、次版本号之后的是常量池入口，常量池可以比喻为Class文件里的资源仓库，它是Class 文件结构中与其他项目关联最多的数据，通常也是占用Class文件空间最大的数据项目之一，另外，它还是在Class文件中第一个出现的表类型数据项目。</p>
+<p>由于常量池中常量的数量是不固定的，所以在常量池的入口需要放置一项u2类型的数据，代表常 量池容量计数值（constant_pool_count）（即在常量池表之前会有一个u2的constant_pool_count的变量表示常量池的中常量的个数）。</p>
+<p>常量池中主要存放两大类常量：字面量（Literal）和符号引用（Symbolic References）。</p>
+<p>字面量比 较接近于Java语言层面的常量概念，如文本字符串、被声明为final的常量值等。而符号引用则属于编译<br>原理方面的概念，主要包括下面几类常量：</p>
+<ul>
+<li>被模块导出或者开放的包（Package） </li>
+<li>类和接口的全限定名（Fully Qualified Name） </li>
+<li>字段的名称和描述符（Descriptor） </li>
+<li>方法的名称和描述符 </li>
+<li>方法句柄和方法类型（Method Handle、Method Type、Invoke Dynamic）</li>
+<li>动态调用点和动态常量（Dynamically-Computed Call Site、Dynamically-Computed Constant）</li>
+</ul>
+<p>Java代码在进行Javac编译的时候，并不像C和C++那样有“连接”这一步骤，而是在虚拟机加载Class 文件的时候进行动态连接（具体见第7章）。也就是说，在Class文件中不会保存各个方法、字段最终在内存中的布局信息，这些字段、方法的符号引用不经过虚拟机在运行期转换的话是无法得到真正的内存入口地址，也就无法直接被虚拟机使用的。当虚拟机做类加载时，将会从常量池获得对应的符号 引用，再在类创建时或运行时解析、翻译到具体的内存地址之中。</p>
+<p>常量池中每一项常量都是一个表，最初常量表中共有11种结构各不相同的表结构数据，后来为了 更好地支持动态语言调用，额外增加了4种动态语言相关的常量。</p>
+<p>这17类表都有一个共同的特点，表结构起始的第一位是个u1类型的标志位（tag，取值见表6-3中标 志列），代表着当前常量属于哪种常量类型。17种常量类型所代表的具体含义如下表所示。</p>
+<p><img src="/images/深入理解JVM/常量池的项目类型.jpg" alt="常量池的项目类型"></p>
+<p>之所以说常量池是最烦琐的数据，是因为这17种常量类型各自有着完全独立的数据结构，两两之间并没有什么共性和联系，因此只能逐项进行讲解。</p>
+<p>例如：CONSTANT_Class_info</p>
+<p><img src="/images/深入理解JVM/CONSTANT_Class_info.jpg" alt="CONSTANT_Class_info"></p>
+<p>tag是标志位，它用于区分常量类型；name_index是常量池的索引值，它指向常量池中一个 CONSTANT_Utf8_info类型常量，此常量代表了这个类（或者接口）的全限定名，本例中的 name_index值（偏移地址：0x0000000B）为0x0002，也就是指向了常量池中的第二项常量。继续从图63中查找第二项常量，它的标志位（地址：0x0000000D）是0x01，查表6-3可知确实是一个CONSTANT_Utf8_info类型的常量。CONSTANT_Utf8_info类型的结构如表所示。</p>
+<p><img src="/images/深入理解JVM/CONSTANT_Utf8_info.jpg" alt="CONSTANT_Utf8_info"></p>
+<p>length值说明了这个UTF-8编码的字符串长度是多少字节，它后面紧跟着的长度为length字节的连 续数据是一个使用UTF-8缩略编码表示的字符串。UTF-8缩略编码与普通UTF-8编码的区别是： 从’\u0001’到’\u007f’之间的字符（相当于1～127的ASCII码）的缩略编码使用一个字节表示， 从’\u0080’到’\u07ff’之间的所有字符的缩略编码用两个字节表示，从’\u0800’开始到’\uffff’之间的所有字符的缩略编码就按照普通UTF-8编码规则使用三个字节表示。</p>
+<p>其所有类型结构如下：</p>
+<p><img src="/images/深入理解JVM/常量池1.jpg" alt="常量池1"></p>
+<p><img src="/images/深入理解JVM/常量池2.jpg" alt="常量池2"></p>
+<p><img src="/images/深入理解JVM/常量池3.jpg" alt="常量池3"></p>
+<h2 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h2><p>在常量池结束之后，紧接着的2个字节代表访问标志（access_flags），这个标志用于识别一些类或 者接口层次的访问信息，包括：这个Class是类还是接口；是否定义为public类型；是否定义为abstract类型；如果是类的话，是否被声明为final；等等。</p>
+<p><img src="/images/深入理解JVM/访问标志.jpg" alt="访问标志"></p>
+<p>access_flags中一共有16个标志位可以使用，当前只定义了其中9个，没有使用到的标志位要求一 律为零。</p>
+<h2 id="类索引、父类索引与接口索引集合"><a href="#类索引、父类索引与接口索引集合" class="headerlink" title="类索引、父类索引与接口索引集合"></a>类索引、父类索引与接口索引集合</h2><p>类索引（this_class）和父类索引（super_class）都是一个u2类型的数据，而接口索引集合 （interfaces）是一组u2类型的数据的集合，Class文件中由这三项数据来确定该类型的继承关系。</p>
+<p>类索引用于确定这个类的全限定名，父类索引用于确定这个类的父类的全限定名。</p>
+<p>接口索引集合就用来描述这个类实现了哪些接口，这些被实现的接口将按implements关键字（如果这个Class文件表示的是一个接口，则应当是extends关键字）后的接口顺序从左到右排列在接口索引集合中。</p>
+<p>类索引、父类索引和接口索引集合都按顺序排列在访问标志之后，类索引和父类索引用两个u2类 型的索引值表示，它们各自指向一个类型为CONSTANT_Class_info的类描述符常量，通过 CONSTANT_Class_info类型的常量中的索引值可以找到定义在CONSTANT_Utf8_info类型的常量中的全限定名字符串。</p>
+<p>下面展示了类索引查找过程：</p>
+<p><img src="/images/深入理解JVM/类索引过程.jpg" alt="类索引过程"></p>
+<h2 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h2><p>字段表（field_info）用于描述接口或者类中声明的变量。</p>
+<p>Java语言中的“字段”（Field）包括类级变 量以及实例级变量，但不包括在方法内部声明的局部变量。</p>
+<p>字段可以包括的修饰符有字段的作用域（public、private、protected修饰 符）、是实例变量还是类变量（static修饰符）、可变性（final）、并发可见性（volatile修饰符，是否 强制从主内存读写）、可否被序列化（transient修饰符）、字段数据类型（基本类型、对象、数组）、字段名称。</p>
+<p>字段表结构如下：</p>
+<p><img src="/images/深入理解JVM/字段表结构.jpg" alt="字段表结构"></p>
+<p>字段修饰符放在access_flags项目中，它与类中的access_flags项目是非常类似的，都是一个u2的数 据类型，其中可以设置的标志位和含义如表所示。</p>
+<p><img src="/images/深入理解JVM/字段访问标志.jpg" alt="字段访问标志"></p>
+<p>很明显，由于语法规则的约束，ACC_PUBLIC、ACC_PRIVATE、ACC_PROTECTED三个标志最 多只能选择其一，ACC_FINAL、ACC_VOLATILE不能同时选择。接口之中的字段必须有ACC_PUBLIC、ACC_STATIC、ACC_FINAL标志，这些都是由Java本身的语言规则所导致的。</p>
+<p>跟随access_flags标志的是两项索引值：name_index和descriptor_index。它们都是对常量池项的引 用，分别代表着字段的简单名称以及字段和方法的描述符。</p>
+<p>根据描述符规则，基本数据类 型（byte、char、double、float、int、long、short、boolean）以及代表无返回值的void类型都用一个大写字符来表示，而对象类型则用字符L加对象的全限定名来表示</p>
+<p><img src="/images/深入理解JVM/描述符标识字符含义.jpg" alt="描述符标识字符含义"></p>
+<p>对于数组类型，每一维度将使用一个前置的“[”字符来描述，如一个定义为“java.lang.String[][]”类型 的二维数组将被记录成“[[Ljava/lang/String；”，一个整型数组“int[]”将被记录成“[I”。</p>
+<p>用描述符来描述方法时，按照先参数列表、后返回值的顺序描述，参数列表按照参数的严格顺序 放在一组小括号“()”之内。如方法void inc()的描述符为“()V”，方法java.lang.String toString()的描述符 为“()Ljava/lang/String；”，方法int indexOf(char[]source，int sourceOffset，int sourceCount，char[]target，int targetOffset，int targetCount，int fromIndex)的描述符为“([CII[CIII)I”。</p>
+<h2 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h2><p>Class文件存储 格式中对方法的描述与对字段的描述采用了几乎完全一致的方式，方法表的结构如同字段表一样，依 次包括访问标志（access_flags）、名称索引（name_index）、描述符索引（descriptor_index）、属性表<br>集合（attributes）几项，如表所示。</p>
+<p><img src="/images/深入理解JVM/方法表结构.jpg" alt="方法表结构"></p>
+<p>因为volatile关键字和transient关键字不能修饰方法，所以方法表的访问标志中没有了 ACC_VOLATILE标志和ACC_TRANSIENT标志。与之相对，synchronized、native、strictfp和abstract 关键字可以修饰方法，方法表的访问标志中也相应地增加了ACC_SYNCHRONIZED、 ACC_NATIVE、ACC_STRICTFP和ACC_ABSTRACT标志。对于方法表，所有标志位及其取值可参见下表。</p>
+<p><img src="/images/深入理解JVM/方法访问标志.jpg" alt="方法访问标志"></p>
+<p>方法里的Java代码，经过Javac编译器编译成字节码指令之 后，存放在方法属性表集合中一个名为“Code”的属性里面，属性表作为Class文件格式中最具扩展性的一种数据项目。</p>
+<h2 id="属性表集合"><a href="#属性表集合" class="headerlink" title="属性表集合"></a>属性表集合</h2><p>属性表（attribute_info）在前面的讲解之中已经出现过数次，Class文件、字段表、方法表都可以 携带自己的属性表集合，以描述某些场景专有的信息。</p>
+<p>与Class文件中其他的数据项目要求严格的顺序、长度和内容不同，属性表集合的限制稍微宽松一 些，不再要求各个属性表具有严格顺序，并且《Java虚拟机规范》允许只要不与已有属性名重复，任 何人实现的编译器都可以向属性表中写入自己定义的属性信息，Java虚拟机运行时会忽略掉它不认识 的属性。为了能正确解析Class文件，《Java虚拟机规范》最初只预定义了9项所有Java虚拟机实现都应当能识别的属性，而在最新的《Java虚拟机规范》的Java SE 12版本中，预定义属性已经增加到29。</p>
+<p><img src="/images/深入理解JVM/虚拟机规范预定义的属性1.jpg" alt="虚拟机规范预定义的属性1"></p>
+<p><img src="/images/深入理解JVM/虚拟机规范预定义的属性2.jpg" alt="虚拟机规范预定义的属性2"></p>
+<p>对于每一个属性，它的名称都要从常量池中引用一个CONSTANT_Utf8_info类型的常量来表示， 而属性值的结构则是完全自定义的，只需要通过一个u4的长度属性去说明属性值所占用的位数即可。一个符合规则的属性表应该满足表6-14中所定义的结构。</p>
+<p><img src="/images/深入理解JVM/属性表结构.jpg" alt="属性表结构"></p>
+<h3 id="Code属性"><a href="#Code属性" class="headerlink" title="Code属性"></a>Code属性</h3><p>Java程序方法体里面的代码经过Javac编译器处理之后，最终变为字节码指令存储在Code属性内。 Code属性出现在方法表的属性集合之中，但并非所有的方法表都必须存在这个属性，譬如接口或者抽象类中的方法就不存在Code属性，如果方法表有Code属性存在，那么它的结构将如下表所示。</p>
+<p><img src="/images/深入理解JVM/Code属性表的结构.jpg" alt="Code属性表的结构"></p>
+<p>其结构如下：</p>
+<ul>
+<li><p>attribute_name_index是一项指向CONSTANT_Utf8_info型常量的索引，此常量值固定为“Code”，它 代表了该属性的属性名称。</p>
+</li>
+<li><p>attribute_length指示了属性值的长度，由于属性名称索引与属性长度一共为 6个字节，所以属性值的长度固定为整个属性表长度减去6个字节。</p>
+</li>
+<li><p>max_stack代表了操作数栈（Operand Stack）深度的最大值。在方法执行的任意时刻，操作数栈都 不会超过这个深度。虚拟机运行的时候需要根据这个值来分配栈帧（Stack Frame）中的操作栈深度。</p>
+</li>
+<li><p>max_locals代表了局部变量表所需的存储空间。</p>
+<p>变量槽是虚拟机为局部变量分配内存所使用的最小单位。对于byte、char、float、int、short、boolean和 returnAddress等长度不超过32位的数据类型，每个局部变量占用一个变量槽，而double和long这两种64位的数据类型则需要两个变量槽来存放。方法参数（包括实例方法中的隐藏参数“this”）、显式异常处 理程序的参数（Exception Handler Parameter，就是try-catch语句中catch块中所定义的异常）、方法体中定义的局部变量都需要依赖局部变量表来存放。</p>
+</li>
+</ul>
+<p>关于code_length，有一件值得注意的事情，虽然它是一个u4类型的长度值，理论上最大值可以达 到2的32次幂，但是《Java虚拟机规范》中明确限制了一个方法不允许超过65535条字节码指令，即它实际只使用了u2的长度，如果超过这个限制，Javac编译器就会拒绝编译。</p>
+<h3 id="Exceptions属性"><a href="#Exceptions属性" class="headerlink" title="Exceptions属性"></a>Exceptions属性</h3><p>这里的Exceptions属性是在方法表中与Code属性平级的一项属性，不要与前面刚刚讲解完的异 常表产生混淆。Exceptions属性的作用是列举出方法中可能抛出的受查异常（Checked Excepitons），也就是方法描述时在throws关键字后面列举的异常。</p>
+<p>其结构如下：</p>
+<p><img src="/images/深入理解JVM/Exception属性结构.jpg" alt="Exception属性结构"></p>
+<p>其他结构省略。</p>
+<h1 id="字节码指令简介"><a href="#字节码指令简介" class="headerlink" title="字节码指令简介"></a>字节码指令简介</h1><p>Java虚拟机的指令由一个字节长度的、代表着某种特定操作含义的数字（称为操作码，Opcode） 以及跟随其后的零至多个代表此操作所需的参数（称为操作数，Operand）构成。</p>
+<p>由于Java虚拟机采用<strong>面向操作数栈</strong>而不是面向寄存器的架构，所以大多数指令都不包含操作数，只有一个操作码，指令参数都存放在操作数栈中。</p>
+<p>字节码指令集可算是一种具有鲜明特点、优势和劣势均很突出的指令集架构，由于限制了Java虚 拟机操作码的长度为一个字节（即0～255），这意味着指令集的操作码总数不能够超过256条；</p>
+<p>又由于 Class文件格式放弃了编译后代码的操作数长度对齐，这就意味着虚拟机在处理那些超过一个字节的数据时，不得不在运行时从字节中重建出具体数据的结构，譬如要将一个16位长度的无符号整数使用两个无符号字节存储起来（假设将它们命名为byte1和byte2）。</p>
+<h2 id="字节码与数据类型"><a href="#字节码与数据类型" class="headerlink" title="字节码与数据类型"></a>字节码与数据类型</h2><p>在Java虚拟机的指令集中，大多数指令都包含其操作所对应的数据类型信息。举个例子，iload指 令用于从局部变量表中加载int型的数据到操作数栈中，而fload指令加载的则是float类型的数据。这两 条指令的操作在虚拟机内部可能会是由同一段代码来实现的，但在Class文件中它们必须拥有各自独立的操作码。</p>
+<p>对于大部分与数据类型相关的字节码指令，它们的操作码助记符中都有特殊的字符来表明专门为 哪种数据类型服务：</p>
+<ul>
+<li>i代表对int类型的数据操作，</li>
+<li>l代表long，</li>
+<li>s代表short，</li>
+<li>b代表byte，</li>
+<li>c代表char，</li>
+<li>f代表 float，</li>
+<li>d代表double，</li>
+<li>a代表reference。</li>
+</ul>
+<p>也有一些指令的助记符中没有明确指明操作类型的字母，例如 arraylength指令，它没有代表数据类型的特殊字符，但操作数永远只能是一个数组类型的对象。还有另外一些指令，例如无条件跳转指令goto则是与数据类型无关的指令。</p>
+<p>因为Java虚拟机的操作码长度只有一字节，所以包含了数据类型的操作码就为指令集的设计带来 了很大的压力：如果每一种与数据类型相关的指令都支持Java虚拟机所有运行时数据类型的话，那么 指令的数量恐怕就会超出一字节所能表示的数量范围了。因此，Java虚拟机的指令集对于特定的操作只提供了有限的类型相关指令去支持它，换句话说，指令集将会被故意设计成非完全独立的。</p>
+<p>其字节和操作对应如下：</p>
+<p><img src="/images/深入理解JVM/Java虚拟机指令集所支持的数据类型1.jpg" alt="Java虚拟机指令集所支持的数据类型1"></p>
+<p><img src="/images/深入理解JVM/Java虚拟机指令集所支持的数据类型2.jpg" alt="Java虚拟机指令集所支持的数据类型2"></p>
+<p>请注意，从表6-40中看来，大部分指令都没有支持整数类型byte、char和short，甚至没有任何指令 支持boolean类型。编译器会在编译期或运行期将byte和short类型的数据带符号扩展（Sign-Extend）为 相应的int类型数据，将boolean和char类型数据零位扩展（Zero-Extend）为相应的int类型数据。与之类似，在处理boolean、byte、short和char类型的数组时，也会转换为使用对应的int类型的字节码指令来 处理。因此，大多数对于boolean、byte、short和char类型数据的操作，实际上都是使用相应的对int类型作为运算类型（Computational Type）来进行的。</p>
+<h2 id="加载和存储指令"><a href="#加载和存储指令" class="headerlink" title="加载和存储指令"></a>加载和存储指令</h2><p>加载和存储指令用于将数据在栈帧中的局部变量表和操作数栈（见第2章关于内存区域的介绍）之 间来回传输，这类指令包括：</p>
+<ul>
+<li>将一个局部变量加载到操作栈：<code>iload、iload_&lt;n&gt;、lload、lload_&lt;n&gt;、fload、fload_&lt;n&gt;、dload、 dload_&lt;n&gt;、aload、aload_&lt;n&gt;</code></li>
+<li>将一个数值从操作数栈存储到局部变量表：<code>istore、istore_&lt;n&gt;、lstore、lstore_&lt;n&gt;、fstore、 fstore_&lt;n&gt;、dstore、dstore_&lt;n&gt;、astore、astore_&lt;n&gt;</code></li>
+<li>将一个常量加载到操作数栈：<code>bipush、sipush、ldc、ldc_w、ldc2_w、aconst_null、iconst_m1、 iconst_&lt;i&gt;、lconst_&lt;l&gt;、fconst_&lt;f&gt;、dconst_&lt;d&gt;</code></li>
+<li>扩充局部变量表的访问索引的指令：<code>wide</code></li>
+</ul>
+<p>存储数据的操作数栈和局部变量表主要由加载和存储指令进行操作，除此之外，还有少量指令， 如访问对象的字段或数组元素的指令也会向操作数栈传输数据。</p>
+<h2 id="运算指令"><a href="#运算指令" class="headerlink" title="运算指令"></a>运算指令</h2><p>算术指令用于对两个操作数栈上的值进行某种特定运算，并把结果重新存入到操作栈顶。大体上 运算指令可以分为两种：对整型数据进行运算的指令与对浮点型数据进行运算的指令。整数与浮点数 的算术指令在溢出和被零除的时候也有各自不同的行为表现。无论是哪种算术指令，均是使用Java虚 拟机的算术类型来进行计算的，换句话说是不存在直接支持byte、short、char和boolean类型的算术指令，对于上述几种数据的运算，应使用操作int类型的指令代替。所有的算术指令包括：</p>
+<ul>
+<li>加法指令：<code>add、ladd、fadd、dadd</code></li>
+<li>减法指令：<code>isub、lsub、fsub、dsub</code></li>
+<li>乘法指令：<code>imul、lmul、fmul、dmul</code></li>
+<li>除法指令：<code>idiv、ldiv、fdiv、ddiv</code></li>
+<li>求余指令：<code>irem、lrem、frem、drem</code></li>
+<li>取反指令：<code>ineg、lneg、fneg、dneg</code></li>
+<li>位移指令：<code>ishl、ishr、iushr、lshl、lshr、lushr</code></li>
+<li>按位或指令：<code>ior、lor</code></li>
+<li>按位与指令：<code>iand、land</code></li>
+<li>按位异或指令：<code>ixor、lxor</code></li>
+<li>局部变量自增指令：<code>iinc</code></li>
+<li>比较指令：<code>dcmpg、dcmpl、fcmpg、fcmpl、lcmp</code></li>
+</ul>
+<h2 id="类型转换指令"><a href="#类型转换指令" class="headerlink" title="类型转换指令"></a>类型转换指令</h2><p>类型转换指令可以将两种不同的数值类型相互转换，这些转换操作一般用于实现用户代码中的显 式类型转换操作，或者用来处理本节开篇所提到的字节码指令集中数据类型相关指令无法与数据类型一一对应的问题。</p>
+<p>Java虚拟机直接支持（即转换时无须显式的转换指令）以下数值类型的宽化类型转换（Widening Numeric Conversion，即小范围类型向大范围类型的安全转换）：</p>
+<ul>
+<li>int类型到long、float或者double类型 </li>
+<li>long类型到float、double类型</li>
+<li>float类型到double类型</li>
+</ul>
+<p>与之相对的，处理窄化类型转换（Narrowing Numeric Conversion）时，就必须显式地使用转换指 令来完成，这些转换指令包括i2b、i2c、i2s、l2i、f2i、f2l、d2i、d2l和d2f。窄化类型转换可能会导致转换结果产生不同的正负号、不同的数量级的情况，转换过程很可能会导致数值的精度丢失。</p>
+<p>在将int或long类型窄化转换为整数类型T的时候，转换过程仅仅是简单丢弃除最低位N字节以外的 内容，N是类型T的数据类型长度，这将可能导致转换结果与输入值有不同的正负号。</p>
+<p>Java虚拟机将一个浮点值窄化转换为整数类型T（T限于int或long类型之一）的时候，必须遵循以 下转换规则： </p>
+<ul>
+<li>如果浮点值是NaN，那转换结果就是int或long类型的0。 </li>
+<li>如果浮点值不是无穷大的话，浮点值使用IEEE 754的向零舍入模式取整，获得整数值v。如果v在<br>目标类型T（int或long）的表示范围之类，那转换结果就是v；否则，将根据v的符号，转换为T所能表<br>示的最大或者最小正数。</li>
+</ul>
+<h2 id="对象创建于访问指令"><a href="#对象创建于访问指令" class="headerlink" title="对象创建于访问指令"></a>对象创建于访问指令</h2><p>虽然类实例和数组都是对象，但Java虚拟机对类实例和数组的创建与操作使用了不同的字节码指令。对象创建后，就可以通过对象访问指令获取对象实例或者数组实例中的字段或者数组元素，这些指令包括：</p>
+<ul>
+<li>创建类实例的指令：new </li>
+<li>创建数组的指令：newarray、anewarray、multianewarray </li>
+<li>访问类字段（static字段，或者称为类变量）和实例字段（非static字段，或者称为实例变量）的<br>指令：getfield、putfield、getstatic、putstatic </li>
+<li>把一个数组元素加载到操作数栈的指令：baload、caload、saload、iaload、laload、faload、<br>daload、aaload </li>
+<li>将一个操作数栈的值储存到数组元素中的指令：bastore、castore、sastore、iastore、fastore、<br>dastore、aastore </li>
+<li>取数组长度的指令：arraylength</li>
+<li>检查类实例类型的指令：instanceof、checkcast</li>
+</ul>
+<h2 id="操作数栈管理指令"><a href="#操作数栈管理指令" class="headerlink" title="操作数栈管理指令"></a>操作数栈管理指令</h2><p>如同操作一个普通数据结构中的堆栈那样，Java虚拟机提供了一些用于直接操作操作数栈的指 令，包括：</p>
+<ul>
+<li>将操作数栈的栈顶一个或两个元素出栈：pop、pop2 </li>
+<li>复制栈顶一个或两个数值并将复制值或双份的复制值重新压入栈顶：dup、dup2、dup_x1、<br>dup2_x1、dup_x2、dup2_x2</li>
+<li>将栈最顶端的两个数值互换：swap</li>
+</ul>
+<h2 id="控制转移指令"><a href="#控制转移指令" class="headerlink" title="控制转移指令"></a>控制转移指令</h2><p>控制转移指令可以让Java虚拟机有条件或无条件地从指定位置指令（而不是控制转移指令）的下 一条指令继续执行程序，从概念模型上理解，可以认为控制指令就是在有条件或无条件地修改PC寄存器的值。控制转移指令包括：</p>
+<ul>
+<li>条件分支：ifeq、iflt、ifle、ifne、ifgt、ifge、ifnull、ifnonnull、if_icmpeq、if_icmpne、if_icmplt、 if_icmpgt、if_icmple、if_icmpge、if_acmpeq和if_acmpne </li>
+<li>复合条件分支：tableswitch、lookupswitch</li>
+<li>无条件分支：goto、goto_w、jsr、jsr_w、ret</li>
+</ul>
+<p>在Java虚拟机中有专门的指令集用来处理int和reference类型的条件分支比较操作，为了可以无须明 显标识一个数据的值是否null，也有专门的指令用来检测null值。</p>
+<h2 id="方法调用和返回指令"><a href="#方法调用和返回指令" class="headerlink" title="方法调用和返回指令"></a>方法调用和返回指令</h2><p>方法调用（分派、执行过程）将在第8章具体讲解，这里仅列举以下五条指令用于方法调用：</p>
+<ul>
+<li>invokevirtual指令：用于调用对象的实例方法，根据对象的实际类型进行分派（虚方法分派）， 这也是Java语言中最常见的方法分派方式。 </li>
+<li>invokeinterface指令：用于调用接口方法，它会在运行时搜索一个实现了这个接口方法的对象，找<br>出适合的方法进行调用。 </li>
+<li>invokespecial指令：用于调用一些需要特殊处理的实例方法，包括实例初始化方法、私有方法和<br>父类方法。 ·invokestatic指令：用于调用类静态方法（static方法）。 </li>
+<li>invokedynamic指令：用于在运行时动态解析出调用点限定符所引用的方法。并执行该方法。前面<br>四条调用指令的分派逻辑都固化在Java虚拟机内部，用户无法改变，而invokedynamic指令的分派逻辑<br>是由用户所设定的引导方法决定的。</li>
+</ul>
+<p>方法调用指令与数据类型无关，而方法返回指令是根据返回值的类型区分的，包括ireturn（当返 回值是boolean、byte、char、short和int类型时使用）、lreturn、freturn、dreturn和areturn，另外还有一条return指令供声明为void的方法、实例初始化方法、类和接口的类初始化方法使用。</p>
+<h2 id="异步处理指令"><a href="#异步处理指令" class="headerlink" title="异步处理指令"></a>异步处理指令</h2><p>在Java程序中显式抛出异常的操作（throw语句）都由athrow指令来实现，除了用throw语句显式抛 出异常的情况之外，《Java虚拟机规范》还规定了许多运行时异常会在其他Java虚拟机指令检测到异常 状况时自动抛出。例如前面介绍整数运算中，当除数为零时，虚拟机会在idiv或ldiv指令中抛出 ArithmeticException异常。</p>
+<p>而在Java虚拟机中，处理异常（catch语句）不是由字节码指令来实现的（很久之前曾经使用jsr和ret指令来实现，现在已经不用了），而是采用异常表来完成。</p>
+<h2 id="同步指令"><a href="#同步指令" class="headerlink" title="同步指令"></a>同步指令</h2><p>Java虚拟机可以支持方法级的同步和方法内部一段指令序列的同步，这两种同步结构都是使用管程（Monitor，更常见的是直接将它称为“锁”）来实现的。</p>
+<p>方法级的同步是隐式的，无须通过字节码指令来控制，它实现在方法调用和返回操作之中。</p>
+<p>虚拟机可以从方法常量池中的方法表结构中的ACC_SYNCHRONIZED访问标志得知一个方法是否被声明为同步方法。</p>
+<p>当方法调用时，调用指令将会检查方法的ACC_SYNCHRONIZED访问标志是否被设置，如果设置了，执行线程就要求先成功持有管程，然后才能执行方法，最后当方法完成（无论是正常完成 还是非正常完成）时释放管程。</p>
+<p>在方法执行期间，执行线程持有了管程，其他任何线程都无法再获取到同一个管程。如果一个同步方法执行期间抛出了异常，并且在方法内部无法处理此异常，那这个同步方法所持有的管程将在异常抛到同步方法边界之外时自动释放。</p>
+<p>同步一段指令集序列通常是由Java语言中的synchronized语句块来表示的，Java虚拟机的指令集中 有monitorenter和monitorexit两条指令来支持synchronized关键字的语义，正确实现synchronized关键字需要Javac编译器与Java虚拟机两者共同协作支持。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+
+<script src="/js/vdonate.js"></script>
+
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://39.106.203.62:7777/mm_facetoface_collect_qrcode_1532532148519.png',
+  alipayImage: 'http://39.106.203.62:7777/1532532158487.jpg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Michael Wang</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2022/04/24/深入理解JVM2-1-虚拟机执行子系统-类文件结构/" target="_blank" title="深入理解JVM2-1-虚拟机执行子系统-类文件结构">http://yoursite.com/2022/04/24/深入理解JVM2-1-虚拟机执行子系统-类文件结构/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/24/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM2-2-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A7%E8%A1%8C%E5%AD%90%E7%B3%BB%E7%BB%9F-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          深入理解JVM2-2-虚拟机执行子系统-虚拟机类加载机制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/15/MyBatis%E5%8A%A8%E6%80%81SQL%E5%92%8CresultMap/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MyBatis动态SQL和resultMap</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E6%97%A0%E5%85%B3%E6%80%A7%E7%9A%84%E5%9F%BA%E7%9F%B3"><span class="nav-number">1.</span> <span class="nav-text">类无关性的基石</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Class%E7%B1%BB%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">Class类文件的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AD%94%E6%95%B0%E4%B8%8EClass%E6%96%87%E4%BB%B6%E7%9A%84%E7%89%88%E6%9C%AC"><span class="nav-number">2.1.</span> <span class="nav-text">魔数与Class文件的版本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AD%94%E6%95%B0"><span class="nav-number">2.1.1.</span> <span class="nav-text">魔数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class%E6%96%87%E4%BB%B6%E7%9A%84%E7%89%88%E6%9C%AC"><span class="nav-number">2.1.2.</span> <span class="nav-text">Class文件的版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="nav-number">2.2.</span> <span class="nav-text">常量池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%A0%87%E5%BF%97"><span class="nav-number">2.3.</span> <span class="nav-text">访问标志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E7%B4%A2%E5%BC%95%E3%80%81%E7%88%B6%E7%B1%BB%E7%B4%A2%E5%BC%95%E4%B8%8E%E6%8E%A5%E5%8F%A3%E7%B4%A2%E5%BC%95%E9%9B%86%E5%90%88"><span class="nav-number">2.4.</span> <span class="nav-text">类索引、父类索引与接口索引集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5%E8%A1%A8%E9%9B%86%E5%90%88"><span class="nav-number">2.5.</span> <span class="nav-text">字段表集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E8%A1%A8%E9%9B%86%E5%90%88"><span class="nav-number">2.6.</span> <span class="nav-text">方法表集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E8%A1%A8%E9%9B%86%E5%90%88"><span class="nav-number">2.7.</span> <span class="nav-text">属性表集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Code%E5%B1%9E%E6%80%A7"><span class="nav-number">2.7.1.</span> <span class="nav-text">Code属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exceptions%E5%B1%9E%E6%80%A7"><span class="nav-number">2.7.2.</span> <span class="nav-text">Exceptions属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E6%8C%87%E4%BB%A4%E7%AE%80%E4%BB%8B"><span class="nav-number">3.</span> <span class="nav-text">字节码指令简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">字节码与数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E5%92%8C%E5%AD%98%E5%82%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">3.2.</span> <span class="nav-text">加载和存储指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E6%8C%87%E4%BB%A4"><span class="nav-number">3.3.</span> <span class="nav-text">运算指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%8C%87%E4%BB%A4"><span class="nav-number">3.4.</span> <span class="nav-text">类型转换指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E4%BA%8E%E8%AE%BF%E9%97%AE%E6%8C%87%E4%BB%A4"><span class="nav-number">3.5.</span> <span class="nav-text">对象创建于访问指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88%E7%AE%A1%E7%90%86%E6%8C%87%E4%BB%A4"><span class="nav-number">3.6.</span> <span class="nav-text">操作数栈管理指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4"><span class="nav-number">3.7.</span> <span class="nav-text">控制转移指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E5%92%8C%E8%BF%94%E5%9B%9E%E6%8C%87%E4%BB%A4"><span class="nav-number">3.8.</span> <span class="nav-text">方法调用和返回指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4"><span class="nav-number">3.9.</span> <span class="nav-text">异步处理指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%8C%87%E4%BB%A4"><span class="nav-number">3.10.</span> <span class="nav-text">同步指令</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2019 - 2024 My Wonderland All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            My Wonderland
+          </div>
+          <div class="panel-body">
+            Copyright © 2024 Michael Wang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <a id="mwSearch"><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

@@ -326,7 +326,7 @@
         
           <section id="main" style="float:none;">
   
-    <article id="post-Run-Latent-Diffusion-Model-1-make-it-work-first"  class="article article-type-post" itemscope itemprop="blogPost" >
+    <article id="post-PowerShell基本编程方法"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -334,7 +334,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2024/07/30/Run-Latent-Diffusion-Model-1-make-it-work-first/">Run Latent Diffusion Model-1-make it work first</a>
+      <a class="article-title" href="/2024/08/29/PowerShell%E5%9F%BA%E6%9C%AC%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95/">PowerShell基本编程方法</a>
     </h1>
   
 
@@ -342,28 +342,37 @@
     
     <div class="article-meta">
       
-	<a href="/2024/07/30/Run-Latent-Diffusion-Model-1-make-it-work-first/" class="article-date">
-	  <time datetime="2024-07-30T06:33:10.000Z" itemprop="datePublished">2024-07-30</time>
+	<a href="/2024/08/29/PowerShell%E5%9F%BA%E6%9C%AC%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95/" class="article-date">
+	  <time datetime="2024-08-29T07:19:14.000Z" itemprop="datePublished">2024-08-29</time>
 	</a>
 
       
+    <a class="article-category-link" href="/categories/PowerShell/">PowerShell</a>
+
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          
+          begin在Windows环境下，有时候需要编写批处理运行脚本，限于bat功能羸弱，因此简单学习一下PS（powershell）。
+变量PS的变量通过下面的方式声明：
+1$var = 10
 
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc....
+即”$变量名&#x3D;变量值“。
+具体来说，PS支持下面几种数据类型：
+
+数字：包括十进制、二进制、八进制和十六进制等饿等那个。
+布尔值
+字符串
+数组
+列表（键值对）
+XML
+
+下面具体示例：
+数字1234$num1 = 10 #十进制$num2 = 0xFE4A #十六进制$num3 = 0b00...
         </p>
         <p class="article-more-link">
-          <a href="/2024/07/30/Run-Latent-Diffusion-Model-1-make-it-work-first/#more">Read More</a>
+          <a href="/2024/08/29/PowerShell%E5%9F%BA%E6%9C%AC%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95/#more">Read More</a>
         </p>
       
     </div>

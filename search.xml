@@ -9186,50 +9186,6 @@ else:
       </tags>
   </entry>
   <entry>
-    <title>Run Latent Diffusion Model-1-make it work first</title>
-    <url>/2024/07/30/Run-Latent-Diffusion-Model-1-make-it-work-first/</url>
-    <content><![CDATA[<script src=/js/crypto-js.js></script>
-<script>
-function doDecrypt (pwd, onError) {
-	console.log('in doDecrypt');
-	const txt = document.getElementById('enc_content').innerHTML;
-	let plantext;
-	try {
-		const bytes = CryptoJS.AES.decrypt(txt, pwd);
-		var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-	} catch(err) {
-		if(onError) {
-			onError(err);
-		}
-		return;
-	}
-	document.getElementById('enc_content').innerHTML = plaintext;
-	document.getElementById('enc_content').style.display = 'block';
-	document.getElementById('enc_passwd').style.display = 'none';
-	if(typeof MathJax !== 'undefined') {
-		MathJax.Hub.Queue(
-			['resetEquationNumbers', MathJax.InputJax.TeX],
-			['PreProcess', MathJax.Hub],
-			['Reprocess', MathJax.Hub]
-		);
-	}
-}
-</script>
-<div id="enc_content" style="display:none">U2FsdGVkX1+rqeeDzTj6Yb0YWWuOyt0psRgra4sT+K0=</div>
-<div id="enc_passwd"> <input id="enc_pwd_input" type="password" style="border-radius: 5px;border-style: groove;height: 30px;width: 50%;cursor: auto;font-size: 102%;color: currentColor;outline: none;text-overflow: initial;padding-left: 5px;" onkeydown="if (event.keyCode == 13) { decrypt(); return false;}"> <input type="submit" value="解&nbsp;密" onclick="decrypt()" style="width: 58px;height: 34px;border-radius: 5px;background-color: white;border-style: solid;color: currentColor;"><div id="enc_error" style="display: inline-block;color: #d84527;margin-left: 10px"></div>
-<script>
-var onError = function(error) {
-	document.getElementById("enc_error").innerHTML = "password error!"
-};
-function decrypt() {
-var passwd = document.getElementById("enc_pwd_input").value;
-console.log(passwd);
-doDecrypt(passwd, onError);
-}
-</script>
-</div>]]></content>
-  </entry>
-  <entry>
     <title>SpringSecurity结构梳理</title>
     <url>/2022/06/02/SpringSecurity%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/</url>
     <content><![CDATA[<h1 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h1><p>Spring Security整体是基于Servlet的Filter机制。简单来说，其就是将一系列的Filter组合起来，然后建立一定的机制来管理这些Filter；并且为特定的Filter提供一定的配套类来达成一定的功能，比如认证的Filter，CSRF的Filter等。</p>
@@ -24723,6 +24679,223 @@ console.log(copy); // { a: 1 }
         <tag>深度学习</tag>
         <tag>卷积神经网络</tag>
         <tag>PCANet</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PowerShell基本编程方法</title>
+    <url>/2024/08/29/PowerShell%E5%9F%BA%E6%9C%AC%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="begin"><a href="#begin" class="headerlink" title="begin"></a>begin</h1><p>在Windows环境下，有时候需要编写批处理运行脚本，限于bat功能羸弱，因此简单学习一下PS（powershell）。</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>PS的变量通过下面的方式声明：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$var</span> = <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>即”$变量名&#x3D;变量值“。</p>
+<p>具体来说，PS支持下面几种数据类型：</p>
+<ol>
+<li>数字：包括十进制、二进制、八进制和十六进制等饿等那个。</li>
+<li>布尔值</li>
+<li>字符串</li>
+<li>数组</li>
+<li>列表（键值对）</li>
+<li>XML</li>
+</ol>
+<p>下面具体示例：</p>
+<h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$num1</span> = <span class="number">10</span> <span class="comment">#十进制</span></span><br><span class="line"><span class="variable">$num2</span> = <span class="number">0</span>xFE4A <span class="comment">#十六进制</span></span><br><span class="line"><span class="variable">$num3</span> = <span class="number">0</span>b0001 <span class="comment">#二六进制</span></span><br><span class="line"><span class="variable">$num4</span> = <span class="number">10.5</span> <span class="comment">#十进制小数</span></span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是：</p>
+<ol>
+<li>默认十进制为32位整型，浮点数默认32位浮点。可以使用后缀L声明64位。</li>
+<li>PS支持科学计数法</li>
+</ol>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$num5</span> = <span class="number">400000</span>L <span class="comment">#64位数字</span></span><br><span class="line"><span class="variable">$num6</span> = <span class="number">3.1415</span>e<span class="literal">-3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$bool1</span> = True</span><br><span class="line"><span class="variable">$bool2</span> = False</span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是，PS在if等判断的时候，会对其他变量自动转换为布尔值，下面是规则：</p>
+<table>
+<thead>
+<tr>
+<th>结果</th>
+<th>布尔值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$true</td>
+<td>True</td>
+</tr>
+<tr>
+<td>$false</td>
+<td>False</td>
+</tr>
+<tr>
+<td>$null</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Nonzero number</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Zero</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Nonempty string</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Empty string</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Nonempty array</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Empty array</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Hashtable(无论empty与否)</td>
+<td>True</td>
+</tr>
+</tbody></table>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>PS的字符串支持单引号、双引号的方式进行声明，双引号优先级更高，因此想要打印双引号可以使用双引号嵌套或者转义（用&#96;符号，不是反斜杠\），不能用单引号嵌套双引号。</p>
+<ol>
+<li><p>PS的字符串支持变量快捷引用。</p>
+</li>
+<li><p>PS定义了一种特殊的跨行字符串，用@开头。可以直接跨行声明。</p>
+</li>
+</ol>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$str1</span> = <span class="string">&#x27;string1&#x27;</span></span><br><span class="line"><span class="variable">$str2</span> = <span class="string">&quot;string2&quot;</span></span><br><span class="line"><span class="variable">$str3</span> = <span class="string">&quot;string3 &#x27;inner&#x27;&quot;</span> <span class="comment">#string3 &#x27;inner&#x27;</span></span><br><span class="line"><span class="variable">$str4</span> = <span class="string">&quot;string4 &quot;</span>inner<span class="string">&quot;&quot;</span> <span class="comment">#string4 &quot;inner&quot;</span></span><br><span class="line"><span class="variable">$str5</span> = <span class="string">&quot;string5 `&quot;inner`&quot;&quot;</span> <span class="comment">#string4 &quot;inner&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$var</span> = <span class="number">123</span></span><br><span class="line"><span class="variable">$str6</span> = <span class="string">&quot;string6 <span class="variable">$var1</span>&quot;</span> <span class="comment"># string6 123</span></span><br><span class="line"><span class="variable">$str7</span> = <span class="string">&quot;string7 <span class="variable">$</span>(var1)&quot;</span> <span class="comment"># string6 123  用于var是对象的时候方便用.符号引用</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$str8</span> = <span class="string">@&quot;</span></span><br><span class="line"><span class="string">123</span></span><br><span class="line"><span class="string">456</span></span><br><span class="line"><span class="string">789</span></span><br><span class="line"><span class="string">&quot;@</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>有下面几种形式定义数组：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$arr1</span> = <span class="selector-tag">@</span>()  <span class="comment">#一个空的数组</span></span><br><span class="line"><span class="variable">$arr2</span> = <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span> <span class="comment">#一个非空的数组</span></span><br><span class="line"><span class="variable">$arr3</span> = <span class="number">1</span>,<span class="string">&quot;two&quot;</span>, False, <span class="number">3.14</span> <span class="comment">#数组支持多种数据形式</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$arr4</span> = ,<span class="number">1</span> <span class="comment">#只有一个元素的数组</span></span><br><span class="line"><span class="variable">$arr5</span> = <span class="selector-tag">@</span>(<span class="number">1</span>) <span class="comment">#只有一个元素的数组</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$arr6</span> = <span class="selector-tag">@</span>(</span><br><span class="line">(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>),</span><br><span class="line">(<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>)</span><br><span class="line">) <span class="comment">#数组的嵌套</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="数组的访问"><a href="#数组的访问" class="headerlink" title="数组的访问"></a>数组的访问</h4><p>可以通过下面的形式访问数组内容：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$arr</span> = <span class="selector-tag">@</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>) <span class="comment">#先定义一个数组</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$arr</span>[<span class="number">2</span>] <span class="comment">#3，返回第二个元素，下标从0开始</span></span><br><span class="line"><span class="variable">$arr</span>[-<span class="number">2</span>] <span class="comment">#3, 返回倒数第二个元素，下标从0开始</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$arr</span>[<span class="number">0</span><span class="type">..2</span>] <span class="comment"># 1,2,3 返回前三个元素</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$arr</span>[-<span class="number">1</span><span class="type">..2</span>] <span class="comment">#5,1,2,3 返回-1到第二个元素</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$arr</span>[-<span class="number">1</span><span class="type">..</span>-<span class="number">3</span>] <span class="comment">#5,4,3 返回-1到-2个元素</span></span><br></pre></td></tr></table></figure>
+
+<p>此外，数组还支持通过+或,符号来从某处来分开检索以及<strong>使用数组作为下表来检索</strong>：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$arr</span>[<span class="number">0</span>,<span class="number">2</span>+<span class="number">4</span><span class="type">..5</span>] <span class="comment">#1,3,5,6 跳过了第一个、和第三个元素</span></span><br><span class="line"><span class="variable">$arr2</span> =  <span class="number">0</span>,<span class="number">1</span>,<span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$arr</span>[<span class="variable">$arr2</span>] <span class="comment">#1,2,6 通过另一个数组作为下表来访问数组</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>PS定义了一种键值对的数据类型，成为哈希表，则其键必须是唯一的。切和数组一样，值的数据类型不限。用;符号隔开。</p>
+<h4 id="列表定义"><a href="#列表定义" class="headerlink" title="列表定义"></a>列表定义</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$hashtable1</span> = <span class="selector-tag">@</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$hashtable2</span> = <span class="selector-tag">@</span>&#123;Key1: <span class="number">1</span>; <span class="string">&quot;Key 2&quot;</span>: <span class="string">&quot;two&quot;</span>; Key3: <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>; Key4: <span class="number">3.14</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="列表操作"><a href="#列表操作" class="headerlink" title="列表操作"></a>列表操作</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$hashtable2</span>[<span class="string">&quot;Key1&quot;</span>] <span class="comment">#1 访问</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$hashtable2</span>.<span class="string">&quot;Key 2&quot;</span> <span class="comment"># &quot;two&quot; 访问字符串键</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$hashtable2</span>[<span class="string">&quot;Key 5&quot;</span>] = <span class="number">5</span> <span class="comment"># 添加新的元素</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="XML-不再细讲"><a href="#XML-不再细讲" class="headerlink" title="XML(不再细讲)"></a>XML(不再细讲)</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$xml1 = [xml]@&quot;</span><br><span class="line">&lt;xxx&gt;</span><br><span class="line">	&lt;yyy&gt;</span><br><span class="line">	&lt;/yyy&gt;</span><br><span class="line">&lt;/xxx&gt;</span><br><span class="line">&quot;  #定义</span><br><span class="line"></span><br><span class="line">$xml1.xxx #访问</span><br><span class="line">$xml1.xxx[1] #访问</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="操作运算符"><a href="#操作运算符" class="headerlink" title="操作运算符"></a>操作运算符</h2><h3 id="数学操作符"><a href="#数学操作符" class="headerlink" title="数学操作符"></a>数学操作符</h3><ol>
+<li>+：数字则为加，其他类型都是拼接</li>
+<li>-：仅支持数组，为差</li>
+<li>*：数字为积，字符串*数字为重复；数组也为重复；不支持哈希表</li>
+<li>&#x2F;：商，不支持其他类型</li>
+<li>%：余，不支持其他类型</li>
+<li>&#x3D;：赋值</li>
+</ol>
+<h3 id="逻辑操作符"><a href="#逻辑操作符" class="headerlink" title="逻辑操作符"></a>逻辑操作符</h3><ol>
+<li>-and：逻辑与，两个都为真才返回真</li>
+<li>-or：逻辑或，一个为真就返回真</li>
+<li>-xor：逻辑异或，一个为真、一个为假则返回真，否则返回假（一样返回假，不一样返回真）</li>
+<li>-not：逻辑非，取反</li>
+</ol>
+<h3 id="按位操作符"><a href="#按位操作符" class="headerlink" title="按位操作符"></a>按位操作符</h3><ol>
+<li>-band: 按位与</li>
+<li>-bor：按位或</li>
+<li>-xor：按位异或</li>
+<li>-bont：按位取非</li>
+</ol>
+<h3 id="其他操作符"><a href="#其他操作符" class="headerlink" title="其他操作符"></a>其他操作符</h3><ol>
+<li>-replace：用于字符串替换，语法：”target_string” -replace “pattern” “replacement”。</li>
+<li>-f：格式化字符串。</li>
+<li>-as：数据类型转换。如：3&#x2F;2 as [int] 结果为2。</li>
+</ol>
+<h4 id="比较操作符"><a href="#比较操作符" class="headerlink" title="比较操作符"></a>比较操作符</h4><ol>
+<li>-eq：比较两个元素是否相等。数字则正常，数字则返回两个中相同的元素。其他类型提供了Equals()方法</li>
+<li>-ne：不相等比较符，和上面的相反</li>
+<li>-ge：大于等于比较符。数组则返回大于等于的元素</li>
+<li>-gt：大于比较符，数组与上面类似</li>
+<li>-lt：小于比较符，数组与上面类似</li>
+<li>-le：小于等于比较符，数组与上面类似</li>
+<li>-like：正则表达式模式匹配。返回真或假。数组则匹配每一个元素</li>
+<li>-notlike：非类似运算符。返回真或假</li>
+<li>-match：返回真或假，但是匹配结果会被存放在$match元素中，其是一个数组</li>
+<li>-notmatch：与上面相反</li>
+<li>-contain：数组或哈希表中是否含有某元素。返回真或假</li>
+<li>-notcontains：与上面相反</li>
+<li>-is：判断数据类型，$leftvalue -is [type]</li>
+<li>-isnot：与上面相反</li>
+</ol>
+<h2 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(condition)</span><br><span class="line">&#123;</span><br><span class="line">	statement block</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">elseif</span>(condition)</span><br><span class="line">&#123;</span><br><span class="line">	statement block</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	statement block</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span> options expression</span><br><span class="line">&#123;</span><br><span class="line">	comparion value &#123;statement block&#125;</span><br><span class="line">	&#123;comparion block&#125;&#123;statement block&#125;</span><br><span class="line">	default &#123;comparion&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="variable">$counter</span> = <span class="number">0</span>; <span class="variable">$counter</span> <span class="operator">-lt</span> <span class="number">10</span>; <span class="variable">$counter</span>++)</span><br><span class="line">&#123;</span><br><span class="line">	Wtite<span class="literal">-Host</span> <span class="string">&quot;Process item <span class="variable">$counter</span>&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>break和continue分别用来终结和跳过当前循环。</p>
+<h2 id="foreach循环"><a href="#foreach循环" class="headerlink" title="foreach循环"></a>foreach循环</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$handleSum</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">foreach</span>&#123;<span class="variable">$process</span> <span class="keyword">in</span> <span class="built_in">Get-process</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Handle <span class="operator">-gt</span> <span class="number">500</span>&#125;&#125;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="variable">$handleSum</span> += <span class="variable">$process</span>.Handles</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$handSum</span></span><br></pre></td></tr></table></figure>
+
+<p>Get-process和 Where-Object为内置函数。也可以用自定义数组和哈希表来作为遍历对象。</p>
+<h2 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$command</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="variable">$command</span> <span class="operator">-notmatch</span> <span class="string">&quot;quit&quot;</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="variable">$command</span> = <span class="built_in">Read-Host</span> <span class="string">&quot;Enter your command&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当输入的是quit时才退出，否则一直输出“Enter your command”。</p>
+<h2 id="do…while-do…until语句"><a href="#do…while-do…until语句" class="headerlink" title="do…while&#x2F;do…until语句"></a>do…while&#x2F;do…until语句</h2><ol>
+<li>do…while…：当条件为真的时候一直循环</li>
+<li>do…until…：当条件为假的时候一直循环</li>
+</ol>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$validResporses</span> = <span class="string">&quot;Yes&quot;</span>,<span class="string">&quot;No&quot;</span>;</span><br><span class="line"><span class="variable">$response</span> = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="variable">$response</span>=<span class="built_in">read-host</span><span class="string">&quot;Yes or No?&quot;</span></span><br><span class="line">&#125;<span class="keyword">while</span>(<span class="variable">$validResponses</span> notcontains <span class="variable">$response</span>)</span><br><span class="line"><span class="string">&quot;Got it&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$response</span> = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="variable">$response</span>=<span class="built_in">read-host</span><span class="string">&quot;Yes or No?&quot;</span></span><br><span class="line">&#125;<span class="keyword">until</span>(<span class="variable">$validResponses</span> notcontains <span class="variable">$response</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>形式如下，可以设置默认参数。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test-Function</span> <span class="params">(<span class="variable">$Parameter1</span>=&#x27;Default Value1&#x27;, <span class="variable">$Parameter2</span>=&#x27;Default Value2&#x27;)</span></span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">&quot;You entered <span class="variable">$Parameter1</span> and <span class="variable">$Parameter2</span>&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果不需要参数则可以简化至如下形式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test-Function</span></span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&#x27;Hello World!&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="脚本输入"><a href="#脚本输入" class="headerlink" title="脚本输入"></a>脚本输入</h2><p>通常一个powershell脚本的后缀为.ps1（区分Photoshop），则PS内置了一个特数的数组”args”来获取参数值。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$firstParam</span> = <span class="variable">$args</span>[<span class="number">0</span>] </span><br><span class="line"><span class="variable">$SecondParam</span> = <span class="variable">$args</span>[<span class="number">1</span>] </span><br><span class="line"><span class="variable">$ThirdParam</span> = <span class="variable">$args</span>[<span class="number">2</span>] </span><br></pre></td></tr></table></figure>
+
+<p>此外，还可以强制规定一个参数：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">param</span>(<span class="variable">$mustParam</span> = <span class="variable">$</span>(<span class="keyword">throw</span> <span class="string">&quot;This parameter is required.&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><p>所谓管道，就是可以把第一个程序执行的结果交给第二个程序作为参数，前后用-符号连接。如：为了列出所有正在运行进程名称中包含“Search”的进程,对进程名字属性使用-1ike操作符来比较进程的 Name 属性。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Get-Process</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Name <span class="operator">-like</span> <span class="string">&quot;*Search&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h2><p>PS有众多的内置函数，包括但不限于文件、用户、进程等等，且每个函数都有多种重载形式。下面列举最重要的一些和常见用法：</p>
+<ol>
+<li><p>Invoke-Command：执行命令，最简单的方法是直接跟命令字符串。也可以通过哈希表构建对应的键值对，然后Invoke-Command这个哈希表。如：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$parameters</span> = <span class="selector-tag">@</span>&#123;</span><br><span class="line">    ComputerName = <span class="string">&#x27;Server01&#x27;</span></span><br><span class="line">    ScriptBlock  = &#123;</span><br><span class="line">        <span class="keyword">Param</span> (<span class="variable">$param1</span>, <span class="variable">$param2</span>)</span><br><span class="line">        <span class="built_in">Get-ChildItem</span> <span class="literal">-Name</span> <span class="variable">$param1</span> <span class="literal">-Include</span> <span class="variable">$param2</span></span><br><span class="line">    &#125;</span><br><span class="line">    ArgumentList = <span class="string">&#x27;a*&#x27;</span>, <span class="string">&#x27;*.pdf&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Invoke-Command</span> @parameters</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>Get-Process：获取在本地计算机上运行的进程。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取本地计算机上所有活动进程的列表</span></span><br><span class="line"><span class="built_in">Get-Process</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取有关一个或多个进程的所有可用数据,此命令获取计算机上的有关 Winword 和 Explorer 进程的所有可用的数据。 它使用 Name 参数来指定进程，但省略可选的参数名。 管道运算符 (|) 将数据传递给 Format-List cmdlet，后者将显示 Winword 和 Explorer 进程对象的所有可用属性 (*)。</span></span><br><span class="line"><span class="built_in">Get-Process</span> winword, explorer | <span class="built_in">Format-List</span> *</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>Read-Host： 从控制台读取一行输入。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例 1：将控制台输入保存到变量</span></span><br><span class="line"><span class="variable">$Age</span> = <span class="built_in">Read-Host</span> <span class="string">&quot;Please enter your age&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例 2：将控制台输入保存为安全字符串:此示例显示字符串“Enter a Password:”作为提示。 当输入某个值时，控制台中将显示星号 (*) 而非该输入。 按 Enter 键时，该值将作为 SecureString 对象存储在 $pwd_secure_string 变量中。</span></span><br><span class="line"><span class="variable">$pwd_secure_string</span> = <span class="built_in">Read-Host</span> <span class="string">&quot;Enter a Password&quot;</span> <span class="literal">-AsSecureString</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例 3：遮蔽输入并将其存储为纯文本字符串:此示例显示字符串“Enter a Password:”作为提示。 当输入某个值时，控制台中将显示星号 (*) 而非该输入。 按 Enter 键时，该值将作为 String 对象存储在 $pwd_string 变量中。</span></span><br><span class="line"><span class="variable">$pwd_string</span> = <span class="built_in">Read-Host</span> <span class="string">&quot;Enter a Password&quot;</span> <span class="literal">-MaskInput</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Write-Host：将自定义的输出写入主机。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例 1：在不添加新行的情况下写入控制台</span></span><br><span class="line"><span class="built_in">Write-Host</span> <span class="string">&quot;no newline test &quot;</span> <span class="literal">-NoNewline</span></span><br><span class="line"><span class="built_in">Write-Host</span> <span class="string">&quot;second string&quot;</span></span><br><span class="line"></span><br><span class="line">no newline test second string</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例 2：写入控制台并包含分隔符</span></span><br><span class="line"><span class="built_in">Write-Host</span> (<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">12</span>) <span class="literal">-Separator</span> <span class="string">&quot;, +2= &quot;</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>, +<span class="number">2</span>= <span class="number">4</span>, +<span class="number">2</span>= <span class="number">6</span>, +<span class="number">2</span>= <span class="number">8</span>, +<span class="number">2</span>= <span class="number">10</span>, +<span class="number">2</span>= <span class="number">12</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例 3：使用不同的文本和背景色进行写入</span></span><br><span class="line"><span class="built_in">Write-Host</span> (<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">12</span>) <span class="literal">-Separator</span> <span class="string">&quot;, -&gt; &quot;</span> <span class="literal">-ForegroundColor</span> DarkGreen <span class="literal">-BackgroundColor</span> White</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>, -&gt; <span class="number">4</span>, -&gt; <span class="number">6</span>, -&gt; <span class="number">8</span>, -&gt; <span class="number">10</span>, -&gt; <span class="number">12</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例 4：使用不同的文本和背景色进行写入</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Write-Host</span> <span class="string">&quot;Red on white text.&quot;</span> <span class="literal">-ForegroundColor</span> red <span class="literal">-BackgroundColor</span> white</span><br><span class="line"></span><br><span class="line">Red on white text.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Write-Output：将指定的对象写入管道。 如果 <code>Write-Output</code> 是管道中的最后一个命令，<strong>则这些对象将在控制台中显示。</strong></p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例 1：获取对象并将其写入控制台</span></span><br><span class="line"><span class="variable">$P</span> = <span class="built_in">Get-Process</span></span><br><span class="line"><span class="built_in">Write-Output</span> <span class="variable">$P</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例 2：将输出传递给另一个 cmdlet</span></span><br><span class="line"><span class="built_in">Write-Output</span> <span class="string">&quot;test output&quot;</span> | <span class="built_in">Get-Member</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>Get-Item：获取位于指定位置的项。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 此示例获取当前目录。 句点 (&#x27;.&#x27;) 表示当前位置处的项（而非其内容）。</span></span><br><span class="line"><span class="built_in">Get-Item</span> .</span><br><span class="line"></span><br><span class="line">Directory: C:\</span><br><span class="line"></span><br><span class="line">Mode                LastWriteTime     Length Name</span><br><span class="line"><span class="literal">----</span>                <span class="literal">-------------</span>     <span class="literal">------</span> <span class="literal">----</span></span><br><span class="line">d<span class="literal">----</span>         <span class="number">7</span>/<span class="number">26</span>/<span class="number">2006</span>  <span class="number">10</span>:<span class="number">01</span> AM            <span class="built_in">ps</span><span class="literal">-test</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 此示例将获取当前目录中的所有项。 通配符 (*) 表示当前项的所有内容。</span></span><br><span class="line"><span class="built_in">Get-Item</span> *</span><br><span class="line"></span><br><span class="line">Directory: C:\ps<span class="literal">-test</span></span><br><span class="line"></span><br><span class="line">Mode                LastWriteTime     Length Name</span><br><span class="line"><span class="literal">----</span>                <span class="literal">-------------</span>     <span class="literal">------</span> <span class="literal">----</span></span><br><span class="line">d<span class="literal">----</span>         <span class="number">7</span>/<span class="number">26</span>/<span class="number">2006</span>   <span class="number">9</span>:<span class="number">29</span> AM            Logs</span><br><span class="line">d<span class="literal">----</span>         <span class="number">7</span>/<span class="number">26</span>/<span class="number">2006</span>   <span class="number">9</span>:<span class="number">26</span> AM            Recs</span><br><span class="line"><span class="literal">-a---</span>         <span class="number">7</span>/<span class="number">26</span>/<span class="number">2006</span>   <span class="number">9</span>:<span class="number">28</span> AM         <span class="number">80</span> date.csv</span><br><span class="line"><span class="literal">-a---</span>         <span class="number">7</span>/<span class="number">26</span>/<span class="number">2006</span>  <span class="number">10</span>:<span class="number">01</span> AM         <span class="number">30</span> filenoext</span><br><span class="line"><span class="literal">-a---</span>         <span class="number">7</span>/<span class="number">26</span>/<span class="number">2006</span>   <span class="number">9</span>:<span class="number">30</span> AM      <span class="number">11472</span> process.doc</span><br><span class="line"><span class="literal">-a---</span>         <span class="number">7</span>/<span class="number">14</span>/<span class="number">2006</span>  <span class="number">10</span>:<span class="number">47</span> AM         <span class="number">30</span> test.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取驱动器的当前目录</span></span><br><span class="line"><span class="built_in">Get-Item</span> C:</span><br><span class="line"></span><br><span class="line"><span class="comment">#显示注册表项的内容</span></span><br><span class="line"><span class="built_in">Get-Item</span> HKLM:\Software\Microsoft\Powershell\<span class="number">1</span>\Shellids\Microsoft.Powershell\</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Get-Date：获取当前日期和时间。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例 1：获取当前日期和时间</span></span><br><span class="line"><span class="built_in">Get-Date</span></span><br><span class="line"></span><br><span class="line">Tuesday, June <span class="number">25</span>, <span class="number">2019</span> <span class="number">14</span>:<span class="number">53</span>:<span class="number">32</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例 2：使用 .NET 格式说明符获取日期和时间</span></span><br><span class="line"><span class="built_in">Get-Date</span> <span class="literal">-Format</span> <span class="string">&quot;dddd MM/dd/yyyy HH:mm K&quot;</span></span><br><span class="line"></span><br><span class="line">Tuesday <span class="number">06</span>/<span class="number">25</span>/<span class="number">2019</span> <span class="number">16</span>:<span class="number">17</span> <span class="literal">-07</span>:<span class="number">00</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="end"><a href="#end" class="headerlink" title="end"></a>end</h1><p>简单了解其API与语法即可，一般也只是用来编写批量执行脚本，对于其深入的系统API可以暂时不用了解。还有PS在Microsoft.PowerShell.Utility中提供了大量的内置工具类，包括关于Json，markdown等，需要的时候查看，PS还是比较强大，相较于Windows Command确实算是编程语言了。</p>
+]]></content>
+      <categories>
+        <category>PowerShell</category>
+      </categories>
+      <tags>
+        <tag>PowerShell</tag>
       </tags>
   </entry>
 </search>
